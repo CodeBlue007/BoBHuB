@@ -6,6 +6,7 @@ const SelectContainer = styled.div`
   width: 150px;
   justify-content: space-around;
   align-items: center;
+  margin : 15px;
 `;
 
 interface selectInterface {

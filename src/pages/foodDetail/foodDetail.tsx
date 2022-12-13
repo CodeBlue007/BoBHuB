@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { comment, shop } from './components/comment';
-import { Paper, Typography,Card} from '@mui/material';
+import { comment, shop } from './components/data';
+import { Paper, Typography, Card, TextField, Button } from '@mui/material';
 import SelectTags from './components/SelectTags';
+import Comment from './components/Comment';
+import CommentList from './components/CommentList';
 
 const Pagecontainer = styled.section`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -17,8 +20,8 @@ const DetailContainer = styled.div`
   border: 1px solid black;
   align-items: center;
   justify-content: space-around;
-  width: 70vw;
-
+  width: 60vw;
+  margin-bottom: 50px;
 `;
 
 type imgType = {
@@ -37,11 +40,24 @@ const ContentContainer = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  height: 50vh;
+  height: 80vh;
 `;
 
 const ShopTitle = styled.h2`
-font-size : 70px;
+  font-size: 30px;
+  padding: 0 20px;
+`;
+
+const MenuContainer = styled.div`
+display : flex;
+align-items: center;
+width: 400px;
+justify-content: space-around;
+`;
+
+const SelectContainer = styled.div`
+height : inherit;
+
 `;
 
 function FoodDetail() {
@@ -55,20 +71,32 @@ function FoodDetail() {
       <DetailContainer>
         <Image image={'/img/chickfood.jpg'} />
         <ContentContainer>
-          <Paper 
-          sx={{
-            width: 150,
-            textAlign : "center",
-            padding: 2,
-          }}
-          ><Typography variant="h4">{shop.name}</Typography></Paper>
-          <Card sx={{
-            padding : 2,
-            width : 400,}}>{shop.description}</Card>
-          <SelectTags type={"People"}/>
-          <SelectTags type={"Duration"}/>
+          <Paper>
+            <ShopTitle>{shop.name}</ShopTitle>
+          </Paper>
+          <Card
+            sx={{
+              padding: 2,
+              width: 400,
+            }}>
+            {shop.description}
+          </Card>
+          <MenuContainer>
+            <Paper>
+              <ShopTitle>{shop.menu}</ShopTitle>
+            </Paper>
+            <SelectContainer>
+              <SelectTags type={'People'} />
+              <SelectTags type={'Duration'} />
+            </SelectContainer>
+          </MenuContainer>
+          <Button variant="contained" sx={{ width: 200 }}>
+            찜 ❤
+          </Button>
         </ContentContainer>
       </DetailContainer>
+      <Comment />
+      <CommentList />
     </Pagecontainer>
   );
 }

@@ -1,43 +1,34 @@
-export const comment = [
-  {
-    commnetId: 1,
-    userId: 12345,
-    shopId: 45678,
-    content: '댓글내용입니다',
-    star: 1,
-  },
-  {
-    commnetId: 2,
-    userId: 1523,
-    shopId: 1561532,
-    content: '댓글내용입니다',
-    star: 2,
-  },
-  {
-    commnetId: 3,
-    userId: 1231635,
-    shopId: 45613561,
-    content: '댓글내용입니다',
-    star: 5,
-  },
-  {
-    commnetId: 4,
-    userId: 1515618594,
-    shopId: 152359,
-    content: '댓글내용입니다',
-    star: 4,
-  },
-];
+import styled from 'styled-components';
+import { TextField, Button } from '@mui/material';
 
-export const shop = {
-  shopId: 12345,
-  categoryId: 2,
-  name: '식당이름',
-  distance: 1000,
-  address: '식당위치',
-  menu: '메뉴',
-  shopPicture: '식당사진',
-  like: 100,
-  description: 
-  '식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명식당설명',
-};
+const CommentContainer = styled.form`
+  display: flex;
+  width: 750px;
+  justify-content: space-around;
+`;
+
+function Comment() {
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    console.log(e);
+  }
+
+  return (
+    <CommentContainer onSubmit={handleSubmit}>
+      <TextField
+        id="outlined-basic"
+        label="댓글을 입력하세요"
+        variant="outlined"
+        sx={{
+          width: 600,
+          marginRight:1,
+        }}
+      />
+      <Button variant="outlined">입력하기</Button>
+    </CommentContainer>
+  );
+}
+
+
+export default Comment;
