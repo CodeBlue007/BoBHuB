@@ -7,6 +7,12 @@ import SelectTags from './components/SelectTags';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 
+const FlexContainer = styled.div`
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+`
+
 const Pagecontainer = styled.section`
   display: flex;
   flex-direction: column;
@@ -15,11 +21,8 @@ const Pagecontainer = styled.section`
   height: 100vh;
 `;
 
-const DetailContainer = styled.div`
-  display: flex;
+const DetailContainer = styled(FlexContainer)`
   border: 1px solid black;
-  align-items: center;
-  justify-content: space-around;
   width: 60vw;
   margin-bottom: 50px;
 `;
@@ -35,11 +38,8 @@ const Image = styled.img<imgType>`
   border-radius: 10px;
 `;
 
-const ContentContainer = styled.div`
-  display: flex;
+const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
   height: 80vh;
 `;
 
@@ -48,11 +48,8 @@ const ShopTitle = styled.h2`
   padding: 0 20px;
 `;
 
-const MenuContainer = styled.div`
-display : flex;
-align-items: center;
+const MenuContainer = styled(FlexContainer)`
 width: 400px;
-justify-content: space-around;
 `;
 
 const SelectContainer = styled.div`
