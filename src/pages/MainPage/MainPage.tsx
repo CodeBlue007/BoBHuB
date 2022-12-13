@@ -1,4 +1,4 @@
-import NavBar from './components/NavBar';
+import NavBar from '../../components/NavBar';
 import IntroSection from './components/IntroSection';
 import SliderSection from './components/SliderSection';
 
