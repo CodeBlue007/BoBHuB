@@ -1,7 +1,9 @@
 import NavBar from '../../components/NavBar';
 import IntroSection from './components/IntroSection';
 import SliderSection from './components/SliderSection';
+import Footer from '../../components/Footer';
 import styled from 'styled-components';
+import React from 'react';
 
 const Content = styled.div`
   height: 300vh;
@@ -9,7 +11,6 @@ const Content = styled.div`
   min-width: 1000px;
   display: flex;
   flex-direction: column;
-  margin: auto;
 `;
 
 const MainPage = () => {
@@ -18,6 +19,7 @@ const MainPage = () => {
       <NavBar />
       <IntroSection />
       <SliderSection />
+      <Footer />
     </Content>
   );
 };
