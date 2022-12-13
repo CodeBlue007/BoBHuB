@@ -1,17 +1,15 @@
-import { Router } from "express";
-import { shopController, categoryController } from "../controllers";
-import { adminRequired } from "../middlewares";
+const { Router } = require("express");
+const { shopController, categoryController } = require("../controllers");
+const { adminRequired } = require("../middlewares");
 
 const shopRouter = Router();
 
-shopRouter.route("/")
-.get()
-.get("/:categoryId", )
-.get("/:shopId", );
+shopRouter.get("/");
+shopRouter.get("/:categoryId");
+shopRouter.get("/:shopId");
 
-shopRouter.route("/admin", adminRequired)
-.post()
-.patch("/:shopId", )
-.delete("/:shopId", );
+shopRouter.post("/admin", adminRequired);
+shopRouter.patch("/admin/:shopId", adminRequired);
+shopRouter.delete("/admin/:shopId", adminRequired);
 
-export { shopRouter };
+module.exports = { shopRouter };

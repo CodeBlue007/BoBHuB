@@ -1,12 +1,11 @@
-import { Router } from "express";
-import { groupController } from "../controllers";
+const { Router } = require("express");
+const { groupController } = require("../controllers");
 
 const groupRouter = Router();
 
-groupRouter.route("/")
-.get()
-.get("/:groupId", );
+groupRouter.get("/");
+groupRouter.get("/:groupId");
 
-export { groupRouter };
+module.exports = { groupRouter };
 
 // socket?

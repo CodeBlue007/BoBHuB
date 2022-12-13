@@ -1,5 +1,7 @@
-export * from "./user-router";
-export * from "./category-router";
-export * from "./shop-router";
-export * from "./comment-router";
-export * from "./group-router";
+module.exports = {
+  ...require("./user-router"),
+  ...require("./category-router"),
+  ...require("./shop-router"),
+  ...require("./comment-router"),
+  ...require("./group-router"),
+};

@@ -1,15 +1,13 @@
-import { Router } from "express";
-import { categoryController } from "../controllers";
-import { adminRequired } from "../middlewares";
+const { Router } = require("express");
+const { categoryController } = require("../controllers");
+const { adminRequired } = require("../middlewares");
 
 const categoryRouter = Router();
 
-categoryRouter.route("/")
-.get();
+categoryRouter.get("/");
 
-categoryRouter.route("/admin", adminRequired)
-.post()
-.patch("/:categoryId", )
-.delete("/:categoryId", );
+categoryRouter.post("/admin", adminRequired);
+categoryRouter.patch("/admin/:categoryId", adminRequired);
+categoryRouter.delete("/admin/:categoryId", adminRequired);
 
-export { categoryRouter };
+module.exports = { categoryRouter };

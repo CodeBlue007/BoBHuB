@@ -1,19 +1,16 @@
-import { Router } from "express";
-import { commentController, shopController } from "../controllers";
-import { adminRequired, loginRequired } from "../middlewares";
+const { Router } = require("express");
+const { commentController, shopController } = require("../controllers");
+const { adminRequired, loginRequired } = require("../middlewares");
 
 const commentRouter = Router();
 
-commentRouter.route("/shopId")
-.get();
+commentRouter.get("/shopId");
 
-commentRouter.route("/auth", loginRequired)
-.post()
-.patch("/:commentId", )
-.delete("/:commentId", );
+commentRouter.post("/auth", loginRequired);
+commentRouter.patch("/auth/:commentId", loginRequired);
+commentRouter.delete("/auth/:commentId", loginRequired);
 
-commentRouter.route("/admin", adminRequired)
-.get()
-.delete("/:commentId", );
+commentRouter.get("/admin", adminRequired);
+commentRouter.delete("/admin/:commentId", adminRequired);
 
-export { commentRouter };
+module.exports = { commentRouter };
