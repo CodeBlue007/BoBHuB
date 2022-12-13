@@ -3,7 +3,6 @@ import IntroSection from './components/IntroSection';
 import SliderSection from './components/SliderSection';
 import Footer from '../../components/Footer';
 import styled from 'styled-components';
-import React from 'react';
 
 const Content = styled.div`
   height: 300vh;
