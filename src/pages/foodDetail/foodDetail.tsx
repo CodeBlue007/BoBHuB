@@ -1,6 +1,0 @@
-
-
-
-function foodDetail(){
-    return;
-}
