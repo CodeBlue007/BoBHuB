@@ -8,10 +8,10 @@ import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 
 const FlexContainer = styled.div`
-    display:flex;
-    align-items: center;
-    justify-content: space-around;
-`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
 
 const Pagecontainer = styled.section`
   display: flex;
@@ -41,6 +41,9 @@ const Image = styled.img<imgType>`
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
   height: 80vh;
+  .like{
+    width: 200
+  }
 `;
 
 const ShopTitle = styled.h2`
@@ -49,12 +52,16 @@ const ShopTitle = styled.h2`
 `;
 
 const MenuContainer = styled(FlexContainer)`
-width: 400px;
+  width: 400px;
 `;
 
 const SelectContainer = styled.div`
-height : inherit;
+  height: inherit;
+`;
 
+const CommentContainer = styled(FlexContainer)`
+  flex-direction: column;
+  margin : 20px;
 `;
 
 function FoodDetail() {
@@ -62,6 +69,14 @@ function FoodDetail() {
     console.log(shop);
     console.log(comment);
   }, []);
+
+  const comment1 =  {
+    commnetId: 3,
+    userId: 1231635,
+    shopId: 45613561,
+    content: '댓글내용입니다',
+    star: 5,
+  }
 
   return (
     <Pagecontainer>
@@ -93,7 +108,9 @@ function FoodDetail() {
         </ContentContainer>
       </DetailContainer>
       <Comment />
-      <CommentList />
+      <CommentContainer>
+        <CommentList commentProp={comment1}/>
+      </CommentContainer>
     </Pagecontainer>
   );
 }
