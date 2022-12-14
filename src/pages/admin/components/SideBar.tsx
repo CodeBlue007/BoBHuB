@@ -1,34 +1,30 @@
 import { Tabs, Tab } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
-import Users from '../admin-user/components/Users';
+import Users from '../User/components/Users';
 
 export type User = {
   name: string;
   id: string;
+  email: string;
+  auth: string;
 };
 const SideBar: React.FC = () => {
-  const users: User[] = [
-    {
-      name: '김찬수0',
-      id: 'rlackstn0',
-    },
-    {
-      name: '김찬수1',
-      id: 'rlackstn1',
-    },
-  ];
   return (
     <BrowserRouter>
-      <SideBarTabs orientation="vertical" aria-label="basic tabs example">
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
-      </SideBarTabs>
-      <Routes>
-        <Route path="/users" element={<Users users={users} />} />
-        <Route path="/restaurant" />
-      </Routes>
+      <Container>
+        <SideBarTabs orientation="vertical" aria-label="basic tabs example">
+          <Link to="/users">
+            <Tab label="유저 관리" />
+          </Link>
+          <Tab label="식당 관리" />
+        </SideBarTabs>
+        <Routes>
+          <Route path="/users" element={<Users />} />
+          <Route path="/restaurant" />
+        </Routes>
+      </Container>
     </BrowserRouter>
   );
 };
@@ -39,4 +35,8 @@ const SideBarTabs = styled(Tabs)`
   width: 200px;
   background-color: #dcf3fb;
   height: 100%;
+`;
+
+const Container = styled.div`
+  display: flex;
 `;
