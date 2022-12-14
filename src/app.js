@@ -1,15 +1,8 @@
-import cors from "cors";
-import express from "express";
-import {
-    userRouter,
-    shopRouter,
-    groupRouter,
-    categoryRouter,
-    commentRouter,
-    authRouter,
-    adminRouter,
-  } from "./routers";
-import { errorLogger, errorHandler } from "./middlewares";
+const cors = require("cors");
+const express = require("express");
+require("./db");
+
+const { errorLogger, errorHandler } = require("./middlewares");
 
 const app = express();
 
@@ -27,6 +20,4 @@ app.use(express.urlencoded({ extended: false }));
 app.use(errorLogger);
 app.use(errorHandler);
 
-export { app };
-
-export { app };
+module.exports = { app };
