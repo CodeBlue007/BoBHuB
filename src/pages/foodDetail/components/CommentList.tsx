@@ -27,7 +27,7 @@ interface CommentList{
     }
 }
 
-function CommentList({commentProp:{commnetId,userId,shopId,content,star}}:CommentList){
+const CommentList = ({commentProp:{commnetId,userId,shopId,content,star}}:CommentList) => {
 
     return (
         <ListContainer>

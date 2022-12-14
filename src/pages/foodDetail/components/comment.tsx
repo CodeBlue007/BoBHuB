@@ -5,7 +5,7 @@ const CommentContainer = styled.div`
   display: flex;
 `;
 
-function Comment() {
+const Comment = () => {
 
   return (
     <CommentContainer>
@@ -17,7 +17,7 @@ function Comment() {
           width: 600,
         }}
       />
-      <Button variant="outlined">Outlined</Button>
+      <Button variant="outlined">Enter</Button>
     </CommentContainer>
   );
 }

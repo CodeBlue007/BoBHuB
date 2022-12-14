@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { comment, shop } from './components/data';
-import { Paper, Typography, Card, TextField, Button } from '@mui/material';
+import { Paper, Card, Button } from '@mui/material';
 import SelectTags from './components/SelectTags';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
@@ -41,9 +41,6 @@ const Image = styled.img<imgType>`
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
   height: 80vh;
-  .like{
-    width: 200
-  }
 `;
 
 const ShopTitle = styled.h2`
@@ -64,7 +61,7 @@ const CommentContainer = styled(FlexContainer)`
   margin : 20px;
 `;
 
-function FoodDetail() {
+const FoodDetail = () => {
   useEffect(() => {
     console.log(shop);
     console.log(comment);
