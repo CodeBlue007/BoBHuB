@@ -1,4 +1,4 @@
-import { Tabs, Tab } from '@mui/material';
+import { List, ListItem, ListItemButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
@@ -15,14 +15,24 @@ const SideBar: React.FC = () => {
   return (
     <BrowserRouter basename="/admin">
       <Container>
-        <SideBarTabs orientation="vertical" aria-label="basic tabs example">
+        <List disablePadding sx={{ width: '200px', backgroundColor: '#cbcecf', height: '100vh' }}>
+          <ListItem>Bobhub admin</ListItem>
           <Link to="/users">
-            <Tab label="유저 관리" />
+            <ListItem>
+              <ListItemButton
+                sx={{ width: '200px', padding: '20px 30px 20px 30px', boxSizing: 'border-box' }}>
+                유저관리
+              </ListItemButton>
+            </ListItem>
           </Link>
           <Link to="/restaurant">
-            <Tab label="식당 관리" />
+            <ListItem>
+              <ListItemButton sx={{ width: '200px', padding: '20px 30px 20px 30px' }}>
+                식당관리
+              </ListItemButton>
+            </ListItem>
           </Link>
-        </SideBarTabs>
+        </List>
         <Routes>
           <Route path="/users" element={<Users />} />
           <Route path="/restaurant" element={<Restaurant />} />
@@ -33,12 +43,6 @@ const SideBar: React.FC = () => {
 };
 
 export default SideBar;
-
-const SideBarTabs = styled(Tabs)`
-  width: 200px;
-  background-color: #dcf3fb;
-  height: 100vh;
-`;
 
 const Container = styled.div`
   display: flex;
