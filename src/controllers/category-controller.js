@@ -28,9 +28,9 @@ class CategoryController {
       const { categoryId } = req.params;
       const { name } = req.body;
 
-      const updatedCategory = await categoryService.update(name, categoryId);
+      const result = await categoryService.update(name, categoryId);
 
-      return res.status(200).json(updatedCategory);
+      return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
@@ -39,8 +39,9 @@ class CategoryController {
   async delete(req, res, next) {
     try {
       const { categoryId } = req.params;
-      const deletedCategory = await categoryService.deleteById(categoryId);
-      res.status(200).json(deletedCategory);
+      const result = await categoryService.deleteById(categoryId);
+
+      return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
