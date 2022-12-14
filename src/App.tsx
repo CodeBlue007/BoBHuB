@@ -1,15 +1,13 @@
-import FoodDetail from "./pages/foodDetail/FoodDetail";
-import { GlobalStyle } from "./styles/GlobalStyle";
-
+import MainPage from './pages/MainPage/MainPage';
+import { GlobalStyle } from './styles/GlobalStyle';
 
 function App() {
   return (
     <div className="App">
-      <GlobalStyle/>
-      <FoodDetail />
+      <GlobalStyle />
+      <MainPage />
     </div>
   );
 }
-
 
 export default App;
