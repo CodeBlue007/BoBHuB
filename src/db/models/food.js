@@ -6,6 +6,8 @@ module.exports = function (sequelize, DataTypes) {
       foodId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        autoIncrement: 1,
+
         primaryKey: true,
       },
       shopId: {

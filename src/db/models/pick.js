@@ -6,6 +6,8 @@ module.exports = function (sequelize, DataTypes) {
       pickId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        autoIncrement: 1,
+
         primaryKey: true,
       },
       userId: {

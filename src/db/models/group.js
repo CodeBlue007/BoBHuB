@@ -6,6 +6,8 @@ module.exports = function (sequelize, DataTypes) {
       groupId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        autoIncrement: 1,
+
         primaryKey: true,
       },
       shopId: {
