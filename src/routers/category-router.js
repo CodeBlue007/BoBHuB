@@ -4,10 +4,10 @@ const { adminRequired } = require("../middlewares");
 
 const categoryRouter = Router();
 
-categoryRouter.get("/");
+categoryRouter.get("/", categoryController.getAll);
 
-categoryRouter.post("/admin", adminRequired);
-categoryRouter.patch("/admin/:categoryId", adminRequired);
-categoryRouter.delete("/admin/:categoryId", adminRequired);
+categoryRouter.post("/admin", adminRequired, categoryController.create);
+categoryRouter.patch("/admin/:categoryId", adminRequired, categoryController.update);
+categoryRouter.delete("/admin/:categoryId", adminRequired, categoryController.delete);
 
 module.exports = { categoryRouter };

@@ -6,5 +6,5 @@ sequelize
   .catch((err) => "\n DB 연결에 실패하였습니다...\n" + error);
 
 module.exports = {
-  ...require("./tables"),
+  ...require("./tables/category-table"),
 };
