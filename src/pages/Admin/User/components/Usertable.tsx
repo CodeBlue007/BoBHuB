@@ -36,7 +36,7 @@ const UserTable: React.FC<{ users: User[] }> = (props) => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell align="center">Email</TableCell>
-              <TableCell align="center">ID</TableCell>
+              <TableCell align="center">권한</TableCell>
               <TableCell align="center">수정</TableCell>
             </TableRow>
           </TableHead>
@@ -47,7 +47,7 @@ const UserTable: React.FC<{ users: User[] }> = (props) => {
                   {user.name}
                 </TableCell>
                 <TableCell align="center">{user.email}</TableCell>
-                <TableCell align="center">{user.id}</TableCell>
+                <TableCell align="center">{user.auth}</TableCell>
                 <TableCell align="center">
                   <button onClick={() => handleOpen(user)}>정보 조회</button>
                 </TableCell>

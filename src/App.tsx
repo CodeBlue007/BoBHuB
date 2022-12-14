@@ -1,10 +1,10 @@
-import MainPage from './pages/MainPage/MainPage';
-
+import SideBar from './pages/Admin/components/SideBar';
 function App() {
   return (
     <div className="App">
       <GlobalStyle />
       <FoodDetail />
+      <SideBar />
     </div>
   );
 }

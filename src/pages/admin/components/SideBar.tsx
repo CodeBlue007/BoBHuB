@@ -2,6 +2,7 @@ import { Tabs, Tab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
+import Restaurant from '../Restraunt/Restaurant';
 import Users from '../User/components/Users';
 
 export type User = {
@@ -12,17 +13,19 @@ export type User = {
 };
 const SideBar: React.FC = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/admin">
       <Container>
         <SideBarTabs orientation="vertical" aria-label="basic tabs example">
           <Link to="/users">
             <Tab label="유저 관리" />
           </Link>
-          <Tab label="식당 관리" />
+          <Link to="/restaurant">
+            <Tab label="식당 관리" />
+          </Link>
         </SideBarTabs>
         <Routes>
           <Route path="/users" element={<Users />} />
-          <Route path="/restaurant" />
+          <Route path="/restaurant" element={<Restaurant />} />
         </Routes>
       </Container>
     </BrowserRouter>
@@ -34,7 +37,7 @@ export default SideBar;
 const SideBarTabs = styled(Tabs)`
   width: 200px;
   background-color: #dcf3fb;
-  height: 100%;
+  height: 100vh;
 `;
 
 const Container = styled.div`
