@@ -47,7 +47,7 @@ const ContentContainer = styled(FlexContainer)`
 
 const ShopTitle = styled.h2`
   font-size: 30px;
-  padding: 0 20px;
+  padding: 20px;
 `;
 
 const MenuContainer = styled(FlexContainer)`
@@ -72,30 +72,47 @@ const LikeButton = styled(Button)`
   width: 15vw;
 `;
 
+
 const FoodDetail = () => {
+
+  const [people, setPeople] = useState<number>(2);
+  const [duration, setDuration] = useState<number>(15);
+
+  console.log(people);
+  console.log(duration);
+
+
+
   useEffect(() => {
     console.log(shop);
     console.log(comment);
   }, []);
 
-
   return (
     <Pagecontainer>
-      <NavBar/>
+      <NavBar />
       <DetailContainer>
         <Image image={'/img/chickfood.jpg'} />
         <ContentContainer>
           <Paper>
             <ShopTitle>{shop.name}</ShopTitle>
           </Paper>
-          <MenuCard>{shop.description}</MenuCard>
+          <MenuCard>
+            <p>{shop.description}</p>
+            <br/>
+            <p>주소 : {shop.address}</p>
+            <p>Distance : {shop.distance}</p>
+          </MenuCard>
           <MenuContainer>
             <Paper>
-              <ShopTitle>{shop.menu}</ShopTitle>
+              <ShopTitle>
+                <p>메뉴({shop.categoryId})</p>
+                <p>{shop.menu}</p>
+                </ShopTitle>
             </Paper>
             <SelectContainer>
-              <SelectTags type={'People'} />
-              <SelectTags type={'Duration'} />
+              <SelectTags type={'People'} value={people} setValue={setPeople} />
+              <SelectTags type={'Duration'} value={duration} setValue={setDuration} />
             </SelectContainer>
           </MenuContainer>
           <LikeButton variant="contained">{`찜하기 ❤ : ${shop.like}`}</LikeButton>
@@ -103,9 +120,11 @@ const FoodDetail = () => {
       </DetailContainer>
       <Comment />
       <CommentContainer>
-        {comment.map((comment)=> <CommentList commentProp={comment}/>)}
+        {comment.map((comment) => (
+          <CommentList commentProp={comment} />
+        ))}
       </CommentContainer>
-      <Footer/>
+      <Footer />
     </Pagecontainer>
   );
 };

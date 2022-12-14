@@ -10,10 +10,12 @@ const SelectContainer = styled.div`
 `;
 
 interface selectInterface {
-  type: string;
+  type: "People" | "Duration";
+  value : number;
+  setValue : (x:number) => void;
 }
 
-const SelectTags = ({ type }: selectInterface) => {
+const SelectTags = ({ type, value, setValue}: selectInterface) => {
   const optionData = type === 'People' ? [2, 3, 4] : [15, 30, 45, 60];
 
   const optionTags = () => {
@@ -23,17 +25,21 @@ const SelectTags = ({ type }: selectInterface) => {
     })
   };
 
+  const handleSelect = (e:React.ChangeEvent<HTMLSelectElement>) => setValue(parseInt(e.target.value));
+  
+
   return (
     <SelectContainer>
       <InputLabel variant="standard" htmlFor="uncontrolled-native">
         {type}
       </InputLabel>
       <NativeSelect
-        defaultValue={optionData[0]}
+        defaultValue={value}
         inputProps={{
           name: 'age',
           id: 'uncontrolled-native',
-        }}>
+        }}
+        onChange={handleSelect}>
         {optionTags()}
       </NativeSelect>
     </SelectContainer>

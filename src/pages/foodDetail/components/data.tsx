@@ -35,7 +35,7 @@ export const shop = {
   name: '식당이름',
   distance: 1000,
   address: '식당위치',
-  menu: '메뉴',
+  menu: '메뉴이름',
   shopPicture: '식당사진',
   like: 100,
   description: 
