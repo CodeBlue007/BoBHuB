@@ -1,2 +1,4 @@
-export * from "./error-handler";
-export * from "./error-logger";
+module.exports = {
+  ...require("./error-handler"),
+  ...require("./error-logger"),
+};
