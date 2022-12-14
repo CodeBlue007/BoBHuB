@@ -6,11 +6,12 @@ module.exports = function (sequelize, DataTypes) {
       categoryId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        autoIncrement: 1,
         primaryKey: true,
       },
       name: {
         type: DataTypes.STRING(45),
-        allowNull: false,
+        allowNull: true,
       },
     },
     {

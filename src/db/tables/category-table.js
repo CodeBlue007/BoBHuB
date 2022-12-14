@@ -1,15 +1,15 @@
 const db = require("../models");
 const Category = db.category;
 
-export class CategoryModel {
-  async totalCount(filterObj) {
-    const totalCount = await Category.findAndCountAll({ where: filterObj });
+class CategoryModel {
+  async totalCount(categoryDTO) {
+    const totalCount = await Category.findAndCountAll({ where: categoryDTO });
     return totalCount;
   }
 
-  async create(categoryInfo) {
+  async create(categoryDTO) {
     try {
-      const createdCategory = await Category.create(categoryInfo);
+      const createdCategory = await Category.create(categoryDTO);
       return createdCategory;
     } catch (err) {
       throw new Error(err);
@@ -34,9 +34,9 @@ export class CategoryModel {
     }
   }
 
-  async update(filterObj, updateObj) {
+  async update(newCategoryDTO, categoryDTO) {
     try {
-      const updatedCategory = await Category.update(updateObj, { where: filterObj });
+      const updatedCategory = await Category.update(newCategoryDTO, { where: categoryDTO });
       return updatedCategory;
     } catch (err) {
       throw new Error(err);
