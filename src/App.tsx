@@ -1,12 +1,13 @@
-// import './App.css';
+import FoodDetail from "./pages/foodDetail/FoodDetail";
 
-import MainPage from './pages/MainPage/MainPage';
 
 function App() {
   return (
     <div className="App">
-      <MainPage />
+      <FoodDetail />
     </div>
   );
 }
 
+
+export default App;
