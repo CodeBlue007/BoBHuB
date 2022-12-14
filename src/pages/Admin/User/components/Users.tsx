@@ -36,4 +36,5 @@ const Div = styled.div`
 
 const H2 = styled.h2`
   margin-bottom: 50px;
+  margin-top: 50px;
 `;
