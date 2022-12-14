@@ -32,8 +32,8 @@ type imgType = {
 };
 
 const Image = styled.img<imgType>`
-  width: 400px;
-  height: 400px;
+  width: 20vw;
+  height: 20vw;
   background: url('${(props) => props.image}') center no-repeat;
   border-radius: 10px;
 `;
@@ -49,7 +49,7 @@ const ShopTitle = styled.h2`
 `;
 
 const MenuContainer = styled(FlexContainer)`
-  width: 400px;
+  width: 25vw;
 `;
 
 const SelectContainer = styled.div`
@@ -60,6 +60,15 @@ const CommentContainer = styled(FlexContainer)`
   flex-direction: column;
   margin : 20px;
 `;
+
+const MenuCard = styled(Card)`
+  width: 25vw;
+  padding: 10px;
+`
+
+const LikeButton = styled(Button)`
+  width : 15vw;
+`
 
 const FoodDetail = () => {
   useEffect(() => {
@@ -83,13 +92,9 @@ const FoodDetail = () => {
           <Paper>
             <ShopTitle>{shop.name}</ShopTitle>
           </Paper>
-          <Card
-            sx={{
-              padding: 2,
-              width: 400,
-            }}>
+          <MenuCard>
             {shop.description}
-          </Card>
+          </MenuCard>
           <MenuContainer>
             <Paper>
               <ShopTitle>{shop.menu}</ShopTitle>
@@ -99,9 +104,9 @@ const FoodDetail = () => {
               <SelectTags type={'Duration'} />
             </SelectContainer>
           </MenuContainer>
-          <Button variant="contained" sx={{ width: 200 }}>
-            찜 ❤
-          </Button>
+          <LikeButton variant="contained">
+            {`찜하기 ❤ : ${shop.like}`}
+          </LikeButton>
         </ContentContainer>
       </DetailContainer>
       <Comment />
