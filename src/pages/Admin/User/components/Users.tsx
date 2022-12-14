@@ -6,16 +6,15 @@ import styled from 'styled-components';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const getUsers = async () => {
+  const fetchUserData = async () => {
     const res = await axios('http://localhost:3001/users');
     const users = await res.data;
-    console.log(users);
     setUsers(() => {
       return users;
     });
   };
   useEffect(() => {
-    getUsers();
+    fetchUserData();
   }, []);
   return (
     <Div>
