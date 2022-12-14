@@ -9,13 +9,13 @@ const SelectContainer = styled.div`
   margin : 15px;
 `;
 
-interface selectInterface {
+interface selectProps {
   type: "People" | "Duration";
   value : number;
   setValue : (x:number) => void;
 }
 
-const SelectTags = ({ type, value, setValue}: selectInterface) => {
+const SelectTags = ({ type, value, setValue}: selectProps) => {
   const optionData = type === 'People' ? [2, 3, 4] : [15, 30, 45, 60];
 
   const optionTags = () => {

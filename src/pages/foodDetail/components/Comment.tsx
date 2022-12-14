@@ -20,19 +20,25 @@ const CommentField = styled(TextField)`
 `;
 
 
+interface commnetProps{
+  starValue : number|null;
+  setStarValue : (x:number|null) => void;
+}
+
+const Comment = ({starValue,setStarValue} : commnetProps) => {
 
 
-const Comment = () => {
+
   return (
     <CommentContainer>
       <RatingContainer>
         <Typography component="legend">식당은 어땠나요?</Typography>
         <Rating
           name="simple-controlled"
-          value={2}
-          // onChange={(event, newValue) => {
-          //   setValue(newValue);
-          // }}
+          value={starValue}
+          onChange={(event:React.SyntheticEvent, newValue:number|null) => {
+            setStarValue(newValue);
+          }}
         />
       </RatingContainer>
       <CommentField

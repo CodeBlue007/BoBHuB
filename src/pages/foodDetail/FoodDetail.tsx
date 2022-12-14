@@ -77,15 +77,27 @@ const FoodDetail = () => {
 
   const [people, setPeople] = useState<number>(2);
   const [duration, setDuration] = useState<number>(15);
+  const [starValue, setStarValue] = useState<number|null>(5);
+  const [likeAll, setlikeAll] = useState<number>(0);
+  const [isClicked, setClicked] = useState<boolean>(false);
 
-  console.log(people);
-  console.log(duration);
-
+  
+  const handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
+    if(isClicked) {
+      alert("이미 찜한 식당입니다.");
+      return;
+    }
+    setClicked(true);
+    setlikeAll((current) => current+1);
+  }
+   
 
 
   useEffect(() => {
     console.log(shop);
     console.log(comment);
+
+    setlikeAll(shop.like);
   }, []);
 
   return (
@@ -115,10 +127,10 @@ const FoodDetail = () => {
               <SelectTags type={'Duration'} value={duration} setValue={setDuration} />
             </SelectContainer>
           </MenuContainer>
-          <LikeButton variant="contained">{`찜하기 ❤ : ${shop.like}`}</LikeButton>
+          <LikeButton variant="contained" onClick={handleClick}>{`찜하기 ❤ : ${likeAll}`}</LikeButton>
         </ContentContainer>
       </DetailContainer>
-      <Comment />
+      <Comment starValue={starValue} setStarValue={setStarValue} />
       <CommentContainer>
         {comment.map((comment) => (
           <CommentList commentProp={comment} />
