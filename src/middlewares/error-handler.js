@@ -7,4 +7,4 @@ function errorHandler(error, req, res, next) {
   res.status(400).json({ result: "error", reason: error.message });
 }
 
-export { errorHandler };
+module.exports = { errorHandler };

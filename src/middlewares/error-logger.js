@@ -1,4 +1,4 @@
-import fs from "fs";
+const fs = require("fs");
 
 function errorLogger(error, req, res, next) {
   const current_datetime = new Date();
@@ -30,4 +30,4 @@ function errorLogger(error, req, res, next) {
   next(error);
 }
 
-export { errorLogger };
+module.exports = { errorLogger };
