@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "name": "김찬수0",
+      "email": "rlackstn0@gmail.com",
+      "id": "0",
+      "auth": "admin"
+    },
+    {
+      "name": "김찬찬수수",
+      "email": "rlackstn1232@gmail.com",
+      "id": "1123490846",
+      "auth": "racer"
+    },
+    {
+      "name": "찬수",
+      "email": "rlackstn2@gmail.com",
+      "id": "234564325",
+      "auth": "racer"
+    },
+    {
+      "name": "관리자김찬수",
+      "email": "admin@gmail.com",
+      "id": "324896545",
+      "auth": "admin"
+    }
+  ],
+  "restaurants": [
+    {
+      "name": "미각",
+      "categoryId": "1",
+      "stackedLike": "3",
+      "id": "2"
+    },
+    {
+      "name": "버거보이",
+      "categoryId": "2",
+      "stackedLike": "1",
+      "id": "3"
+    },
+    {
+      "name": "한끼밥상",
+      "categoryId": "3",
+      "stackedLike": "4",
+      "id": "1"
+    }
+  ]
+}
