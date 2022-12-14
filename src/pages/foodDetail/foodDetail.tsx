@@ -18,7 +18,8 @@ const Pagecontainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  padding: 0;
+  margin: 0;
 `;
 
 const DetailContainer = styled(FlexContainer)`
@@ -58,17 +59,17 @@ const SelectContainer = styled.div`
 
 const CommentContainer = styled(FlexContainer)`
   flex-direction: column;
-  margin : 20px;
+  margin: 20px;
 `;
 
 const MenuCard = styled(Card)`
   width: 25vw;
   padding: 10px;
-`
+`;
 
 const LikeButton = styled(Button)`
-  width : 15vw;
-`
+  width: 15vw;
+`;
 
 const FoodDetail = () => {
   useEffect(() => {
@@ -76,13 +77,6 @@ const FoodDetail = () => {
     console.log(comment);
   }, []);
 
-  const comment1 =  {
-    commnetId: 3,
-    userId: 1231635,
-    shopId: 45613561,
-    content: '댓글내용입니다',
-    star: 5,
-  }
 
   return (
     <Pagecontainer>
@@ -92,9 +86,7 @@ const FoodDetail = () => {
           <Paper>
             <ShopTitle>{shop.name}</ShopTitle>
           </Paper>
-          <MenuCard>
-            {shop.description}
-          </MenuCard>
+          <MenuCard>{shop.description}</MenuCard>
           <MenuContainer>
             <Paper>
               <ShopTitle>{shop.menu}</ShopTitle>
@@ -104,17 +96,15 @@ const FoodDetail = () => {
               <SelectTags type={'Duration'} />
             </SelectContainer>
           </MenuContainer>
-          <LikeButton variant="contained">
-            {`찜하기 ❤ : ${shop.like}`}
-          </LikeButton>
+          <LikeButton variant="contained">{`찜하기 ❤ : ${shop.like}`}</LikeButton>
         </ContentContainer>
       </DetailContainer>
       <Comment />
       <CommentContainer>
-        <CommentList commentProp={comment1}/>
+        {comment.map((comment)=> <CommentList commentProp={comment}/>)}
       </CommentContainer>
     </Pagecontainer>
   );
-}
+};
 
 export default FoodDetail;

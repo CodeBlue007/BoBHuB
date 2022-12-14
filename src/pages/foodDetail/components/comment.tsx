@@ -3,7 +3,8 @@ import { TextField, Button, Typography, Rating } from '@mui/material';
 
 const CommentContainer = styled.div`
   display: flex;
-  width: 50vw;
+  width: 47vw;
+  justify-content: space-between;
   position: relative;
 `;
 
@@ -17,6 +18,9 @@ const RatingContainer = styled.div`
 const CommentField = styled(TextField)`
   width:40vw;
 `;
+
+
+
 
 const Comment = () => {
   return (
