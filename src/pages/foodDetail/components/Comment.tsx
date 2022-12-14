@@ -23,11 +23,11 @@ const CommentField = styled(TextField)`
 interface commnetProps{
   starValue : number|null;
   setStarValue : (x:number|null) => void;
+  content : string;
+  setContent : (x:string) => void;
 }
 
-const Comment = ({starValue,setStarValue} : commnetProps) => {
-
-
+const Comment = ({starValue,setStarValue,content, setContent} : commnetProps) => {
 
   return (
     <CommentContainer>
