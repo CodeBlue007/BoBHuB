@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
-const FooterBox = styled.div`
-  position: absolute;
-  bottom: 0;
+const FooterBox = styled.footer`
+font-size: 30px;
 `;
 
 const Footer = () => {

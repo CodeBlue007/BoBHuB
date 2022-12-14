@@ -6,6 +6,8 @@ import { Paper, Card, Button } from '@mui/material';
 import SelectTags from './components/SelectTags';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
+import Footer from '../../components/Footer';
+import NavBar from '../../components/NavBar';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -23,7 +25,6 @@ const Pagecontainer = styled.section`
 `;
 
 const DetailContainer = styled(FlexContainer)`
-  border: 1px solid black;
   width: 60vw;
   margin-bottom: 50px;
 `;
@@ -80,6 +81,7 @@ const FoodDetail = () => {
 
   return (
     <Pagecontainer>
+      <NavBar/>
       <DetailContainer>
         <Image image={'/img/chickfood.jpg'} />
         <ContentContainer>
@@ -103,6 +105,7 @@ const FoodDetail = () => {
       <CommentContainer>
         {comment.map((comment)=> <CommentList commentProp={comment}/>)}
       </CommentContainer>
+      <Footer/>
     </Pagecontainer>
   );
 };

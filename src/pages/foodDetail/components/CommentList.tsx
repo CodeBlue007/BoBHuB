@@ -18,16 +18,6 @@ const ListContainer = styled(FlexContainer)`
   margin : 15px;
 `;
 
-interface CommentList {
-  commentProp: {
-    commnetId: number;
-    userId: number;
-    shopId: number;
-    content: string;
-    star: number;
-  };
-}
-
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -54,6 +44,16 @@ const AvatarContainer = styled(FlexContainer)`
 const CustomButton = styled(Button)`
 width: 80px;
 `;
+
+interface CommentList {
+  commentProp: {
+    commnetId: number;
+    userId: number;
+    shopId: number;
+    content: string;
+    star: number;
+  };
+}
 
 
 const CommentList = ({
