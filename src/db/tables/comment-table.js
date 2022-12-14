@@ -2,10 +2,10 @@ const db = require("../models");
 const comment = db.comment;
 
 export class CommentModel {
-  async create(commentInfo) {
+  async create(commentDTO) {
     try {
-      const createdcomment = await comment.create(commentInfo);
-      return createdcomment;
+      const createdComment = await comment.create(commentDTO);
+      return createdComment;
     } catch (err) {
       throw new Error(err);
     }
@@ -19,20 +19,20 @@ export class CommentModel {
       throw new Error(err);
     }
   }
-
+// id로 참조하는 모든 id를 받게 할 것? 오류가 없다면
   async getById(id) {
     try {
-      const comment = await comment.findByPk(id);
-      return comment;
+      const comments = await comment.findByPk(id);
+      return comments;
     } catch (err) {
       throw new Error(err);
     }
   }
-// 형식이 아예 바뀌었으니 update 로직도 바뀌어야 할듯? 일단 유지해서 ㅇㅇ
-  async update(filterObj, updateObj) {
+
+  async update(newCommentDTO, commentDTO) {
     try {
-      const updatedcomment = await comment.update(updateObj, { where: filterObj });
-      return updatedcomment;
+      const updatedComment = await comment.update(newCommentDTO, { where: commentDTO });
+      return updatedComment;
     } catch (err) {
       throw new Error(err);
     }
@@ -40,8 +40,8 @@ export class CommentModel {
 
   async deleteById(commentId) {
     try {
-      const deletedcomment = await comment.destroy({ where: { commentId } });
-      return deletedcomment;
+      const deletedComment = await comment.destroy({ where: { commentId } });C
+      return deletedComment;
     } catch (err) {
       throw new Error(err);
     }

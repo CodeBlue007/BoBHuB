@@ -6,26 +6,28 @@ class CommentService {
   }
 
   async create(commentInfo) {
-      const createdcomment = await this.commentModel.create(commentInfo);
-      return createdcomment;
+    const createdComment = await this.commentModel.create(commentInfo);
+    return createdComment;
   }
 
   async getAll() {
     const comments = await this.commentModel.getAll();
     return comments;
   }
-// 넘어가는 결과 객체 table에서 제대로 되는지 확인해야함.
+  // 넘어가는 결과 객체 table에서 제대로 되는지 확인해야함.
   async getById(shopId) {
-    const comments = await this.commentModel.getById({ _id: shopId });
+    const comments = await this.commentModel.getById(shopId);
     return comments;
   }
 
-  async update(commentId, content) {
-    
+  async update(newCommentDTO, commentId) {
+    const comment = await this.commentModel.update(newCommentDTO, { commentId });
+
+    return comment;
   }
 
   async delete(commentId) {
-    await commentModel.deleteById({commentId});
+    await commentModel.deleteById(commentId);
   }
 }
 
