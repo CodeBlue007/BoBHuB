@@ -1,4 +1,4 @@
-import FoodDetail from './pages/foodDetail/FoodDetail';
+import FoodDetail from './pages/FoodDetail/FoodDetail';
 import MainPage from './pages/MainPage/MainPage';
 import Login from './pages/Login/Login';
 import { GlobalStyle } from './styles/GlobalStyle';

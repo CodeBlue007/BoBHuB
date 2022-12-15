@@ -24,7 +24,8 @@ const BoxContainer = styled.div`
   border-radius: 4px;
 
   height: 90vh;
-  padding: 10px 20px 50px 20px;
+  padding: 0px 20px 50px 20px;
+
   margin-bottom: 80px;
 
   & input {
