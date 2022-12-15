@@ -1,24 +1,24 @@
 const { pool } = require("../mysql-pool");
+const o = new (require("../../util/make-query"))("category");
 
 class CategoryModel {
   async create(categoryDTO) {
     try {
-      const [result] = await pool.query(
-        `INSERT INTO category (name) VALUES ("${categoryDTO.name}");`
-      );
-      const [createdCategory] = await pool.query(
-        `SELECT categoryId, name FROM category WHERE categoryId=${result.insertId} AND (category.deletedAt IS NULL) limit 1;`
-      );
-      return createdCategory[0];
+      const { keyArr, valArr } = o.objToKeyValueArray(categoryDTO);
+      const query = o.makeInsertQuery(keyArr, valArr);
+
+      const [result] = await pool.query(query, console.log(query));
+      return result;
     } catch (err) {
       throw new Error(err);
     }
   }
   async getAll() {
     try {
-      const [categories] = await pool.query(
-        `SELECT categoryId, name FROM category WHERE (category.deletedAt IS NULL);`
-      );
+      const query = o.makeSelectQuery();
+      console.log(query);
+
+      const [categories] = await pool.query(query);
       return categories;
     } catch (err) {
       throw new Error(err);
@@ -27,30 +27,11 @@ class CategoryModel {
 
   async update(newCategoryDTO, categoryDTO) {
     try {
-      const newQuery = Object.entries(newCategoryDTO).reduce(
-        (acc, [key, value], idx) =>
-          (acc =
-            acc +
-            (idx !== 0 ? " , " : "") +
-            `${key} = ${typeof value === "string" ? '"' + value + '"' : value}`),
-        ""
-      );
-      const oldQuery = Object.entries(categoryDTO).reduce(
-        (acc, [key, value], idx) =>
-          (acc =
-            acc +
-            (idx !== 0 ? " AND " : "") +
-            `${key} = ${typeof value === "string" ? '"' + value + '"' : value}`),
-        ""
-      );
-
-      console.log(
-        `update category set ${newQuery} WHERE ${oldQuery} AND (category.deletedAt IS NULL);`
-      );
-
-      const [updatedCategory] = await pool.query(
-        `update category set ${newQuery} WHERE ${oldQuery} AND (category.deletedAt IS NULL);`
-      );
+      const newDTO = o.objToQueryArray(newCategoryDTO);
+      const oldDTO = o.objToQueryArray(categoryDTO);
+      const query = o.makeUpdateQuery(newDTO, oldDTO);
+      console.log(query);
+      const [updatedCategory] = await pool.query(query);
       return updatedCategory;
     } catch (err) {
       throw new Error(err);
@@ -59,9 +40,11 @@ class CategoryModel {
 
   async deleteById(categoryId) {
     try {
-      const deletedCategory = await pool.query(
-        `delete from category WHERE categoryId=${categoryId} AND (category.deletedAt IS NULL);`
-      );
+      const where = o.objToQueryArray({ categoryId });
+      const query = o.makeDeleteQuery(where);
+      console.log(query);
+
+      const deletedCategory = await pool.query(query);
       return deletedCategory;
     } catch (err) {
       throw new Error(err);
