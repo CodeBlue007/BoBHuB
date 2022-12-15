@@ -5,6 +5,7 @@ const Intro = styled.div`
   display: flex;
   flex-direction: column;
   width: 500px;
+  height: 100%;
   position: absolute;
   top: 205px;
   left: 200px;
@@ -16,27 +17,29 @@ const Intro = styled.div`
     margin-bottom: 200px;
     font-size: 1.5em;
   }
-  .image {
-    object-fit: cover;
-    position: absolute;
-    left: 500px;
-    transform: rotate(90deg);
-  }
+`;
+
+const Image = styled.img`
+  transform: rotate(90deg);
+  z-index: -1;
+  position: absolute;
+  left: 50%;
+  top: 20%;
 `;
 
 const IntroSection = () => {
   return (
-    <Intro>
-      <div className="main">혼자 밥 먹기 싫을 땐?</div>
-      <div className="sub">밥허브로 밥메이트 구해요~</div>
-      <Button variant="contained">맛집 찾기</Button>
-      <div className="image">
-        <img
-          src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=800"
-          alt="식사 이미지"
-        />
-      </div>
-    </Intro>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <Intro>
+        <div className="main">혼자 밥 먹기 싫을 땐?</div>
+        <div className="sub">밥허브로 밥메이트 구해요~</div>
+        <Button variant="contained">맛집 찾기</Button>
+      </Intro>
+      <Image
+        src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=800"
+        alt="점심"
+      />
+    </div>
   );
 };
 
