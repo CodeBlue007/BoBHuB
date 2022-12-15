@@ -1,15 +1,10 @@
-import FoodDetail from './pages/FoodDetail/FoodDetail';
-import MainPage from './pages/MainPage/MainPage';
-import Login from './pages/Login/Login';
 import { GlobalStyle } from './styles/GlobalStyle';
-
+import Dashboard from './pages/Admin/components/Admin';
 function App() {
   return (
-    <div className="App">
+    <div>
       <GlobalStyle />
-      {/* <FoodDetail /> */}
-      {/* <MainPage /> */}
-      <Login />
+      <Dashboard />
     </div>
   );
 }
