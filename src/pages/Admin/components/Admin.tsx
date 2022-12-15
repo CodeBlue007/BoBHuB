@@ -16,8 +16,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import SideBarListItems from './SideBarListItems';
 import Users from '../User/components/Users';
-import Restaurant from '../Restraunt/Restaurant';
+import Foods from '../Restraunt/Foods';
 import HomeIcon from '@mui/icons-material/Home';
+import { Link } from 'react-router-dom';
 
 const drawerWidth: number = 240;
 
@@ -129,9 +130,11 @@ function AdminContent() {
             />
             <Divider sx={{ my: 1 }} />
 
-            <IconButton color="inherit" sx={{ position: 'absolute', bottom: '-40px' }}>
-              <HomeIcon fontSize="large" color="primary" />
-            </IconButton>
+            <Link to="/">
+              <IconButton color="inherit" sx={{ position: 'absolute', bottom: '-40px' }}>
+                <HomeIcon fontSize="large" color="primary" />
+              </IconButton>
+            </Link>
           </List>
         </Drawer>
         <Box
@@ -149,7 +152,7 @@ function AdminContent() {
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   {selectedButton === 'users' && <Users />}
-                  {selectedButton === 'restaurants' && <Restaurant />}
+                  {selectedButton === 'restaurants' && <Foods />}
                 </Paper>
               </Grid>
             </Grid>
