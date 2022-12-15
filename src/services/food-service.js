@@ -10,13 +10,13 @@ class FoodService {
     return createdFood;
   }
 
-  async getAll() {
-    const food = await this.foodModel.getAll();
-    return food;
-  }
+  // async getAll() {
+  //   const food = await this.foodModel.getAll();
+  //   return food;
+  // }
   // 넘어가는 결과 객체 table에서 제대로 되는지 확인해야함.
-  async getById(shopId) {
-    const food = await this.foodModel.getById(shopId);
+  async getByShopId(shopId) {
+    const food = await this.foodModel.getByShopId(shopId);
     return food;
   }
 

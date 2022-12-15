@@ -11,10 +11,10 @@ class FoodController {
     }
   }
 
-  async getById(req, res, next) {
+  async getByShopId(req, res, next) {
     try {
       const { shopId } = req.params;
-      const foodList = await foodService.getById(shopId);
+      const foodList = await foodService.getByShopId(shopId);
       return res.status(200).json(foodList);
     } catch (e) {
       next(e);

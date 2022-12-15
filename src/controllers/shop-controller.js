@@ -28,11 +28,11 @@ class ShopController {
       next(e);
     }
   }
-  // 그냥 id로 받고 통일시키면 되지 않나?
-  async getById(req, res, next) {
+
+  async getByShopId(req, res, next) {
     try {
-      const { id } = req.params;
-      const shopList = await shopService.getById(id);
+      const { shopId } = req.params;
+      const shopList = await shopService.getByShopId(shopId);
       return res.status(200).json(shopList);
     } catch (e) {
       next(e);

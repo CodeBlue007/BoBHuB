@@ -14,10 +14,10 @@ class CommentController {
     }
   }
 
-  async getById(req, res, next) {
+  async getByShopId(req, res, next) {
     try {
       const { shopId } = req.params;
-      const commentList = await commentService.getById(shopId);
+      const commentList = await commentService.getByShopId(shopId);
       return res.status(200).json(commentList);
     } catch (e) {
       next(e);

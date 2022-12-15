@@ -15,7 +15,7 @@ class CommentService {
     return comments;
   }
   // 넘어가는 결과 객체 table에서 제대로 되는지 확인해야함.
-  async getById(shopId) {
+  async getByShopId(shopId) {
     const comments = await this.commentModel.getById(shopId);
     return comments;
   }
@@ -26,7 +26,7 @@ class CommentService {
     return comment;
   }
 
-  async delete(commentId) {
+  async deleteById(commentId) {
     await commentModel.deleteById(commentId);
   }
 }

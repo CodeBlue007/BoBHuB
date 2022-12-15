@@ -4,7 +4,7 @@ const { adminRequired } = require("../middlewares");
 
 const foodRouter = Router();
 
-foodRouter.get("/:shopId", foodController.getById);
+foodRouter.get("/:shopId", foodController.getByShopId);
 
 foodRouter.post("/admin", foodController.create);
 foodRouter.patch("/admin/:foodId", foodController.update);

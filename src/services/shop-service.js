@@ -14,9 +14,9 @@ class ShopService {
     const shops = await this.shopModel.getAll();
     return shops;
   }
-  // 넘어가는 결과 객체 table에서 제대로 되는지 확인해야함.
-  async getById(id) {
-    const shops = await this.shopModel.getById(id);
+
+  async getByShopId(shopId) {
+    const shops = await this.shopModel.getByShopId(shopId);
     return shops;
   }
 

@@ -4,7 +4,7 @@ const { adminRequired, loginRequired } = require("../middlewares");
 
 const commentRouter = Router();
 
-commentRouter.get("/shopId", commentController.getById);
+commentRouter.get("/shopId", commentController.getByShopId);
 
 commentRouter.post("/auth", loginRequired, commentController.create);
 commentRouter.patch("/auth/:commentId", loginRequired, commentController.update);
