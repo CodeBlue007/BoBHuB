@@ -72,10 +72,11 @@ const CommentList = ({
 
   const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setCommentStar(newValue);
 
-  const deleteComment = (e:React.MouseEvent<HTMLButtonElement>) =>{
-    
-
+  const deleteComment = (e:React.MouseEvent<HTMLButtonElement>) => {
+    const clickedId = Number(e.currentTarget.dataset.id);
+    setCommentState((current) => current.filter((comment)=> comment.commentId !==clickedId));
   }
+
 
   return (
     <>
