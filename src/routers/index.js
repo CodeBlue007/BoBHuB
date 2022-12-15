@@ -4,4 +4,5 @@ module.exports = {
   // ...require("./shop-router"),
   // ...require("./comment-router"),
   // ...require("./group-router"),
+  // ...require("./food-router"),
 };
