@@ -8,6 +8,8 @@ import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
+import { commentStateProps } from './types/Type';
+
 
 const FlexContainer = styled.div`
   display: flex;
@@ -72,13 +74,6 @@ const LikeButton = styled(Button)`
   width: 15vw;
 `;
 
-// interface commentStateProps {
-//     commnetId: number;
-//     userId: number;
-//     shopId: number;
-//     content: string;
-//     star: number;
-// }[]
 
 const FoodDetail = () => {
 
@@ -87,8 +82,7 @@ const FoodDetail = () => {
   const [starValue, setStarValue] = useState<number|null>(5);
   const [likeAll, setlikeAll] = useState<number>(0);
   const [isClicked, setClicked] = useState<boolean>(false);
-  const [content, setContent] = useState<string>("");
-  // const [commentState, setCommnetState] = useState<commentStateProps>([]);
+  const [commentState, setCommnetState] = useState<commentStateProps[]>([]);
 
   
   const handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
@@ -104,8 +98,10 @@ const FoodDetail = () => {
   useEffect(() => {
     console.log(shop);
     setlikeAll(shop.like);
+    setCommnetState(comment);
   }, []);
 
+  console.log("commentState",commentState);
 
 
   return (
@@ -138,9 +134,9 @@ const FoodDetail = () => {
           <LikeButton variant="contained" onClick={handleClick}>{`찜하기 ❤ : ${likeAll}`}</LikeButton>
         </ContentContainer>
       </DetailContainer>
-      <Comment starValue={starValue} setStarValue={setStarValue} content={content} setContent={setContent} />
+      <Comment starValue={starValue} setStarValue={setStarValue} setCommentState={setCommnetState}/>
       <CommentContainer>
-        {comment.map((comment) => (
+        {commentState.map((comment) => (
           <CommentList commentProp={comment} />
         ))}
       </CommentContainer>

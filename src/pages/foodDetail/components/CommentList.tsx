@@ -47,17 +47,17 @@ width: 80px;
 
 interface CommentList {
   commentProp: {
-    commnetId: number;
+    commentId: number;
     userId: number;
     shopId: number;
     content: string;
-    star: number;
+    star: number|null;
   };
 }
 
 
 const CommentList = ({
-  commentProp: { commnetId, userId, shopId, content, star },
+  commentProp: { commentId, userId, shopId, content, star },
 }: CommentList) => {
   return (
     <>
