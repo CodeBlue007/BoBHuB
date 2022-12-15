@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { TextField, Button, Typography, Rating } from '@mui/material';
 import React, { useState } from 'react';
-import { commentStateProps } from '../types/Type';
+import { commentStateType } from '../types/Type';
 
 
 const CommentContainer = styled.form`
@@ -26,7 +26,7 @@ const CommentField = styled(TextField)`
 interface commnetProps{
   starValue : number|null;
   setStarValue : (x:number|null) => void;
-  setCommentState : React.Dispatch<React.SetStateAction<commentStateProps[]>>;
+  setCommentState : React.Dispatch<React.SetStateAction<commentStateType[]>>;
 }
 
 type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>

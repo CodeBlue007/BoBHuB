@@ -1,13 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-
 const TextContainer = styled.div`
     display : flex;
     flex-direction: column;
 
 `
-
 const Button = styled.button`
 background-color: crimson;
 width : 60px;
@@ -18,7 +16,6 @@ color : white;
 &:hover{
     background-color: black;
 }
-
 `
 const CommentArea = styled.textarea`
 margin-top: 10px;
