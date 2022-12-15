@@ -8,15 +8,20 @@ import {
   Paper,
   TableRow,
 } from '@mui/material';
-import { User } from '../../components/SideBar';
+import { UserType } from './Users';
 import UserModal from './UserModal';
 import styled from 'styled-components';
 
-let selectUser: User | undefined;
+let selectUser: UserType | undefined;
 
-const UserTable: React.FC<{ users: User[] }> = (props) => {
+interface UserTableProps {
+  users: UserType[];
+  fetchUserData: () => void;
+}
+
+const UserTable = ({ users, fetchUserData }: UserTableProps) => {
   const [open, setOpen] = useState(false);
-  const handleOpen = (user: User) => {
+  const handleOpen = (user: UserType) => {
     selectUser = user;
     setOpen(true);
   };
@@ -25,14 +30,17 @@ const UserTable: React.FC<{ users: User[] }> = (props) => {
     return { name, email, id, auth };
   };
 
-  const rowData = props.users.map((user) =>
-    createUserData(user.name, user.email, user.id, user.auth),
-  );
+  const rowData = users.map((user) => createUserData(user.name, user.email, user.id, user.auth));
   return (
     <Fragment>
-      <UserModal handleClose={handleClose} open={open} user={selectUser} />
+      <UserModal
+        fetchUserData={fetchUserData}
+        handleClose={handleClose}
+        open={open}
+        user={selectUser}
+      />
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>

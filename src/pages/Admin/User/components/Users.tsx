@@ -1,8 +1,14 @@
 import axios from 'axios';
-import { User } from '../../components/SideBar';
 import UserTable from './Usertable';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+
+export type UserType = {
+  name: string;
+  id: string;
+  email: string;
+  auth: string;
+};
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -19,7 +25,7 @@ const Users = () => {
   return (
     <Div>
       <H2>유저 조회</H2>
-      <UserTable users={users} />
+      <UserTable fetchUserData={fetchUserData} users={users} />
     </Div>
   );
 };
@@ -27,7 +33,7 @@ const Users = () => {
 export default Users;
 
 const Div = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
