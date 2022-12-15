@@ -65,14 +65,8 @@ interface CommentList {
 const CommentList = ({
   commentProp: { commentId, userId, shopId, content, star },
 }: CommentList) => {
-  const [textValue, setTextValue] = useState<string>('');
   const [canRevise ,setRevise] = useState(false);
-
-  console.log(textValue);
-
-  useEffect(()=> {
-    setTextValue(content);
-  },[])
+  
 
   return (
     <>
@@ -83,7 +77,7 @@ const CommentList = ({
         <ContentContainer>
           <Typography component="legend">{userId}</Typography>
           <Rating name="read-only" value={star} readOnly />
-          <TextArea content={content} setTextValue={setTextValue} canRevise={canRevise} setRevise={setRevise}/>
+          <TextArea content={content} canRevise={canRevise} setRevise={setRevise}/>
           <div className="buttonWrap">
             <CustomButton
               variant="contained"

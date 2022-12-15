@@ -53,7 +53,12 @@ const Comment = ({starValue,setStarValue,setCommentState} : commnetProps) => {
       content,
     }
 
-    setCommentState((current) => [...current, newComment]);
+    setCommentState((current) => {
+      const oldComment = [...current];
+      oldComment.unshift(newComment);
+      return oldComment;
+    });
+
     setContent('');
   }
 

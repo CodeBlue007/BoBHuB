@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 
@@ -29,6 +29,7 @@ border-bottom: 1px solid white;
 box-sizing: border-box;
 font-size: 15px;
 height: 55px;
+resize: none;
 
 &:focus{
   outline : none;
@@ -43,22 +44,22 @@ height: 55px;
 
 interface TextAreaProps{
     content: string;
-    setTextValue : React.Dispatch<React.SetStateAction<string>>;
     canRevise : boolean;
     setRevise : React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TextArea = ({content, setTextValue,canRevise,setRevise}:TextAreaProps ) => {
+const TextArea = ({content,canRevise,setRevise}:TextAreaProps ) => {
 
-
+    const [textValue, setTextValue] = useState<string>(content);
 
     const reviseEnd = (e:React.MouseEvent<HTMLButtonElement>) => {
         setRevise(false);
     }
 
+
     return(
     <TextContainer>
-    <CommentArea disabled>{content}</CommentArea>
+    <CommentArea disabled>{textValue}</CommentArea>
     {canRevise && <Button onClick={reviseEnd}>수정완료</Button>}
     </TextContainer> 
     )

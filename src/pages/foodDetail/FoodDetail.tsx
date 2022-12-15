@@ -137,7 +137,7 @@ const FoodDetail = () => {
       <Comment starValue={starValue} setStarValue={setStarValue} setCommentState={setCommnetState}/>
       <CommentContainer>
         {commentState.map((comment) => (
-          <CommentList commentProp={comment} />
+          <CommentList key={comment.commentId} commentProp={comment} />
         ))}
       </CommentContainer>
       <Footer />
