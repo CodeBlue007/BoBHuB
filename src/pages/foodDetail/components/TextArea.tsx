@@ -67,7 +67,7 @@ const TextArea = ({content,canRevise,setRevise,setReadOnly}:TextAreaProps ) => {
 
     return(
     <TextContainer>
-    <CommentArea value={textValue} onChange={handleChange}/>
+    <CommentArea value={textValue} onChange={handleChange} disabled={!canRevise}/>
     {canRevise && <Button onClick={reviseEnd}>수정완료</Button>}
     </TextContainer> 
     )
