@@ -19,6 +19,7 @@ const ListContainer = styled(FlexContainer)`
 `;
 
 const ContentContainer = styled.div`
+  position : relative;
   display: flex;
   flex-direction: column;
   flex: 3;
@@ -33,6 +34,9 @@ const ContentContainer = styled.div`
     display :flex;
     width: 175px;
     justify-content: space-between;
+    position : absolute;
+    right :50px;
+    top : 5px;
   }
 `;
 
