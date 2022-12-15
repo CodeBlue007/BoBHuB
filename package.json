@@ -25,6 +25,7 @@
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
+    "recharts": "^2.2.0",
     "socket.io": "^4.5.4",
     "styled-components": "^5.3.6",
     "typescript": "^4.9.4",
@@ -34,7 +35,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server --watch db.json --port 3001"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +61,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/react-slick": "^0.23.10",
     "@types/styled-components": "^5.1.26",
+    "json-server": "^0.17.1",
     "nodemon": "^2.0.20"
   }
 }

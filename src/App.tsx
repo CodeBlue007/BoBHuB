@@ -1,11 +1,10 @@
-import MainPage from './pages/MainPage/MainPage';
 import { GlobalStyle } from './styles/GlobalStyle';
-
+import Dashboard from './pages/Admin/components/Admin';
 function App() {
   return (
-    <div className="App">
+    <div>
       <GlobalStyle />
-      <MainPage />
+      <Dashboard />
     </div>
   );
 }
