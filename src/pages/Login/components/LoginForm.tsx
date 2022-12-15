@@ -23,7 +23,7 @@ const BoxContainer = styled.div`
   background-color: #f3f3f3;
   border-radius: 4px;
 
-  height: 90vh;
+  height: 30vh;
   padding: 0px 20px 50px 20px;
 
   margin-bottom: 80px;
@@ -43,17 +43,6 @@ const BoxContainer = styled.div`
   & div:nth-child(8),
   & div:nth-child(9) {
     margin: 10px auto;
-  }
-
-  & div:nth-child(8) div {
-    padding-top: 10px;
-  }
-
-  & #standard-select-track {
-    width: 38.5vw;
-    /* padding-left: 10px; */
-    border-radius: 4px;
-    padding: 10px;
   }
 
   & #menu- > div > ul {
@@ -82,8 +71,6 @@ const BoxContainer = styled.div`
   }
 `;
 
-const trackNum = ['SW 3기', 'SW 4기', 'IoT 1기', 'AI 6기'];
-
 const LoginForm = () => {
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,15 +78,8 @@ const LoginForm = () => {
 
   return (
     <LoginFormContainer onSubmit={submitHandler}>
-      <h1>Sign Up</h1>
+      <h1>Sign In</h1>
       <BoxContainer>
-        <TextField
-          id="userName"
-          label="이름"
-          variant="standard"
-          placeholder="이름을 입력해주세요."
-        />
-
         <TextField
           id="userID"
           label="아이디"
@@ -115,56 +95,10 @@ const LoginForm = () => {
           placeholder="비밀번호를 입력해주세요."
         />
 
-        <TextField
-          type="password"
-          id="userRePW"
-          label="비밀번호 재입력"
-          variant="standard"
-          placeholder="비밀번호를 다시 입력해주세요."
-        />
+        <Button variant="contained">로그인</Button>
 
-        <TextField
-          type="text"
-          id="userPhoneNum"
-          label="휴대폰번호"
-          variant="standard"
-          placeholder="휴대폰번호를 입력해주세요."
-        />
-
-        <TextField
-          type="text"
-          id="userEmail"
-          label="이메일"
-          variant="standard"
-          placeholder="이메일을 입력해주세요."
-        />
-
-        <TextField
-          type="text"
-          id="userNum"
-          label="인증번호"
-          variant="standard"
-          placeholder="이메일에 기재된 인증번호를 입력해주세요."
-        />
-
-        <TextField
-          id="standard-select-track"
-          select
-          label="트랙/기수"
-          // defaultValue="EUR"
-          // helperText="트랙/기수를 선택해주세요."
-          variant="standard">
-          {trackNum.map((elem) => (
-            <MenuItem key={elem} value={elem}>
-              {elem}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <Button variant="contained">회원가입</Button>
-
-        <a href="/login" className="loginLink">
-          계정이 이미 있습니다.
+        <a href="/register" className="registerLink">
+          계정이 없습니다.
         </a>
       </BoxContainer>
     </LoginFormContainer>
