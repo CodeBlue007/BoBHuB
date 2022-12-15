@@ -1,9 +1,9 @@
-﻿CREATE TABLE `Category` (
+﻿CREATE TABLE IF NOT EXISTS `Category` (
 	`categoryId`	int	NOT NULL,
 	`name`	VARCHAR(45)	NOT NULL
 );
 
-CREATE TABLE `Shop` (
+CREATE TABLE IF NOT EXISTS `Shop` (
 	`shopId`	int	NOT NULL,
 	`categoryId`	int	NOT NULL,
 	`name`	VARCHAR(45)	NULL,
@@ -15,7 +15,7 @@ CREATE TABLE `Shop` (
 	`description`	VARCHAR(45)	NULL
 );
 
-CREATE TABLE `Food` (
+CREATE TABLE IF NOT EXISTS `Food` (
 	`foodId`	int	NOT NULL,
 	`shopId`	int	NOT NULL,
 	`categoryId`	int	NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE `Food` (
 	`price`	int	NULL
 );
 
-CREATE TABLE `Comment` (
+CREATE TABLE IF NOT EXISTS `Comment` (
 	`commentId`	int	NOT NULL,
 	`userId`	int	NOT NULL,
 	`shopId`	int	NOT NULL,
@@ -32,10 +32,11 @@ CREATE TABLE `Comment` (
 	`star`	int	NULL
 );
 
-CREATE TABLE `User` (
+CREATE TABLE IF NOT EXISTS `User` (
 	`userId`	int	NOT NULL,
-	`name`	VARCHAR(45)	NULL,
 	`email`	VARCHAR(45)	NULL,
+	`name`	VARCHAR(45)	NULL,
+	`nickName`	VARCHAR(45)	NULL,
 	`password`	VARCHAR(45)	NULL,
 	`phone`	VARCHAR(45)	NULL,
 	`profile`	VARCHAR(45)	NULL,
@@ -43,14 +44,14 @@ CREATE TABLE `User` (
 	`status`	BLOB	NULL
 );
 
-CREATE TABLE `Elice` (
+CREATE TABLE IF NOT EXISTS `Elice` (
 	`eliceId`	int	NOT NULL,
 	`userId`	int	NOT NULL,
 	`track`	VARCHAR(45)	NULL,
 	`generation`	int	NULL
 );
 
-CREATE TABLE `Group` (
+CREATE TABLE  IF NOT EXISTS `Group` (
 	`groupId`	int	NOT NULL,
 	`shopId`	int	NOT NULL,
 	`categoryId`	int	NOT NULL,
@@ -62,7 +63,7 @@ CREATE TABLE `Group` (
 	`isComplete`	BLOB	NULL
 );
 
-CREATE TABLE `Pick` (
+CREATE TABLE IF NOT EXISTS `Pick` (
 	`pickId`	int	NOT NULL,
 	`userId`	int	NOT NULL,
 	`groupId`	int	NOT NULL
