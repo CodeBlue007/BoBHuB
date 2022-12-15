@@ -1,5 +1,5 @@
 import axios from 'axios';
-import UserTable from './Usertable';
+import UserTable from './UserTable';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 

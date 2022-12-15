@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 import { UserType } from './Users';
 import UserModal from './UserModal';
-import styled from 'styled-components';
 
 let selectUser: UserType | undefined;
 

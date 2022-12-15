@@ -27,7 +27,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
     setUserDetail(() => {
       return user;
     });
-  }, []);
+  }, [user]);
 
   const updateUserData = (body: any) => {
     return axios.put(`http://localhost:3001/users/${user?.id}`, body);
