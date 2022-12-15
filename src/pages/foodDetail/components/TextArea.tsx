@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 
 
@@ -46,20 +46,28 @@ interface TextAreaProps{
     content: string;
     canRevise : boolean;
     setRevise : React.Dispatch<React.SetStateAction<boolean>>;
+    setReadOnly : React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TextArea = ({content,canRevise,setRevise}:TextAreaProps ) => {
+const TextArea = ({content,canRevise,setRevise,setReadOnly}:TextAreaProps ) => {
 
     const [textValue, setTextValue] = useState<string>(content);
 
-    const reviseEnd = (e:React.MouseEvent<HTMLButtonElement>) => {
-        setRevise(false);
+    const handleChange = (e:React.ChangeEvent<HTMLTextAreaElement>) =>{
+        setTextValue(e.target.value);
     }
-
+    const reviseEnd = (e:React.MouseEvent<HTMLButtonElement>) => {
+        if(textValue === ""){
+            alert("댓글을 입력해주세요");
+            return;
+        }
+        setRevise(false);
+        setReadOnly(true);
+    }
 
     return(
     <TextContainer>
-    <CommentArea disabled>{textValue}</CommentArea>
+    <CommentArea value={textValue} onChange={handleChange}/>
     {canRevise && <Button onClick={reviseEnd}>수정완료</Button>}
     </TextContainer> 
     )

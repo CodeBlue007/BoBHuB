@@ -65,8 +65,16 @@ interface CommentList {
 const CommentList = ({
   commentProp: { commentId, userId, shopId, content, star },
 }: CommentList) => {
-  const [canRevise ,setRevise] = useState(false);
-  
+  const [canRevise ,setRevise] = useState<boolean>(false);
+  const [canReadOnly, setReadOnly] = useState<boolean>(true);
+  const [commentStar, setCommentStar] = useState<number|null>(star);
+
+  const handleRevise = (e:React.MouseEvent<HTMLButtonElement>) =>{
+    setRevise(true);
+    setReadOnly(false);
+  }
+
+  const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setCommentStar(newValue);
 
   return (
     <>
@@ -76,14 +84,15 @@ const CommentList = ({
         </AvatarContainer>
         <ContentContainer>
           <Typography component="legend">{userId}</Typography>
-          <Rating name="read-only" value={star} readOnly />
-          <TextArea content={content} canRevise={canRevise} setRevise={setRevise}/>
+          <Rating name="read-only" value={commentStar} readOnly={canReadOnly} onChange={ratingChange}/>
+          <TextArea content={content} canRevise={canRevise} setRevise={setRevise} setReadOnly={setReadOnly}/>
           <div className="buttonWrap">
             <CustomButton
               variant="contained"
               color="secondary"
               size="small"
-              startIcon={<CreateIcon />}>
+              startIcon={<CreateIcon />}
+              onClick={handleRevise}>
               수정
             </CustomButton>
             <CustomButton variant="contained" color="error" size="small" startIcon={<DeleteIcon />}>
