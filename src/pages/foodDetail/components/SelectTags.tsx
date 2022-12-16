@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { NativeSelect, InputLabel } from '@mui/material';
+import { FlexContainer } from '../../../styles/GlobalStyle';
 
-const SelectContainer = styled.div`
-  display: flex;
+
+const SelectContainer = styled(FlexContainer)`
   width: 150px;
-  justify-content: space-around;
-  align-items: center;
   margin : 15px;
 `;
 

@@ -5,11 +5,8 @@ import CreateIcon from '@mui/icons-material/Create';
 import { useEffect, useState } from 'react';
 import TextArea from "./TextArea"
 import { commentStateType } from '../types/Type';
+import { FlexContainer } from '../../../styles/GlobalStyle';
 
-const FlexContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 const ListContainer = styled(FlexContainer)`
   height: 150px;
