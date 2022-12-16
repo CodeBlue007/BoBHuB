@@ -1,12 +1,12 @@
-const { shopModel } = require("../db");
+const { shopModel } = require("../db/models");
 
 class ShopService {
   constructor(shopModel) {
     this.shopModel = shopModel;
   }
 
-  async create(shopInfo) {
-    const createdShop = await this.shopModel.create(shopInfo);
+  async create(shopDTO) {
+    const createdShop = await this.shopModel.create(shopDTO);
     return createdShop;
   }
 
@@ -16,12 +16,12 @@ class ShopService {
   }
 
   async getByShopId(shopId) {
-    const shops = await this.shopModel.getByShopId(shopId);
-    return shops;
+    const shop = await this.shopModel.getByShopId(shopId);
+    return shop;
   }
 
-  async update(newshopDTO, shopId) {
-    const shop = await this.shopModel.update(newshopDTO, { shopId });
+  async update(newShopDTO, shopId) {
+    const shop = await this.shopModel.update(newShopDTO, { shopId });
 
     return shop;
   }

@@ -2,10 +2,10 @@ const { categoryService } = require("../services");
 
 class CategoryController {
   async create(req, res, next) {
-    const { name } = req.body;
+    const { category } = req.body;
     try {
       const addedCategory = await categoryService.create({
-        name,
+        category,
       });
       return res.status(200).json(addedCategory);
     } catch (e) {
@@ -24,9 +24,8 @@ class CategoryController {
 
   async update(req, res, next) {
     try {
-      const categoryId = parseInt(req.params.categoryId);
-      const { name } = req.body;
-      const result = await categoryService.update(name, categoryId);
+      const { oldCategory, category } = req.body;
+      const result = await categoryService.update(category, oldCategory);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -36,8 +35,8 @@ class CategoryController {
 
   async delete(req, res, next) {
     try {
-      const categoryId = parseInt(req.params.categoryId);
-      const result = await categoryService.deleteById(categoryId);
+      const { category } = req.body;
+      const result = await categoryService.deleteById(category);
 
       return res.status(200).json(result);
     } catch (e) {
