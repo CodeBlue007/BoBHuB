@@ -39,19 +39,28 @@ CREATE TABLE IF NOT EXISTS `food` (
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE, 
   FOREIGN KEY (`categoryId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE IF NOT EXISTS `elice` (
-  `eliceId` INTEGER NOT NULL auto_increment, 
-  `track` VARCHAR(45), 
-  `generation` INTEGER, 
+CREATE TABLE IF NOT EXISTS `track` (
+  `track` VARCHAR(45) NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  UNIQUE  (`track`, `generation`), 
-  PRIMARY KEY (`eliceId`)
+  PRIMARY KEY (`track`)
+  );
+CREATE TABLE IF NOT EXISTS `generation` (
+  `generation` INTEGER NOT NULL, 
+  `track` VARCHAR(45) NOT NULL, 
+  `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+  `updatedAt` DATETIME, 
+  `deletedAt` DATETIME, 
+  UNIQUE  `generation_generation_track_unique` (`track`, `generation`), 
+    FOREIGN KEY (`track`) REFERENCES `track` (`track`) ON DELETE CASCADE ON UPDATE CASCADE, 
+
+  PRIMARY KEY (`generation`,`track`)
   );
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` INTEGER NOT NULL auto_increment, 
-  `eliceId` INTEGER NOT NULL, 
+  `generation` INTEGER NOT NULL, 
+  `track` VARCHAR(45) NOT NULL, 
   `name` VARCHAR(45), 
   `nickName` VARCHAR(45), 
   `email` VARCHAR(45) UNIQUE, 
@@ -63,26 +72,25 @@ CREATE TABLE IF NOT EXISTS `user` (
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  UNIQUE `user_userId_eliceId_unique` (`userId`, `eliceId`), 
-  PRIMARY KEY (`userId`, `eliceId`),
-  FOREIGN KEY (`eliceId`) REFERENCES `elice` (`eliceId`) ON DELETE CASCADE ON UPDATE CASCADE 
+  UNIQUE `user_userId_track_generation_unique` (`userId`,`track`, `generation`), 
+  PRIMARY KEY (`userId`, `generation`,`track`),
+  FOREIGN KEY (`generation`) REFERENCES `generation` (`generation`) ON DELETE CASCADE ON UPDATE CASCADE ,
+  FOREIGN KEY (`track`) REFERENCES `generation` (`track`) ON DELETE CASCADE ON UPDATE CASCADE 
   );
 CREATE TABLE IF NOT EXISTS `comment` (
   `commentId` INTEGER NOT NULL auto_increment, 
   `userId` INTEGER NOT NULL, 
   `shopId` INTEGER NOT NULL, 
-  `eliceId` INTEGER NOT NULL, 
   `content` VARCHAR(45), 
   `star` ENUM('1','2','3','4','5') NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  UNIQUE `comment_userId_shopId_eliceId_unique` (`userId`, `shopId`, `eliceId`), 
+  UNIQUE `comment_userId_shopId_eliceId_unique` (`userId`, `shopId` ), 
   PRIMARY KEY (
-    `commentId`, `userId`, `shopId`, `eliceId`
+    `commentId`, `userId`, `shopId`
   ), 
   FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE, 
-  FOREIGN KEY (`eliceId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE, 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `group` (
@@ -90,7 +98,6 @@ CREATE TABLE IF NOT EXISTS `group` (
   `shopId` INTEGER NOT NULL, 
   `categoryId` INTEGER NOT NULL, 
   `userId` INTEGER NOT NULL, 
-  `eliceId` INTEGER NOT NULL, 
   `grouplimit` INTEGER, 
   `timeLimit` INTEGER, 
   `likedNum` INTEGER, 
@@ -100,18 +107,16 @@ CREATE TABLE IF NOT EXISTS `group` (
   `deletedAt` DATETIME, 
   PRIMARY KEY (
     `groupId`, `shopId`, `categoryId`, 
-    `userId`, `eliceId`
+    `userId`
   ), 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`), 
   FOREIGN KEY (`categoryId`) REFERENCES `shop` (`categoryId`), 
-  FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE NO ACTION ON UPDATE CASCADE, 
-  FOREIGN KEY (`eliceId`) REFERENCES `user` (`userId`) ON DELETE NO ACTION ON UPDATE CASCADE
+  FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `pick` (
   `pickId` INTEGER NOT NULL auto_increment, 
   `userId` INTEGER NOT NULL, 
   `groupId` INTEGER NOT NULL, 
-  `eliceId` INTEGER NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
