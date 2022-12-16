@@ -10,12 +10,14 @@ export type commentStateType = {
 
 export type shopStateType = {
     "shopId" : number;
-    "categoryId" : number;
+    "category" : string;
     "name" : string;
     "distance" : number;
     "address": string;
     "menu": string;
     "shopPicture": string;
     "like" : number;
-    "description" : string
-  }
+    "description" : string;
+    "createdAt" : string;
+    "updatedAt" : string;
+}
