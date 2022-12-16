@@ -12,7 +12,7 @@ class UserService {
 
   async getByUserId(userId) {
     const user = await this.userModel.getByUserId(userId);
-    return user;
+    return user[0];
   }
 
   async update(newUserDTO, userId) {

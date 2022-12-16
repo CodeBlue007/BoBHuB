@@ -1,4 +1,4 @@
-const { categoryModel } = require("../db/models");
+const { categoryModel } = require("../db");
 
 class CategoryService {
   constructor(categoryModel) {

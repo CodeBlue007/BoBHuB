@@ -1,4 +1,4 @@
-const { shopModel } = require("../db/models");
+const { shopModel } = require("../db");
 
 class ShopService {
   constructor(shopModel) {
