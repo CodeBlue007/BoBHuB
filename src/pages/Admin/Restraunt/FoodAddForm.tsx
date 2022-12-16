@@ -8,17 +8,22 @@ import {
   TextField,
   TextFieldProps,
 } from '@mui/material';
-import { postFoodData, deleteFoodData } from '../Api/foodApi';
+import { postFoodData } from '../Api/foodApi';
 import { style } from './FoodModal';
 import { useRef } from 'react';
 
-const FoodAddForm = () => {
+interface FoodAddFormProps {
+  handleClose: () => void;
+  setFoodsData: () => void;
+}
+
+const FoodAddForm = ({ handleClose, setFoodsData }: FoodAddFormProps) => {
   const name = useRef<TextFieldProps>();
   const distance = useRef<TextFieldProps>();
   const address = useRef<TextFieldProps>();
   const description = useRef<TextFieldProps>();
 
-  const clickAddButtonHandler = () => {
+  const clickAddButtonHandler = async () => {
     const body = {
       name: name.current?.value as string,
       distance: distance.current?.value as number,
@@ -27,7 +32,9 @@ const FoodAddForm = () => {
       id: Math.random().toString(),
       like: 0,
     };
-    postFoodData(body);
+    await postFoodData(body);
+    setFoodsData();
+    handleClose();
   };
   return (
     <Box sx={style}>

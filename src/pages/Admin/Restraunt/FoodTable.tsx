@@ -17,10 +17,10 @@ let selectFood: FoodType | undefined;
 
 interface FoodTableProps {
   foods: FoodType[];
-  fetchFoodData: () => void;
+  setFoodsData: () => void;
 }
 
-const FoodTable = ({ foods, fetchFoodData }: FoodTableProps) => {
+const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
   const [open, setOpen] = useState(false);
   const [btnState, setBtnState] = useState('');
   const handleOpen = () => {
@@ -34,7 +34,7 @@ const FoodTable = ({ foods, fetchFoodData }: FoodTableProps) => {
   return (
     <Fragment>
       <FoodModal
-        fetchFoodData={fetchFoodData}
+        setFoodsData={setFoodsData}
         handleClose={handleClose}
         open={open}
         food={selectFood}

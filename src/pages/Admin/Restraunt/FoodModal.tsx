@@ -18,11 +18,11 @@ export const style = {
 
 interface FoodDetailFormProps {
   food: FoodType | undefined;
-  fetchFoodData: () => void;
+  setFoodsData: () => void;
   handleClose: () => void;
 }
 
-const FoodDetailForm = ({ food, fetchFoodData, handleClose }: FoodDetailFormProps) => {
+const FoodDetailForm = ({ food, setFoodsData, handleClose }: FoodDetailFormProps) => {
   const [foodDetail, setFoodDetail] = useState({});
   useEffect(() => {
     setFoodDetail(() => {
@@ -44,7 +44,13 @@ const FoodDetailForm = ({ food, fetchFoodData, handleClose }: FoodDetailFormProp
   };
   const clickUpdateBtn = async () => {
     await updateFoodData(foodDetail);
-    fetchFoodData();
+    setFoodsData();
+    handleClose();
+  };
+
+  const clickDeleteBtn = async (id: string | undefined) => {
+    await deleteFoodData(id);
+    setFoodsData();
     handleClose();
   };
   return (
@@ -62,8 +68,7 @@ const FoodDetailForm = ({ food, fetchFoodData, handleClose }: FoodDetailFormProp
       <button onClick={clickUpdateBtn}>수정</button>
       <button
         onClick={() => {
-          console.log(food?.id);
-          deleteFoodData(food?.id);
+          clickDeleteBtn(food?.id);
         }}>
         삭제
       </button>
@@ -75,11 +80,11 @@ interface FoodModalProps {
   handleClose: () => void;
   open: boolean;
   food: FoodType | undefined;
-  fetchFoodData: () => void;
+  setFoodsData: () => void;
   btnState: string;
 }
 
-const FoodModal = ({ open, handleClose, food, fetchFoodData, btnState }: FoodModalProps) => {
+const FoodModal = ({ open, handleClose, food, setFoodsData, btnState }: FoodModalProps) => {
   return (
     <div>
       <Modal
@@ -88,9 +93,9 @@ const FoodModal = ({ open, handleClose, food, fetchFoodData, btnState }: FoodMod
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
         {btnState === 'ADD' ? (
-          <FoodAddForm />
+          <FoodAddForm handleClose={handleClose} setFoodsData={setFoodsData} />
         ) : (
-          <FoodDetailForm handleClose={handleClose} fetchFoodData={fetchFoodData} food={food} />
+          <FoodDetailForm handleClose={handleClose} setFoodsData={setFoodsData} food={food} />
         )}
       </Modal>
     </div>
