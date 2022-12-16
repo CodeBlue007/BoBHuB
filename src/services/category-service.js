@@ -1,12 +1,12 @@
-const { categoryModel } = require("../db");
+const { categoryModel } = require("../db/models");
 
 class CategoryService {
   constructor(categoryModel) {
     this.categoryModel = categoryModel;
   }
 
-  async create(categoryInfo) {
-    const createdNewCategory = await this.categoryModel.create(categoryInfo);
+  async create(categoryDTO) {
+    const createdNewCategory = await this.categoryModel.create(categoryDTO);
     return createdNewCategory;
   }
 
@@ -15,25 +15,24 @@ class CategoryService {
     return categories;
   }
 
-  async getById(categoryId) {
-    const category = await this.categoryModel.getById(categoryId);
-    return category;
+  async getById(category) {
+    const getCategory = await this.categoryModel.getById(category);
+    return getCategory;
   }
 
-  async update(name, categoryId) {
-    const newCategoryDTO = { name };
-    const result = await this.categoryModel.update(newCategoryDTO, { categoryId });
+  async update(category, oldCategory) {
+    const result = await this.categoryModel.update({ category }, { category: oldCategory });
     if (result.changedRows === 0) {
-      throw new Error(`Id:${categoryId} 카테고리의 업데이트에 실패하였습니다`);
+      throw new Error(`Id:${category} 카테고리의 업데이트에 실패하였습니다`);
     }
 
     return { result: "success" };
   }
 
-  async deleteById(categoryId) {
-    const deleteCount = await this.categoryModel.deleteById(categoryId);
+  async deleteById(category) {
+    const deleteCount = await this.categoryModel.deleteById(category);
     if (deleteCount === 0) {
-      throw new Error(`Id:${categoryId} 카테고리의 삭제에 실패하였습니다`);
+      throw new Error(`Id:${category} 카테고리의 삭제에 실패하였습니다`);
     }
 
     return { result: "success" };

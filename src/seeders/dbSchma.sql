@@ -1,16 +1,15 @@
 ﻿CREATE DATABASE IF NOT EXISTS bob_hub;
 USE bob_hub;
 CREATE TABLE IF NOT EXISTS `category` (
-  `categoryId` INTEGER NOT NULL auto_increment, 
-  `name` VARCHAR(45) UNIQUE, 
+  `category` VARCHAR(45) , 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  PRIMARY KEY (`categoryId`)
+  PRIMARY KEY (`category`)
 );
 CREATE TABLE IF NOT EXISTS `shop` (
   `shopId` INTEGER NOT NULL auto_increment, 
-  `categoryId` INTEGER NOT NULL, 
+  `category` VARCHAR(45) , 
   `name` VARCHAR(45) UNIQUE, 
   `distance` INTEGER, 
   `address` VARCHAR(45), 
@@ -21,23 +20,23 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  PRIMARY KEY (`shopId`, `categoryId`), 
-  FOREIGN KEY (`categoryId`) REFERENCES `category` (`categoryId`)
+  PRIMARY KEY (`shopId`, `category`), 
+  FOREIGN KEY (`category`) REFERENCES `category` (`category`) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `food` (
   `foodId` INTEGER NOT NULL auto_increment, 
   `shopId` INTEGER NOT NULL, 
-  `categoryId` INTEGER NOT NULL, 
+  `category` VARCHAR(45) , 
   `name` VARCHAR(45) UNIQUE, 
   `picture` VARCHAR(45), 
   `price` INTEGER, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  UNIQUE `food_categoryId_shopId_unique` (`shopId`, `categoryId`), 
-  PRIMARY KEY (`foodId`, `shopId`, `categoryId`), 
+  UNIQUE `food_category_shopId_unique` (`shopId`, `category`), 
+  PRIMARY KEY (`foodId`, `shopId`, `category`), 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE, 
-  FOREIGN KEY (`categoryId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`category`) REFERENCES `shop` (`category`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `track` (
   `track` VARCHAR(45) NOT NULL, 
@@ -53,8 +52,7 @@ CREATE TABLE IF NOT EXISTS `generation` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   UNIQUE  `generation_generation_track_unique` (`track`, `generation`), 
-    FOREIGN KEY (`track`) REFERENCES `track` (`track`) ON DELETE CASCADE ON UPDATE CASCADE, 
-
+  FOREIGN KEY (`track`) REFERENCES `track` (`track`) ON DELETE CASCADE ON UPDATE CASCADE, 
   PRIMARY KEY (`generation`,`track`)
   );
 CREATE TABLE IF NOT EXISTS `user` (
@@ -68,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `phone` VARCHAR(45) UNIQUE, 
   `profile` VARCHAR(45), 
   `role` ENUM('elicer','admin') NOT NULL DEFAULT 'elicer', 
-  `status` BLOB, 
+  `status` ENUM('graduation','active','inActive') NOT NULL DEFAULT 'active', 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
@@ -82,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `userId` INTEGER NOT NULL, 
   `shopId` INTEGER NOT NULL, 
   `content` VARCHAR(45), 
-  `star` ENUM('1','2','3','4','5') NOT NULL, 
+  `star` ENUM('0','1','2','3','4','5') NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
@@ -96,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
 CREATE TABLE IF NOT EXISTS `group` (
   `groupId` INTEGER NOT NULL auto_increment, 
   `shopId` INTEGER NOT NULL, 
-  `categoryId` INTEGER NOT NULL, 
+  `category` VARCHAR(45) , 
   `userId` INTEGER NOT NULL, 
   `grouplimit` INTEGER, 
   `timeLimit` INTEGER, 
@@ -106,11 +104,11 @@ CREATE TABLE IF NOT EXISTS `group` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (
-    `groupId`, `shopId`, `categoryId`, 
+    `groupId`, `shopId`, `category`, 
     `userId`
   ), 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`), 
-  FOREIGN KEY (`categoryId`) REFERENCES `shop` (`categoryId`), 
+  FOREIGN KEY (`category`) REFERENCES `shop` (`category`) , 
   FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `pick` (
@@ -123,6 +121,6 @@ CREATE TABLE IF NOT EXISTS `pick` (
   PRIMARY KEY (`pickId`, `userId`, `groupId`), 
   FOREIGN KEY (`userId`) REFERENCES `user` (`userId`), 
   FOREIGN KEY (`groupId`) REFERENCES `group` (`groupId`),
-    INDEX `FK_User_TO_Pick_1` USING BTREE (`userId`),
-	  INDEX `FK_Group_TO_Pick_1` USING BTREE (`groupId`)
+  INDEX `FK_User_TO_Pick_1` USING BTREE (`userId`),
+  INDEX `FK_Group_TO_Pick_1` USING BTREE (`groupId`)
 );
