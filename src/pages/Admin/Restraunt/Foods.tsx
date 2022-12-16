@@ -11,6 +11,7 @@ export type FoodType = {
   address: string;
   description: string;
   id: string;
+  category: string;
 };
 
 const Foods = () => {

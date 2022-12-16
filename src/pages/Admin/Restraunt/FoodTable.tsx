@@ -28,8 +28,8 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
   };
   const handleClose = () => setOpen(false);
 
-  const rowData = foods.map(({ name, distance, id, description, like, address }) => {
-    return { name, distance, id, description, like, address };
+  const rowData = foods.map(({ name, distance, id, description, like, address, category }) => {
+    return { name, distance, id, description, like, address, category };
   });
   return (
     <Fragment>
