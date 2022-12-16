@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 const FooterBox = styled.footer`
   font-size: 30px;
-  position: fixed;
+  width: 100vw;
+  text-align: center;
   bottom: 0;
 `;
 
