@@ -2,16 +2,18 @@ const { shopService } = require("../services");
 
 class ShopController {
   async create(req, res, next) {
-    const { name, distance, address, menu, shopPicture, like, description } = req.body;
-
+    const { category, name, address, description } = req.body;
+    const distance = parseInt(req.body.distance);
+    const likes = parseInt(req.body.likes);
     try {
       const addedShop = await shopService.create({
+        category,
         name,
         distance,
         address,
-        menu,
-        shopPicture,
-        like,
+        // menu,
+        // shopPicture,
+        likes,
         description,
       });
       return res.status(200).json(addedShop);
@@ -31,7 +33,7 @@ class ShopController {
 
   async getByShopId(req, res, next) {
     try {
-      const { shopId } = req.params;
+      const shopId = parseInt(req.params.shopId);
       const shopList = await shopService.getByShopId(shopId);
       return res.status(200).json(shopList);
     } catch (e) {
@@ -41,11 +43,21 @@ class ShopController {
 
   async update(req, res, next) {
     try {
-      const { shopId } = req.params;
-      const { name, distance, address, menu, shopPicture, like, description } = req.body;
-
+      const shopId = parseInt(req.params.shopId);
+      const { category, name, address, description } = req.body;
+      const distance = parseInt(req.body.distance);
+      const likes = parseInt(req.body.likes);
       const updatedShop = await shopService.update(
-        { name, distance, address, menu, shopPicture, like, description },
+        {
+          category,
+          name,
+          distance,
+          address,
+          // menu,
+          // shopPicture,
+          likes,
+          description,
+        },
         shopId
       );
 

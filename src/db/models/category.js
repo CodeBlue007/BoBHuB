@@ -6,8 +6,9 @@ class CategoryModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(categoryDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
+      console.log(query);
 
-      const [result] = await pool.query(query, console.log(query));
+      const [result] = await pool.query(query);
       return result;
     } catch (err) {
       throw new Error(err);
@@ -38,10 +39,10 @@ class CategoryModel {
     }
   }
 
-  async deleteById(categoryId) {
+  async deleteById(category) {
     try {
-      const where = o.objToQueryArray({ categoryId });
-      const query = o.makeDeleteQuery(where);
+      const whereArr = o.objToQueryArray({ category });
+      const query = o.makeDeleteQuery(whereArr);
       console.log(query);
 
       const deletedCategory = await pool.query(query);
