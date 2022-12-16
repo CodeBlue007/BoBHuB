@@ -10,7 +10,6 @@ import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
 import { commentStateType } from './types/Type';
 
-
 const FlexContainer = styled.div`
   display: flex;
   align-items: center;
@@ -35,11 +34,17 @@ type imgType = {
   image: string;
 };
 
-const Image = styled.img<imgType>`
+const ImageContainer = styled.div`
   width: 20vw;
-  height: 20vw;
-  background: url('${(props) => props.image}') center no-repeat;
-  border-radius: 10px;
+  height: 15vw;
+  overflow: hidden;
+  padding: 10px;
+`;
+
+const Image = styled.img<imgType>`
+  background: url('${(props) => props.image}') no-repeat center ;
+  width: inherit;
+  height: inherit;
 `;
 
 const ContentContainer = styled(FlexContainer)`
@@ -66,7 +71,7 @@ const CommentContainer = styled(FlexContainer)`
 `;
 
 const MenuCard = styled(Card)`
-  width: 25vw;
+  width: 20vw;
   padding: 10px;
 `;
 
@@ -74,26 +79,22 @@ const LikeButton = styled(Button)`
   width: 15vw;
 `;
 
-
 const FoodDetail = () => {
-
   const [people, setPeople] = useState<number>(2);
   const [duration, setDuration] = useState<number>(15);
-  const [starValue, setStarValue] = useState<number|null>(5);
+  const [starValue, setStarValue] = useState<number | null>(5);
   const [likeAll, setlikeAll] = useState<number>(0);
   const [isClicked, setClicked] = useState<boolean>(false);
   const [commentState, setCommnetState] = useState<commentStateType[]>([]);
 
-  
-  const handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
-    if(isClicked) {
-      alert("이미 찜한 식당입니다.");
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (isClicked) {
+      alert('이미 찜한 식당입니다.');
       return;
     }
     setClicked(true);
-    setlikeAll((current) => current+1);
-  }
-   
+    setlikeAll((current) => current + 1);
+  };
 
   useEffect(() => {
     console.log(shop);
@@ -101,43 +102,57 @@ const FoodDetail = () => {
     setCommnetState(comment);
   }, []);
 
-  console.log("commentState",commentState);
-
+  console.log('commentState', commentState);
 
   return (
     <Pagecontainer>
       <NavBar />
       <DetailContainer>
-        <Image image={'/img/chickfood.jpg'} />
+        <div>
+          <ImageContainer>
+            <Image image={'/img/chickfood.jpg'} />
+          </ImageContainer>
+          <MenuCard>
+            <p>주소 : {shop.address}</p>
+            <p>Distance : {shop.distance}</p>
+          </MenuCard>
+        </div>
         <ContentContainer>
           <Paper>
             <ShopTitle>{shop.name}</ShopTitle>
           </Paper>
           <MenuCard>
             <p>{shop.description}</p>
-            <br/>
-            <p>주소 : {shop.address}</p>
-            <p>Distance : {shop.distance}</p>
           </MenuCard>
           <MenuContainer>
             <Paper>
               <ShopTitle>
                 <p>메뉴({shop.categoryId})</p>
                 <p>{shop.menu}</p>
-                </ShopTitle>
+              </ShopTitle>
             </Paper>
             <SelectContainer>
               <SelectTags type={'People'} value={people} setValue={setPeople} />
               <SelectTags type={'Duration'} value={duration} setValue={setDuration} />
             </SelectContainer>
           </MenuContainer>
-          <LikeButton variant="contained" onClick={handleClick}>{`찜하기 ❤ : ${likeAll}`}</LikeButton>
+          <LikeButton
+            variant="contained"
+            onClick={handleClick}>{`찜하기 ❤ : ${likeAll}`}</LikeButton>
         </ContentContainer>
       </DetailContainer>
-      <Comment starValue={starValue} setStarValue={setStarValue} setCommentState={setCommnetState}/>
+      <Comment
+        starValue={starValue}
+        setStarValue={setStarValue}
+        setCommentState={setCommnetState}
+      />
       <CommentContainer>
         {commentState.map((comment) => (
-          <CommentList key={comment.commentId} commentProp={comment} setCommentState={setCommnetState}/>
+          <CommentList
+            key={comment.commentId}
+            commentProp={comment}
+            setCommentState={setCommnetState}
+          />
         ))}
       </CommentContainer>
       <Footer />
