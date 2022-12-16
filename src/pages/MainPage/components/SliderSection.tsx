@@ -12,16 +12,16 @@ const StyledSlider = styled(Slider)`
 `;
 
 const Div = styled.div`
-  width: 95%;
   height: 500px;
   background-color: rgba(132, 168, 0);
   border-radius: 20px;
   position: absolute;
   top: 800px;
+  width: 90vw;
   left: 10px;
   right: 10px;
-  margin: 20px;
   place-items: center;
+
   .slick-prev:before {
     opaicty: 1;
     color: black;
@@ -31,14 +31,27 @@ const Div = styled.div`
     opacity: 1;
     color: black;
   }
-  .slick-slide {
-    padding: 10px;
-    background-color: white;
-    margin-right: 15px;
+
+  .slick-slider {
+    overflow: hidden;
+    padding: 0 15px;
+  } //slider
+
+  .slick-list {
+    margin-right : -15px;
+    margin-left: -15px;
+    pointer-events: none;
+
+  } //parent
+
+   .slick-slide {
+    /* background-color: white; */
     border-radius: 15px;
     height: 350px;
     text-align: center;
-  }
+  } //item
+
+  
   .slide {
     opacity: 0.5;
     transform: scale(0.7);
@@ -86,6 +99,7 @@ const Div = styled.div`
     font-weight: bold;
   }
 `;
+const SliderItem = styled.div``;
 
 const TitleBox = styled.div`
   height: 30px;
@@ -116,6 +130,9 @@ export default function SimpleSlider() {
 
   const settings = {
     dots: false,
+    className: 'center',
+    centerPadding : '0px',
+    centerMode: true,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
@@ -128,7 +145,6 @@ export default function SimpleSlider() {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     beforeChange: (current: any, next: any) => setSlideIndex(next),
-    centerMode: true,
     responsive: [
       {
         breakpoint: 960,
@@ -151,11 +167,13 @@ export default function SimpleSlider() {
       <div>
         <StyledSlider {...settings}>
           {data.map((menu, index) => (
-            <div className={index === slideIndex ? 'slide slide-active' : 'slide'}>
+            <SliderItem
+              className={index === slideIndex ? 'slide slide-active' : 'slide'}
+              key={`${menu}${index}`}>
               <img src={menu.img} alt="img" />
               <span>{menu.restaurant}</span>
               <Button variant="contained">찜하기</Button>
-            </div>
+            </SliderItem>
           ))}
         </StyledSlider>
       </div>
