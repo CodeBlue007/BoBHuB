@@ -15,8 +15,8 @@ class UserModel {
 
   async getByUserId(userId) {
     try {
-      const where = o.objToQueryArray({ userId });
-      const query = o.makeSelectQuery(where);
+      const whereArr = o.objToQueryArray({ userId });
+      const query = o.makeSelectQuery(undefined, whereArr);
       console.log(query);
 
       const result = await pool.query(query);

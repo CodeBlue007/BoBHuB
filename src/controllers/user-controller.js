@@ -5,8 +5,9 @@ class UserController {
     const { email, name, password, phone, profile, role, status } = req.body;
     try {
       const addedUser = await userService.create({
-        email,
         name,
+        email,
+        nickName,
         password,
         phone,
         profile,
@@ -33,8 +34,17 @@ class UserController {
   async update(req, res, next) {
     try {
       const userId = parseInt(req.params.userId);
-      const { email, name, password, phone, profile, role, status } = req.body;
-      const newUserDTO = { email, name, password, phone, profile, role, status };
+      const { name, email, nickName, password, phone, profile, role, status } = req.body;
+      const newUserDTO = {
+        name,
+        email,
+        nickName,
+        password,
+        phone,
+        profile,
+        role,
+        status,
+      };
       const result = await userService.update(newUserDTO, userId);
 
       return res.status(200).json(result);

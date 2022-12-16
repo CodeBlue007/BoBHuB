@@ -8,6 +8,6 @@ const userRouter = Router();
 userRouter.post("/", userController.create);
 userRouter.get("/auth/:userId", userController.getByUserId);
 userRouter.patch("/auth/:userId", userController.update);
-// userRouter.delete("/auth", loginRequired, userController.delete);
+userRouter.delete("/auth/:userId", userController.delete);
 
 module.exports = { userRouter };
