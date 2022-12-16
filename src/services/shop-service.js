@@ -26,8 +26,9 @@ class ShopService {
     return shop;
   }
 
-  async delete(shopId) {
-    await shopModel.deleteById(shopId);
+  async deleteById(shopId) {
+    const [result] = await shopModel.deleteById(shopId);
+    return result;
   }
 }
 

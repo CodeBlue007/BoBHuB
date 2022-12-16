@@ -55,7 +55,7 @@ class ShopModel {
   async deleteById(shopId) {
     try {
       const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeDeleteQuery(where);
+      const query = o.makeDeleteQuery(whereArr);
       console.log(query);
 
       const deletedShop = await pool.query(query);
