@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Paper, Card, Button } from '@mui/material';
+import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
 import { useEffect, useState } from 'react';
 import { shopStateType } from '../types/Type';
@@ -15,14 +15,15 @@ const MenuContainer = styled(FlexContainer)`
   width: 25vw;
 `;
 
-const ShopTitle = styled.div`
-  font-size: 25px;
-  padding: 20px;
-`;
+type menuCardProps = {
+    width : string,
+    size : string,
+}
 
-const MenuCard = styled(Card)`
-  width: 20vw;
-  padding: 10px;
+const MenuCard = styled(Card)<menuCardProps>`
+  width: ${(props) => props.width};
+  font-size : ${(props) => props.size};
+  padding: 20px;
 `;
 
 const SelectContainer = styled.div`
@@ -60,14 +61,12 @@ const Content = ({shop} : Contentype) => {
 
   return (
     <ContentContainer>
-      <Paper>
-        <ShopTitle>{shop.name}</ShopTitle>
-      </Paper>
-      <MenuCard>
+      <MenuCard size={"25px"} width={"15vw"}><p>{shop.name}</p></MenuCard>
+      <MenuCard size={"15px"} width={"20vw"}>
         <p>{shop.description}</p>
       </MenuCard>
       <MenuContainer>
-        <MenuCard>
+        <MenuCard size={"15px"} width={"20vw"}>
           <p>메뉴({shop.category})</p>
           <p>{shop.menu}</p>
         </MenuCard>

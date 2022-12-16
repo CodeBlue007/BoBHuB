@@ -54,8 +54,6 @@ const MenuCard = styled(Card)`
   padding: 10px;
 `;
 
-
-
 const FoodDetail = () => {
   const [shop, setShop] = useState<shopStateType>({
     shopId: 0,
