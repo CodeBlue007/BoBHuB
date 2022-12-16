@@ -46,7 +46,7 @@ const Comment = ({starValue,setStarValue,setCommentState} : commnetProps) => {
       return;
     }
     const newComment = {
-      commentId : 1232,
+      commentId : Math.floor(Math.random() * 10000),
       userId: 123465,
       shopId : 12313,
       star : starValue,
