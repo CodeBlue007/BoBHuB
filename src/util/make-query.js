@@ -4,9 +4,10 @@ class MakeQueryString {
   }
   objToQueryArray(DTO) {
     const result = [];
-    Object.entries(DTO).forEach(([key, val]) =>
-      result.push(`${key} = ${typeof val === "string" ? '"' + val + '"' : val}`)
-    );
+    Object.entries(DTO).forEach(([key, val]) => {
+      if (!val) return;
+      result.push(`${key} = ${typeof val === "string" ? '"' + val + '"' : val}`);
+    });
     return result;
   }
 
@@ -14,6 +15,7 @@ class MakeQueryString {
     const keyArr = [];
     const valArr = [];
     Object.entries(DTO).forEach(([key, val]) => {
+      if (!val) return;
       keyArr.push(key);
       valArr.push(val);
     });
