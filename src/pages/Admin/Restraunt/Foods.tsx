@@ -21,12 +21,13 @@ const Foods = () => {
       return foods;
     });
   };
+
   useEffect(() => {
     fetchFoodData();
   }, []);
   return (
     <Div>
-      <H2>유저 조회</H2>
+      <H2>식당 조회</H2>
       <FoodTable fetchFoodData={fetchFoodData} foods={foods} />
     </Div>
   );

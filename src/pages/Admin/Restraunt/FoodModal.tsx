@@ -2,8 +2,9 @@ import { Box, Typography, Modal, Select, MenuItem, SelectChangeEvent } from '@mu
 import { FoodType } from './Foods';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
-const style = {
+import FoodAddForm from './FoodAddForm';
+import { deleteFoodData } from '../Api/foodApi';
+export const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
@@ -49,7 +50,7 @@ const FoodDetailForm = ({ food, fetchFoodData, handleClose }: FoodDetailFormProp
   return (
     <Box sx={style}>
       <Typography id="modal-modal-title" variant="h6" component="h2">
-        유저 정보
+        식당 정보
       </Typography>
       <label htmlFor="foodName">이름</label>
       <input type="text" value={food?.name} />
@@ -59,6 +60,13 @@ const FoodDetailForm = ({ food, fetchFoodData, handleClose }: FoodDetailFormProp
       <input type="text" value={food?.description} />
 
       <button onClick={clickUpdateBtn}>수정</button>
+      <button
+        onClick={() => {
+          console.log(food?.id);
+          deleteFoodData(food?.id);
+        }}>
+        삭제
+      </button>
     </Box>
   );
 };
@@ -68,9 +76,10 @@ interface FoodModalProps {
   open: boolean;
   food: FoodType | undefined;
   fetchFoodData: () => void;
+  btnState: string;
 }
 
-const FoodModal = ({ open, handleClose, food, fetchFoodData }: FoodModalProps) => {
+const FoodModal = ({ open, handleClose, food, fetchFoodData, btnState }: FoodModalProps) => {
   return (
     <div>
       <Modal
@@ -78,7 +87,11 @@ const FoodModal = ({ open, handleClose, food, fetchFoodData }: FoodModalProps) =
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        <FoodDetailForm handleClose={handleClose} fetchFoodData={fetchFoodData} food={food} />
+        {btnState === 'ADD' ? (
+          <FoodAddForm />
+        ) : (
+          <FoodDetailForm handleClose={handleClose} fetchFoodData={fetchFoodData} food={food} />
+        )}
       </Modal>
     </div>
   );
