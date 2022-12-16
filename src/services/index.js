@@ -1,1 +1,1 @@
-module.exports = { ...require("./category-service") };
+module.exports = { ...require("./category-service"), ...require("./user-service") };

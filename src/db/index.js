@@ -1,1 +1,1 @@
-module.exports = { ...require("./models/category") };
+module.exports = { ...require("./models/category"), ...require("./models/user") };
