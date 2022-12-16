@@ -82,7 +82,7 @@ const FoodDetail = () => {
   const [starValue, setStarValue] = useState<number|null>(5);
   const [likeAll, setlikeAll] = useState<number>(0);
   const [isClicked, setClicked] = useState<boolean>(false);
-  const [commentState, setCommentState] = useState<commentStateType[]>([]);
+  const [commentState, setCommnetState] = useState<commentStateType[]>([]);
 
   
   const handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
@@ -98,7 +98,7 @@ const FoodDetail = () => {
   useEffect(() => {
     console.log(shop);
     setlikeAll(shop.like);
-    setCommentState(comment);
+    setCommnetState(comment);
   }, []);
 
   console.log("commentState",commentState);
@@ -134,10 +134,10 @@ const FoodDetail = () => {
           <LikeButton variant="contained" onClick={handleClick}>{`찜하기 ❤ : ${likeAll}`}</LikeButton>
         </ContentContainer>
       </DetailContainer>
-      <Comment starValue={starValue} setStarValue={setStarValue} setCommentState={setCommentState}/>
+      <Comment starValue={starValue} setStarValue={setStarValue} setCommentState={setCommnetState}/>
       <CommentContainer>
         {commentState.map((comment) => (
-          <CommentList key={comment.commentId} commentProp={comment} setCommentState={setCommentState}/>
+          <CommentList key={comment.commentId} commentProp={comment} />
         ))}
       </CommentContainer>
       <Footer />

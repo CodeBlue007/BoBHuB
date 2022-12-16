@@ -4,7 +4,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { useEffect, useState } from 'react';
 import TextArea from "./TextArea"
-import { commentStateType } from '../types/Type';
 
 const FlexContainer = styled.div`
   display: flex;
@@ -53,14 +52,19 @@ const CustomButton = styled(Button)`
 `;
 
 
-interface CommentListProps {
-  commentProp : commentStateType;
-  setCommentState : React.Dispatch<React.SetStateAction<commentStateType[]>>;
+interface CommentList {
+  commentProp: {
+    commentId: number;
+    userId: number;
+    shopId: number;
+    content: string;
+    star: number | null;
+  };
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, shopId, content, star }, setCommentState
-}: CommentListProps) => {
+  commentProp: { commentId, userId, shopId, content, star },
+}: CommentList) => {
   const [canRevise ,setRevise] = useState<boolean>(false);
   const [canReadOnly, setReadOnly] = useState<boolean>(true);
   const [commentStar, setCommentStar] = useState<number|null>(star);
@@ -71,12 +75,6 @@ const CommentList = ({
   }
 
   const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setCommentStar(newValue);
-
-  const deleteComment = (e:React.MouseEvent<HTMLButtonElement>) => {
-    const clickedId = Number(e.currentTarget.dataset.id);
-    setCommentState((current) => current.filter((comment)=> comment.commentId !==clickedId));
-  }
-
 
   return (
     <>
@@ -97,7 +95,7 @@ const CommentList = ({
               onClick={handleRevise}>
               수정
             </CustomButton>
-            <CustomButton variant="contained" color="error" size="small" onClick={deleteComment} data-id={commentId} startIcon={<DeleteIcon />}>
+            <CustomButton variant="contained" color="error" size="small" startIcon={<DeleteIcon />}>
               삭제
             </CustomButton>
           </div>
