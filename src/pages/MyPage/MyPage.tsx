@@ -13,18 +13,16 @@ const MyPage=()=>{
             <Title>
                 My Page
             </Title>
-
             <SubContainer>
                 <SubTitle>회원정보</SubTitle>
                 <UserInfo />
             </SubContainer>
-
             <Title>
                 Like
             </Title>
-            <SubContainer>
+            <SubContainer2>
                 <UserLike />
-            </SubContainer>
+            </SubContainer2>
         </Container>
     )
 }
@@ -44,6 +42,8 @@ const Container=styled.div`
 `
 
 const SubContainer=styled.div`
+    display:flex;
+    flex-direction:column;
     padding:44px;
     margin-top:10px;
     border-radius:10px;
@@ -53,8 +53,14 @@ const SubContainer=styled.div`
     margin-bottom:50px;
 `
 
+const SubContainer2=styled(SubContainer)`
+    align-items:center;
+`
+
 const Title=styled.h1`
-    margin-top:50px;
+    font-weight:bold;
+    font-size:32px;
+    margin:50px 0px;
     color:#303030;
 `
 
@@ -62,9 +68,9 @@ const TitleIcon=styled.span`
     display:inline-block;
     margin-right:15px;
     margin-top:20px;
-    
 `
 
 const SubTitle=styled.h3`
-    
+    font-weight: bold;
+    margin:20px 0;
 `

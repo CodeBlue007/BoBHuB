@@ -9,47 +9,43 @@ import TextField from '@mui/material/TextField';
 import * as React from 'react';
 
 const UserInfo = () => {
-    const [nameStatus, setNameStatus] = useState(true);
-    const [nickStatus, setNickStatus] = useState(true);
-    const [phoneStatus, setPhoneStatus] = useState(true);
-    const [emailStatus, setEmailStatus] = useState(true);
-    const [pwStatus,setPWStatus]=useState(true);
+    const [userTable, setUserTable] = useState({name:true,nick:true,phone:true,email:true,pw:true});
 
     const handleClickUpdate = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         let targetClass = e.currentTarget.className;
-        if (targetClass.includes('nameUpdate')) setNameStatus(false);
-        else if (targetClass.includes('nickUpdate')) setNickStatus(false);
-        else if (targetClass.includes('phoneUpdate')) setPhoneStatus(false);
-        else if (targetClass.includes('emailUpdate')) setEmailStatus(false);
-        else if (targetClass.includes('pwUpdate')) setPWStatus(false);
+        if (targetClass.includes('nameUpdate')) setUserTable({name:false,nick:true,phone:true,email:true,pw:true});
+        if (targetClass.includes('nickUpdate')) setUserTable({name:true,nick:false,phone:true,email:true,pw:true});
+        if (targetClass.includes('phoneUpdate'))setUserTable({name:true,nick:true,phone:false,email:true,pw:true});
+        if (targetClass.includes('emailUpdate')) setUserTable({name:true,nick:true,phone:true,email:false,pw:true});
+        if (targetClass.includes('pwUpdate'))setUserTable({name:true,nick:true,phone:true,email:true,pw:false});
     }
 
     const handleClickSuccess = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         let targetClass = e.currentTarget.className;
-        if (targetClass.includes('nameUpdate')) setNameStatus(true);
-        else if (targetClass.includes('nickUpdate')) setNickStatus(true);
-        else if (targetClass.includes('phoneUpdate')) setPhoneStatus(true);
-        else if (targetClass.includes('emailUpdate')) setEmailStatus(true);
-        else if (targetClass.includes('pwUpdate')) setPWStatus(true);
+        if (targetClass.includes('nameUpdate')) setUserTable({ ...userTable, name: true });
+        if (targetClass.includes('nickUpdate')) setUserTable({ ...userTable, nick: true });
+        if (targetClass.includes('phoneUpdate')) setUserTable({ ...userTable, phone: true });
+        if (targetClass.includes('emailUpdate')) setUserTable({ ...userTable, email: true });
+        if (targetClass.includes('pwUpdate')) setUserTable({ ...userTable, pw: true });
     }
 
     const handleClickCancel = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
         let targetClass = e.currentTarget.className;
-        if (targetClass.includes('nameUpdate')) setNameStatus(true);
-        else if (targetClass.includes('nickUpdate')) setNickStatus(true);
-        else if (targetClass.includes('phoneUpdate')) setPhoneStatus(true);
-        else if (targetClass.includes('emailUpdate')) setEmailStatus(true);
-        else if (targetClass.includes('pwUpdate')) setPWStatus(true);
+        if (targetClass.includes('nameUpdate')) setUserTable({ ...userTable, name: true });
+        if (targetClass.includes('nickUpdate')) setUserTable({ ...userTable, nick: true });
+        if (targetClass.includes('phoneUpdate')) setUserTable({ ...userTable, phone: true });
+        if (targetClass.includes('emailUpdate')) setUserTable({ ...userTable, email: true });
+        if (targetClass.includes('pwUpdate')) setUserTable({ ...userTable, pw: true });
     }
 
     return (
         <Table>
             <TableRow>
                 <TableHeader>이름</TableHeader>
-                {nameStatus ? (<TableData>
+                {userTable.name ? (<TableData>
                     장은영
                     <UpdateIcon className='nameUpdate' onClick={handleClickUpdate}>
                         <CreateIcon sx={{ color: '#6a4a96' }} fontSize='small' />
@@ -80,7 +76,7 @@ const UserInfo = () => {
             </TableRow>
             <TableRow>
                 <TableHeader>닉네임</TableHeader>
-                {nickStatus ? (<TableData>
+                {userTable.nick ? (<TableData>
                     은영
                     <UpdateIcon className='nickUpdate' onClick={handleClickUpdate}>
                         <CreateIcon sx={{ color: '#6a4a96' }} fontSize='small' />
@@ -104,7 +100,7 @@ const UserInfo = () => {
             </TableRow>
             <TableRow>
                 <TableHeader>휴대폰 번호</TableHeader>
-                {phoneStatus ? (<TableData>
+                {userTable.phone ? (<TableData>
                     01011112222
                     <UpdateIcon className='phoneUpdate' onClick={handleClickUpdate}>
                         <CreateIcon sx={{ color: '#6a4a96' }} fontSize='small' />
@@ -129,51 +125,51 @@ const UserInfo = () => {
             </TableRow>
             <TableRow>
                 <TableHeader>이메일</TableHeader>
-                {emailStatus?(<TableData>
+                {userTable.email ? (<TableData>
                     elice@elice.com
                     <UpdateIcon className='emailUpdate' onClick={handleClickUpdate}>
                         <CreateIcon sx={{ color: '#6a4a96' }} fontSize='small' />
                     </UpdateIcon>
-                </TableData>):
-                (                    <>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            '& > :not(style)': { m: 1 },
-                        }}
-                    >
-                        <TextField sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Phone" />
-                    </Box>
-                    <Stack sx={{}} direction="row">
-                        <Button className='emailUpdate' sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={handleClickCancel}>취소</Button>
-                        <Button className='emailUpdate' sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={handleClickSuccess}>완료</Button>
-                    </Stack>
-                </>)}
+                </TableData>) :
+                    (<>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                '& > :not(style)': { m: 1 },
+                            }}
+                        >
+                            <TextField sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Phone" />
+                        </Box>
+                        <Stack sx={{}} direction="row">
+                            <Button className='emailUpdate' sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={handleClickCancel}>취소</Button>
+                            <Button className='emailUpdate' sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={handleClickSuccess}>완료</Button>
+                        </Stack>
+                    </>)}
             </TableRow>
             <TableRow>
                 <TableHeader>비밀번호</TableHeader>
-                {pwStatus?(<TableData>
+                {userTable.pw ? (<TableData>
                     ********
                     <UpdateIcon className='pwUpdate' onClick={handleClickUpdate}>
                         <CreateIcon sx={{ color: '#6a4a96' }} fontSize='small' />
                     </UpdateIcon>
-                </TableData>):
-                (                    <>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            '& > :not(style)': { m: 1 },
-                        }}
-                    >
-                                <TextField sx={{ height: '45px' }} color="secondary" size='small' id="outlined-password-input" label="Password" type="password" autoComplete="current-password" />
-                    </Box>
-                    <Stack sx={{}} direction="row">
-                        <Button className='pwUpdate' sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={handleClickCancel}>취소</Button>
-                        <Button className='pwUpdate' sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={handleClickSuccess}>완료</Button>
-                    </Stack>
-                </>)}
+                </TableData>) :
+                    (<>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                '& > :not(style)': { m: 1 },
+                            }}
+                        >
+                            <TextField sx={{ height: '45px' }} color="secondary" size='small' id="outlined-password-input" label="Password" type="password" autoComplete="current-password" />
+                        </Box>
+                        <Stack sx={{}} direction="row">
+                            <Button className='pwUpdate' sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={handleClickCancel}>취소</Button>
+                            <Button className='pwUpdate' sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={handleClickSuccess}>완료</Button>
+                        </Stack>
+                    </>)}
             </TableRow>
         </Table>
     )
@@ -209,8 +205,9 @@ const TableData = styled.td`
 `
 
 const UpdateIcon = styled.button`
-    margin-left:20px;
     position:absolute;
+    margin-top:-3px;
+    margin-left:15px;
     cursor:pointer;
     background-color:white;
     border:none;
@@ -219,9 +216,4 @@ const UpdateIcon = styled.button`
 const Warning = styled.div`
     margin-top:10px;
     font-size:12px;
-`
-
-const Input = styled.input`
-    margin:12px;
-    width:150px;
 `
