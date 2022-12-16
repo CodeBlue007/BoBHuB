@@ -7,45 +7,38 @@ import {
   TableHead,
   Paper,
   TableRow,
+  IconButton,
 } from '@mui/material';
 import { FoodType } from './Foods';
 import FoodModal from './FoodModal';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 let selectFood: FoodType | undefined;
 
 interface FoodTableProps {
   foods: FoodType[];
-  fetchFoodData: () => void;
+  setFoodsData: () => void;
 }
 
-const FoodTable = ({ foods, fetchFoodData }: FoodTableProps) => {
+const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
   const [open, setOpen] = useState(false);
-  const handleOpen = (food: FoodType) => {
-    selectFood = food;
+  const [btnState, setBtnState] = useState('');
+  const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
-  const createFoodData = (
-    name: string,
-    distance: number,
-    id: string,
-    description: string,
-    like: number,
-    address: string,
-  ) => {
-    return { name, distance, id, description, like, address };
-  };
 
-  const rowData = foods.map(({ name, distance, id, description, like, address }) =>
-    createFoodData(name, distance, id, description, like, address),
-  );
+  const rowData = foods.map(({ name, distance, id, description, like, address, category }) => {
+    return { name, distance, id, description, like, address, category };
+  });
   return (
     <Fragment>
       <FoodModal
-        fetchFoodData={fetchFoodData}
+        setFoodsData={setFoodsData}
         handleClose={handleClose}
         open={open}
         food={selectFood}
+        btnState={btnState}
       />
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
@@ -66,10 +59,28 @@ const FoodTable = ({ foods, fetchFoodData }: FoodTableProps) => {
                 <TableCell align="center">{food.like}</TableCell>
                 <TableCell align="center">{food.description}</TableCell>
                 <TableCell align="center">
-                  <button onClick={() => handleOpen(food)}>정보 조회</button>
+                  <button
+                    onClick={() => {
+                      selectFood = food;
+                      setBtnState('UPDATE');
+                      handleOpen();
+                    }}>
+                    정보 조회
+                  </button>
                 </TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell align="center" colSpan={4}>
+                <IconButton
+                  onClick={() => {
+                    setBtnState('ADD');
+                    handleOpen();
+                  }}>
+                  <AddCircleOutlineIcon fontSize="large" />
+                </IconButton>
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

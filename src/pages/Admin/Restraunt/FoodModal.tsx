@@ -2,8 +2,9 @@ import { Box, Typography, Modal, Select, MenuItem, SelectChangeEvent } from '@mu
 import { FoodType } from './Foods';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
-const style = {
+import FoodAddForm from './FoodAddForm';
+import { deleteFoodData } from '../Api/foodApi';
+export const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
@@ -17,11 +18,11 @@ const style = {
 
 interface FoodDetailFormProps {
   food: FoodType | undefined;
-  fetchFoodData: () => void;
+  setFoodsData: () => void;
   handleClose: () => void;
 }
 
-const FoodDetailForm = ({ food, fetchFoodData, handleClose }: FoodDetailFormProps) => {
+const FoodDetailForm = ({ food, setFoodsData, handleClose }: FoodDetailFormProps) => {
   const [foodDetail, setFoodDetail] = useState({});
   useEffect(() => {
     setFoodDetail(() => {
@@ -43,13 +44,19 @@ const FoodDetailForm = ({ food, fetchFoodData, handleClose }: FoodDetailFormProp
   };
   const clickUpdateBtn = async () => {
     await updateFoodData(foodDetail);
-    fetchFoodData();
+    setFoodsData();
+    handleClose();
+  };
+
+  const clickDeleteBtn = async (id: string | undefined) => {
+    await deleteFoodData(id);
+    setFoodsData();
     handleClose();
   };
   return (
     <Box sx={style}>
       <Typography id="modal-modal-title" variant="h6" component="h2">
-        유저 정보
+        식당 정보
       </Typography>
       <label htmlFor="foodName">이름</label>
       <input type="text" value={food?.name} />
@@ -59,6 +66,12 @@ const FoodDetailForm = ({ food, fetchFoodData, handleClose }: FoodDetailFormProp
       <input type="text" value={food?.description} />
 
       <button onClick={clickUpdateBtn}>수정</button>
+      <button
+        onClick={() => {
+          clickDeleteBtn(food?.id);
+        }}>
+        삭제
+      </button>
     </Box>
   );
 };
@@ -67,10 +80,11 @@ interface FoodModalProps {
   handleClose: () => void;
   open: boolean;
   food: FoodType | undefined;
-  fetchFoodData: () => void;
+  setFoodsData: () => void;
+  btnState: string;
 }
 
-const FoodModal = ({ open, handleClose, food, fetchFoodData }: FoodModalProps) => {
+const FoodModal = ({ open, handleClose, food, setFoodsData, btnState }: FoodModalProps) => {
   return (
     <div>
       <Modal
@@ -78,7 +92,11 @@ const FoodModal = ({ open, handleClose, food, fetchFoodData }: FoodModalProps) =
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        <FoodDetailForm handleClose={handleClose} fetchFoodData={fetchFoodData} food={food} />
+        {btnState === 'ADD' ? (
+          <FoodAddForm handleClose={handleClose} setFoodsData={setFoodsData} />
+        ) : (
+          <FoodDetailForm handleClose={handleClose} setFoodsData={setFoodsData} food={food} />
+        )}
       </Modal>
     </div>
   );

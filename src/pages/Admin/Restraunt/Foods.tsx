@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import FoodTable from './FoodTable';
+import { fetchFoodData } from '../Api/foodApi';
 
 export type FoodType = {
   name: string;
@@ -10,24 +11,25 @@ export type FoodType = {
   address: string;
   description: string;
   id: string;
+  category: string;
 };
 
 const Foods = () => {
   const [foods, setFoods] = useState([]);
-  const fetchFoodData = async () => {
-    const res = await axios('http://localhost:3001/foods');
-    const foods = await res.data;
+  const setFoodsData = async () => {
+    const data = await fetchFoodData();
     setFoods(() => {
-      return foods;
+      return data;
     });
   };
+
   useEffect(() => {
-    fetchFoodData();
+    setFoodsData();
   }, []);
   return (
     <Div>
-      <H2>유저 조회</H2>
-      <FoodTable fetchFoodData={fetchFoodData} foods={foods} />
+      <H2>식당 조회</H2>
+      <FoodTable setFoodsData={setFoodsData} foods={foods} />
     </Div>
   );
 };
