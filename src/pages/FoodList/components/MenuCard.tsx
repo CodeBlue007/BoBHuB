@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 type ListProps = {
     title: string;
@@ -12,7 +13,7 @@ const defaultProps = {
     title: '식당이름1',
     category: '한식',
     description: '식당설명란입니다.',
-    menuList: ['대표메뉴1', '대표메뉴2', '대표메뉴3']
+    menuList: ['대표메뉴1', '대표메뉴2', '대표메뉴3'],
 }
 
 const MenuCard = ({ title, category, description, menuList }: ListProps & typeof defaultProps) => {
@@ -34,6 +35,8 @@ const MenuCard = ({ title, category, description, menuList }: ListProps & typeof
                     return <Menu key={`${title}-${menu}-${idx}`}>{menu}</Menu>
                 })}
             </MenuList>
+            <Line />
+            <FavoriteIcon sx={{ bottom: '20px', right: '15px', position: 'absolute', color: '#f50c43' }} />
         </Container>
     )
 }
@@ -42,11 +45,11 @@ MenuCard.defaultProps = defaultProps;
 export default MenuCard;
 
 const Container = styled.div`
-    background-color: white;
-    border: 1px solid purple;
+    background-color:#f7f7f7;
+    border: 0px solid #8952bf;
     border-radius: 8px;
     width: 400px;
-    height: 440px;
+    height: 470px;
     box-sizing: border-box;
     padding-left:28px;
     padding-right:28px;
@@ -56,11 +59,12 @@ const Container = styled.div`
 `
 
 const CardTitle = styled.h5`
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 26px;
-  color: #151618;
-  margin-bottom: 16px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 26px;
+    color: #151618;
+    margin-top: 25px;
+    margin-bottom: 16px;
 `;
 
 const CardCategory = styled.span`
@@ -73,13 +77,24 @@ const CardImage = styled.div`
 `
 
 const CardDescription = styled.p`
-  color: #5e5f61;
-  font-size: 14px;
+    color: #5e5f61;
+    font-size: 14px;
+    margin: 16px 0;
+    line-height:20px;
 `;
 
 const MenuList = styled.div`
-    
 `
 const Menu = styled.li`
     font-size:14px;
+    line-height:18px;
+`
+
+const Line=styled.div`
+    width:400px;
+    height:1px;
+    background-color:#dfdce0;
+    position:absolute;
+    left:0;
+    bottom:60px;
 `

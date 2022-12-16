@@ -1,0 +1,34 @@
+{
+    "datas": [
+        {
+            "name": "식당1",
+            "category": "한식",
+            "description":"1식당설명란입니다.",
+            "menuList":["대표메뉴1","대표메뉴2","대표메뉴3"]
+        },
+        {
+            "name": "식당2",
+            "category": "한식",
+            "description":"2식당설명란입니다.",
+            "menuList":["식당2메뉴1","식당2메뉴2"]
+        },
+        {
+            "name": "식당3",
+            "category": "한식",
+            "description":"3식당설명란입니다.",
+            "menuList":["대표메뉴1","대표메뉴2","대표메뉴3"]
+        },
+        {
+            "name": "식당4",
+            "category": "일식",
+            "description":"4식당설명란입니다.",
+            "menuList":["일식메뉴1","일식메뉴2","일식메뉴3"]
+        },
+        {
+            "name": "식당5",
+            "category": "양식",
+            "description":"5식당설명란입니다.",
+            "menuList":["양식메뉴1","양식메뉴2","양식메뉴3"]
+        }
+    ]
+}
