@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Paper, Card, Button } from '@mui/material';
-import SelectTags from './components/SelectTags';
+import { Card } from '@mui/material';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
@@ -68,7 +67,6 @@ const FoodDetail = () => {
     createdAt: '',
     updatedAt: '',
   });
-  const [starValue, setStarValue] = useState<number | null>(5);
   const [commentState, setCommnetState] = useState<commentStateType[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
 
@@ -119,8 +117,6 @@ const FoodDetail = () => {
            <Content shop={shop}/>
           </DetailContainer>
           <Comment
-            starValue={starValue}
-            setStarValue={setStarValue}
             setCommentState={setCommnetState}
           />
           <CommentContainer>

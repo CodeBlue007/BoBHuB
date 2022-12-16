@@ -24,16 +24,16 @@ const CommentField = styled(TextField)`
 
 
 interface commnetProps{
-  starValue : number|null;
-  setStarValue : (x:number|null) => void;
   setCommentState : React.Dispatch<React.SetStateAction<commentStateType[]>>;
 }
 
 type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
 
-const Comment = ({starValue,setStarValue,setCommentState} : commnetProps) => {
+const Comment = ({setCommentState} : commnetProps) => {
 
   const [content, setContent] = useState<string>("");
+  const [starValue, setStarValue] = useState<number | null>(5);
+
 
   const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setStarValue(newValue);
   const fieldChange = (e:React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
