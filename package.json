@@ -9,6 +9,7 @@
     "@mui/material": "^5.10.17",
     "@mui/styled-engine-sc": "^5.10.16",
     "@reduxjs/toolkit": "^1.9.1",
+    "@types/antd": "^1.0.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.8",
     "@types/react": "^18.0.26",
