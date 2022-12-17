@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Card } from '@mui/material';
@@ -81,13 +81,13 @@ const FoodDetail = () => {
     return response.data;
   };
 
-  const updateComment = (comment:commentStateType) => {
+  const updateComment = useCallback((comment:commentStateType) => {
     setCommentState((current) => [comment, ...current]);
-  }
+  }, []);
 
-  const deleteComment = (id:number) => {
+  const deleteComment = useCallback((id:number) => {
     setCommentState((current) => current.filter((comments) => comments.commentId !== id));
-  }
+  },[]);
 
   useEffect(() => {
     const fetchData = async () => {
