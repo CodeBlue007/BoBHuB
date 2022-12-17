@@ -9,16 +9,18 @@ type LikeProps = {
     category: string;
     description: string;
     menuList: string[];
+    custom:boolean;
 }
 
 const defaultProps = {
     title: '좋아요식당이름1',
     category: '한식',
     description: '식당설명란입니다.',
-    menuList: ['대표메뉴1', '대표메뉴2', '대표메뉴3']
+    menuList: ['대표메뉴1', '대표메뉴2', '대표메뉴3'],
+    custom:true,
 }
 
-const UserLike=()=>{
+const UserLike=({ title, category, description, menuList,custom}: LikeProps & typeof defaultProps)=>{
     const [likeData,setLikeData]=useState([]);
     useEffect(() => {
         async function fetchAPI() {
@@ -38,6 +40,7 @@ const UserLike=()=>{
     )
 }
 
+UserLike.defaultProps = defaultProps;
 export default UserLike;
 
 const LikeList=styled.div`

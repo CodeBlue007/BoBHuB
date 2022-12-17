@@ -24,16 +24,16 @@ const CommentField = styled(TextField)`
 
 
 interface commnetProps{
-  starValue : number|null;
-  setStarValue : (x:number|null) => void;
-  setCommentState : React.Dispatch<React.SetStateAction<commentStateType[]>>;
+  updateComment : (x:commentStateType) => void
 }
 
 type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
 
-const Comment = ({starValue,setStarValue,setCommentState} : commnetProps) => {
+const Comment = ({updateComment} : commnetProps) => {
 
   const [content, setContent] = useState<string>("");
+  const [starValue, setStarValue] = useState<number | null>(5);
+
 
   const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setStarValue(newValue);
   const fieldChange = (e:React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
@@ -53,11 +53,7 @@ const Comment = ({starValue,setStarValue,setCommentState} : commnetProps) => {
       content,
     }
 
-    setCommentState((current) => {
-      const oldComment = [...current];
-      oldComment.unshift(newComment);
-      return oldComment;
-    });
+    updateComment(newComment);
 
     setContent('');
   }
@@ -85,4 +81,4 @@ const Comment = ({starValue,setStarValue,setCommentState} : commnetProps) => {
   );
 };
 
-export default Comment;
+export default React.memo(Comment);

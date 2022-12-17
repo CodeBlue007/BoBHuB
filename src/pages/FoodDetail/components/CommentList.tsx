@@ -2,14 +2,10 @@ import styled from 'styled-components';
 import { Avatar, Typography, Rating, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
-import { useEffect, useState } from 'react';
-import TextArea from "./TextArea"
+import { useCallback, useState } from 'react';
+import TextArea from './TextArea';
 import { commentStateType } from '../types/Type';
-
-const FlexContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
+import { FlexContainer } from '../../../styles/GlobalStyle';
 
 const ListContainer = styled(FlexContainer)`
   height: 150px;
@@ -52,30 +48,39 @@ const CustomButton = styled(Button)`
   width: 80px;
 `;
 
-
 interface CommentList {
-  commentProp: commentStateType,
-  setCommentState : React.Dispatch<React.SetStateAction<commentStateType[]>>
+  commentProp: commentStateType;
+  deleteComment: (id: number) => void;
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, shopId, content, star }, setCommentState
+  commentProp: { commentId, userId, shopId, content, star },
+  deleteComment,
 }: CommentList) => {
-  const [canRevise ,setRevise] = useState<boolean>(false);
+  const [canRevise, setRevise] = useState<boolean>(false);
   const [canReadOnly, setReadOnly] = useState<boolean>(true);
-  const [commentStar, setCommentStar] = useState<number|null>(star);
+  const [commentStar, setCommentStar] = useState<number | null>(star);
 
-  const handleRevise = (e:React.MouseEvent<HTMLButtonElement>) =>{
+  const handleRevise = (e: React.MouseEvent<HTMLButtonElement>) => {
     setRevise(true);
     setReadOnly(false);
-  }
+  };
 
-  const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setCommentStar(newValue);
+  const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
+    setCommentStar(newValue);
 
-  const deleteComment = (e:React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     const id = Number(e.currentTarget.dataset.id);
-    setCommentState((current) => current.filter((comments) => comments.commentId !== id));
-  }
+    deleteComment(id);
+  };
+
+  const updateRevise = useCallback((bool: boolean) => {
+    setRevise(bool);
+  }, []);
+
+  const updateReadOnly = useCallback((bool: boolean) => {
+    setReadOnly(bool);
+  }, []);
 
   return (
     <>
@@ -85,8 +90,18 @@ const CommentList = ({
         </AvatarContainer>
         <ContentContainer>
           <Typography component="legend">{userId}</Typography>
-          <Rating name="read-only" value={commentStar} readOnly={canReadOnly} onChange={ratingChange}/>
-          <TextArea content={content} canRevise={canRevise} setRevise={setRevise} setReadOnly={setReadOnly}/>
+          <Rating
+            name="read-only"
+            value={commentStar}
+            readOnly={canReadOnly}
+            onChange={ratingChange}
+          />
+          <TextArea
+            content={content}
+            canRevise={canRevise}
+            updateRevise={updateRevise}
+            updateReadOnly={updateReadOnly}
+          />
           <div className="buttonWrap">
             <CustomButton
               variant="contained"
@@ -96,7 +111,13 @@ const CommentList = ({
               onClick={handleRevise}>
               수정
             </CustomButton>
-            <CustomButton variant="contained" color="error" size="small" data-id={commentId} onClick={deleteComment} startIcon={<DeleteIcon />}>
+            <CustomButton
+              variant="contained"
+              color="error"
+              size="small"
+              data-id={commentId}
+              onClick={handleDelete}
+              startIcon={<DeleteIcon />}>
               삭제
             </CustomButton>
           </div>

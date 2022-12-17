@@ -100,14 +100,17 @@ const Container = styled.div`
     display:flex;
     align-items:center;
     flex-direction:column;
+    margin-bottom:50px;
 `
 
 const CategoryBox = styled.div`
-    margin-bottom:20px;
+    margin-bottom:40px;
 `
 const CardContainer = styled.div`
     display:grid;
-    grid-template-columns:398px 398px 398px;
-    grid-column-gap:19px;
+    grid-template-columns:400px 400px 400px;
+    grid-column-gap:18px;
     grid-row-gap:32px;
+    background-color:#efebf5;
+    padding:28px;
 `

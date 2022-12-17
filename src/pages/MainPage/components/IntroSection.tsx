@@ -4,42 +4,58 @@ import styled from 'styled-components';
 const Intro = styled.div`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 550px;
   height: 100%;
   position: absolute;
   top: 205px;
-  left: 200px;
+  right: 200px;
+  text-align: right;
   .main {
     margin: 20px 0px 30px 0px;
-    font-size: 3em;
+    font-size: 4em;
+    font-weight: bold;
+    color: white;
   }
   .sub {
     margin-bottom: 200px;
-    font-size: 1.5em;
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
   }
 `;
 
-const Image = styled.img`
-  transform: rotate(90deg);
-  z-index: -1;
-  position: absolute;
-  left: 50%;
-  top: 20%;
+const Container = styled.div`
+  :after {
+    width: 100%;
+    position: absolute;
+    top: 63px;
+    left: 5px;
+    bottom: 0;
+    left: 0;
+    content: '';
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
 `;
 
 const IntroSection = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <Container style={{ display: 'flex', flexDirection: 'row' }}>
+      <video autoPlay={true} muted={true} style={{ width: '100%', height: 'auto' }} loop>
+        <source src={'video/teamLunch.mp4'} type="video/mp4" />
+      </video>
       <Intro>
-        <div className="main">혼자 밥 먹기 싫을 땐?</div>
-        <div className="sub">밥허브로 밥메이트 구해요~</div>
-        <Button variant="contained">맛집 찾기</Button>
+        <div className="main" style={{ zIndex: 100 }}>
+          혼자 밥 먹기 싫을 땐?
+        </div>
+        <div className="sub" style={{ zIndex: 100 }}>
+          밥허브로 밥메이트 구해요~
+        </div>
+        <Button variant="contained" style={{ zIndex: 100 }}>
+          맛집 찾기
+        </Button>
       </Intro>
-      <Image
-        src="https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg?auto=compress&cs=tinysrgb&w=800"
-        alt="점심"
-      />
-    </div>
+    </Container>
   );
 };
 

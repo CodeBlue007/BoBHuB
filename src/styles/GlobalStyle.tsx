@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
 
@@ -47,3 +47,8 @@ table {
 }
 
 `
+export const FlexContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;

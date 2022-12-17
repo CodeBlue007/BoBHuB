@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';
-import { data } from './data';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 const StyledSlider = styled(Slider)`
   height: 300px;
@@ -14,12 +14,9 @@ const StyledSlider = styled(Slider)`
 const Div = styled.div`
   height: 500px;
   background-color: rgba(132, 168, 0);
-  border-radius: 20px;
   position: absolute;
   top: 800px;
-  width: 90vw;
-  left: 10px;
-  right: 10px;
+  width: 100vw;
   place-items: center;
 
   .slick-prev:before {
@@ -38,20 +35,18 @@ const Div = styled.div`
   } //slider
 
   .slick-list {
-    margin-right : -15px;
+    margin-right: -15px;
     margin-left: -15px;
     pointer-events: none;
-
   } //parent
 
-   .slick-slide {
+  .slick-slide {
     /* background-color: white; */
     border-radius: 15px;
     height: 350px;
     text-align: center;
   } //item
 
-  
   .slide {
     opacity: 0.5;
     transform: scale(0.7);
@@ -64,22 +59,22 @@ const Div = styled.div`
   }
 
   .arrow {
-    font-size: 12px;
+    font-size: 3em;
     padding: 5px 15px;
     border-radius: 10px;
-    box-shadow: 0 0 5px 3px #ccc;
     width: 10px;
     position: absolute;
-    top: 200px;
-    background-color: grey;
+    top: 180px;
+    background-color: transparent;
+    color: white;
   }
 
   .arrow-right {
-    right: 15px;
+    right: 30px;
   }
 
   .arrow-left {
-    left: 15px;
+    left: -15px;
     z-index: 10;
   }
 
@@ -112,7 +107,7 @@ const TitleBox = styled.div`
 function NextArrow({ onClick }: any) {
   return (
     <div className="arrow arrow-right" onClick={onClick}>
-      <AiOutlineArrowRight />
+      <MdKeyboardArrowRight />
     </div>
   );
 }
@@ -120,18 +115,16 @@ function NextArrow({ onClick }: any) {
 function PrevArrow({ onClick }: any) {
   return (
     <div className="arrow arrow-left" onClick={onClick}>
-      <AiOutlineArrowLeft />
+      <MdKeyboardArrowLeft />
     </div>
   );
 }
 
 export default function SimpleSlider() {
-  const [slideIndex, setSlideIndex] = useState(0);
-
   const settings = {
     dots: false,
     className: 'center',
-    centerPadding : '0px',
+    centerPadding: '0px',
     centerMode: true,
     infinite: true,
     speed: 500,
@@ -161,17 +154,24 @@ export default function SimpleSlider() {
     ],
   };
 
+  const [result, setResult] = useState([]);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  useEffect(() => {
+    axios.get('http://localhost:4000/posts').then((response) => setResult(response.data));
+  }, []);
+
   return (
     <Div>
       <TitleBox>오늘 뭐 먹지?</TitleBox>
       <div>
         <StyledSlider {...settings}>
-          {data.map((menu, index) => (
+          {result.map((menu: any, index: any) => (
             <SliderItem
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${menu}${index}`}>
               <img src={menu.img} alt="img" />
-              <span>{menu.restaurant}</span>
+              <span>{menu.name}</span>
               <Button variant="contained">찜하기</Button>
             </SliderItem>
           ))}
