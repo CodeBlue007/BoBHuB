@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 const StyledSlider = styled(Slider)`
   height: 300px;
@@ -59,22 +59,22 @@ const Div = styled.div`
   }
 
   .arrow {
-    font-size: 12px;
+    font-size: 3em;
     padding: 5px 15px;
     border-radius: 10px;
-    box-shadow: 0 0 5px 3px #ccc;
     width: 10px;
     position: absolute;
-    top: 200px;
-    background-color: grey;
+    top: 180px;
+    background-color: transparent;
+    color: white;
   }
 
   .arrow-right {
-    right: 15px;
+    right: 30px;
   }
 
   .arrow-left {
-    left: 15px;
+    left: -15px;
     z-index: 10;
   }
 
@@ -107,7 +107,7 @@ const TitleBox = styled.div`
 function NextArrow({ onClick }: any) {
   return (
     <div className="arrow arrow-right" onClick={onClick}>
-      <AiOutlineArrowRight />
+      <MdKeyboardArrowRight />
     </div>
   );
 }
@@ -115,7 +115,7 @@ function NextArrow({ onClick }: any) {
 function PrevArrow({ onClick }: any) {
   return (
     <div className="arrow arrow-left" onClick={onClick}>
-      <AiOutlineArrowLeft />
+      <MdKeyboardArrowLeft />
     </div>
   );
 }
