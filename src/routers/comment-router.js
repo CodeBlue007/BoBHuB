@@ -1,16 +1,22 @@
 const { Router } = require("express");
-const { commentController, shopController } = require("../controllers");
-const { adminRequired, loginRequired } = require("../middlewares");
+const { commentController } = require("../controllers");
+// const { adminRequired, loginRequired } = require("../middlewares");
 
 const commentRouter = Router();
+const commentAuthRouter = Router();
+const commentAdminRouter = Router();
 
 commentRouter.get("/shopId", commentController.getByShopId);
 
-commentRouter.post("/auth", loginRequired, commentController.create);
-commentRouter.patch("/auth/:commentId", loginRequired, commentController.update);
-commentRouter.delete("/auth/:commentId", loginRequired, commentController.delete);
+commentRouter.get("/auth", commentAuthRouter);
 
-commentRouter.get("/admin", adminRequired, commentController.getAll);
-commentRouter.delete("/admin/:commentId", adminRequired, commentController.delete);
+commentAuthRouter.post("/", commentController.create);
+commentAuthRouter.patch("/:commentId", commentController.updateAuth);
+commentAuthRouter.delete("/:commentId", commentController.deleteAuth);
+
+commentRouter.get("/admin", commentAdminRouter);
+
+commentAdminRouter.get("/", commentController.getAll);
+commentAdminRouter.delete("/:commentId", commentController.delete);
 
 module.exports = { commentRouter };

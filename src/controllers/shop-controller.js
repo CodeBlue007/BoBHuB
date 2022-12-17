@@ -4,7 +4,7 @@ class ShopController {
   async create(req, res, next) {
     const { category, name, address, description } = req.body;
     const distance = parseInt(req.body.distance);
-    const likes = parseInt(req.body.likes);
+
     try {
       const result = await shopService.create({
         category,
@@ -13,7 +13,6 @@ class ShopController {
         address,
         // menu,
         // shopPicture,
-        likes,
         description,
       });
       return res.status(200).json(result);
@@ -46,7 +45,6 @@ class ShopController {
       const shopId = parseInt(req.params.shopId);
       const { category, name, address, description } = req.body;
       const distance = parseInt(req.body.distance);
-      const likes = parseInt(req.body.likes);
       const result = await shopService.update(
         {
           category,
@@ -55,7 +53,6 @@ class ShopController {
           address,
           // menu,
           // shopPicture,
-          likes,
           description,
         },
         shopId

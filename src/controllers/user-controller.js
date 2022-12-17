@@ -21,6 +21,15 @@ class UserController {
       next(e);
     }
   }
+  async nickNameCheck(req, res, next) {
+    try {
+      const { nickName } = req.body;
+      const result = await userService.nickNameCheck(nickName);
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
 
   async getByUserId(req, res, next) {
     try {

@@ -3,5 +3,6 @@ module.exports = {
   ...require("./shop"),
   ...require("./food"),
   ...require("./user"),
+  ...require("./track"),
   ...require("./generation"),
 };

@@ -14,10 +14,18 @@ class UserService {
     const result = await this.userModel.create(userDTO);
     return result;
   }
+  async nickNameCheck(nickName) {
+    const user = await this.userModel.get({ nickName });
+    let result = {};
+    if (user.length > 0) result.message = "같은 닉네임이 있습니다.";
+    else result.message = "사용가능한 닉네임입니다.";
 
-  async getByUserId(userId) {
-    const user = await this.userModel.getByUserId(userId);
-    return user[0];
+    return result;
+  }
+
+  async get(userId) {
+    const user = await this.userModel.get({ userId });
+    return user;
   }
 
   async update(newUserDTO, userId) {
