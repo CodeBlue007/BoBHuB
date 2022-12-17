@@ -16,7 +16,7 @@ const style = {
 };
 
 interface UserDetailFormProps {
-  user: UserType | undefined;
+  user: UserType;
   fetchUserData: () => void;
   handleClose: () => void;
 }
@@ -30,7 +30,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
   }, [user]);
 
   const updateUserData = (body: any) => {
-    return axios.put(`http://localhost:3001/users/${user?.id}`, body);
+    return axios.put(`http://localhost:3001/users/${user.id}`, body);
   };
 
   const onChangeHandler = (event: SelectChangeEvent<string>) => {
@@ -52,11 +52,11 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
         유저 정보
       </Typography>
       <label htmlFor="userName">이름</label>
-      <input type="text" value={user?.name} disabled />
+      <input type="text" value={user.name} disabled />
       <label htmlFor="userName">이메일</label>
-      <input type="text" value={user?.email} disabled />
+      <input type="text" value={user.email} disabled />
       <label htmlFor="userName">권한</label>
-      <Select defaultValue={user?.auth} onChange={onChangeHandler}>
+      <Select defaultValue={user.auth} onChange={onChangeHandler}>
         <MenuItem value="racer">racer</MenuItem>
         <MenuItem value="admin">admin</MenuItem>
       </Select>
@@ -68,7 +68,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
 interface UserModalProps {
   handleClose: () => void;
   open: boolean;
-  user: UserType | undefined;
+  user: UserType;
   fetchUserData: () => void;
 }
 
