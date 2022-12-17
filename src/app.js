@@ -28,7 +28,7 @@ app.use("/api/shop", shopRouter);
 app.use("/api/food", foodRouter);
 // app.use("/api/user", userRouter);
 // app.use("/api/group", groupRouter);
-// app.use("/api/elice", eliceRouter);
+app.use("/api/elice", eliceRouter);
 // app.use("/api/comment", commentRouter);
 
 // 미들웨어 (에러를 error.log 파일에 기록 및, 에러를 프론트엔드에 전달)

@@ -3,5 +3,5 @@ module.exports = {
   ...require("./shop"),
   ...require("./food"),
   ...require("./user"),
-  ...require("./elice"),
+  ...require("./generation"),
 };

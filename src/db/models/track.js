@@ -1,7 +1,7 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("elice");
+const o = new (require("../../util/build-query"))("track");
 
-class EliceModel {
+class TrackModel {
   async create(eliceDTO) {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(eliceDTO);
@@ -27,33 +27,33 @@ class EliceModel {
     }
   }
 
-  async update(newEliceDTO, eliceDTO) {
+  async update(newTrackDTO, trackDTO) {
     try {
-      const newDTO = o.objToQueryArray(newEliceDTO);
-      const oldDTO = o.objToQueryArray(eliceDTO);
+      const newDTO = o.objToQueryArray(newTrackDTO);
+      const oldDTO = o.objToQueryArray(trackDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
       console.log(query);
-      const [updatedElice] = await pool.query(query);
-      return updatedElice;
+      const [result] = await pool.query(query);
+      return result;
     } catch (err) {
       throw new Error(err);
     }
   }
 
-  async deleteById(elice) {
+  async deleteById(track) {
     try {
-      const whereArr = o.objToQueryArray({ elice });
+      const whereArr = o.objToQueryArray({ track });
       const query = o.makeDeleteQuery(whereArr);
       console.log(query);
 
-      const [deletedElice] = await pool.query(query);
-      return deletedElice;
+      const [result] = await pool.query(query);
+      return result;
     } catch (err) {
       throw new Error(err);
     }
   }
 }
 
-const eliceModel = new EliceModel();
+const trackModel = new TrackModel();
 
-module.exports = { eliceModel };
+module.exports = { trackModel };

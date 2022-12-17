@@ -2,7 +2,8 @@ const { eliceService } = require("../services");
 
 class EliceController {
   async create(req, res, next) {
-    const { track, generation } = req.body;
+    const { track } = req.body;
+    const generation = parseInt(req.body.generation);
     try {
       const result = await eliceService.create({ track, generation });
       return res.status(200).json(result);
@@ -33,7 +34,8 @@ class EliceController {
 
   async updateGeneration(req, res, next) {
     try {
-      const { newGeneration, generation } = req.body;
+      const generation = parseInt(req.body.generation);
+      const newGeneration = parseInt(req.body.newGeneration);
       const result = await eliceService.update(newGeneration, generation);
 
       return res.status(200).json(result);
@@ -55,7 +57,7 @@ class EliceController {
 
   async deleteGeneration(req, res, next) {
     try {
-      const { generation } = req.body;
+      const generation = parseInt(req.body.generation);
       const result = await eliceService.deleteById(generation);
 
       return res.status(200).json(result);
