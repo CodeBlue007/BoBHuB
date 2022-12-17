@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `name` VARCHAR(45), 
   `nickName` VARCHAR(45), 
   `email` VARCHAR(45) UNIQUE, 
-  `password` VARCHAR(45), 
+  `password` VARCHAR(60), 
   `phone` VARCHAR(45) UNIQUE, 
   `profile` VARCHAR(45), 
   `role` ENUM('elicer','admin') NOT NULL DEFAULT 'elicer', 
