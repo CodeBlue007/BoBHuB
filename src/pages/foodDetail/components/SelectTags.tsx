@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { NativeSelect, InputLabel } from '@mui/material';
 import { FlexContainer } from '../../../styles/GlobalStyle';
+import React from 'react';
 
 
 const SelectContainer = styled(FlexContainer)`
@@ -45,4 +46,4 @@ const SelectTags = ({ type, value, setValue}: selectProps) => {
   );
 }
 
-export default SelectTags;
+export default React.memo(SelectTags);

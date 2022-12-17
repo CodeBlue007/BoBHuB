@@ -4,6 +4,7 @@ import SelectTags from './SelectTags';
 import { useEffect, useState } from 'react';
 import { shopStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
+import React from 'react';
 
 
 const ContentContainer = styled(FlexContainer)`
@@ -80,4 +81,4 @@ const Content = ({shop} : Contentype) => {
   );
 };
 
-export default Content;
+export default React.memo(Content);

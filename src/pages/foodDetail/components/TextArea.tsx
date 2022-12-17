@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -45,11 +46,11 @@ resize: none;
 interface TextAreaProps{
     content: string;
     canRevise : boolean;
-    setRevise : React.Dispatch<React.SetStateAction<boolean>>;
-    setReadOnly : React.Dispatch<React.SetStateAction<boolean>>;
+    updateRevise : (x:boolean) => void;
+    updateReadOnly : (x:boolean) => void;
 }
 
-const TextArea = ({content,canRevise,setRevise,setReadOnly}:TextAreaProps ) => {
+const TextArea = ({content,canRevise,updateRevise,updateReadOnly}:TextAreaProps ) => {
 
     const [textValue, setTextValue] = useState<string>(content);
 
@@ -61,8 +62,8 @@ const TextArea = ({content,canRevise,setRevise,setReadOnly}:TextAreaProps ) => {
             alert("댓글을 입력해주세요");
             return;
         }
-        setRevise(false);
-        setReadOnly(true);
+        updateRevise(false);
+        updateReadOnly(true);
     }
 
     return(
@@ -75,4 +76,4 @@ const TextArea = ({content,canRevise,setRevise,setReadOnly}:TextAreaProps ) => {
 }
 
 
-export default TextArea;
+export default React.memo(TextArea);
