@@ -67,7 +67,7 @@ const FoodDetail = () => {
     createdAt: '',
     updatedAt: '',
   });
-  const [commentState, setCommnetState] = useState<commentStateType[]>([]);
+  const [commentState, setCommentState] = useState<commentStateType[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
 
 
@@ -81,6 +81,14 @@ const FoodDetail = () => {
     return response.data;
   };
 
+  const updateComment = (comment:commentStateType) => {
+    setCommentState((current) => [comment, ...current]);
+  }
+
+  const deleteComment = (id:number) => {
+    setCommentState((current) => current.filter((comments) => comments.commentId !== id));
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const commentData = await getComment();
@@ -89,7 +97,7 @@ const FoodDetail = () => {
       console.log('success', commentData);
       console.log('success', shopData);
 
-      setCommnetState(commentData);
+      setCommentState(commentData);
       setShop(shopData);
       setLoading(false);
     };
@@ -117,14 +125,14 @@ const FoodDetail = () => {
            <Content shop={shop}/>
           </DetailContainer>
           <Comment
-            setCommentState={setCommnetState}
+            updateComment={updateComment}
           />
           <CommentContainer>
             {commentState.map((comment) => (
               <CommentList
                 key={comment.commentId}
                 commentProp={comment}
-                setCommentState={setCommnetState}
+                deleteComment={deleteComment}
               />
             ))}
           </CommentContainer>

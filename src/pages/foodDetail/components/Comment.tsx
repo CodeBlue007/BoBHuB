@@ -24,12 +24,12 @@ const CommentField = styled(TextField)`
 
 
 interface commnetProps{
-  setCommentState : React.Dispatch<React.SetStateAction<commentStateType[]>>;
+  updateComment : (x:commentStateType) => void
 }
 
 type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
 
-const Comment = ({setCommentState} : commnetProps) => {
+const Comment = ({updateComment} : commnetProps) => {
 
   const [content, setContent] = useState<string>("");
   const [starValue, setStarValue] = useState<number | null>(5);
@@ -53,11 +53,7 @@ const Comment = ({setCommentState} : commnetProps) => {
       content,
     }
 
-    setCommentState((current) => {
-      const oldComment = [...current];
-      oldComment.unshift(newComment);
-      return oldComment;
-    });
+    updateComment(newComment);
 
     setContent('');
   }

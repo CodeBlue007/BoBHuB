@@ -52,11 +52,11 @@ const CustomButton = styled(Button)`
 
 interface CommentList {
   commentProp: commentStateType,
-  setCommentState : React.Dispatch<React.SetStateAction<commentStateType[]>>
+  deleteComment : (id:number) => void;
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, shopId, content, star }, setCommentState
+  commentProp: { commentId, userId, shopId, content, star }, deleteComment
 }: CommentList) => {
   const [canRevise ,setRevise] = useState<boolean>(false);
   const [canReadOnly, setReadOnly] = useState<boolean>(true);
@@ -69,9 +69,9 @@ const CommentList = ({
 
   const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setCommentStar(newValue);
 
-  const deleteComment = (e:React.MouseEvent<HTMLButtonElement>) => {
+  const handleDelete = (e:React.MouseEvent<HTMLButtonElement>) => {
     const id = Number(e.currentTarget.dataset.id);
-    setCommentState((current) => current.filter((comments) => comments.commentId !== id));
+    deleteComment(id)
   }
 
   return (
@@ -93,7 +93,7 @@ const CommentList = ({
               onClick={handleRevise}>
               수정
             </CustomButton>
-            <CustomButton variant="contained" color="error" size="small" data-id={commentId} onClick={deleteComment} startIcon={<DeleteIcon />}>
+            <CustomButton variant="contained" color="error" size="small" data-id={commentId} onClick={handleDelete} startIcon={<DeleteIcon />}>
               삭제
             </CustomButton>
           </div>
