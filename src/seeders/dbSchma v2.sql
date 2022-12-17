@@ -1,4 +1,4 @@
-﻿-- generation과 user 참조 끊은 버전
+﻿-- generation과 user 참조 끊은 버전  + category 참조도 끊음
 CREATE DATABASE IF NOT EXISTS bob_hub;
 USE bob_hub;
 CREATE TABLE IF NOT EXISTS `category` (
@@ -16,13 +16,11 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `address` VARCHAR(45), 
   `menu` VARCHAR(45), 
   `shopPicture` VARCHAR(45), 
-  `likes` INTEGER, 
   `description` VARCHAR(45), 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  PRIMARY KEY (`shopId`, `category`), 
-  FOREIGN KEY (`category`) REFERENCES `category` (`category`) ON DELETE NO ACTION ON UPDATE CASCADE
+  PRIMARY KEY (`shopId`)
 );
 CREATE TABLE IF NOT EXISTS `food` (
   `foodId` INTEGER NOT NULL auto_increment, 
@@ -44,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `track` (
   PRIMARY KEY (`track`)
   );
 CREATE TABLE IF NOT EXISTS `generation` (
+  `eliceId` INTEGER NOT NULL auto_increment, 
   `generation` INTEGER NOT NULL, 
   `track` VARCHAR(45) NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
@@ -51,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `generation` (
   `deletedAt` DATETIME, 
   UNIQUE  `generation_generation_track_unique` (`track`, `generation`), 
   FOREIGN KEY (`track`) REFERENCES `track` (`track`) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (`generation`,`track`)
+  PRIMARY KEY (`eliceId` ,`generation`,`track`)
   );
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` INTEGER NOT NULL auto_increment, 
@@ -76,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `userId` INTEGER NOT NULL, 
   `shopId` INTEGER NOT NULL, 
   `content` VARCHAR(45), 
-  `star` ENUM('0','1','2','3','4','5') NOT NULL, 
+  `star` INTEGER NOT NULL DEFAULT 3, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 

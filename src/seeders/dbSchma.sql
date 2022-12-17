@@ -15,7 +15,6 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `address` VARCHAR(45), 
   `menu` VARCHAR(45), 
   `shopPicture` VARCHAR(45), 
-  `likes` INTEGER, 
   `description` VARCHAR(45), 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
@@ -43,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `track` (
   PRIMARY KEY (`track`)
   );
 CREATE TABLE IF NOT EXISTS `generation` (
+  `eliceId` INTEGER NOT NULL auto_increment, 
   `generation` INTEGER NOT NULL, 
   `track` VARCHAR(45) NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `userId` INTEGER NOT NULL, 
   `shopId` INTEGER NOT NULL, 
   `content` VARCHAR(45), 
-  `star` ENUM('0','1','2','3','4','5') NOT NULL, 
+  `star` INTEGER NOT NULL DEFAULT 3, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
