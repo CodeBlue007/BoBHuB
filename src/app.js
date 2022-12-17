@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/category", categoryRouter);
 app.use("/api/shop", shopRouter);
 app.use("/api/food", foodRouter);
-// app.use("/api/user", userRouter);
+app.use("/api/user", userRouter);
 // app.use("/api/group", groupRouter);
 // app.use("/api/elice", eliceRouter);
 // app.use("/api/comment", commentRouter);
