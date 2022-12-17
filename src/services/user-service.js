@@ -1,13 +1,18 @@
 const { userModel } = require("../db/models");
+const bcrypt = require("bcrypt");
 
 class UserService {
   constructor(userModel) {
     this.userModel = userModel;
   }
 
-  async create(userInfo) {
-    const createdNewUser = await this.userModel.create(userInfo);
-    return createdNewUser;
+  async create(userDTO) {
+    const { password } = userDTO;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    userDTO.password = hashedPassword;
+
+    const result = await this.userModel.create(userDTO);
+    return result;
   }
 
   async getByUserId(userId) {

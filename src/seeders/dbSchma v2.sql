@@ -1,4 +1,5 @@
-﻿CREATE DATABASE IF NOT EXISTS bob_hub;
+﻿-- generation과 user 참조 끊은 버전
+CREATE DATABASE IF NOT EXISTS bob_hub;
 USE bob_hub;
 CREATE TABLE IF NOT EXISTS `category` (
   `category` VARCHAR(45) , 
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `food` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (`foodId`, `shopId`), 
-  FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE, 
+  FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `track` (
   `track` VARCHAR(45) NOT NULL, 
@@ -68,9 +69,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   UNIQUE `user_userId_track_generation_unique` (`userId`,`track`, `generation`), 
-  PRIMARY KEY (`userId`, `generation`,`track`),
-  FOREIGN KEY (`generation`) REFERENCES `generation` (`generation`) ON DELETE CASCADE ON UPDATE CASCADE ,
-  FOREIGN KEY (`track`) REFERENCES `generation` (`track`) ON DELETE CASCADE ON UPDATE CASCADE 
+  PRIMARY KEY (`userId`)
   );
 CREATE TABLE IF NOT EXISTS `comment` (
   `commentId` INTEGER NOT NULL auto_increment, 
