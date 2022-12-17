@@ -11,13 +11,11 @@ export type UserType = {
 };
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<UserType[]>([]);
   const fetchUserData = async () => {
     const res = await axios('http://localhost:3001/users');
-    const users = await res.data;
-    setUsers(() => {
-      return users;
-    });
+    const users: UserType[] = await res.data;
+    setUsers([...users]);
   };
   useEffect(() => {
     fetchUserData();

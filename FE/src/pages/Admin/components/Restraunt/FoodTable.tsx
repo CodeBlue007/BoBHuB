@@ -21,16 +21,13 @@ interface FoodTableProps {
 }
 
 const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
-  const [open, setOpen] = useState(false);
-  const [btnState, setBtnState] = useState('');
+  const [open, setOpen] = useState<boolean>(false);
+  const [btnState, setBtnState] = useState<string>('');
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
 
-  const rowData = foods.map(({ name, distance, id, description, like, address, category }) => {
-    return { name, distance, id, description, like, address, category };
-  });
   return (
     <Fragment>
       <FoodModal
@@ -51,7 +48,7 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rowData.map((food) => (
+            {foods.map((food) => (
               <TableRow key={food.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">
                   {food.name}

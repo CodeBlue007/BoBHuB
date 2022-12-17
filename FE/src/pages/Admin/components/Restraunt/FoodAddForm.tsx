@@ -38,7 +38,7 @@ const FoodAddForm = ({ handleClose, setFoodsData }: FoodAddFormProps) => {
       distance: distance.current?.value as number,
       address: address.current?.value as string,
       description: description.current?.value as string,
-      id: Math.random().toString(),
+      id: new Date().getTime().toString(),
       like: 0,
       category: '한식',
     };
