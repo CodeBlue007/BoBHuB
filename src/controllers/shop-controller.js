@@ -6,7 +6,7 @@ class ShopController {
     const distance = parseInt(req.body.distance);
     const likes = parseInt(req.body.likes);
     try {
-      const addedShop = await shopService.create({
+      const result = await shopService.create({
         category,
         name,
         distance,
@@ -16,7 +16,7 @@ class ShopController {
         likes,
         description,
       });
-      return res.status(200).json(addedShop);
+      return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
@@ -47,7 +47,7 @@ class ShopController {
       const { category, name, address, description } = req.body;
       const distance = parseInt(req.body.distance);
       const likes = parseInt(req.body.likes);
-      const updatedShop = await shopService.update(
+      const result = await shopService.update(
         {
           category,
           name,
@@ -61,7 +61,7 @@ class ShopController {
         shopId
       );
 
-      return res.status(200).json(updatedShop);
+      return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
@@ -70,8 +70,8 @@ class ShopController {
   async delete(req, res, next) {
     try {
       const { shopId } = req.params;
-      const deletedShop = await shopService.deleteById(shopId);
-      res.status(200).json(deletedShop);
+      const result = await shopService.deleteById(shopId);
+      res.status(200).json(result);
     } catch (e) {
       next(e);
     }

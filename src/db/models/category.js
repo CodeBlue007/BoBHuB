@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/make-query"))("category");
+const o = new (require("../../util/build-query"))("category");
 
 class CategoryModel {
   async create(categoryDTO) {
@@ -32,8 +32,8 @@ class CategoryModel {
       const oldDTO = o.objToQueryArray(categoryDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
       console.log(query);
-      const [updatedCategory] = await pool.query(query);
-      return updatedCategory;
+      const [result] = await pool.query(query);
+      return result;
     } catch (err) {
       throw new Error(err);
     }
@@ -45,8 +45,8 @@ class CategoryModel {
       const query = o.makeDeleteQuery(whereArr);
       console.log(query);
 
-      const deletedCategory = await pool.query(query);
-      return deletedCategory;
+      const [result] = await pool.query(query);
+      return result;
     } catch (err) {
       throw new Error(err);
     }

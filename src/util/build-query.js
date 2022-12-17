@@ -1,4 +1,4 @@
-class MakeQueryString {
+class BuildQueryString {
   constructor(table) {
     this.table = table;
   }
@@ -48,4 +48,4 @@ class MakeQueryString {
   }
 }
 
-module.exports = MakeQueryString;
+module.exports = BuildQueryString;

@@ -4,10 +4,10 @@ class CategoryController {
   async create(req, res, next) {
     const { category } = req.body;
     try {
-      const addedCategory = await categoryService.create({
+      const result = await categoryService.create({
         category,
       });
-      return res.status(200).json(addedCategory);
+      return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
@@ -24,8 +24,8 @@ class CategoryController {
 
   async update(req, res, next) {
     try {
-      const { oldCategory, category } = req.body;
-      const result = await categoryService.update(category, oldCategory);
+      const { newCategory, category } = req.body;
+      const result = await categoryService.update(newCategory, category);
 
       return res.status(200).json(result);
     } catch (e) {

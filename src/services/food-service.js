@@ -1,33 +1,29 @@
-const { foodModel } = require("../db");
+const { foodModel } = require("../db/models");
+const buildRes = require("../util/build-response");
 
 class FoodService {
   constructor(foodModel) {
     this.foodModel = foodModel;
   }
 
-  async create(foodInfo) {
-    const createdFood = await this.foodModel.create(foodInfo);
-    return createdFood;
+  async create(foodDTO) {
+    const result = await this.foodModel.create(foodDTO);
+    return buildRes("c", result);
   }
 
-  // async getAll() {
-  //   const food = await this.foodModel.getAll();
-  //   return food;
-  // }
-  // 넘어가는 결과 객체 table에서 제대로 되는지 확인해야함.
   async getByShopId(shopId) {
     const food = await this.foodModel.getByShopId(shopId);
     return food;
   }
 
   async update(newFoodDTO, foodId) {
-    const food = await this.foodModel.update(newFoodDTO, { foodId });
-
-    return food;
+    const result = await this.foodModel.update(newFoodDTO, { foodId });
+    return buildRes("u", result);
   }
 
   async deleteById(foodId) {
-    await foodModel.deleteById(foodId);
+    const result = await foodModel.deleteById(foodId);
+    return buildRes("d", result);
   }
 }
 
