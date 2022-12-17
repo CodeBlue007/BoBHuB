@@ -4,4 +4,5 @@ module.exports = {
   ...require("./food"),
   ...require("./user"),
   ...require("./generation"),
+  ...require("./track"),
 };

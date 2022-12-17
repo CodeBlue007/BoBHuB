@@ -24,7 +24,7 @@ class EliceController {
   async updateTrack(req, res, next) {
     try {
       const { newTrack, track } = req.body;
-      const result = await eliceService.update(newTrack, track);
+      const result = await eliceService.updateTrack(newTrack, track);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -36,7 +36,7 @@ class EliceController {
     try {
       const generation = parseInt(req.body.generation);
       const newGeneration = parseInt(req.body.newGeneration);
-      const result = await eliceService.update(newGeneration, generation);
+      const result = await eliceService.updateGeneration(newGeneration, generation);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -47,7 +47,7 @@ class EliceController {
   async deleteTrack(req, res, next) {
     try {
       const { track } = req.body;
-      const result = await eliceService.deleteById(track);
+      const result = await eliceService.deleteTrack(track);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -58,7 +58,7 @@ class EliceController {
   async deleteGeneration(req, res, next) {
     try {
       const generation = parseInt(req.body.generation);
-      const result = await eliceService.deleteById(generation);
+      const result = await eliceService.deleteGeneration(generation);
 
       return res.status(200).json(result);
     } catch (e) {
