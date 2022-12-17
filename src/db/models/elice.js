@@ -6,6 +6,7 @@ class EliceModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(eliceDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
+      console.log(query);
 
       const [result] = await pool.query(query, console.log(query));
       return result;
@@ -39,13 +40,13 @@ class EliceModel {
     }
   }
 
-  async deleteById(eliceId) {
+  async deleteById(elice) {
     try {
-      const where = o.objToQueryArray({ eliceId });
-      const query = o.makeDeleteQuery(where);
+      const whereArr = o.objToQueryArray({ elice });
+      const query = o.makeDeleteQuery(whereArr);
       console.log(query);
 
-      const deletedElice = await pool.query(query);
+      const [deletedElice] = await pool.query(query);
       return deletedElice;
     } catch (err) {
       throw new Error(err);

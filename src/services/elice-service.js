@@ -1,36 +1,29 @@
 const { eliceModel } = require("../db/models");
+const buildRes = require("../util/build-response");
 
 class EliceService {
   constructor(eliceModel) {
     this.eliceModel = eliceModel;
   }
 
-  async create(eliceInfo) {
-    const createdNewElice = await this.eliceModel.create(eliceInfo);
-    return createdNewElice;
+  async create(eliceDTO) {
+    const result = await this.eliceModel.create(eliceDTO);
+    return buildRes("c", result);
   }
 
   async getAll() {
     const elices = await this.eliceModel.getAll();
     return elices;
   }
-
-  async update(neweliceDTO, eliceId) {
-    const result = await this.eliceModel.update(neweliceDTO, { eliceId });
-    if (result.changedRows === 0) {
-      throw new Error(`Id:${eliceId} 업데이트에 실패하였습니다`);
-    }
-
-    return { result: "success" };
+  
+  async update(newDTO, DTO) {
+    const result = await this.eliceModel.update({ newDTO }, { DTO });
+    return buildRes("u", result);
   }
 
-  async deleteById(eliceId) {
-    const deleteCount = await this.eliceModel.deleteById(eliceId);
-    if (deleteCount === 0) {
-      throw new Error(`Id:${eliceId} 삭제에 실패하였습니다`);
-    }
-
-    return { result: "success" };
+  async deleteById(elice) {
+    const result = await this.eliceModel.deleteById(elice);
+    return buildRes("d", result);
   }
 }
 

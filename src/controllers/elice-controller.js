@@ -4,8 +4,8 @@ class EliceController {
   async create(req, res, next) {
     const { track, generation } = req.body;
     try {
-      const addedElice = await eliceService.create({ track, generation });
-      return res.status(200).json(addedElice);
+      const result = await eliceService.create({ track, generation });
+      return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
@@ -20,11 +20,10 @@ class EliceController {
     }
   }
 
-  async update(req, res, next) {
+  async updateTrack(req, res, next) {
     try {
-      const eliceId = parseInt(req.params.eliceId);
-      const { track, generation } = req.body;
-      const result = await eliceService.update({ track, generation }, eliceId);
+      const { newTrack, track } = req.body;
+      const result = await eliceService.update(newTrack, track);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -32,10 +31,32 @@ class EliceController {
     }
   }
 
-  async delete(req, res, next) {
+  async updateGeneration(req, res, next) {
     try {
-      const eliceId = parseInt(req.params.eliceId);
-      const result = await eliceService.deleteById(eliceId);
+      const { newGeneration, generation } = req.body;
+      const result = await eliceService.update(newGeneration, generation);
+
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async deleteTrack(req, res, next) {
+    try {
+      const { track } = req.body;
+      const result = await eliceService.deleteById(track);
+
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async deleteGeneration(req, res, next) {
+    try {
+      const { generation } = req.body;
+      const result = await eliceService.deleteById(generation);
 
       return res.status(200).json(result);
     } catch (e) {
