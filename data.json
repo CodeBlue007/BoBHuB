@@ -1,34 +1,54 @@
 {
-    "datas": [
-        {
-            "name": "식당1",
-            "category": "한식",
-            "description":"1식당설명란입니다.",
-            "menuList":["대표메뉴1","대표메뉴2","대표메뉴3"]
-        },
-        {
-            "name": "식당2",
-            "category": "한식",
-            "description":"2식당설명란입니다.",
-            "menuList":["식당2메뉴1","식당2메뉴2"]
-        },
-        {
-            "name": "식당3",
-            "category": "한식",
-            "description":"3식당설명란입니다.",
-            "menuList":["대표메뉴1","대표메뉴2","대표메뉴3"]
-        },
-        {
-            "name": "식당4",
-            "category": "일식",
-            "description":"4식당설명란입니다.",
-            "menuList":["일식메뉴1","일식메뉴2","일식메뉴3"]
-        },
-        {
-            "name": "식당5",
-            "category": "양식",
-            "description":"5식당설명란입니다.",
-            "menuList":["양식메뉴1","양식메뉴2","양식메뉴3"]
-        }
-    ]
+  "posts": [
+    {
+      "id": 1,
+      "name": "계란파스타",
+      "img": "img/img_1.jpg"
+    },
+    {
+      "id": 2,
+      "name": "샐러드",
+      "img": "img/img_2.jpg"
+    },
+    {
+      "id": 3,
+      "name": "스테이크",
+      "img": "img/img_3.jpg"
+    },
+    {
+      "id": 4,
+      "name": "바질파스타",
+      "img": "img/img_4.jpg"
+    },
+    {
+      "id": 5,
+      "name": "피자",
+      "img": "img/img_5.jpg"
+    },
+    {
+      "id": 6,
+      "name": "라멘",
+      "img": "img/img_6.jpg"
+    },
+    {
+      "id": 7,
+      "name": "샌드위치",
+      "img": "img/img_7.jpg"
+    },
+    {
+      "id": 8,
+      "name": "스시",
+      "img": "img/img_8.jpg"
+    },
+    {
+      "id": 9,
+      "name": "카레",
+      "img": "img/img_9.jpg"
+    },
+    {
+      "id": 10,
+      "name": "햄버거",
+      "img": "img/img_10.jpg"
+    }
+  ]
 }

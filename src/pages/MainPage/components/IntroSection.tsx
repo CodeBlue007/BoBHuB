@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Intro = styled.div`
   display: flex;
   flex-direction: column;
-  width: 600px;
+  width: 550px;
   height: 100%;
   position: absolute;
   top: 205px;
@@ -32,9 +32,8 @@ const Container = styled.div`
     left: 5px;
     bottom: 0;
     left: 0;
-    /* 빈 값으로 넣어야 가상의 요소 생성; */
     content: '';
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 0, 0, 0.05);
   }
 `;

@@ -171,7 +171,7 @@ export default function SimpleSlider() {
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${menu}${index}`}>
               <img src={menu.img} alt="img" />
-              <span>{menu.restaurant}</span>
+              <span>{menu.name}</span>
               <Button variant="contained">찜하기</Button>
             </SliderItem>
           ))}
