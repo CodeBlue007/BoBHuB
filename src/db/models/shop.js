@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/make-query"))("shop");
+const o = new (require("../../util/build-query"))("shop");
 
 class ShopModel {
   async create(shopDTO) {
@@ -45,8 +45,8 @@ class ShopModel {
       const query = o.makeUpdateQuery(newDTO, oldDTO);
       console.log(query);
 
-      const [updatedShop] = await pool.query(query);
-      return updatedShop;
+      const [result] = await pool.query(query);
+      return result;
     } catch (err) {
       throw new Error(err);
     }
@@ -58,8 +58,8 @@ class ShopModel {
       const query = o.makeDeleteQuery(whereArr);
       console.log(query);
 
-      const deletedShop = await pool.query(query);
-      return deletedShop;
+      const [result] = await pool.query(query);
+      return result;
     } catch (err) {
       throw new Error(err);
     }

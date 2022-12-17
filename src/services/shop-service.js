@@ -1,4 +1,5 @@
 const { shopModel } = require("../db/models");
+const buildRes = require("../util/build-response");
 
 class ShopService {
   constructor(shopModel) {
@@ -6,8 +7,8 @@ class ShopService {
   }
 
   async create(shopDTO) {
-    const createdShop = await this.shopModel.create(shopDTO);
-    return createdShop;
+    const result = await this.shopModel.create(shopDTO);
+    return buildRes("c", result);
   }
 
   async getAll() {
@@ -21,14 +22,14 @@ class ShopService {
   }
 
   async update(newShopDTO, shopId) {
-    const shop = await this.shopModel.update(newShopDTO, { shopId });
+    const result = await this.shopModel.update(newShopDTO, { shopId });
 
-    return shop;
+    return buildRes("u", result);
   }
 
   async deleteById(shopId) {
-    const [result] = await shopModel.deleteById(shopId);
-    return result;
+    const result = await shopModel.deleteById(shopId);
+    return buildRes("d", result);
   }
 }
 
