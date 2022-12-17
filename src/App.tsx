@@ -1,15 +1,13 @@
 import { GlobalStyle } from './styles/GlobalStyle';
-import Dashboard from './pages/Admin/components/Admin';
-import Register from './pages/Register/Register';
-import Login from './pages/Login/Login';
+import Router from './Router';
 
 function App() {
   return (
     <div>
       <GlobalStyle />
-      <Login />
+      <Router />
     </div>
   );
-}
+  }
 
 export default App;
