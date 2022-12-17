@@ -13,7 +13,7 @@ import { FoodType } from './Foods';
 import FoodModal from './FoodModal';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-let selectFood: FoodType | undefined;
+let selectFood: FoodType;
 
 interface FoodTableProps {
   foods: FoodType[];

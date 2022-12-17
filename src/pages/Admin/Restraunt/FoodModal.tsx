@@ -17,38 +17,37 @@ export const style = {
 };
 
 interface FoodDetailFormProps {
-  food: FoodType | undefined;
+  food: FoodType;
   setFoodsData: () => void;
   handleClose: () => void;
 }
+const initFoodDetail = {
+  name: '',
+  like: 0,
+  distance: 0,
+  address: '',
+  description: '',
+  id: '',
+  category: '',
+};
 
 const FoodDetailForm = ({ food, setFoodsData, handleClose }: FoodDetailFormProps) => {
-  const [foodDetail, setFoodDetail] = useState({});
+  const [foodDetail, setFoodDetail] = useState<FoodType>(initFoodDetail);
   useEffect(() => {
-    setFoodDetail(() => {
-      return food;
-    });
+    setFoodDetail(food);
   }, [food]);
 
-  const updateFoodData = (body: any) => {
-    return axios.put(`http://localhost:3001/foods/${food?.id}`, body);
+  const updateFoodData = (body: FoodType) => {
+    return axios.put(`http://localhost:3001/foods/${food.id}`, body);
   };
 
-  const onChangeHandler = (event: SelectChangeEvent<string>) => {
-    setFoodDetail((state) => {
-      return {
-        ...state,
-        auth: event.target.value,
-      };
-    });
-  };
   const clickUpdateBtn = async () => {
     await updateFoodData(foodDetail);
     setFoodsData();
     handleClose();
   };
 
-  const clickDeleteBtn = async (id: string | undefined) => {
+  const clickDeleteBtn = async (id: string) => {
     await deleteFoodData(id);
     setFoodsData();
     handleClose();
@@ -59,16 +58,16 @@ const FoodDetailForm = ({ food, setFoodsData, handleClose }: FoodDetailFormProps
         식당 정보
       </Typography>
       <label htmlFor="foodName">이름</label>
-      <input type="text" value={food?.name} />
+      <input type="text" value={food.name} />
       <label htmlFor="foodName">좋아요</label>
-      <input type="text" value={food?.like} />
+      <input type="text" value={food.like} />
       <label htmlFor="foodName">설명</label>
-      <input type="text" value={food?.description} />
+      <input type="text" value={food.description} />
 
       <button onClick={clickUpdateBtn}>수정</button>
       <button
         onClick={() => {
-          clickDeleteBtn(food?.id);
+          clickDeleteBtn(food.id);
         }}>
         삭제
       </button>
@@ -79,7 +78,7 @@ const FoodDetailForm = ({ food, setFoodsData, handleClose }: FoodDetailFormProps
 interface FoodModalProps {
   handleClose: () => void;
   open: boolean;
-  food: FoodType | undefined;
+  food: FoodType;
   setFoodsData: () => void;
   btnState: string;
 }

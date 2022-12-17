@@ -11,7 +11,7 @@ import {
 import { UserType } from './Users';
 import UserModal from './UserModal';
 
-let selectUser: UserType | undefined;
+let selectUser: UserType;
 
 interface UserTableProps {
   users: UserType[];

@@ -8,7 +8,7 @@ export const postFoodData = async (body: FoodType) => {
     .catch((e) => console.log(e));
 };
 
-export const deleteFoodData = async (id: string | undefined) => {
+export const deleteFoodData = async (id: string) => {
   await axios
     .delete(`http://localhost:3001/foods/${id}`)
     .then(() => console.log('delete'))
