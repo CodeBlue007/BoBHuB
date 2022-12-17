@@ -21,15 +21,20 @@ interface UserDetailFormProps {
   handleClose: () => void;
 }
 
+const initUserDetail = {
+  name: '',
+  id: '',
+  email: '',
+  auth: '',
+};
+
 const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProps) => {
-  const [userdetail, setUserDetail] = useState({});
+  const [userdetail, setUserDetail] = useState<UserType>(initUserDetail);
   useEffect(() => {
-    setUserDetail(() => {
-      return user;
-    });
+    setUserDetail(user);
   }, [user]);
 
-  const updateUserData = (body: any) => {
+  const updateUserData = (body: UserType) => {
     return axios.put(`http://localhost:3001/users/${user.id}`, body);
   };
 

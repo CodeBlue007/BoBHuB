@@ -19,17 +19,12 @@ interface UserTableProps {
 }
 
 const UserTable = ({ users, fetchUserData }: UserTableProps) => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
   const handleOpen = (user: UserType) => {
     selectUser = user;
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
-  const createUserData = (name: string, email: string, id: string, auth: string) => {
-    return { name, email, id, auth };
-  };
-
-  const rowData = users.map((user) => createUserData(user.name, user.email, user.id, user.auth));
   return (
     <Fragment>
       <UserModal
@@ -49,7 +44,7 @@ const UserTable = ({ users, fetchUserData }: UserTableProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rowData.map((user) => (
+            {users.map((user) => (
               <TableRow key={user.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">
                   {user.name}
