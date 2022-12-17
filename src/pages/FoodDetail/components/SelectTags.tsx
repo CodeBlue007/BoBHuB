@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { NativeSelect, InputLabel } from '@mui/material';
+import { FlexContainer } from '../../../styles/GlobalStyle';
+import React from 'react';
 
-const SelectContainer = styled.div`
-  display: flex;
+
+const SelectContainer = styled(FlexContainer)`
   width: 150px;
-  justify-content: space-around;
-  align-items: center;
   margin : 15px;
 `;
 
@@ -46,4 +46,4 @@ const SelectTags = ({ type, value, setValue}: selectProps) => {
   );
 }
 
-export default SelectTags;
+export default React.memo(SelectTags);

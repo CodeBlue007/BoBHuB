@@ -1,21 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { comment, shop } from './components/data';
-import { Paper, Card, Button } from '@mui/material';
-import SelectTags from './components/SelectTags';
+import { Card } from '@mui/material';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import { commentStateType } from './types/Type';
+import { commentStateType, shopStateType } from './types/Type';
+import Content from './components/Content';
+import { FlexContainer } from '../../styles/GlobalStyle';
 
 
-const FlexContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-`;
 
 const Pagecontainer = styled.section`
   display: flex;
@@ -35,28 +30,16 @@ type imgType = {
   image: string;
 };
 
-const Image = styled.img<imgType>`
+const ImageContainer = styled.div`
   width: 20vw;
-  height: 20vw;
-  background: url('${(props) => props.image}') center no-repeat;
-  border-radius: 10px;
+  height: 15vw;
+  overflow: hidden;
+  padding: 10px;
 `;
 
-const ContentContainer = styled(FlexContainer)`
-  flex-direction: column;
-  height: 80vh;
-`;
-
-const ShopTitle = styled.h2`
-  font-size: 30px;
-  padding: 20px;
-`;
-
-const MenuContainer = styled(FlexContainer)`
-  width: 25vw;
-`;
-
-const SelectContainer = styled.div`
+const Image = styled.img<imgType>`
+  background: url('${(props) => props.image}') no-repeat center;
+  width: inherit;
   height: inherit;
 `;
 
@@ -66,81 +49,96 @@ const CommentContainer = styled(FlexContainer)`
 `;
 
 const MenuCard = styled(Card)`
-  width: 25vw;
+  width: 20vw;
   padding: 10px;
 `;
 
-const LikeButton = styled(Button)`
-  width: 15vw;
-`;
-
-
 const FoodDetail = () => {
+  const [shop, setShop] = useState<shopStateType>({
+    shopId: 0,
+    category: '',
+    name: '',
+    distance: 0,
+    address: '',
+    menu: '',
+    shopPicture: '',
+    like: 0,
+    description: '',
+    createdAt: '',
+    updatedAt: '',
+  });
+  const [commentState, setCommentState] = useState<commentStateType[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(true);
 
-  const [people, setPeople] = useState<number>(2);
-  const [duration, setDuration] = useState<number>(15);
-  const [starValue, setStarValue] = useState<number|null>(5);
-  const [likeAll, setlikeAll] = useState<number>(0);
-  const [isClicked, setClicked] = useState<boolean>(false);
-  const [commentState, setCommnetState] = useState<commentStateType[]>([]);
 
-  
-  const handleClick = (e:React.MouseEvent<HTMLButtonElement>) => {
-    if(isClicked) {
-      alert("이미 찜한 식당입니다.");
-      return;
-    }
-    setClicked(true);
-    setlikeAll((current) => current+1);
-  }
-   
+  const getComment = async () => {
+    const response = await axios.get('http://localhost:3001/comment');
+    return response.data;
+  };
 
-  useEffect(() => {
-    console.log(shop);
-    setlikeAll(shop.like);
-    setCommnetState(comment);
+  const getShop = async () => {
+    const response = await axios.get('http://localhost:3001/shop');
+    return response.data;
+  };
+
+  const updateComment = useCallback((comment:commentStateType) => {
+    setCommentState((current) => [comment, ...current]);
   }, []);
 
-  console.log("commentState",commentState);
+  const deleteComment = useCallback((id:number) => {
+    setCommentState((current) => current.filter((comments) => comments.commentId !== id));
+  },[]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const commentData = await getComment();
+      const shopData = await getShop();
+
+      console.log('success', commentData);
+      console.log('success', shopData);
+
+      setCommentState(commentData);
+      setShop(shopData);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Pagecontainer>
-      <NavBar />
-      <DetailContainer>
-        <Image image={'/img/chickfood.jpg'} />
-        <ContentContainer>
-          <Paper>
-            <ShopTitle>{shop.name}</ShopTitle>
-          </Paper>
-          <MenuCard>
-            <p>{shop.description}</p>
-            <br/>
-            <p>주소 : {shop.address}</p>
-            <p>Distance : {shop.distance}</p>
-          </MenuCard>
-          <MenuContainer>
-            <Paper>
-              <ShopTitle>
-                <p>메뉴({shop.categoryId})</p>
-                <p>{shop.menu}</p>
-                </ShopTitle>
-            </Paper>
-            <SelectContainer>
-              <SelectTags type={'People'} value={people} setValue={setPeople} />
-              <SelectTags type={'Duration'} value={duration} setValue={setDuration} />
-            </SelectContainer>
-          </MenuContainer>
-          <LikeButton variant="contained" onClick={handleClick}>{`찜하기 ❤ : ${likeAll}`}</LikeButton>
-        </ContentContainer>
-      </DetailContainer>
-      <Comment starValue={starValue} setStarValue={setStarValue} setCommentState={setCommnetState}/>
-      <CommentContainer>
-        {commentState.map((comment) => (
-          <CommentList key={comment.commentId} commentProp={comment} setCommentState={setCommnetState}/>
-        ))}
-      </CommentContainer>
-      <Footer />
+      {isLoading ? (
+        'isLoading...'
+      ) : (
+        <>
+          <NavBar />
+          <DetailContainer>
+            <div>
+              <ImageContainer>
+                <Image image={'/img/chickfood.jpg'} />
+              </ImageContainer>
+              <MenuCard>
+                <p>주소 : {shop.address}</p>
+                <p>Distance : {shop.distance}</p>
+              </MenuCard>
+            </div>
+           <Content shop={shop}/>
+          </DetailContainer>
+          <Comment
+            updateComment={updateComment}
+          />
+          <CommentContainer>
+            {commentState.map((comment) => (
+              <CommentList
+                key={comment.commentId}
+                commentProp={comment}
+                deleteComment={deleteComment}
+              />
+            ))}
+          </CommentContainer>
+          <Footer />
+        </>
+      )}
     </Pagecontainer>
   );
 };
