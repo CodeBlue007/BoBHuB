@@ -36,7 +36,8 @@ class EliceController {
     try {
       const eliceId = parseInt(req.body.eliceId);
       const generation = parseInt(req.body.generation);
-      const { track } = req.body.track;
+      const { track } = req.body;
+      console.log(track);
       const newDTO = { generation, track };
       const result = await eliceService.updateGeneration(newDTO, eliceId);
 

@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `track` (
   PRIMARY KEY (`track`)
   );
 CREATE TABLE IF NOT EXISTS `generation` (
+  `eliceId` INTEGER NOT NULL auto_increment, 
   `generation` INTEGER NOT NULL, 
   `track` VARCHAR(45) NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
