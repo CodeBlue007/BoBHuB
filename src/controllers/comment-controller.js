@@ -37,7 +37,8 @@ class CommentController {
     try {
       const { commentId } = req.params;
       const { content, star } = req.body;
-      const updatedComment = await commentService.update({ content, star }, commentId);
+      const newCommentDTO = { content, star }
+      const updatedComment = await commentService.update(newCommentDTO, commentId);
 
       return res.status(200).json(updatedComment);
     } catch (e) {

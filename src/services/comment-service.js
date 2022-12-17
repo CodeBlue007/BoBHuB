@@ -1,4 +1,4 @@
-const { commentModel } = require("../db");
+const { commentModel } = require("../db/models");
 
 class CommentService {
   constructor(commentModel) {

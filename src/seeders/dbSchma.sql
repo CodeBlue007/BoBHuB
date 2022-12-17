@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `generation` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   UNIQUE  `generation_generation_track_unique` (`track`, `generation`), 
-  FOREIGN KEY (`track`) REFERENCES `track` (`track`) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (`track`) REFERENCES `track` (`track`) ON DELETE CASCADE ON UPDATE CASCADE,
   PRIMARY KEY (`generation`,`track`)
   );
 CREATE TABLE IF NOT EXISTS `user` (
