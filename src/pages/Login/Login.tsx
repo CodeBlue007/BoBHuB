@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import NavBar from '../../components/NavBar';
-import Footer from '../../components/Footer';
 import LoginContent from './components/LoginContent';
+import MainPageFooter from './../MainPage/components/MainPageFooter';
 
 const LoginContainer = styled.section``;
 
@@ -10,7 +10,7 @@ const Login = () => {
     <LoginContainer>
       <NavBar />
       <LoginContent />
-      <Footer />
+      <MainPageFooter />
     </LoginContainer>
   );
 };
