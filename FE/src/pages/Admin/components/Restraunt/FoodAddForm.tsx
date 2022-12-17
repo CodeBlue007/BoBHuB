@@ -1,17 +1,9 @@
-import {
-  Box,
-  Typography,
-  Modal,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
-  TextField,
-  TextFieldProps,
-} from '@mui/material';
+import { Box, Typography, Select, MenuItem, TextField, TextFieldProps } from '@mui/material';
 import { postFoodData } from '../Api/foodApi';
 import { style } from './FoodModal';
 import { useRef } from 'react';
 import styled from 'styled-components';
+import { FoodType } from './Foods';
 
 interface FoodAddFormProps {
   handleClose: () => void;
@@ -33,7 +25,7 @@ const FoodAddForm = ({ handleClose, setFoodsData }: FoodAddFormProps) => {
   const description = useRef<TextFieldProps>();
 
   const clickAddButtonHandler = async () => {
-    const body = {
+    const body: FoodType = {
       name: name.current?.value as string,
       distance: distance.current?.value as number,
       address: address.current?.value as string,
