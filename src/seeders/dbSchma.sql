@@ -26,17 +26,14 @@ CREATE TABLE IF NOT EXISTS `shop` (
 CREATE TABLE IF NOT EXISTS `food` (
   `foodId` INTEGER NOT NULL auto_increment, 
   `shopId` INTEGER NOT NULL, 
-  `category` VARCHAR(45) , 
   `name` VARCHAR(45) UNIQUE, 
   `picture` VARCHAR(45), 
   `price` INTEGER, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  UNIQUE `food_category_shopId_unique` (`shopId`, `category`), 
-  PRIMARY KEY (`foodId`, `shopId`, `category`), 
+  PRIMARY KEY (`foodId`, `shopId`), 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE, 
-  FOREIGN KEY (`category`) REFERENCES `shop` (`category`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `track` (
   `track` VARCHAR(45) NOT NULL, 
@@ -52,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `generation` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   UNIQUE  `generation_generation_track_unique` (`track`, `generation`), 
-  FOREIGN KEY (`track`) REFERENCES `track` (`track`) ON DELETE CASCADE ON UPDATE CASCADE, 
+  FOREIGN KEY (`track`) REFERENCES `track` (`track`) ON DELETE CASCADE ON UPDATE CASCADE
   PRIMARY KEY (`generation`,`track`)
   );
 CREATE TABLE IF NOT EXISTS `user` (
@@ -94,7 +91,6 @@ CREATE TABLE IF NOT EXISTS `comment` (
 CREATE TABLE IF NOT EXISTS `group` (
   `groupId` INTEGER NOT NULL auto_increment, 
   `shopId` INTEGER NOT NULL, 
-  `category` VARCHAR(45) , 
   `userId` INTEGER NOT NULL, 
   `grouplimit` INTEGER, 
   `timeLimit` INTEGER, 
@@ -104,11 +100,10 @@ CREATE TABLE IF NOT EXISTS `group` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (
-    `groupId`, `shopId`, `category`, 
+    `groupId`, `shopId`, 
     `userId`
   ), 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`), 
-  FOREIGN KEY (`category`) REFERENCES `shop` (`category`) , 
   FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE NO ACTION ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `pick` (

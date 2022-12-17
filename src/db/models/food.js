@@ -1,50 +1,39 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("shop");
+const o = new (require("../../util/build-query"))("food");
 
-class ShopModel {
-  async create(shopDTO) {
+class FoodModel {
+  async create(categoryDTO) {
     try {
-      const { keyArr, valArr } = o.objToKeyValueArray(shopDTO);
+      const { keyArr, valArr } = o.objToKeyValueArray(categoryDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
       console.log(query);
+
       const [result] = await pool.query(query);
       return result;
     } catch (err) {
       throw new Error(err);
     }
   }
-  async getAll() {
-    try {
-      const query = o.makeSelectQuery();
-      console.log(query);
-
-      const [categories] = await pool.query(query);
-      return categories;
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
-
   async getByShopId(shopId) {
     try {
       const whereArr = o.objToQueryArray({ shopId });
       const query = o.makeSelectQuery(undefined, whereArr);
       console.log(query);
 
-      const [categories] = await pool.query(query);
-      return categories;
+      const [comments] = await pool.query(query);
+      return comments;
     } catch (err) {
       throw new Error(err);
     }
   }
 
-  async update(newShopDTO, shopDTO) {
+  async update(newFoodDTO, foodDTO) {
     try {
-      const newDTO = o.objToQueryArray(newShopDTO);
-      const oldDTO = o.objToQueryArray(shopDTO);
+      const newDTO = o.objToQueryArray(newFoodDTO);
+      const oldDTO = o.objToQueryArray(foodDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
 
+      console.log(query);
       const [result] = await pool.query(query);
       return result;
     } catch (err) {
@@ -52,9 +41,9 @@ class ShopModel {
     }
   }
 
-  async deleteById(shopId) {
+  async deleteById(foodId) {
     try {
-      const whereArr = o.objToQueryArray({ shopId });
+      const whereArr = o.objToQueryArray({ foodId });
       const query = o.makeDeleteQuery(whereArr);
       console.log(query);
 
@@ -66,6 +55,6 @@ class ShopModel {
   }
 }
 
-const shopModel = new ShopModel();
+const foodModel = new FoodModel();
 
-module.exports = { shopModel };
+module.exports = { foodModel };

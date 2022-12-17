@@ -1,4 +1,5 @@
 const { categoryModel } = require("../db/models");
+const buildRes = require("../util/build-response");
 
 class CategoryService {
   constructor(categoryModel) {
@@ -6,8 +7,8 @@ class CategoryService {
   }
 
   async create(categoryDTO) {
-    const createdNewCategory = await this.categoryModel.create(categoryDTO);
-    return createdNewCategory;
+    const result = await this.categoryModel.create(categoryDTO);
+    return buildRes("c", result);
   }
 
   async getAll() {
@@ -20,22 +21,14 @@ class CategoryService {
     return getCategory;
   }
 
-  async update(category, oldCategory) {
-    const result = await this.categoryModel.update({ category }, { category: oldCategory });
-    if (result.changedRows === 0) {
-      throw new Error(`Id:${category} 카테고리의 업데이트에 실패하였습니다`);
-    }
-
-    return { result: "success" };
+  async update(newCategory, category) {
+    const result = await this.categoryModel.update({ category: newCategory }, { category });
+    return buildRes("u", result);
   }
 
   async deleteById(category) {
-    const deleteCount = await this.categoryModel.deleteById(category);
-    if (deleteCount === 0) {
-      throw new Error(`Id:${category} 카테고리의 삭제에 실패하였습니다`);
-    }
-
-    return { result: "success" };
+    const result = await this.categoryModel.deleteById(category);
+    return buildRes("d", result);
   }
 }
 
