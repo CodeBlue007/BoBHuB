@@ -1,5 +1,4 @@
 import RegisterForm from './RegisterForm';
-import valiDateData from '../../../util/validateRegister';
 import axios from 'axios';
 
 const RegisterContent = () => {
@@ -12,10 +11,7 @@ const RegisterContent = () => {
     phone: string;
     email: string;
     confirmNum: string;
-  }) => {
-    if (!valiDateData(regForm)) return;
-    console.log('validation success');
-  };
+  }) => {};
   return <RegisterForm onRegSubmit={onRegSubmit} />;
 };
 

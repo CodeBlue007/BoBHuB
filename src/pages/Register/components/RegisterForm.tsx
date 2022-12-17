@@ -2,12 +2,23 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextField, Button, MenuItem } from '@mui/material';
+import { validateID, validatePassword } from '../../../util/validateLogin';
+import {
+  validateName,
+  validateNickName,
+  validatePWCheck,
+  validatePhone,
+  validateEmail,
+  validateConfirmNum,
+} from '../../../util/validateRegister';
 
 const RegisterFormContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  margin: 2vh auto 3vh auto;
 
   & h1 {
     margin: 50px auto 30px auto;
@@ -25,14 +36,14 @@ const BoxContainer = styled.div`
   background-color: #f3f3f3;
   border-radius: 4px;
 
-  height: 90vh;
+  height: 110vh;
   padding: 0px 20px 0px 20px;
 
   margin-bottom: 80px;
 
   & input {
     font-size: 15px;
-    width: 40vw;
+    width: 30vw;
     height: 3vh;
   }
 
@@ -46,16 +57,13 @@ const BoxContainer = styled.div`
   & div:nth-child(9) {
     margin: 10px auto;
   }
-
-  & div:nth-child(8) div {
-    padding-top: 10px;
+  & #standard-select-track-label {
+    margin-bottom: 10px;
   }
 
   & #standard-select-track {
-    width: 38.5vw;
-    /* padding-left: 10px; */
+    width: 28.5vw;
     border-radius: 4px;
-    padding: 10px;
   }
 
   & #menu- > div > ul {
@@ -64,14 +72,10 @@ const BoxContainer = styled.div`
 
   & button {
     margin: 20px auto;
-    width: 42vw;
+    width: 30.5vw;
     height: 4vh;
     font-size: 17px;
-    color: #fff;
-    background-color: #1976d2;
     border: none;
-    border-radius: 4px;
-    cursor: pointer;
   }
 
   & a {
@@ -82,11 +86,12 @@ const BoxContainer = styled.div`
   & a:hover {
     text-decoration: underline;
   }
-`;
 
-const BackToLogin = styled.div`
-  margin-top: -5px;
-  margin-right: 430px;
+  & .backToLogin {
+    font-size: 14px;
+    margin-top: -5px;
+    margin-right: 24vw;
+  }
 `;
 
 const trackNum = ['SW 3기', 'SW 4기', 'IoT 1기', 'AI 6기'];
@@ -154,6 +159,8 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           placeholder="이름을 입력해주세요 (한글 2~6글자)."
           value={name}
           onChange={onTextFieldChange}
+          error={!validateName(regForm.name)}
+          helperText={!validateName(regForm.name) ? '이름은 한글 2~6글자이어야 합니다.' : ''}
         />
 
         <TextField
@@ -163,6 +170,10 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           placeholder="아이디를 입력해주세요 (영문(대·소문자) 5~15글자)."
           value={id}
           onChange={onTextFieldChange}
+          error={!validateID(regForm.id)}
+          helperText={
+            !validateID(regForm.id) ? '아이디는 영문(대·소문자) 5~15글자이어야 합니다.' : ''
+          }
         />
 
         <TextField
@@ -172,6 +183,12 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           placeholder="닉네임을 입력해주세요 (한글·영문(대·소문자) 5~10글자)."
           value={nickName}
           onChange={onTextFieldChange}
+          error={!validateNickName(regForm.nickName)}
+          helperText={
+            !validateNickName(regForm.nickName)
+              ? '닉네임은 한글·영문(대·소문자) 5~10글자이어야 합니다.'
+              : ''
+          }
         />
 
         <TextField
@@ -182,6 +199,12 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           placeholder="비밀번호를 입력해주세요 (8~20자리 영문·숫자 조합)."
           value={password}
           onChange={onTextFieldChange}
+          error={!validatePassword(regForm.password)}
+          helperText={
+            !validatePassword(regForm.password)
+              ? '비밀번호는 8~20자리 영문·숫자 조합이어야 합니다.'
+              : ''
+          }
         />
 
         <TextField
@@ -192,6 +215,12 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           placeholder="비밀번호를 다시 입력해주세요."
           value={passwordCheck}
           onChange={onTextFieldChange}
+          error={!validatePWCheck(regForm.password, regForm.passwordCheck)}
+          helperText={
+            !validatePWCheck(regForm.password, regForm.passwordCheck)
+              ? '비밀번호가 불일치합니다.'
+              : ''
+          }
         />
 
         <TextField
@@ -202,6 +231,8 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           placeholder="휴대폰번호를 입력해주세요 (' - ' 포함)."
           value={phone}
           onChange={onTextFieldChange}
+          error={!validatePhone(regForm.phone)}
+          helperText={!validatePhone(regForm.phone) ? '유효한 휴대폰번호 형식이 아닙니다.' : ''}
         />
 
         <TextField
@@ -212,6 +243,8 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           placeholder="이메일을 입력해주세요."
           value={email}
           onChange={onTextFieldChange}
+          error={!validateEmail(regForm.email)}
+          helperText={!validateEmail(regForm.email) ? '유효한 이메일 형식이 아닙니다.' : ''}
         />
 
         <TextField
@@ -222,6 +255,10 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           placeholder="이메일에 기재된 인증번호를 입력해주세요."
           value={confirmNum}
           onChange={onTextFieldChange}
+          error={!validateConfirmNum(regForm.confirmNum)}
+          helperText={
+            !validateConfirmNum(regForm.confirmNum) ? '인증번호가 일치하지 않습니다.' : ''
+          }
         />
 
         <TextField
@@ -242,9 +279,9 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           회원가입
         </Button>
 
-        <BackToLogin>
+        <div className="backToLogin">
           <Link to="/login">계정이 이미 있습니다.</Link>
-        </BackToLogin>
+        </div>
       </BoxContainer>
     </RegisterFormContainer>
   );
