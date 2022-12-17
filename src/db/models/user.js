@@ -13,14 +13,14 @@ class UserModel {
     }
   }
 
-  async getByUserId(userId) {
+  async get(userDTO) {
     try {
-      const whereArr = o.objToQueryArray({ userId });
+      const whereArr = o.objToQueryArray(userDTO);
       const query = o.makeSelectQuery(undefined, whereArr);
       console.log(query);
 
-      const result = await pool.query(query);
-      return result;
+      const [user] = await pool.query(query);
+      return user;
     } catch (err) {
       throw new Error(err);
     }

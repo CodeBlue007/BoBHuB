@@ -10,7 +10,8 @@ class GenerationModel {
       const { track } = eliceDTO;
       const trackKeyArr = ["track"];
       const trackValArr = [track];
-      const trackQuery = tr.makeInsertQuery(trackKeyArr, trackValArr);
+      let trackQuery = tr.makeInsertQuery(trackKeyArr, trackValArr);
+      trackQuery = trackQuery.slice(0, 6) + " ignore" + trackQuery.slice(6);
       console.log(trackQuery);
 
       const { keyArr, valArr } = o.objToKeyValueArray(eliceDTO);
@@ -57,9 +58,9 @@ class GenerationModel {
     }
   }
 
-  async deleteById(generation) {
+  async deleteById(eliceId) {
     try {
-      const whereArr = o.objToQueryArray({ generation });
+      const whereArr = o.objToQueryArray({ eliceId });
       const query = o.makeDeleteQuery(whereArr);
       console.log(query);
 

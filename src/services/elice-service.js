@@ -22,11 +22,8 @@ class EliceService {
     return buildRes("u", result);
   }
 
-  async updateGeneration(newGeneration, generation) {
-    const result = await this.generationModel.update(
-      { generation: newGeneration },
-      { generation }
-    );
+  async updateGeneration(newDTO, eliceId) {
+    const result = await this.generationModel.update(newDTO, { eliceId });
     return buildRes("u", result);
   }
 
@@ -35,8 +32,8 @@ class EliceService {
     return buildRes("d", result);
   }
 
-  async deleteGeneration(generation) {
-    const result = await this.generationModel.deleteById(generation);
+  async deleteGeneration(eliceId) {
+    const result = await this.generationModel.deleteById(eliceId);
     return buildRes("d", result);
   }
 }
