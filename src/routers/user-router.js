@@ -3,11 +3,11 @@ const { userController } = require("../controllers");
 // const { loginRequired } = require("../middlewares");
 
 const userRouter = Router();
-// loginRequired 넣어야함 + userId가 도메인에 노출 되면 안되네 생각해보니
-// 지금 경로 수정 필요함
+// loginRequired 넣어야함
+// 로그인 부분 구현 후, passport, session 적용해서 auth router 새로 할 예정
 userRouter.post("/", userController.create);
-userRouter.get("/auth/:userId", userController.getByUserId);
-userRouter.patch("/auth/:userId", userController.update);
-userRouter.delete("/auth/:userId", userController.delete);
+// userRouter.get("/auth", userController.getByUserId);
+// userRouter.patch("/auth", userController.update);
+// userRouter.delete("/auth", userController.delete);
 
 module.exports = { userRouter };

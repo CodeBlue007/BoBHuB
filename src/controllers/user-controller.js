@@ -1,11 +1,24 @@
 const { userService } = require("../services");
-const bcrypt =  require("bcrypt") // hashed pw가 너무 길어서 안됨 varchar 45라 그런듯?
+const bcrypt = require("bcrypt"); // hashed pw가 너무 길어서 안됨 varchar 45라 그런듯?
 
 class UserController {
   async create(req, res, next) {
-    const { name, email, nickName, password, phone, profile, role, status } = req.body;
+    const {
+      track,
+      generation,
+      name,
+      email,
+      nickName,
+      password,
+      phone,
+      profile,
+      role,
+      status,
+    } = req.body;
     try {
       const addedUser = await userService.create({
+        track,
+        generation,
         name,
         email,
         nickName,
@@ -35,8 +48,21 @@ class UserController {
   async update(req, res, next) {
     try {
       const userId = parseInt(req.params.userId);
-      const { name, email, nickName, password, phone, profile, role, status } = req.body;
+      const {
+        track,
+        generation,
+        name,
+        email,
+        nickName,
+        password,
+        phone,
+        profile,
+        role,
+        status,
+      } = req.body;
       const newUserDTO = {
+        track,
+        generation,
         name,
         email,
         nickName,
