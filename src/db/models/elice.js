@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/make-query"))("elice");
+const o = new (require("../../util/build-query"))("elice");
 
 class EliceModel {
   async create(eliceDTO) {

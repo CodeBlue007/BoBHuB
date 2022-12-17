@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 require("./db/models");
-const { categoryRouter, shopRouter, foodRouter } = require("./routers");
+const { categoryRouter, shopRouter, foodRouter, userRouter, eliceRouter } = require("./routers");
 
 const { errorLogger, errorHandler } = require("./middlewares");
 

@@ -1,4 +1,4 @@
-const { eliceModel } = require("../db");
+const { eliceModel } = require("../db/models");
 
 class EliceService {
   constructor(eliceModel) {
