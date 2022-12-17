@@ -1,5 +1,7 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { TextField, Button, MenuItem, Box } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 
 const LoginFormContainer = styled.form`
   display: flex;
@@ -71,35 +73,69 @@ const BoxContainer = styled.div`
   }
 `;
 
-const LoginForm = () => {
-  const submitHandler = (e: React.FormEvent) => {
+const GoToLoginister = styled.div`
+  margin-top: -5px;
+  margin-right: 430px;
+`;
+
+type loginFormProps = {
+  onLoginSubmit: (loginForm: { id: string; password: string }) => void;
+};
+
+const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
+  // useState 방식
+  const [loginForm, setLoginForm] = useState({
+    id: '',
+    password: '',
+  });
+
+  const { id, password } = loginForm;
+
+  const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginForm({
+      ...loginForm,
+      [name]: value,
+    });
+  };
+
+  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    onLoginSubmit(loginForm);
+    // form 초기화
+    setLoginForm({
+      id: '',
+      password: '',
+    });
   };
 
   return (
-    <LoginFormContainer onSubmit={submitHandler}>
+    <LoginFormContainer onSubmit={handleLoginSubmit}>
       <h1>Sign In</h1>
       <BoxContainer>
         <TextField
-          id="userID"
+          name="id"
           label="아이디"
           variant="standard"
           placeholder="아이디를 입력해주세요."
+          value={id}
+          onChange={onTextFieldChange}
         />
 
         <TextField
           type="password"
-          id="userPW"
+          name="password"
           label="비밀번호"
           variant="standard"
           placeholder="비밀번호를 입력해주세요."
+          value={password}
+          onChange={onTextFieldChange}
         />
 
         <Button variant="contained">로그인</Button>
-
-        <a href="/register" className="registerLink">
-          계정이 없습니다.
-        </a>
+        <GoToLoginister>
+          <Link to="/loginister">계정이 없습니다.</Link>
+        </GoToLoginister>
       </BoxContainer>
     </LoginFormContainer>
   );
