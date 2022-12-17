@@ -2,10 +2,14 @@ const { foodService } = require("../services");
 
 class FoodController {
   async create(req, res, next) {
-    const { picture, name, price } = req.body;
+    // picture 아직
     try {
-      const addedFood = await foodService.create({ picture, name, price });
-      return res.status(200).json(addedFood);
+      const { name } = req.body;
+      const price = parseInt(req.body.price);
+      const shopId = parseInt(req.params.shopId);
+
+      const result = await foodService.create({ shopId, name, price });
+      return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
@@ -13,7 +17,8 @@ class FoodController {
 
   async getByShopId(req, res, next) {
     try {
-      const { shopId } = req.params;
+      const shopId = parseInt(req.params.shopId);
+
       const foodList = await foodService.getByShopId(shopId);
       return res.status(200).json(foodList);
     } catch (e) {
@@ -21,32 +26,24 @@ class FoodController {
     }
   }
 
-  //   async getAll(req, res, next) {
-  //     try {
-  //       const foodList = await foodService.getAll();
-  //       return res.status(200).json(foodList);
-  //     } catch (e) {
-  //       next(e);
-  //     }
-  //   }
-
   async update(req, res, next) {
     try {
-      const { foodId } = req.params;
+      const foodId = parseInt(req.params.foodId);
       const { picture, name, price } = req.body;
-      const updatedFood = await foodService.update({ picture, name, price }, foodId);
 
-      return res.status(200).json(updatedFood);
+      const result = await foodService.update({ picture, name, price }, foodId);
+
+      return res.status(200).json(result);
     } catch (e) {
       next(e);
     }
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     try {
-      const { foodId } = req.params;
-      const deletedFood = await foodService.deleteById(foodId);
-      res.status(200).json(deletedFood);
+      const foodId = parseInt(req.params.foodId);
+      const result = await foodService.deleteById(foodId);
+      res.status(200).json(result);
     } catch (e) {
       next(e);
     }
