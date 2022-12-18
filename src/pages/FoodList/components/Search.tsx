@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
-import {useState} from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const Search = () => {
@@ -13,16 +13,14 @@ const Search = () => {
             <SearchIconCSS>
                 <SearchIcon />
             </SearchIconCSS>
-            
             <SearchInput type='text' onChange={handleChange} placeholder='검색' />
-            {/* <p>{searchInput}</p> */}
         </SearchContainer>
     )
 }
 
 export default Search;
 
-const SearchContainer=styled.div`
+const SearchContainer = styled.div`
     margin:30px 0;
     box-sizing: border-box;
     border: 1px solid #C9CACC;
@@ -34,12 +32,12 @@ const SearchContainer=styled.div`
     flex-deriction:row;
     align-items:center;
 `
-const SearchIconCSS=styled.span`
+
+const SearchIconCSS = styled.span`
     padding-left:10px;
-    
 `
 
-const SearchInput=styled.input`
+const SearchInput = styled.input`
       border:none;
       padding-left:10px;
       font-size:14px;

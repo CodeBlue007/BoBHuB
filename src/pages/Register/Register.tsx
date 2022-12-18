@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import NavBar from '../../components/NavBar';
-import Footer from '../../components/Footer';
 import RegisterContent from './components/RegisterContent';
+import MainPageFooter from './../MainPage/components/MainPageFooter';
 
 const RegisterContainer = styled.section``;
 
@@ -10,7 +10,7 @@ const Register = () => {
     <RegisterContainer>
       <NavBar />
       <RegisterContent />
-      <Footer />
+      <MainPageFooter />
     </RegisterContainer>
   );
 };
