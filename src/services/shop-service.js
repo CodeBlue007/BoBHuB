@@ -1,4 +1,5 @@
 const { shopModel } = require("../db/models");
+const { pagination } = require("../util");
 const buildRes = require("../util/build-response");
 
 class ShopService {
@@ -11,8 +12,15 @@ class ShopService {
     return buildRes("c", result);
   }
 
-  async getAll() {
-    const shops = await this.shopModel.getAll();
+  async count() {
+    const totalData = await this.shopModel.count();
+    return totalData;
+  }
+
+  async getAll(page, perpage) {
+    const { limit, offSet } = pagination(page, perpage);
+
+    const shops = await this.shopModel.getAll(limit, offSet);
     return shops;
   }
 
