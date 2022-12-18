@@ -1,4 +1,5 @@
 const { commentModel } = require("../db/models");
+const buildRes = require("../util/build-response");
 
 class CommentService {
   constructor(commentModel) {
@@ -7,7 +8,7 @@ class CommentService {
 
   async create(commentDTO) {
     const result = await this.commentModel.create(commentDTO);
-    return result;
+    return buildRes("c", result);
   }
 
   async getAll() {
@@ -16,18 +17,18 @@ class CommentService {
   }
 
   async getByShopId(shopId) {
-    const comments = await this.commentModel.getById(shopId);
+    const comments = await this.commentModel.getByShopId(shopId);
     return comments;
   }
 
   async update(newCommentDTO, commentId) {
-    const comment = await this.commentModel.update(newCommentDTO, { commentId });
-
-    return comment;
+    const result = await this.commentModel.update(newCommentDTO, { commentId });
+    return buildRes("u", result);
   }
 
   async deleteById(commentId) {
-    await commentModel.deleteById(commentId);
+    const result = await commentModel.deleteById(commentId);
+    return buildRes("d", result);
   }
 }
 

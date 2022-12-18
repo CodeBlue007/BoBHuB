@@ -13,6 +13,7 @@ const {
   userRouter,
   eliceRouter,
   loginRouter,
+  commentRouter,
 } = require("./routers");
 
 const { errorLogger, errorHandler } = require("./middlewares");
@@ -37,7 +38,7 @@ app.use("/api/food", foodRouter);
 app.use("/api/user", userRouter);
 // app.use("/api/group", groupRouter);
 app.use("/api/elice", eliceRouter);
-// app.use("/api/comment", commentRouter);
+app.use("/api/comment", commentRouter);
 
 app.use(errorLogger);
 app.use(errorHandler);

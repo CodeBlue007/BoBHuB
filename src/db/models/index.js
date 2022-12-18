@@ -6,4 +6,5 @@ module.exports = {
   ...require("./track"),
   ...require("./generation"),
   ...require("./track"),
+  ...require("./comment"),
 };

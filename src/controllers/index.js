@@ -5,6 +5,6 @@ module.exports = {
   ...require("./shop-controller"),
   ...require("./food-controller"),
   ...require("./login-controller"),
-  // ...require("./comment-controller"),
+  ...require("./comment-controller"),
   // ...require("./group-controller"),
 };

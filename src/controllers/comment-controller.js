@@ -2,13 +2,12 @@ const { commentService } = require("../services");
 
 class CommentController {
   async create(req, res, next) {
-    // const {userId} = req.currentUser
-    const { content, star } = req.body;
     try {
-      const result = await commentService.create({
-        content,
-        star,
-      });
+      const { content } = req.body;
+      const star = parseInt(req.body.star);
+      const shopId = parseInt(req.params.shopId);
+      const userId = parseInt(req.user.userId);
+      const result = await commentService.create({ shopId, userId, content, star });
       return res.status(200).json(result);
     } catch (e) {
       next(e);
@@ -18,6 +17,7 @@ class CommentController {
   async getByShopId(req, res, next) {
     try {
       const shopId = parseInt(req.params.shopId);
+
       const commentList = await commentService.getByShopId(shopId);
       return res.status(200).json(commentList);
     } catch (e) {
@@ -34,11 +34,11 @@ class CommentController {
     }
   }
 
-  async update(req, res, next) {
+  async updateAuth(req, res, next) {
     try {
-      // const {userId} = req.currentUser
+      const { content } = req.body;
+      const star = parseInt(req.body.star);
       const commentId = parseInt(req.params.commentId);
-      const { content, star } = req.body;
       const newCommentDTO = { content, star };
       const updatedComment = await commentService.update(newCommentDTO, commentId);
 
@@ -50,7 +50,8 @@ class CommentController {
 
   async deleteAuth(req, res, next) {
     try {
-      // const {userId} = req.currentUser
+      // const userId = parseInt(req.user.userId);
+      // userId를 쓸 일이 없지 않나? 로그인이랑 session ID로 검증을 하는건데?
       const commentId = parseInt(req.params.commentId);
       const result = await commentService.deleteById(commentId);
       res.status(200).json(result);
@@ -59,7 +60,7 @@ class CommentController {
     }
   }
 
-  async delete(req, res, next) {
+  async deleteById(req, res, next) {
     try {
       const commentId = parseInt(req.params.commentId);
       const result = await commentService.deleteById(commentId);

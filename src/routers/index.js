@@ -4,7 +4,7 @@ module.exports = {
   ...require("./category-router"),
   ...require("./elice-router"),
   ...require("./shop-router"),
-  // ...require("./comment-router"),
+  ...require("./comment-router"),
   // ...require("./group-router"),
   ...require("./food-router"),
 };
