@@ -12,7 +12,11 @@ class CommentService {
   }
 
   async getAll() {
+    console.log(2323232);
+
     const comments = await this.commentModel.getAll();
+    console.log(1414);
+
     return comments;
   }
 
@@ -22,11 +26,26 @@ class CommentService {
   }
 
   async update(newCommentDTO, commentId) {
+    const { userId } = newCommentDTO;
+
+    const currentComment = await this.commentModel.getByShopId(commentId);
+    const isByAuth = currentComment.userId === userId;
+    if (!isByAuth) throw new Error("권한이 없습니다.");
+
     const result = await this.commentModel.update(newCommentDTO, { commentId });
     return buildRes("u", result);
   }
 
-  async deleteById(commentId) {
+  async deleteByAuth(userId, commentId) {
+    const currentComment = await this.commentModel.getByShopId(commentId);
+    const isByAuth = currentComment.userId === userId;
+    if (!isByAuth) throw new Error("권한이 없습니다.");
+
+    const result = await commentModel.deleteById(commentId);
+    return buildRes("d", result);
+  }
+
+  async deleteByAdmin(commentId) {
     const result = await commentModel.deleteById(commentId);
     return buildRes("d", result);
   }

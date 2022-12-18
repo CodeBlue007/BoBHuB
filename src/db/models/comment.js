@@ -18,6 +18,7 @@ class CommentModel {
   async getAll() {
     try {
       const query = o.makeSelectQuery();
+      console.log(123);
       console.log(query);
 
       const [comments] = await pool.query(query);
@@ -27,9 +28,9 @@ class CommentModel {
     }
   }
 
-  async getByShopId(shopId) {
+  async getByShopId(commentId) {
     try {
-      const whereArr = o.objToQueryArray({ shopId });
+      const whereArr = o.objToQueryArray({ commentId });
       const query = o.makeSelectQuery(undefined, whereArr);
       console.log(query);
 

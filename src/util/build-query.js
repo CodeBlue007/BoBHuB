@@ -25,6 +25,9 @@ class BuildQueryString {
   makeSelectQuery(columnArr = ["*"], whereArr = null) {
     const column = columnArr.join(", ");
     const where = whereArr ? "where " + whereArr.join(" and ") : "";
+
+    console.log("whereArr :", whereArr, "where :", where);
+
     return `select ${column} from ${this.table} ${where}`;
   }
 

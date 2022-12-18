@@ -1,6 +1,6 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../util/build-query"))("track");
-//update, delete만 쓰이고 있음
+
 class TrackModel {
   async create(eliceDTO) {
     try {
@@ -20,8 +20,8 @@ class TrackModel {
       const query = o.makeSelectQuery();
       console.log(query);
 
-      const [elices] = await pool.query(query);
-      return elices;
+      const [tracks] = await pool.query(query);
+      return tracks;
     } catch (err) {
       throw new Error(err);
     }
@@ -33,6 +33,7 @@ class TrackModel {
       const oldDTO = o.objToQueryArray(trackDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
       console.log(query);
+
       const [result] = await pool.query(query);
       return result;
     } catch (err) {
