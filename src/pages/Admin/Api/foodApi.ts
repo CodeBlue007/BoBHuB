@@ -1,22 +1,31 @@
 import axios from 'axios';
-import { FoodType } from '../Restraunt/Foods';
+import type { FoodType } from '../components/Restraunt/Foods';
+const axiosInstance = axios.create({ baseURL: 'http://localhost:3001' });
 
 export const postFoodData = async (body: FoodType) => {
-  await axios
-    .post('http://localhost:3001/foods', body)
-    .then(() => console.log('post'))
-    .catch((e) => console.log(e));
+  try {
+    const res = await axiosInstance.post('/foods', body);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const deleteFoodData = async (id: string) => {
-  await axios
-    .delete(`http://localhost:3001/foods/${id}`)
-    .then(() => console.log('delete'))
-    .catch((e) => console.log(e));
+  try {
+    const res = await axiosInstance.delete(`/foods/${id}`);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const fetchFoodData = async () => {
-  const res = await axios('http://localhost:3001/foods');
-  const foods = await res.data;
-  return foods;
+  try {
+    const res = await axiosInstance('/foods');
+    const foods = await res.data;
+    return foods;
+  } catch (error) {
+    console.log(error);
+  }
 };

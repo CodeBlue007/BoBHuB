@@ -9,7 +9,7 @@ import {
   TableRow,
   IconButton,
 } from '@mui/material';
-import { FoodType } from './Foods';
+import type { FoodType } from './Foods';
 import FoodModal from './FoodModal';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
