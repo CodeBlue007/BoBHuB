@@ -12,7 +12,7 @@ module.exports = () => {
       },
       async (email, password, done) => {
         try {
-          const exUser = await userModel.get({ email });
+          const [exUser] = await userModel.get({ email });
           if (exUser) {
             const result = await bcrypt.compare(password, exUser.password);
             if (result) {

@@ -6,7 +6,9 @@ class UserModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(userDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      const [result] = await pool.query(query, console.log(query));
+      console.log(query);
+
+      const [result] = await pool.query(query);
       return result;
     } catch (err) {
       throw new Error(err);
@@ -20,7 +22,8 @@ class UserModel {
       console.log(query);
 
       const [user] = await pool.query(query);
-      return user[0];
+
+      return user;
     } catch (err) {
       throw new Error(err);
     }

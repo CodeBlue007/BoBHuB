@@ -22,6 +22,14 @@ class BuildQueryString {
     return { keyArr, valArr };
   }
 
+  makeCountQuery() {
+    return `SELECT COUNT(*) as totalData FROM ${this.table}`;
+  }
+
+  addPagenationQuery(query, limit, offSet) {
+    return `${query} ORDER BY 1 LIMIT ${limit} OFFSET ${offSet}`;
+  }
+
   makeSelectQuery(columnArr = ["*"], whereArr = null) {
     const column = columnArr.join(", ");
     const where = whereArr ? "where " + whereArr.join(" and ") : "";

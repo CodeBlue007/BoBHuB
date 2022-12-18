@@ -2,6 +2,13 @@ const { pool } = require("../mysql-pool");
 const o = new (require("../../util/build-query"))("shop");
 
 class ShopModel {
+  async count(req, res, next) {
+    const query = o.makeCountQuery();
+    console.log(query);
+
+    const [countData] = await pool.query(query);
+    return countData[0];
+  }
   async create(shopDTO) {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(shopDTO);
@@ -13,9 +20,10 @@ class ShopModel {
       throw new Error(err);
     }
   }
-  async getAll() {
+  async getAll(limit, offSet) {
     try {
-      const query = o.makeSelectQuery();
+      let query = o.makeSelectQuery();
+      query = o.addPagenationQuery(query, limit, offSet);
       console.log(query);
 
       const [shops] = await pool.query(query);
@@ -31,8 +39,8 @@ class ShopModel {
       const query = o.makeSelectQuery(undefined, whereArr);
       console.log(query);
 
-      const [categories] = await pool.query(query);
-      return categories;
+      const [shop] = await pool.query(query);
+      return shop;
     } catch (err) {
       throw new Error(err);
     }

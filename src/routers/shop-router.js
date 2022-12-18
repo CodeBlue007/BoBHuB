@@ -6,6 +6,7 @@ const shopRouter = Router();
 const shopAdminRouter = Router();
 
 shopRouter.get("/", shopController.getAll);
+shopRouter.get("/total", shopController.count);
 shopRouter.get("/:shopId", shopController.getByShopId);
 
 shopRouter.use("/admin", isLoggedIn, isAdmin, shopAdminRouter);
