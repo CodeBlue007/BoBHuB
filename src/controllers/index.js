@@ -4,7 +4,7 @@ module.exports = {
   ...require("./category-controller"),
   ...require("./shop-controller"),
   ...require("./food-controller"),
-  ...require("./user-controller"),
+  ...require("./login-controller"),
   // ...require("./comment-controller"),
   // ...require("./group-controller"),
 };
