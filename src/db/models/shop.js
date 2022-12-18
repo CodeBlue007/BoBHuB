@@ -18,8 +18,8 @@ class ShopModel {
       const query = o.makeSelectQuery();
       console.log(query);
 
-      const [categories] = await pool.query(query);
-      return categories;
+      const [shops] = await pool.query(query);
+      return shops;
     } catch (err) {
       throw new Error(err);
     }

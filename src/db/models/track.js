@@ -1,6 +1,6 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../util/build-query"))("track");
-
+//update, delete만 쓰이고 있음
 class TrackModel {
   async create(eliceDTO) {
     try {

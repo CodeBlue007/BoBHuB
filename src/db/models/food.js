@@ -2,9 +2,9 @@ const { pool } = require("../mysql-pool");
 const o = new (require("../../util/build-query"))("food");
 
 class FoodModel {
-  async create(categoryDTO) {
+  async create(foodDTO) {
     try {
-      const { keyArr, valArr } = o.objToKeyValueArray(categoryDTO);
+      const { keyArr, valArr } = o.objToKeyValueArray(foodDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
       console.log(query);
 
