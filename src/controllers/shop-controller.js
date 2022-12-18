@@ -21,9 +21,20 @@ class ShopController {
     }
   }
 
+  async count(req, res, next) {
+    try {
+      const totalData = await shopService.count();
+      return res.status(200).json(totalData);
+    } catch (e) {
+      next(e);
+    }
+  }
   async getAll(req, res, next) {
     try {
-      const shopList = await shopService.getAll();
+      const page = Number(req.query.page || 1);
+      const perpage = Number(req.query.perpage || 8);
+
+      const shopList = await shopService.getAll(page, perpage);
       return res.status(200).json(shopList);
     } catch (e) {
       next(e);
