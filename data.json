@@ -1,54 +1,13 @@
 {
-  "posts": [
-    {
-      "id": 1,
-      "name": "계란파스타",
-      "img": "img/img_1.jpg"
-    },
-    {
-      "id": 2,
-      "name": "샐러드",
-      "img": "img/img_2.jpg"
-    },
-    {
-      "id": 3,
-      "name": "스테이크",
-      "img": "img/img_3.jpg"
-    },
-    {
-      "id": 4,
-      "name": "바질파스타",
-      "img": "img/img_4.jpg"
-    },
-    {
-      "id": 5,
-      "name": "피자",
-      "img": "img/img_5.jpg"
-    },
-    {
-      "id": 6,
-      "name": "라멘",
-      "img": "img/img_6.jpg"
-    },
-    {
-      "id": 7,
-      "name": "샌드위치",
-      "img": "img/img_7.jpg"
-    },
-    {
-      "id": 8,
-      "name": "스시",
-      "img": "img/img_8.jpg"
-    },
-    {
-      "id": 9,
-      "name": "카레",
-      "img": "img/img_9.jpg"
-    },
-    {
-      "id": 10,
-      "name": "햄버거",
-      "img": "img/img_10.jpg"
-    }
-  ]
+  "user": {
+    "userId": "1234",
+    "track": "SW",
+    "generation": 3,
+    "name": "아호상",
+    "email": "ahosang0056@elice.com",
+    "phone": "01012341234",
+    "profile": "이미지주소",
+    "role": "elicer",
+    "nickName": "nick"
+  }
 }

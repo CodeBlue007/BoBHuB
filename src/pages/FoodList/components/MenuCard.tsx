@@ -1,47 +1,53 @@
 import styled from 'styled-components';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import StarRateIcon from '@mui/icons-material/StarRate';
 
-type ListProps = {
-    title: string;
+type ShopListProps = {
+    name: string; //식당명
     category: string;
     description: string;
     menuList: string[];
+    starAverage: number;
 }
 
-
-const defaultProps = {
-    title: '식당이름1',
+const defaultProps: ShopListProps = {
+    name: '식당이름1',
     category: '한식',
     description: '식당설명란입니다.',
     menuList: ['대표메뉴1', '대표메뉴2', '대표메뉴3'],
+    starAverage: 4.5
 }
 
-const MenuCard = ({ title, category, description, menuList }: ListProps & typeof defaultProps) => {
+const MenuCard = ({ name, category, description, menuList, starAverage }: ShopListProps) => {
 
     return (
         <Container>
             <CardTitle>
-                {title}
+                {name}
                 <CardCategory>{category}</CardCategory>
             </CardTitle>
             <CardImage>
                 <img width='330px' height='200px' src='https://png.pngtree.com/background/20211216/original/pngtree-dining-room-at-night-picture-image_1531627.jpg' alt='restaurant' />
             </CardImage>
             <CardDescription>
-                {description}
+                {`" ${description} "`}
             </CardDescription>
             <MenuList>
                 {menuList.map((menu, idx) => {
-                    return <Menu key={`${title}-${menu}-${idx}`}>{menu}</Menu>
+                    return <Menu key={`${name}-${menu}-${idx}`}>{menu}</Menu>
                 })}
             </MenuList>
             <Line />
-            <FavoriteIcon sx={{ bottom: '20px', right: '15px', position: 'absolute', color: '#f50c43' }} />
+            <StarContainer>
+                <StarRateIcon sx={{ bottom: '20px', right: '88px', position: 'absolute', color: '#f50c43' }} />
+                <StarAvg>{starAverage}</StarAvg><StarTotal>/5</StarTotal>
+            </StarContainer>
+
         </Container>
     )
 }
 
 MenuCard.defaultProps = defaultProps;
+
 export default MenuCard;
 
 const Container = styled.div`
@@ -90,11 +96,29 @@ const Menu = styled.li`
     line-height:18px;
 `
 
-const Line=styled.div`
+const Line = styled.div`
     width:400px;
     height:1px;
     background-color:#dfdce0;
     position:absolute;
     left:0;
     bottom:60px;
+`
+
+const StarContainer = styled.div`
+    display:flex;
+`
+
+const StarAvg = styled.span`
+    position:absolute;
+    bottom:25px;
+    font-weight:bold;
+    right:60px;
+`
+
+const StarTotal = styled.span`
+    position:absolute;
+    bottom:25px;
+    color:#727273;
+    right: 44px;
 `

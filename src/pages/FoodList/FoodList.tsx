@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import * as API from '../FoodList/API';
 
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -12,14 +12,15 @@ import NavBar from '../../components/NavBar';
 
 const FoodList = () => {
 
-    const [cateData, setCateData] = useState([]);
-    const [dataAll, setDataAll] = useState([]);
+    const [categoryFoodList, setCategoryFoodList] = useState([]); //카테고리별 식당데이터
+    const [foodList, setFoodList] = useState([]); //전체 식당데이터 
     const [value, setValue] = useState('one');
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
+
+    const handleChange = (event: React.SyntheticEvent, categoryNum: string) => {
+        setValue(categoryNum);
+
         let cateValue = ''
-        //카테고리별 api 조회
-        switch (newValue) {
+        switch (categoryNum) {
             case 'one':
                 cateValue = 'All';
                 break;
@@ -41,25 +42,28 @@ const FoodList = () => {
             default:
                 return null;
         }
-        if(cateValue==='All'){
-            setCateData(dataAll);
+        if (cateValue === 'All') {
+            setCategoryFoodList(foodList);
         }
-        else{
-            const newData = dataAll.filter(({category}) =>category===cateValue);
-        
-            setCateData((prev)=>[...newData]);
+        else {
+            const newData = foodList.filter(({ category }) => category === cateValue);
+            setCategoryFoodList((prev) => [...newData]);
         }
     };
 
+    // 식당전체조회 api
+    const getFoodListAPI = async () => {
+        const result = await API.get(`http://localhost:4000/shops`);
+        setFoodList(result);
+        setCategoryFoodList(result);
+    }
+
     useEffect(() => {
-        async function fetchAPI() {
-            const response = await axios.get(`http://localhost:4000/datas`);
-            setDataAll(response.data);
-            setCateData(response.data);
+        try {
+            getFoodListAPI();
+        } catch (err) {
+            console.error(err);
         }
-
-        fetchAPI();
-
     }, []);
 
     return (
@@ -85,10 +89,11 @@ const FoodList = () => {
                 </Box>
             </CategoryBox>
             <CardContainer>
-                {cateData.map((x, i) => {
-                    const { name, category, description, menuList } = x;
-                    return <MenuCard title={name} category={category} description={description} menuList={menuList} key={`menucard-${i}`} />
+                {categoryFoodList.map((x, i) => {
+                    const { name, category, description, menuList, starAverage } = x;
+                    return <MenuCard name={name} category={category} description={description} menuList={menuList} starAverage={starAverage} key={`menucard-${i}`} />
                 })}
+                <MenuCard />
             </CardContainer>
         </Container>
     )
@@ -106,6 +111,7 @@ const Container = styled.div`
 const CategoryBox = styled.div`
     margin-bottom:40px;
 `
+
 const CardContainer = styled.div`
     display:grid;
     grid-template-columns:400px 400px 400px;
