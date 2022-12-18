@@ -11,12 +11,12 @@ commentRouter.get("/:shopId", commentController.getByShopId);
 commentRouter.use("/auth", isLoggedIn, commentAuthRouter);
 
 commentAuthRouter.post("/:shopId", commentController.create);
-commentAuthRouter.patch("/:commentId", commentController.updateAuth);
-commentAuthRouter.delete("/:commentId", commentController.deleteAuth);
+commentAuthRouter.patch("/:commentId", commentController.updateByAuth);
+commentAuthRouter.delete("/:commentId", commentController.deleteByAuth);
 
 commentRouter.use("/admin", isLoggedIn, isAdmin, commentAdminRouter);
 
-commentAdminRouter.get("/", commentController.getAll);
-commentAdminRouter.delete("/:commentId", commentController.deleteById);
+// commentAdminRouter.get("/", commentController.getAll);
+// commentAdminRouter.delete("/:commentId", commentController.deleteByAdmin);
 
 module.exports = { commentRouter };

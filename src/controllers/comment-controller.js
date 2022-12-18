@@ -17,7 +17,6 @@ class CommentController {
   async getByShopId(req, res, next) {
     try {
       const shopId = parseInt(req.params.shopId);
-
       const commentList = await commentService.getByShopId(shopId);
       return res.status(200).json(commentList);
     } catch (e) {
@@ -27,6 +26,7 @@ class CommentController {
 
   async getAll(req, res, next) {
     try {
+      console.log("dufueufu");
       const commentList = await commentService.getAll();
       return res.status(200).json(commentList);
     } catch (e) {
@@ -34,12 +34,13 @@ class CommentController {
     }
   }
 
-  async updateAuth(req, res, next) {
+  async updateByAuth(req, res, next) {
     try {
       const { content } = req.body;
+      const { userId } = req.user;
       const star = parseInt(req.body.star);
       const commentId = parseInt(req.params.commentId);
-      const newCommentDTO = { content, star };
+      const newCommentDTO = { content, star, userId };
       const updatedComment = await commentService.update(newCommentDTO, commentId);
 
       return res.status(200).json(updatedComment);
@@ -48,22 +49,22 @@ class CommentController {
     }
   }
 
-  async deleteAuth(req, res, next) {
+  async deleteByAuth(req, res, next) {
     try {
-      // const userId = parseInt(req.user.userId);
-      // userId를 쓸 일이 없지 않나? 로그인이랑 session ID로 검증을 하는건데?
+      const { userId } = req.user;
+
       const commentId = parseInt(req.params.commentId);
-      const result = await commentService.deleteById(commentId);
+      const result = await commentService.deleteByAuth(userId, commentId);
       res.status(200).json(result);
     } catch (e) {
       next(e);
     }
   }
 
-  async deleteById(req, res, next) {
+  async deleteByAdmin(req, res, next) {
     try {
       const commentId = parseInt(req.params.commentId);
-      const result = await commentService.deleteById(commentId);
+      const result = await commentService.deleteByAdmin(commentId);
       res.status(200).json(result);
     } catch (e) {
       next(e);
