@@ -19,8 +19,8 @@ class UserService {
   async nickNameCheck(nickName) {
     const user = await this.userModel.get({ nickName });
     let result = {};
-    if (user.length > 0) result.message = "같은 닉네임이 있습니다.";
-    else result.message = "사용가능한 닉네임입니다.";
+    if (user.length == 0) result.message = "사용가능한 닉네임입니다.";
+    else result.message = "같은 닉네임이 있습니다.";
 
     return result;
   }
@@ -41,7 +41,7 @@ class UserService {
       "updatedAt",
       "deletedAt",
     ];
-    const user = await this.userModel.get({ userId }, columnArr);
+    const [user] = await this.userModel.get({ userId }, columnArr);
     return user;
   }
 
