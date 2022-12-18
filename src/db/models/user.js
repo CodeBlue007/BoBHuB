@@ -20,7 +20,8 @@ class UserModel {
       console.log(query);
 
       const [user] = await pool.query(query);
-      return user[0];
+
+      return user;
     } catch (err) {
       throw new Error(err);
     }
