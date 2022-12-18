@@ -11,7 +11,7 @@ class CommentService {
     return buildRes("c", result);
   }
 
-  async getAll() {
+  async getAllByAdmin() {
     console.log(2323232);
 
     const comments = await this.commentModel.getAll();
@@ -25,11 +25,11 @@ class CommentService {
     return comments;
   }
 
-  async update(newCommentDTO, commentId) {
+  async updateByAuth(newCommentDTO, commentId) {
     const { userId } = newCommentDTO;
 
-    const currentComment = await this.commentModel.getByShopId(commentId);
-    const isByAuth = currentComment.userId === userId;
+    const currentComment = await this.commentModel.getByCommentId(commentId);
+    const isByAuth = currentComment[0].userId === userId;
     if (!isByAuth) throw new Error("권한이 없습니다.");
 
     const result = await this.commentModel.update(newCommentDTO, { commentId });
@@ -38,7 +38,7 @@ class CommentService {
 
   async deleteByAuth(userId, commentId) {
     const currentComment = await this.commentModel.getByShopId(commentId);
-    const isByAuth = currentComment.userId === userId;
+    const isByAuth = currentComment[0].userId === userId;
     if (!isByAuth) throw new Error("권한이 없습니다.");
 
     const result = await commentModel.deleteById(commentId);

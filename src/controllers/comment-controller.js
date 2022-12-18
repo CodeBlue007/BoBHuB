@@ -24,7 +24,7 @@ class CommentController {
     }
   }
 
-  async getAll(req, res, next) {
+  async getAllByAdmin(req, res, next) {
     try {
       console.log("dufueufu");
       const commentList = await commentService.getAll();
@@ -41,7 +41,7 @@ class CommentController {
       const star = parseInt(req.body.star);
       const commentId = parseInt(req.params.commentId);
       const newCommentDTO = { content, star, userId };
-      const updatedComment = await commentService.update(newCommentDTO, commentId);
+      const updatedComment = await commentService.updateByAuth(newCommentDTO, commentId);
 
       return res.status(200).json(updatedComment);
     } catch (e) {

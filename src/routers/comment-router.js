@@ -16,7 +16,7 @@ commentAuthRouter.delete("/:commentId", commentController.deleteByAuth);
 
 commentRouter.use("/admin", isLoggedIn, isAdmin, commentAdminRouter);
 
-// commentAdminRouter.get("/", commentController.getAll);
-// commentAdminRouter.delete("/:commentId", commentController.deleteByAdmin);
+commentAdminRouter.get("/", commentController.getAllByAdmin);
+commentAdminRouter.delete("/:commentId", commentController.deleteByAdmin);
 
 module.exports = { commentRouter };
