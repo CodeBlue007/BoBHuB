@@ -1,15 +1,23 @@
 const { Router } = require("express");
 const { userController } = require("../controllers");
-// const { loginRequired } = require("../middlewares");
+const { isLoggedIn, isNotLoggedIn, isAdmin } = require("../middlewares");
 
 const userRouter = Router();
-// loginRequired 넣어야함
-// 로그인 부분 구현 후, passport, session 적용해서 auth router 새로 할 예정
-userRouter.post("/", userController.create);
+const userAuthRouter = Router();
+const userAdminRouter = Router();
+
+userRouter.post("/join", isNotLoggedIn, userController.create);
 userRouter.get("/nickNameCheck", userController.nickNameCheck);
 
-// userRouter.get("/auth", userController.get);
-// userRouter.patch("/auth", userController.update);
-// userRouter.delete("/auth", userController.delete);
+userRouter.use("/auth", isLoggedIn, userAuthRouter);
+
+userAuthRouter.get("/", userController.getById);
+userAuthRouter.patch("/", userController.update);
+userAuthRouter.delete("/", userController.delete);
+
+userRouter.use("/admin", isLoggedIn, isAdmin, userAdminRouter);
+
+userAdminRouter.get("/", userController.getAllByAdmin);
+userAdminRouter.patch("/:userId", userController.updateByAdmin);
 
 module.exports = { userRouter };
