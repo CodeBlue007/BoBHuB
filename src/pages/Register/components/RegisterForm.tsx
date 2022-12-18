@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextField, Button, MenuItem } from '@mui/material';
+import { regFormProps } from '../types/regType';
 import { validateID, validatePassword } from '../../../util/validateLogin';
 import {
   validateName,
@@ -10,6 +11,8 @@ import {
   validatePhone,
   validateEmail,
   validateConfirmNum,
+  validateTrack,
+  validateGeneration,
 } from '../../../util/validateRegister';
 
 const RegisterFormContainer = styled.form`
@@ -36,15 +39,14 @@ const BoxContainer = styled.div`
   background-color: #f3f3f3;
   border-radius: 4px;
 
-  height: 110vh;
-  padding: 0px 20px 0px 20px;
+  height: 115vh;
+  padding: 0px 20px;
 
   margin-bottom: 80px;
 
   & input {
     font-size: 15px;
     width: 30vw;
-    height: 3vh;
   }
 
   & div:nth-child(2),
@@ -55,7 +57,7 @@ const BoxContainer = styled.div`
   & div:nth-child(7),
   & div:nth-child(8),
   & div:nth-child(9) {
-    margin: 10px auto;
+    margin: 13px auto;
   }
   & #standard-select-track-label {
     margin-bottom: 10px;
@@ -94,21 +96,6 @@ const BoxContainer = styled.div`
   }
 `;
 
-const trackNum = ['SW 3기', 'SW 4기', 'IoT 1기', 'AI 6기'];
-
-type regFormProps = {
-  onRegSubmit: (regForm: {
-    name: string;
-    id: string;
-    nickName: string;
-    password: string;
-    passwordCheck: string;
-    phone: string;
-    email: string;
-    confirmNum: string;
-  }) => void;
-};
-
 const RegisterForm = ({ onRegSubmit }: regFormProps) => {
   // useState 방식
   const [regForm, setRegForm] = useState({
@@ -120,9 +107,22 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     phone: '',
     email: '',
     confirmNum: '',
+    track: '',
+    generation: 0,
   });
 
-  const { name, id, nickName, password, passwordCheck, phone, email, confirmNum } = regForm;
+  const {
+    name,
+    id,
+    nickName,
+    password,
+    passwordCheck,
+    phone,
+    email,
+    confirmNum,
+    track,
+    generation,
+  } = regForm;
 
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -145,6 +145,8 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       phone: '',
       email: '',
       confirmNum: '',
+      track: '',
+      generation: 0,
     });
   };
 
@@ -262,6 +264,33 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         />
 
         <TextField
+          type="text"
+          name="track"
+          label="트랙"
+          variant="standard"
+          placeholder="소속된 엘리스 트랙명을 입력해주세요 (AI, IoT, SW)."
+          value={track}
+          onChange={onTextFieldChange}
+          error={!validateTrack(regForm.track)}
+          helperText={!validateTrack(regForm.track) ? '존재하는 트랙이 아닙니다.' : ''}
+        />
+
+        <TextField
+          type="text"
+          name="generation"
+          label="기수"
+          variant="standard"
+          placeholder="소속 트랙의 기수(숫자)를 입력해주세요."
+          value={generation}
+          onChange={onTextFieldChange}
+          error={!validateGeneration(regForm.track, regForm.generation)}
+          helperText={
+            !validateGeneration(regForm.track, regForm.generation)
+              ? '현재 활성화된 기수가 아닙니다.'
+              : ''
+          }
+        />
+        {/* <TextField
           id="standard-select-track"
           select
           label="트랙/기수"
@@ -273,7 +302,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               {elem}
             </MenuItem>
           ))}
-        </TextField>
+        </TextField> */}
 
         <Button variant="contained" type="submit">
           회원가입
