@@ -13,14 +13,26 @@ class UserModel {
     }
   }
 
-  async get(userDTO) {
+  async get(userDTO, columnArr = undefined) {
     try {
       const whereArr = o.objToQueryArray(userDTO);
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery(columnArr, whereArr);
       console.log(query);
 
       const [user] = await pool.query(query);
-      return user;
+      return user[0];
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getAll() {
+    try {
+      const query = o.makeSelectQuery();
+      console.log(query);
+
+      const [users] = await pool.query(query);
+      return users;
     } catch (err) {
       throw new Error(err);
     }
@@ -32,8 +44,8 @@ class UserModel {
       const oldDTO = o.objToQueryArray(userDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
       console.log(query);
-      const [updatedUser] = await pool.query(query);
-      return updatedUser;
+      const [result] = await pool.query(query);
+      return result;
     } catch (err) {
       throw new Error(err);
     }
@@ -45,8 +57,8 @@ class UserModel {
       const query = o.makeDeleteQuery(where);
       console.log(query);
 
-      const deletedUser = await pool.query(query);
-      return deletedUser;
+      const [result] = await pool.query(query);
+      return result;
     } catch (err) {
       throw new Error(err);
     }

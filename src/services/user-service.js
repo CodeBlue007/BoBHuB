@@ -1,4 +1,5 @@
 const { userModel } = require("../db/models");
+const buildRes = require("../util/build-response");
 const bcrypt = require("bcrypt");
 
 class UserService {
@@ -12,8 +13,9 @@ class UserService {
     userDTO.password = hashedPassword;
 
     const result = await this.userModel.create(userDTO);
-    return result;
+    return buildRes("c", result);
   }
+
   async nickNameCheck(nickName) {
     const user = await this.userModel.get({ nickName });
     let result = {};
@@ -23,27 +25,69 @@ class UserService {
     return result;
   }
 
-  async get(userId) {
-    const user = await this.userModel.get({ userId });
+  async getById(userId) {
+    const columnArr = [
+      "userId",
+      "generation",
+      "track",
+      "name",
+      "nickName",
+      "email",
+      "phone",
+      "profile",
+      "role",
+      "status",
+      "createdAt",
+      "updatedAt",
+      "deletedAt",
+    ];
+    const user = await this.userModel.get({ userId }, columnArr);
     return user;
   }
 
-  async update(newUserDTO, userId) {
-    const result = await this.userModel.update(newUserDTO, { userId });
-    if (result.changedRows === 0) {
-      throw new Error(`Id:${userId}  유저 정보 업데이트에 실패하였습니다`);
+  async getAllByAdmin() {
+    const user = await this.userModel.getAll();
+    return user;
+  }
+
+  async update(exUserDTO, userDTO) {
+    const { track, generation, name, nickName, newPassword, password, phone, profile } =
+      exUserDTO;
+    const correctPasswordHash = userDTO.password;
+
+    const newUserDTO = {
+      ...(track && { track }),
+      ...(generation && { generation }),
+      ...(name && { name }),
+      ...(nickName && { nickName }),
+      ...(phone && { phone }),
+      ...(profile && { profile }),
+    };
+
+    if (password) {
+      const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
+      if (!isPasswordCorrect) {
+        throw new Error("비밀번호가 일치하지 않습니다.");
+      }
+      if (newPassword) {
+        const newPasswordHash = await bcrypt.hash(newPassword, 10);
+        newUserDTO.password = newPasswordHash;
+      }
     }
 
-    return { result: "success" };
+    const userId = userDTO.userId;
+    const result = await this.userModel.update(newUserDTO, { userId });
+    return buildRes("u", result);
+  }
+
+  async updateByAdmin(newUserDTO, userId) {
+    const result = await this.userModel.update(newUserDTO, { userId });
+    return buildRes("u", result);
   }
 
   async deleteById(userId) {
-    const deleteCount = await this.userModel.deleteById(userId);
-    if (deleteCount === 0) {
-      throw new Error(`Id:${userId} 유저 삭제에 실패하였습니다`);
-    }
-
-    return { result: "success" };
+    const result = await this.userModel.deleteById(userId);
+    return buildRes("d", result);
   }
 }
 

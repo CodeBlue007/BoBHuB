@@ -31,12 +31,21 @@ class UserController {
     }
   }
 
-  async getByUserId(req, res, next) {
+  async getById(req, res, next) {
     try {
-      const userId = parseInt(req.params.userId);
-      const result = await userService.getByUserId(userId);
+      const { userId } = req.user;
+      const result = await userService.getById(userId);
 
       return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+  async getAllByAdmin(req, res, next) {
+    try {
+      const users = await userService.getAllByAdmin();
+
+      return res.status(200).json(users);
     } catch (e) {
       next(e);
     }
@@ -44,22 +53,34 @@ class UserController {
 
   async update(req, res, next) {
     try {
-      const userId = parseInt(req.params.userId);
+      const userDTO = req.user;
       const generation = parseInt(req.body.generation);
 
-      const { track, name, email, nickName, password, phone, profile, role } = req.body;
-      const newUserDTO = {
+      const { track, name, nickName, newPassword, password, phone, profile } = req.body;
+      const exUserDTO = {
         track,
         generation,
         name,
-        email,
         nickName,
+        newPassword,
         password,
         phone,
         profile,
-        role,
       };
-      const result = await userService.update(newUserDTO, userId);
+      const result = await userService.update(exUserDTO, userDTO);
+
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async updateByAdmin(req, res, next) {
+    try {
+      const userId = parseInt(req.params.userId);
+      const { nickName, role } = req.body;
+      const newUserDTO = { nickName, role };
+      const result = await userService.updateByAdmin(newUserDTO, userId);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -69,7 +90,7 @@ class UserController {
 
   async delete(req, res, next) {
     try {
-      const userId = parseInt(req.params.userId);
+      const { userId } = req.user;
       const result = await userService.deleteById(userId);
 
       return res.status(200).json(result);

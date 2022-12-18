@@ -1,13 +1,13 @@
 const { Router } = require("express");
 const { foodController } = require("../controllers");
-// const { adminRequired } = require("../middlewares");
+const { isLoggedIn, isAdmin } = require("../middlewares");
 
 const foodRouter = Router();
 const foodAdminRouter = Router();
 
 foodRouter.get("/:shopId", foodController.getByShopId);
 
-foodRouter.use("/admin", foodAdminRouter);
+foodRouter.use("/admin", isLoggedIn, isAdmin, foodAdminRouter);
 
 foodAdminRouter.post("/:shopId", foodController.create);
 foodAdminRouter.patch("/:foodId", foodController.update);
