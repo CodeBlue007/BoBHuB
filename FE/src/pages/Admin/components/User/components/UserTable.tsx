@@ -8,7 +8,7 @@ import {
   Paper,
   TableRow,
 } from '@mui/material';
-import { UserType } from './Users';
+import type { UserType } from './Users';
 import UserModal from './UserModal';
 
 let selectUser: UserType;

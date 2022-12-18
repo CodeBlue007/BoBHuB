@@ -1,9 +1,9 @@
 import { Box, Typography, Select, MenuItem, TextField, TextFieldProps } from '@mui/material';
-import { postFoodData } from '../Api/foodApi';
+import { postFoodData } from '../../Api/foodApi';
 import { style } from './FoodModal';
 import { useRef } from 'react';
 import styled from 'styled-components';
-import { FoodType } from './Foods';
+import type { FoodType } from './Foods';
 
 interface FoodAddFormProps {
   handleClose: () => void;

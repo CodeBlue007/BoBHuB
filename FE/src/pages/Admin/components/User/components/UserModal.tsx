@@ -1,5 +1,5 @@
 import { Box, Typography, Modal, Select, MenuItem, SelectChangeEvent } from '@mui/material';
-import { UserType } from './Users';
+import type { UserType } from './Users';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
