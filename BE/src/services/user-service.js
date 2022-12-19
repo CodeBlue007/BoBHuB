@@ -25,10 +25,11 @@ class UserService {
     return result;
   }
 
-  async getById(gotUserId, userId) {
-    const isByAuth = userId === gotUserId;
-    if (!isByAuth) throw new Error("권한이 없습니다.");
-    
+  async getById(userId, logginedUserId, role) {
+    if (role !== "admin") {
+      const isByAuth = userId === logginedUserId;
+      if (!isByAuth) throw new Error("권한이 없습니다.");
+    }
     const columnArr = [
       "userId",
       "generation",
