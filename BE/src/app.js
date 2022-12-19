@@ -32,13 +32,13 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
 app.use("/api/auth", loginRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/shop", shopRouter);
+app.use("/api/categories", categoryRouter);
+app.use("/api/shops", shopRouter);
 app.use("/api/food", foodRouter);
-app.use("/api/user", userRouter);
+app.use("/api/users", userRouter);
 // app.use("/api/group", groupRouter);
 app.use("/api/elice", eliceRouter);
-app.use("/api/comment", commentRouter);
+app.use("/api/comments", commentRouter);
 
 app.use(errorLogger);
 app.use(errorHandler);
