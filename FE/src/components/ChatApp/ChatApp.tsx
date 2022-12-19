@@ -8,6 +8,7 @@ const ChatContainer = styled.section`
   border: 1px solid black;
   bottom: 30px;
   right: 30px;
+  z-Index:10;
 `;
 
 
@@ -18,7 +19,6 @@ const ChatApp = () => {
     const handleClick = () => {
       setClicked((current) => !current);
     }
-
     
   return (
     <ChatContainer>
