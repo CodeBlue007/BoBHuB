@@ -3,7 +3,6 @@ const { commentController } = require("../controllers");
 const { isLoggedIn, isAdmin } = require("../middlewares");
 
 const commentRouter = Router();
-const commentAuthRouter = Router();
 const commentAdminRouter = Router();
 
 commentRouter.use("/admin", isLoggedIn, isAdmin, commentAdminRouter);
@@ -13,10 +12,8 @@ commentAdminRouter.delete("/:commentId", commentController.deleteByAdmin);
 
 commentRouter.get("/", commentController.getByShopId);
 
-commentRouter.use("/auth", isLoggedIn, commentAuthRouter);
-
-commentAuthRouter.post("/", commentController.create);
-commentAuthRouter.patch("/:commentId", commentController.updateByAuth);
-commentAuthRouter.delete("/:commentId", commentController.deleteByAuth);
+commentRouter.post("/", commentController.create);
+commentRouter.patch("/:commentId", commentController.updateByAuth);
+commentRouter.delete("/:commentId", commentController.deleteByAuth);
 
 module.exports = { commentRouter };

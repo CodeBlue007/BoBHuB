@@ -36,7 +36,7 @@ class CommentController {
   async updateByAuth(req, res, next) {
     try {
       const { content } = req.body;
-      const { userId } = req.user;
+      const userId = parseInt(req.user.userId);
       const star = parseInt(req.body.star);
       const commentId = parseInt(req.params.commentId);
       const newCommentDTO = { content, star, userId };
@@ -50,9 +50,8 @@ class CommentController {
 
   async deleteByAuth(req, res, next) {
     try {
-      const { userId } = req.user;
-      console.log(userId)
       const commentId = parseInt(req.params.commentId);
+      const userId = parseInt(req.user.userId);
       const result = await commentService.deleteByAuth(userId, commentId);
       res.status(200).json(result);
     } catch (e) {

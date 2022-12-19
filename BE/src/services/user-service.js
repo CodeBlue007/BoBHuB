@@ -50,7 +50,10 @@ class UserService {
     return user;
   }
 
-  async update(exUserDTO, userId) {
+  async update(exUserDTO, userId, currentUserId) {
+    const isByAuth = userId === currentUserId;
+    if (!isByAuth) throw new Error("권한이 없습니다.");
+
     const { track, generation, name, nickName, newPassword, password, phone, profile } =
       exUserDTO;
     const [userDTO] = await this.userModel.get({ userId });
@@ -84,7 +87,10 @@ class UserService {
     return buildRes("u", result);
   }
 
-  async deleteById(userId) {
+  async deleteById(currentUserId, userId) {
+    const isByAuth = userId === currentUserId;
+    if (!isByAuth) throw new Error("권한이 없습니다.");
+
     const result = await this.userModel.deleteById(userId);
     return buildRes("d", result);
   }
