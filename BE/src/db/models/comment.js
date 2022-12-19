@@ -46,7 +46,7 @@ class CommentModel {
       console.log(query);
 
       const [comment] = await pool.query(query);
-      return comment[0];
+      return comment;
     } catch (err) {
       throw new Error(err);
     }

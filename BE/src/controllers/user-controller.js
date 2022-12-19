@@ -33,8 +33,9 @@ class UserController {
 
   async getById(req, res, next) {
     try {
-      const userId = parseInt(req.params.userId);
-      const result = await userService.getById(userId);
+      const gotUserId = parseInt(req.params.userId);
+      const { userId } = req.user;
+      const result = await userService.getById(gotUserId, userId);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -53,10 +54,9 @@ class UserController {
 
   async update(req, res, next) {
     try {
-      const userId = parseInt(req.params.userId);
+      const gotUserId = parseInt(req.params.userId);
       const generation = parseInt(req.body.generation);
-      const currentUserId = parseInt(req.user.userId);
-
+      const { userId } = req.user;
       const { track, name, nickName, newPassword, password, phone, profile } = req.body;
       const exUserDTO = {
         track,
@@ -68,7 +68,7 @@ class UserController {
         phone,
         profile,
       };
-      const result = await userService.update(exUserDTO, userId, currentUserId);
+      const result = await userService.update(exUserDTO, gotUserId, userId);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -91,9 +91,9 @@ class UserController {
 
   async delete(req, res, next) {
     try {
-      const currentUserId = parseInt(req.user.userId);
-      const userId = parseInt(req.params.userId);
-      const result = await userService.deleteById(currentUserId, userId);
+      const gotUserId = parseInt(req.params.userId);
+      const { userId } = req.user;
+      const result = await userService.deleteById(gotUserId, userId);
 
       return res.status(200).json(result);
     } catch (e) {

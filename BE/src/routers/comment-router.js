@@ -12,8 +12,8 @@ commentAdminRouter.delete("/:commentId", commentController.deleteByAdmin);
 
 commentRouter.get("/", commentController.getByShopId);
 
-commentRouter.post("/", commentController.create);
-commentRouter.patch("/:commentId", commentController.updateByAuth);
-commentRouter.delete("/:commentId", commentController.deleteByAuth);
+commentRouter.post("/", isLoggedIn, commentController.create);
+commentRouter.patch("/:commentId", isLoggedIn, commentController.updateByAuth);
+commentRouter.delete("/:commentId", isLoggedIn, commentController.deleteByAuth);
 
 module.exports = { commentRouter };
