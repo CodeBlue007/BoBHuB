@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { FoodType } from '../components/Restraunt/Foods';
-const axiosInstance = axios.create({ baseURL: 'http://localhost:3001' });
+export const axiosInstance = axios.create({ baseURL: 'http://localhost:3001' });
 
 export const postFoodData = async (body: FoodType) => {
   try {

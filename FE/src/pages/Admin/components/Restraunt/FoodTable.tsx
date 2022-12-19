@@ -8,6 +8,7 @@ import {
   Paper,
   TableRow,
   IconButton,
+  Button,
 } from '@mui/material';
 import type { FoodType } from './Foods';
 import FoodModal from './FoodModal';
@@ -44,6 +45,7 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
               <TableCell>Name</TableCell>
               <TableCell align="center">좋아요</TableCell>
               <TableCell align="center">설명</TableCell>
+              <TableCell align="center">카테고리</TableCell>
               <TableCell align="center">수정</TableCell>
             </TableRow>
           </TableHead>
@@ -55,15 +57,16 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
                 </TableCell>
                 <TableCell align="center">{food.like}</TableCell>
                 <TableCell align="center">{food.description}</TableCell>
+                <TableCell align="center">{food.category}</TableCell>
                 <TableCell align="center">
-                  <button
+                  <Button
                     onClick={() => {
                       selectFood = food;
                       setBtnState('UPDATE');
                       handleOpen();
                     }}>
                     정보 조회
-                  </button>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

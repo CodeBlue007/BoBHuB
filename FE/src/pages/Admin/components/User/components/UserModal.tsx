@@ -26,6 +26,7 @@ const initUserDetail = {
   id: '',
   email: '',
   auth: '',
+  nickname: '',
 };
 
 const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProps) => {

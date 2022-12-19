@@ -8,6 +8,7 @@ export type UserType = {
   id: string;
   email: string;
   auth: string;
+  nickname: string;
 };
 
 const Users = () => {
