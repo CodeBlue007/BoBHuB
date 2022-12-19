@@ -5,7 +5,7 @@ class FoodController {
     try {
       const { name } = req.body;
       const price = parseInt(req.body.price);
-      const shopId = parseInt(req.query.shopId);
+      const shopId = parseInt(req.body.shopId);
       const picture = req.file.location;
       const result = await foodService.create({ shopId, name, price, picture });
       return res.status(200).json(result);
