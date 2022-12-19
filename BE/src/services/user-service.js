@@ -55,15 +55,9 @@ class UserService {
       exUserDTO;
     const correctPasswordHash = userDTO.password;
 
-    const newUserDTO = {
-      ...(track && { track }),
-      ...(generation && { generation }),
-      ...(name && { name }),
-      ...(nickName && { nickName }),
-      ...(phone && { phone }),
-      ...(profile && { profile }),
-    };
+    const newUserDTO = { track, generation, name, nickName, phone, profile };
 
+    if (profile) imageDeleter(userDTO.profile);
     if (password) {
       const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
       if (!isPasswordCorrect) {
@@ -85,7 +79,9 @@ class UserService {
     return buildRes("u", result);
   }
 
-  async deleteById(userId) {
+  async delete(userDTO) {
+    if (profile) imageDeleter(userDTO.profile);
+    const { userId } = userDTO;
     const result = await this.userModel.deleteById(userId);
     return buildRes("d", result);
   }

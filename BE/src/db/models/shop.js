@@ -40,7 +40,7 @@ class ShopModel {
       console.log(query);
 
       const [shop] = await pool.query(query);
-      return shop;
+      return shop[0];
     } catch (err) {
       throw new Error(err);
     }

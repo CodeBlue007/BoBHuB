@@ -4,7 +4,9 @@ class UserController {
   async create(req, res, next) {
     try {
       const generation = parseInt(req.body.generation);
-      const { track, name, email, nickName, password, phone, profile, role } = req.body;
+      const { track, name, email, nickName, password, phone } = req.body;
+      const profile = req.file ? req.file.location : null;
+
       const addedUser = await userService.create({
         track,
         generation,
@@ -14,7 +16,6 @@ class UserController {
         password,
         phone,
         profile,
-        role,
       });
       return res.status(200).json(addedUser);
     } catch (e) {
@@ -90,8 +91,8 @@ class UserController {
 
   async delete(req, res, next) {
     try {
-      const { userId } = req.user;
-      const result = await userService.deleteById(userId);
+      const userDTO = req.user;
+      const result = await userService.delete(userDTO);
 
       return res.status(200).json(result);
     } catch (e) {
