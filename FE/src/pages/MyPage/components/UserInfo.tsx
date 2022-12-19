@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CreateIcon from '@mui/icons-material/Create';
 import Stack from '@mui/material/Stack';
@@ -6,21 +6,31 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { UserInfoType } from '../MyPage';
+import { current } from '@reduxjs/toolkit';
+import {
+    validateName,
+    validateNickName,
+    validatePWCheck,
+    validatePhone,
+    validateEmail,
+    validateConfirmNum,
+  } from '../../../util/validateRegister';
 
 interface UserType {
     userInfo: UserInfoType;
+    setUserInfo: React.Dispatch<React.SetStateAction<UserInfoType>>;
 }
 
-const UserInfo = ({ userInfo }: UserType) => {
+const UserInfo = ({ userInfo, setUserInfo }: UserType) => {
     const [userInfoEditing, setUserInfoEditing] = useState({ isNameEditing: false, isNickEditing: false, isPhoneEditing: false, isEmailEditing: false, isPWEditing: false });
-
+    const [inputChange, setInputChange] = useState('');
     const handleClickUpdate = (e: React.MouseEvent<HTMLElement>, editTarget: string) => {
         e.preventDefault();
         switch (editTarget) {
             case 'name':
                 setUserInfoEditing({ isNameEditing: true, isNickEditing: false, isPhoneEditing: false, isEmailEditing: false, isPWEditing: false });
                 break;
-            case 'nick':
+            case 'nickName':
                 setUserInfoEditing({ isNameEditing: false, isNickEditing: true, isPhoneEditing: false, isEmailEditing: false, isPWEditing: false });
                 break;
             case 'phone':
@@ -40,7 +50,7 @@ const UserInfo = ({ userInfo }: UserType) => {
             case 'name':
                 setUserInfoEditing({ ...userInfoEditing, isNameEditing: false });
                 break;
-            case 'nick':
+            case 'nickName':
                 setUserInfoEditing({ ...userInfoEditing, isNickEditing: false });
                 break;
             case 'phone':
@@ -57,11 +67,18 @@ const UserInfo = ({ userInfo }: UserType) => {
     const handleClickSuccess = (e: React.MouseEvent<HTMLElement>, editSuccess: string) => {
         e.preventDefault();
         clickBtn_changeEditState(editSuccess);
+        setUserInfo({ ...userInfo, [editSuccess]: inputChange });
+        setInputChange('');
     }
 
     const handleClickCancel = (e: React.MouseEvent<HTMLElement>, editCancel: string) => {
         e.preventDefault();
         clickBtn_changeEditState(editCancel);
+        setInputChange('');
+    }
+
+    const handleUserInfoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputChange(e.target.value);
     }
 
     return (
@@ -71,11 +88,11 @@ const UserInfo = ({ userInfo }: UserType) => {
                 {userInfoEditing.isNameEditing ?
                     (<>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 }, }}>
-                            <TextField sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Name" />
+                            <TextField value={inputChange} onChange={handleUserInfoChange} sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Name" />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'name')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'name')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold', margin:'15px 10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'name')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold',  margin:'15px 0px' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'name')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
@@ -98,16 +115,25 @@ const UserInfo = ({ userInfo }: UserType) => {
                 {userInfoEditing.isNickEditing ?
                     (<>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
-                            <TextField sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Nickname" />
+                            <TextField 
+                                error
+                                onChange={handleUserInfoChange} 
+                                sx={{ height: '45px' }} 
+                                color="secondary" 
+                                size='small' 
+                                id="demo-helper-text-misaligned-no-helper" 
+                                label="Nickname"
+                                helperText={!validateName(inputChange) ? '이름은 한글 2~6글자이어야 합니다.' : ''}
+                             />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'nick')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'nick')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold', margin:'15px 10px',}} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'nickName')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 0' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'nickName')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
                         {userInfo.nickName}
-                        <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nick')}>
+                        <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nickName')}>
                             <CreateIcon sx={{ color: '#6a4a96' }} fontSize='small' />
                         </UpdateIcon>
                     </TableData>)
@@ -118,11 +144,11 @@ const UserInfo = ({ userInfo }: UserType) => {
                 {userInfoEditing.isPhoneEditing ?
                     (<>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
-                            <TextField sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Phone" />
+                            <TextField onChange={handleUserInfoChange} sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Phone" />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'phone')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'phone')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold',  margin:'15px 10px'}} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'phone')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold', margin:'15px 0'}} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'phone')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
@@ -139,11 +165,11 @@ const UserInfo = ({ userInfo }: UserType) => {
                     (<>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}
                         >
-                            <TextField sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Phone" />
+                            <TextField onChange={handleUserInfoChange} sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Email" />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'email')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'email')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold',  margin:'15px 10px'}} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'email')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold',  margin:'15px 0'}} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'email')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
@@ -163,8 +189,8 @@ const UserInfo = ({ userInfo }: UserType) => {
                             <TextField sx={{ height: '45px' }} color="secondary" size='small' id="outlined-password-input" label="Password" type="password" autoComplete="current-password" />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'password')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold', marginLeft: '10px', marginBottom: '10px' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'password')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold',  margin:'15px 10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'password')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold',  margin:'15px 0' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'password')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
