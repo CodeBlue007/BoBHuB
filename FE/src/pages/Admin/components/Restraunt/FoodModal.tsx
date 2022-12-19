@@ -3,7 +3,7 @@ import { FoodType } from './Foods';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import FoodAddForm from './FoodAddForm';
-import { deleteFoodData } from '../Api/foodApi';
+import { deleteFoodData } from '../../Api/foodApi';
 export const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
