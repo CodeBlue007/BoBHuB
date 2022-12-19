@@ -20,8 +20,6 @@ class CommentModel {
       const query = o.makeSelectQuery();
       console.log(123);
       console.log(query);
-      // 쿼리가 select * from comment where , whereArr = [], where가 추가됨. 대체 왜?
-      // user랑 똑같음 틀은 근데 []가 추가되어 where이 생성됨 쿼리문에서
       const [comments] = await pool.query(query);
       return comments;
     } catch (err) {
@@ -49,7 +47,7 @@ class CommentModel {
       console.log(query);
 
       const [comment] = await pool.query(query);
-      return comment;
+      return comment[0];
     } catch (err) {
       throw new Error(err);
     }
