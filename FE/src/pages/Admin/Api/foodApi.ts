@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FoodType } from '../Restraunt/Foods';
+import { FoodType } from '../components/Restraunt/Foods';
 
 export const postFoodData = async (body: FoodType) => {
   await axios

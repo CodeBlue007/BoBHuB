@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import FoodTable from './FoodTable';
-import { fetchFoodData } from '../Api/foodApi';
+import { fetchFoodData } from '../../Api/foodApi';
 
 export type FoodType = {
   name: string;
