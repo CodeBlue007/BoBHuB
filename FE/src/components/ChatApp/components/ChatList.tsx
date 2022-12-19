@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import {TextCss, Title} from "./ChatStyle";
 
 const None = styled.li`
