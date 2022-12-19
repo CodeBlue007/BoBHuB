@@ -16,7 +16,11 @@ shopAdminRouter.post(
   imageUploader.fields([{ name: "menu" }, { name: "shopPicture" }]),
   shopController.create
 );
-shopAdminRouter.patch("/:shopId", shopController.update);
+shopAdminRouter.patch(
+  "/:shopId",
+  imageUploader.fields([{ name: "menu" }, { name: "shopPicture" }]),
+  shopController.update
+);
 shopAdminRouter.delete("/:shopId", shopController.delete);
 
 module.exports = { shopRouter };
