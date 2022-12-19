@@ -31,10 +31,9 @@ const imageUploader = multer({
 });
 
 const imageDeleter = (location) => {
-  console.log(location);
   let params = {
     Bucket: process.env.S3_BUCKET_NAME,
-    Key: location,
+    Key: location.split("/").slice(-2).join("/"),
   };
 
   try {
@@ -42,7 +41,7 @@ const imageDeleter = (location) => {
       if (error) {
         console.log("err: ", error, error.stack);
       } else {
-        console.log(data, " 정상 삭제 되었습니다.");
+        console.log(" 정상 삭제 되었습니다.");
       }
     });
   } catch (err) {

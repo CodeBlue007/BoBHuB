@@ -44,9 +44,13 @@ class ShopService {
   }
 
   async deleteById(shopId) {
-    const { menu, shopPicture } = await shopModel.getByShopId(shopId);
+    const shop = await shopModel.getByShopId(shopId);
+    if (shop) throw new Error("DB에서 id를 검색하지 못했습니다.");
+
+    const { menu, shopPicture } = shop;
     if (menu) imageDeleter(menu);
     if (shopPicture) imageDeleter(shopPicture);
+
     const result = await shopModel.deleteById(shopId);
     return buildRes("d", result);
   }

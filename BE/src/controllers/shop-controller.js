@@ -6,8 +6,6 @@ class ShopController {
     const distance = parseInt(req.body.distance);
     const menu = req.files.menu[0] ? req.files.menu[0].location : null;
     const shopPicture = req.files.shopPicture[0] ? req.files.shopPicture[0].location : null;
-    console.log(menu, shopPicture);
-    console.log(req.files.menu);
 
     try {
       const result = await shopService.create({

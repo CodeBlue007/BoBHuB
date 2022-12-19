@@ -91,8 +91,8 @@ class UserController {
 
   async delete(req, res, next) {
     try {
-      const { userId } = req.user;
-      const result = await userService.deleteById(userId);
+      const userDTO = req.user;
+      const result = await userService.delete(userDTO);
 
       return res.status(200).json(result);
     } catch (e) {

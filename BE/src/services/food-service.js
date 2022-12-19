@@ -29,7 +29,10 @@ class FoodService {
   }
 
   async deleteById(foodId) {
-    const { picture } = await foodModel.getById(foodId);
+    const food = await foodModel.getById(foodId);
+    if (food) throw new Error("DB에서 id를 검색하지 못했습니다.");
+
+    const { picture } = food;
     if (picture) imageDeleter(picture);
 
     const result = await foodModel.deleteById(foodId);
