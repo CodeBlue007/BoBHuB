@@ -100,7 +100,6 @@ const Div = styled.div`
     font-weight: bold;
   }
 `;
-const SliderItem = styled.div``;
 
 const TitleBox = styled.div`
   height: 30px;
@@ -110,7 +109,7 @@ const TitleBox = styled.div`
   font-weight: bold;
 `;
 
-function NextArrow() {
+export function NextArrow() {
   return (
     <div className="arrow arrow-right">
       <MdKeyboardArrowRight />
@@ -118,7 +117,7 @@ function NextArrow() {
   );
 }
 
-function PrevArrow() {
+export function PrevArrow() {
   return (
     <div className="arrow arrow-left">
       <MdKeyboardArrowLeft />
@@ -173,13 +172,13 @@ export default function SimpleSlider() {
       <div>
         <StyledSlider {...settings}>
           {result.map((menu: Menu, index: number) => (
-            <SliderItem
+            <div
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${menu}${index}`}>
               <img src={menu.img} alt="img" />
               <span>{menu.name}</span>
               <Button variant="contained">찜하기</Button>
-            </SliderItem>
+            </div>
           ))}
         </StyledSlider>
       </div>
