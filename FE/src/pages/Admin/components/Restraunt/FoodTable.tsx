@@ -8,12 +8,13 @@ import {
   Paper,
   TableRow,
   IconButton,
+  Button,
 } from '@mui/material';
-import { FoodType } from './Foods';
+import type { FoodType } from './Foods';
 import FoodModal from './FoodModal';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-let selectFood: FoodType | undefined;
+let selectFood: FoodType;
 
 interface FoodTableProps {
   foods: FoodType[];
@@ -21,16 +22,13 @@ interface FoodTableProps {
 }
 
 const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
-  const [open, setOpen] = useState(false);
-  const [btnState, setBtnState] = useState('');
+  const [open, setOpen] = useState<boolean>(false);
+  const [btnState, setBtnState] = useState<string>('');
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
 
-  const rowData = foods.map(({ name, distance, id, description, like, address, category }) => {
-    return { name, distance, id, description, like, address, category };
-  });
   return (
     <Fragment>
       <FoodModal
@@ -47,31 +45,34 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
               <TableCell>Name</TableCell>
               <TableCell align="center">좋아요</TableCell>
               <TableCell align="center">설명</TableCell>
+              <TableCell align="center">카테고리</TableCell>
               <TableCell align="center">수정</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rowData.map((food) => (
+            {foods.map((food) => (
               <TableRow key={food.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">
                   {food.name}
                 </TableCell>
                 <TableCell align="center">{food.like}</TableCell>
                 <TableCell align="center">{food.description}</TableCell>
+                <TableCell align="center">{food.category}</TableCell>
                 <TableCell align="center">
-                  <button
+                  <Button
+                    variant="outlined"
                     onClick={() => {
                       selectFood = food;
                       setBtnState('UPDATE');
                       handleOpen();
                     }}>
                     정보 조회
-                  </button>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
             <TableRow>
-              <TableCell align="center" colSpan={4}>
+              <TableCell align="center" colSpan={5}>
                 <IconButton
                   onClick={() => {
                     setBtnState('ADD');
