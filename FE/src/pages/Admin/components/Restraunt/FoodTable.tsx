@@ -38,7 +38,7 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
         food={selectFood}
         btnState={btnState}
       />
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ overflowY: 'scroll', maxHeight: '60vh' }}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -71,6 +71,13 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
                 </TableCell>
               </TableRow>
             ))}
+            {foods.length === 0 && (
+              <TableRow sx={{ opacity: '0.3', color: 'black' }}>
+                <TableCell align="center" colSpan={5}>
+                  <p>데이터가 없습니다.</p>
+                </TableCell>
+              </TableRow>
+            )}
             <TableRow>
               <TableCell align="center" colSpan={5}>
                 <IconButton
