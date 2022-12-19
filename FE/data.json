@@ -1,0 +1,13 @@
+{
+  "user": {
+    "userId": "1234",
+    "track": "SW",
+    "generation": 3,
+    "name": "아호상",
+    "email": "ahosang0056@elice.com",
+    "phone": "01012341234",
+    "profile": "이미지주소",
+    "role": "elicer",
+    "nickName": "nick"
+  }
+}
