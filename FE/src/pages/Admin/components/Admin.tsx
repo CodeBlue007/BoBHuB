@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import SideBarListItems from './SideBarListItems';
-import Users from '../User/components/Users';
+import Users from './User/components/Users';
 import Foods from './Restraunt/Foods';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link } from 'react-router-dom';
