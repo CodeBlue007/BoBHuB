@@ -1,22 +1,22 @@
 const { Router } = require("express");
 const { commentController } = require("../controllers");
-// const { adminRequired, loginRequired } = require("../middlewares");
+const { isLoggedIn, isAdmin } = require("../middlewares");
 
 const commentRouter = Router();
 const commentAuthRouter = Router();
 const commentAdminRouter = Router();
 
-commentRouter.get("/shopId", commentController.getByShopId);
+commentRouter.use("/admin", isLoggedIn, isAdmin, commentAdminRouter);
 
-commentRouter.get("/auth", commentAuthRouter);
+commentAdminRouter.get("/", commentController.getAllByAdmin);
+commentAdminRouter.delete("/:commentId", commentController.deleteByAdmin);
 
-commentAuthRouter.post("/", commentController.create);
-commentAuthRouter.patch("/:commentId", commentController.updateAuth);
-commentAuthRouter.delete("/:commentId", commentController.deleteAuth);
+commentRouter.get("/:shopId", commentController.getByShopId);
 
-commentRouter.get("/admin", commentAdminRouter);
+commentRouter.use("/auth", isLoggedIn, commentAuthRouter);
 
-commentAdminRouter.get("/", commentController.getAll);
-commentAdminRouter.delete("/:commentId", commentController.delete);
+commentAuthRouter.post("/:shopId", commentController.create);
+commentAuthRouter.patch("/:commentId", commentController.updateByAuth);
+commentAuthRouter.delete("/:commentId", commentController.deleteByAuth);
 
 module.exports = { commentRouter };

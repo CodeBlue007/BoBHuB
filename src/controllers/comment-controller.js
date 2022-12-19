@@ -2,13 +2,12 @@ const { commentService } = require("../services");
 
 class CommentController {
   async create(req, res, next) {
-    // const {userId} = req.currentUser
-    const { content, star } = req.body;
     try {
-      const result = await commentService.create({
-        content,
-        star,
-      });
+      const { content } = req.body;
+      const star = parseInt(req.body.star);
+      const shopId = parseInt(req.params.shopId);
+      const userId = parseInt(req.user.userId);
+      const result = await commentService.create({ shopId, userId, content, star });
       return res.status(200).json(result);
     } catch (e) {
       next(e);
@@ -25,22 +24,23 @@ class CommentController {
     }
   }
 
-  async getAll(req, res, next) {
+  async getAllByAdmin(req, res, next) {
     try {
-      const commentList = await commentService.getAll();
+      const commentList = await commentService.getAllByAdmin();
       return res.status(200).json(commentList);
     } catch (e) {
       next(e);
     }
   }
 
-  async update(req, res, next) {
+  async updateByAuth(req, res, next) {
     try {
-      // const {userId} = req.currentUser
+      const { content } = req.body;
+      const { userId } = req.user;
+      const star = parseInt(req.body.star);
       const commentId = parseInt(req.params.commentId);
-      const { content, star } = req.body;
-      const newCommentDTO = { content, star };
-      const updatedComment = await commentService.update(newCommentDTO, commentId);
+      const newCommentDTO = { content, star, userId };
+      const updatedComment = await commentService.updateByAuth(newCommentDTO, commentId);
 
       return res.status(200).json(updatedComment);
     } catch (e) {
@@ -48,21 +48,22 @@ class CommentController {
     }
   }
 
-  async deleteAuth(req, res, next) {
+  async deleteByAuth(req, res, next) {
     try {
-      // const {userId} = req.currentUser
+      const { userId } = req.user;
+
       const commentId = parseInt(req.params.commentId);
-      const result = await commentService.deleteById(commentId);
+      const result = await commentService.deleteByAuth(userId, commentId);
       res.status(200).json(result);
     } catch (e) {
       next(e);
     }
   }
 
-  async delete(req, res, next) {
+  async deleteByAdmin(req, res, next) {
     try {
       const commentId = parseInt(req.params.commentId);
-      const result = await commentService.deleteById(commentId);
+      const result = await commentService.deleteByAdmin(commentId);
       res.status(200).json(result);
     } catch (e) {
       next(e);

@@ -26,8 +26,8 @@ class LoginController {
         return next(err);
       }
     });
-    req.session.destroy();
-    res.redirext("/");
+    res.clearCookie("connect.sid");
+    res.redirect("/");
   }
 }
 

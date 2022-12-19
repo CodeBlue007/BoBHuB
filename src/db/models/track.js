@@ -20,8 +20,8 @@ class TrackModel {
       const query = o.makeSelectQuery();
       console.log(query);
 
-      const [elices] = await pool.query(query);
-      return elices;
+      const [tracks] = await pool.query(query);
+      return tracks;
     } catch (err) {
       throw new Error(err);
     }
@@ -33,6 +33,7 @@ class TrackModel {
       const oldDTO = o.objToQueryArray(trackDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
       console.log(query);
+
       const [result] = await pool.query(query);
       return result;
     } catch (err) {
