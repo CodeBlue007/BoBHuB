@@ -1,12 +1,17 @@
 const { Router } = require("express");
 const { userController } = require("../controllers");
-const { isLoggedIn, isNotLoggedIn, isAdmin } = require("../middlewares");
+const { isLoggedIn, isNotLoggedIn, isAdmin, imageUploader } = require("../middlewares");
 
 const userRouter = Router();
 const userAuthRouter = Router();
 const userAdminRouter = Router();
 
-userRouter.post("/join", isNotLoggedIn, userController.create);
+userRouter.post(
+  "/join",
+  imageUploader.single("profile"),
+  isNotLoggedIn,
+  userController.create
+);
 userRouter.get("/nickNameCheck", userController.nickNameCheck);
 
 userRouter.use("/auth", isLoggedIn, userAuthRouter);

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import FoodTable from './FoodTable';
@@ -15,12 +14,10 @@ export type FoodType = {
 };
 
 const Foods = () => {
-  const [foods, setFoods] = useState([]);
+  const [foods, setFoods] = useState<FoodType[]>([]);
   const setFoodsData = async () => {
-    const data = await fetchFoodData();
-    setFoods(() => {
-      return data;
-    });
+    const data: FoodType[] = await fetchFoodData();
+    setFoods([...data]);
   };
 
   useEffect(() => {
