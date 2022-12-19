@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
-import { TextCss, Title } from './ChatStyle';
+import { Title } from './ChatStyle';
 import React, { useEffect, useState } from 'react';
 import { Button, TextField } from '@mui/material';
-import { width } from '@mui/system';
 
 const InputContainer = styled.div`
   display: flex;
