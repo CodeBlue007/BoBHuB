@@ -7,6 +7,7 @@ function App() {
     <div>
       <GlobalStyle />
       <Router/>
+      <ChatApp/>
     </div>
   );
   }

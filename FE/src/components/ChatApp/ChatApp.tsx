@@ -2,7 +2,6 @@ import ChatButton from './components/ChatButton';
 import { useState } from 'react';
 import ChatPage from './components/ChatPage';
 import styled from 'styled-components';
-import ChatRouter from './components/ChatRouter';
 
 const ChatContainer = styled.section`
   position: fixed;
@@ -22,8 +21,7 @@ const ChatApp = () => {
     
   return (
     <ChatContainer>
-      <ChatRouter/>
-      {isClicked? <ChatPage/> : <ChatButton handleClick={handleClick}/>}
+      {isClicked? <ChatPage handleClick={handleClick}/> : <ChatButton handleClick={handleClick}/>}
     </ChatContainer>
   );
 };
