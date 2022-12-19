@@ -5,7 +5,7 @@ class CommentController {
     try {
       const { content } = req.body;
       const star = parseInt(req.body.star);
-      const shopId = parseInt(req.params.shopId);
+      const shopId = parseInt(req.body.shopId);
       const userId = parseInt(req.user.userId);
       const result = await commentService.create({ shopId, userId, content, star });
       return res.status(200).json(result);
@@ -16,7 +16,7 @@ class CommentController {
 
   async getByShopId(req, res, next) {
     try {
-      const shopId = parseInt(req.params.shopId);
+      const shopId = parseInt(req.query.shopId);
       const commentList = await commentService.getByShopId(shopId);
       return res.status(200).json(commentList);
     } catch (e) {
@@ -51,7 +51,7 @@ class CommentController {
   async deleteByAuth(req, res, next) {
     try {
       const { userId } = req.user;
-
+      console.log(userId)
       const commentId = parseInt(req.params.commentId);
       const result = await commentService.deleteByAuth(userId, commentId);
       res.status(200).json(result);

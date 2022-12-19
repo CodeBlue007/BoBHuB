@@ -11,11 +11,11 @@ commentRouter.use("/admin", isLoggedIn, isAdmin, commentAdminRouter);
 commentAdminRouter.get("/", commentController.getAllByAdmin);
 commentAdminRouter.delete("/:commentId", commentController.deleteByAdmin);
 
-commentRouter.get("/:shopId", commentController.getByShopId);
+commentRouter.get("/", commentController.getByShopId);
 
 commentRouter.use("/auth", isLoggedIn, commentAuthRouter);
 
-commentAuthRouter.post("/:shopId", commentController.create);
+commentAuthRouter.post("/", commentController.create);
 commentAuthRouter.patch("/:commentId", commentController.updateByAuth);
 commentAuthRouter.delete("/:commentId", commentController.deleteByAuth);
 

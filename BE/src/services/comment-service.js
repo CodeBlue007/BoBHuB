@@ -34,7 +34,8 @@ class CommentService {
   }
 
   async deleteByAuth(userId, commentId) {
-    const currentComment = await this.commentModel.getByShopId(commentId);
+    const currentComment = await this.commentModel.getByCommentId(commentId);
+    console.log(currentComment.userId)
     const isByAuth = currentComment.userId === userId;
     if (!isByAuth) throw new Error("권한이 없습니다.");
 
