@@ -1,24 +1,24 @@
-import styled from 'styled-components';
-import { useState } from 'react';
+import styled, { css } from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import { IconButton, Paper } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import ChatRoom from './ChatRoom';
-
-const Title = styled.div`
-  width: inherit;
-  font-size: 30px;
-  color: white;
-  text-align: center;
-  padding: 25px 0px;
-  border-bottom: 1px solid white;
-`;
+import ChatList from './ChatList';
 
 interface ChatPageProps {
   handleClick: () => void;
 }
 
-const ChatPage = () => {
+const ChatPage = ({ handleClick }: ChatPageProps) => {
+  const [enterRoom, setEnterRoom] = useState<boolean>(false);
+  const [targetRoom, setTargetRoom] = useState<string>('');
+
+  const moveRoom = (e: React.MouseEvent<HTMLLIElement>) => {
+    const roomName = e.currentTarget.innerText;
+    setTargetRoom(roomName);
+    setEnterRoom(true);
+  };
+
   return (
     <>
       <Paper
@@ -37,12 +37,11 @@ const ChatPage = () => {
             position: 'absolute',
             top: 0,
             right: 0,
-          }}>
+          }}
+          onClick={handleClick}>
           <ClearIcon fontSize="inherit" />
         </IconButton>
-        <Title>Chat Lists</Title>
-
-        <Link to="/roomId">To Room</Link>
+        {enterRoom ? <ChatRoom roomName={targetRoom} /> : <ChatList moveRoom={moveRoom} />}
       </Paper>
     </>
   );
