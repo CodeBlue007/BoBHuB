@@ -7,6 +7,7 @@ import {
   TableHead,
   Paper,
   TableRow,
+  Button,
 } from '@mui/material';
 import type { UserType } from './Users';
 import UserModal from './UserModal';
@@ -39,6 +40,7 @@ const UserTable = ({ users, fetchUserData }: UserTableProps) => {
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell align="center">Email</TableCell>
+              <TableCell align="center">닉네임</TableCell>
               <TableCell align="center">권한</TableCell>
               <TableCell align="center">수정</TableCell>
             </TableRow>
@@ -50,9 +52,12 @@ const UserTable = ({ users, fetchUserData }: UserTableProps) => {
                   {user.name}
                 </TableCell>
                 <TableCell align="center">{user.email}</TableCell>
+                <TableCell align="center">{user.nickname}</TableCell>
                 <TableCell align="center">{user.auth}</TableCell>
                 <TableCell align="center">
-                  <button onClick={() => handleOpen(user)}>정보 조회</button>
+                  <Button variant="outlined" onClick={() => handleOpen(user)}>
+                    정보 조회
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

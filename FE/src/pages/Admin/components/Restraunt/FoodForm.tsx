@@ -6,10 +6,11 @@ import {
   TextField,
   TextFieldProps,
   Button,
+  ButtonGroup,
 } from '@mui/material';
-import { postFoodData } from '../../Api/foodApi';
+import { postFoodData, updateFoodData, deleteFoodData } from '../../Api/foodApi';
 import { style } from './FoodModal';
-import { useRef, MouseEvent, useState, ChangeEvent, useEffect } from 'react';
+import { useRef, useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import type { FoodType } from './Foods';
 import { fetchCategoryList } from '../../Api/categoryApi';
@@ -17,9 +18,11 @@ import { fetchCategoryList } from '../../Api/categoryApi';
 interface FoodAddFormProps {
   handleClose: () => void;
   setFoodsData: () => void;
+  btnState: string;
+  food: FoodType;
 }
 
-const FoodAddForm = ({ handleClose, setFoodsData }: FoodAddFormProps) => {
+const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProps) => {
   const name = useRef<TextFieldProps>();
   const distance = useRef<TextFieldProps>();
   const address = useRef<TextFieldProps>();
@@ -27,6 +30,27 @@ const FoodAddForm = ({ handleClose, setFoodsData }: FoodAddFormProps) => {
   const category = useRef<TextFieldProps>();
   const [uploadPhoto, setUploadPhoto] = useState<File>();
   const [categoryList, setCategoryList] = useState<[]>([]);
+
+  const clickUpdateBtn = async (id: string) => {
+    const body: FoodType = {
+      name: name.current?.value as string,
+      distance: distance.current?.value as number,
+      address: address.current?.value as string,
+      description: description.current?.value as string,
+      id: new Date().getTime().toString(),
+      like: 0,
+      category: category.current?.value as string,
+    };
+    await updateFoodData(id, body);
+    setFoodsData();
+    handleClose();
+  };
+
+  const clickDeleteBtn = async (id: string) => {
+    await deleteFoodData(id);
+    setFoodsData();
+    handleClose();
+  };
 
   useEffect(() => {
     (async () => {
@@ -53,27 +77,51 @@ const FoodAddForm = ({ handleClose, setFoodsData }: FoodAddFormProps) => {
     <Box sx={style}>
       <form encType="multipart/form-data" action="">
         <Typography id="modal-modal-title" variant="h6" component="h2">
-          식당 정보 입력
+          식당 정보
         </Typography>
         <Div>
           <label htmlFor="Name">이름</label>
-          <TextField required id="Name" label="Name" inputRef={name} type="text" />
+          <TextField
+            required
+            id="Name"
+            label="Name"
+            inputRef={name}
+            defaultValue={btnState === 'UPDATE' ? food.name : ''}
+          />
         </Div>
         <Div>
           <label htmlFor="distance">거리</label>
-          <TextField required id="distance" label="distance" inputRef={distance} />
+          <TextField
+            required
+            id="distance"
+            label="distance"
+            inputRef={distance}
+            defaultValue={btnState === 'UPDATE' ? food.distance : ''}
+          />
         </Div>
         <Div>
           <label htmlFor="address">주소</label>
-          <TextField required id="address" label="address" inputRef={address} />
+          <TextField
+            required
+            id="address"
+            label="address"
+            inputRef={address}
+            defaultValue={btnState === 'UPDATE' ? food.address : ''}
+          />
         </Div>
         <Div>
           <label htmlFor="description">설명</label>
-          <TextField required id="description" label="description" inputRef={description} />
+          <TextField
+            required
+            id="description"
+            label="description"
+            inputRef={description}
+            defaultValue={btnState === 'UPDATE' ? food.description : ''}
+          />
         </Div>
         <Div>
           <label htmlFor="category">카테고리</label>
-          <Select defaultValue="한식" inputRef={category}>
+          <Select defaultValue={btnState === 'UPDATE' ? food.category : '한식'} inputRef={category}>
             {categoryList.map(({ category }) => {
               return <MenuItem value={category}>{category}</MenuItem>;
             })}
@@ -91,13 +139,30 @@ const FoodAddForm = ({ handleClose, setFoodsData }: FoodAddFormProps) => {
             />
           </Button>
         </Div>
-        <Button onClick={clickAddButtonHandler}>추가</Button>
+        <Div>
+          {btnState === 'ADD' && (
+            <Button variant="outlined" onClick={clickAddButtonHandler}>
+              추가
+            </Button>
+          )}
+          {btnState === 'UPDATE' && (
+            <ButtonGroup variant="outlined" aria-label="outlined button group">
+              <Button onClick={() => clickUpdateBtn(food.id)}>수정</Button>
+              <Button
+                onClick={() => {
+                  clickDeleteBtn(food.id);
+                }}>
+                삭제
+              </Button>
+            </ButtonGroup>
+          )}
+        </Div>
       </form>
     </Box>
   );
 };
 
-export default FoodAddForm;
+export default FoodForm;
 
 const Div = styled.div`
   display: flex;

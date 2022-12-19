@@ -29,3 +29,12 @@ export const fetchFoodData = async () => {
     console.log(error);
   }
 };
+
+export const updateFoodData = async (id: string, body: FoodType) => {
+  try {
+    const res = await axiosInstance.patch(`/foods/${id}`, body);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};

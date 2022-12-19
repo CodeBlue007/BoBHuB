@@ -1,7 +1,6 @@
 import { Modal } from '@mui/material';
 import type { FoodType } from './Foods';
-import FoodAddForm from './FoodAddForm';
-import FoodDetailForm from './FoodDetailForm';
+import FoodForm from './FoodForm';
 export const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -30,11 +29,12 @@ const FoodModal = ({ open, handleClose, food, setFoodsData, btnState }: FoodModa
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        {btnState === 'ADD' ? (
-          <FoodAddForm handleClose={handleClose} setFoodsData={setFoodsData} />
-        ) : (
-          <FoodDetailForm handleClose={handleClose} setFoodsData={setFoodsData} food={food} />
-        )}
+        <FoodForm
+          btnState={btnState}
+          handleClose={handleClose}
+          setFoodsData={setFoodsData}
+          food={food}
+        />
       </Modal>
     </div>
   );

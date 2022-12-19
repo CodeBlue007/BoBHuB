@@ -60,6 +60,7 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
                 <TableCell align="center">{food.category}</TableCell>
                 <TableCell align="center">
                   <Button
+                    variant="outlined"
                     onClick={() => {
                       selectFood = food;
                       setBtnState('UPDATE');
@@ -71,7 +72,7 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
               </TableRow>
             ))}
             <TableRow>
-              <TableCell align="center" colSpan={4}>
+              <TableCell align="center" colSpan={5}>
                 <IconButton
                   onClick={() => {
                     setBtnState('ADD');
