@@ -6,6 +6,7 @@ const sessionConfig = require("./config/session.config");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 require("./db/models");
+require("dotenv").config();
 const {
   categoryRouter,
   shopRouter,
@@ -22,7 +23,6 @@ const app = express();
 passportConfig();
 
 app.use(cors());
-
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session(sessionConfig));
