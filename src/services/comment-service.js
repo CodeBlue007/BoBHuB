@@ -12,10 +12,7 @@ class CommentService {
   }
 
   async getAllByAdmin() {
-    console.log(2323232);
-
     const comments = await this.commentModel.getAll();
-    console.log(1414);
 
     return comments;
   }
@@ -37,7 +34,7 @@ class CommentService {
   }
 
   async deleteByAuth(userId, commentId) {
-    const currentComment = await this.commentModel.getByShopId(commentId);
+    const currentComment = await this.commentModel.getByCommentId(commentId);
     const isByAuth = currentComment[0].userId === userId;
     if (!isByAuth) throw new Error("권한이 없습니다.");
 

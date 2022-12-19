@@ -26,8 +26,7 @@ class CommentController {
 
   async getAllByAdmin(req, res, next) {
     try {
-      console.log("dufueufu");
-      const commentList = await commentService.getAll();
+      const commentList = await commentService.getAllByAdmin();
       return res.status(200).json(commentList);
     } catch (e) {
       next(e);
