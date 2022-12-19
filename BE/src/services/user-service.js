@@ -26,7 +26,8 @@ class UserService {
   }
 
   async getById(userId) {
-    const columnArr = [
+    // password 만 제외
+    const filter = [
       "userId",
       "generation",
       "track",
@@ -41,7 +42,7 @@ class UserService {
       "updatedAt",
       "deletedAt",
     ];
-    const [user] = await this.userModel.get({ userId }, columnArr);
+    const [user] = await this.userModel.get({ userId }, filterArr);
     return user;
   }
 
