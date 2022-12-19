@@ -16,7 +16,7 @@ class UserService {
     return buildRes("c", result);
   }
 
-  async nickNameCheck(nickName) {
+  async checkNickname(nickName) {
     const user = await this.userModel.get({ nickName });
     let result = {};
     if (user.length == 0) result.message = "사용가능한 닉네임입니다.";

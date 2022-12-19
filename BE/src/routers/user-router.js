@@ -7,7 +7,7 @@ const userAuthRouter = Router();
 const userAdminRouter = Router();
 
 userRouter.post("/join", isNotLoggedIn, userController.create);
-userRouter.get("/nickNameCheck", userController.nickNameCheck);
+userRouter.get("/nicknames/:nickname", userController.checkNickname);
 
 userRouter.use("/auth", isLoggedIn, userAuthRouter);
 
