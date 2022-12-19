@@ -2,13 +2,13 @@ const { foodService } = require("../services");
 
 class FoodController {
   async create(req, res, next) {
-    // picture 아직
     try {
       const { name } = req.body;
       const price = parseInt(req.body.price);
       const shopId = parseInt(req.params.shopId);
+      const picture = req.file.location;
 
-      const result = await foodService.create({ shopId, name, price });
+      const result = await foodService.create({ shopId, name, price, picture });
       return res.status(200).json(result);
     } catch (e) {
       next(e);

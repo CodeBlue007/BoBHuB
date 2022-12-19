@@ -4,6 +4,8 @@ class ShopController {
   async create(req, res, next) {
     const { category, name, address, description } = req.body;
     const distance = parseInt(req.body.distance);
+    const menu = req.files.menu.location;
+    const shopPicture = req.files.shopPicture.location;
 
     try {
       const result = await shopService.create({
@@ -11,8 +13,8 @@ class ShopController {
         name,
         distance,
         address,
-        // menu,
-        // shopPicture,
+        menu,
+        shopPicture,
         description,
       });
       return res.status(200).json(result);
