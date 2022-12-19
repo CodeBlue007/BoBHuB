@@ -50,11 +50,11 @@ class UserService {
     return user;
   }
 
-  async update(exUserDTO, userDTO) {
+  async update(exUserDTO, userId) {
     const { track, generation, name, nickName, newPassword, password, phone, profile } =
       exUserDTO;
+    const [userDTO] = await this.userModel.get({ userId });
     const correctPasswordHash = userDTO.password;
-
     const newUserDTO = {
       ...(track && { track }),
       ...(generation && { generation }),
@@ -75,7 +75,6 @@ class UserService {
       }
     }
 
-    const userId = userDTO.userId;
     const result = await this.userModel.update(newUserDTO, { userId });
     return buildRes("u", result);
   }

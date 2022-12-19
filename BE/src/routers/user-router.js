@@ -3,21 +3,19 @@ const { userController } = require("../controllers");
 const { isLoggedIn, isNotLoggedIn, isAdmin } = require("../middlewares");
 
 const userRouter = Router();
-const userAuthRouter = Router();
 const userAdminRouter = Router();
-
-userRouter.post("/join", isNotLoggedIn, userController.create);
-userRouter.get("/nicknames/:nickname", userController.checkNickname);
-
-userRouter.use("/auth", isLoggedIn, userAuthRouter);
-
-userAuthRouter.get("/", userController.getById);
-userAuthRouter.patch("/", userController.update);
-userAuthRouter.delete("/", userController.delete);
 
 userRouter.use("/admin", isLoggedIn, isAdmin, userAdminRouter);
 
 userAdminRouter.get("/", userController.getAllByAdmin);
 userAdminRouter.patch("/:userId", userController.updateByAdmin);
+
+userRouter.post("/join", isNotLoggedIn, userController.create);
+
+userRouter.get("/nicknames/:nickname", userController.checkNickname);
+
+userRouter.get("/:userId", isLoggedIn, userController.getById);
+userRouter.patch("/:userId", isLoggedIn, userController.update);
+userRouter.delete("/:userId", isLoggedIn, userController.delete);
 
 module.exports = { userRouter };
