@@ -7,6 +7,7 @@ import {
   TextFieldProps,
   Button,
   ButtonGroup,
+  Input,
 } from '@mui/material';
 import { postFoodData, updateFoodData, deleteFoodData } from '../../Api/foodApi';
 import { style } from './FoodModal';
@@ -23,7 +24,7 @@ interface FoodAddFormProps {
 }
 
 const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProps) => {
-  const name = useRef<TextFieldProps>();
+  const name = useRef<HTMLInputElement>(null);
   const distance = useRef<TextFieldProps>();
   const address = useRef<TextFieldProps>();
   const description = useRef<TextFieldProps>();
@@ -60,8 +61,10 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
   }, []);
 
   const clickAddButtonHandler = async () => {
+    if (!name.current) return;
+
     const body: FoodType = {
-      name: name.current?.value as string,
+      name: name.current.value,
       distance: distance.current?.value as number,
       address: address.current?.value as string,
       description: description.current?.value as string,
@@ -93,8 +96,8 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
           <label htmlFor="distance">거리</label>
           <TextField
             required
-            id="distance"
             label="distance"
+            id="distance"
             inputRef={distance}
             defaultValue={btnState === 'UPDATE' ? food.distance : ''}
           />
