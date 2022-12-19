@@ -5,11 +5,11 @@ const { isLoggedIn, isAdmin } = require("../middlewares");
 const foodRouter = Router();
 const foodAdminRouter = Router();
 
-foodRouter.get("/:shopId", foodController.getByShopId);
+foodRouter.get("/", foodController.getByShopId);
 
 foodRouter.use("/admin", isLoggedIn, isAdmin, foodAdminRouter);
 
-foodAdminRouter.post("/:shopId", foodController.create);
+foodAdminRouter.post("/", foodController.create);
 foodAdminRouter.patch("/:foodId", foodController.update);
 foodAdminRouter.delete("/:foodId", foodController.deleteById);
 

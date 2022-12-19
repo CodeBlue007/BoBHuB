@@ -6,8 +6,8 @@ class FoodController {
     try {
       const { name } = req.body;
       const price = parseInt(req.body.price);
-      const shopId = parseInt(req.params.shopId);
-
+      const shopId = parseInt(req.query.shopId);
+      console.log(shopId);
       const result = await foodService.create({ shopId, name, price });
       return res.status(200).json(result);
     } catch (e) {
@@ -17,8 +17,8 @@ class FoodController {
 
   async getByShopId(req, res, next) {
     try {
-      const shopId = parseInt(req.params.shopId);
-
+      const shopId = parseInt(req.query.shopId);
+      console.log(shopId);
       const foodList = await foodService.getByShopId(shopId);
       return res.status(200).json(foodList);
     } catch (e) {
