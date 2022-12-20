@@ -7,8 +7,14 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
+interface Menu {
+  id: number;
+  name: string;
+  img: string;
+}
+
 const StyledSlider = styled(Slider)`
-  height: 300px;
+  height: 100%;
 `;
 
 const Div = styled.div`
@@ -104,17 +110,17 @@ const TitleBox = styled.div`
   font-weight: bold;
 `;
 
-function NextArrow({ onClick }: any) {
+function NextArrow() {
   return (
-    <div className="arrow arrow-right" onClick={onClick}>
+    <div className="arrow arrow-right">
       <MdKeyboardArrowRight />
     </div>
   );
 }
 
-function PrevArrow({ onClick }: any) {
+function PrevArrow() {
   return (
-    <div className="arrow arrow-left" onClick={onClick}>
+    <div className="arrow arrow-left">
       <MdKeyboardArrowLeft />
     </div>
   );
@@ -137,7 +143,7 @@ export default function SimpleSlider() {
     draggable: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    beforeChange: (current: any, next: any) => setSlideIndex(next),
+    beforeChange: (current: number, next: number) => setSlideIndex(next),
     responsive: [
       {
         breakpoint: 960,
@@ -166,7 +172,7 @@ export default function SimpleSlider() {
       <TitleBox>오늘 뭐 먹지?</TitleBox>
       <div>
         <StyledSlider {...settings}>
-          {result.map((menu: any, index: any) => (
+          {result.map((menu: Menu, index: number) => (
             <SliderItem
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${menu}${index}`}>
