@@ -5,10 +5,19 @@ const { app } = require("./src/app.js");
 const PORT = process.env.PORT || 5000;
 
 const server = http.createServer(app);
-const io = SocketIO(server);
+const io = SocketIO(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  }
+});
 
 io.on("connection", (socket) => {
   console.log("socket connected");
+
+  socket.on("welcome", (msg)=> console.log(msg));
 });
 
 server.listen(PORT, () => {
