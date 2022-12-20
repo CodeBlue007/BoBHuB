@@ -14,15 +14,34 @@ const io = SocketIO(server, {
   }
 });
 
+const publicRooms= () => {
+  const sids = io.sockets.adapter.sids;
+  const rooms = io.sockets.adapter.rooms;
+
+  const publicRooms = [];
+  rooms.forEach((_,key)=> {
+      if(sids.get(key) === undefined){
+          publicRooms.push(key);
+      }
+  })
+  return publicRooms;
+}
+
 io.on("connection", (socket) => {
   // console.log("socket connected");
   // console.log("socket", socket);
   // console.log(io.sockets.adapter);
   console.log("소켓서버와 연결되었습니다.")
-  socket.on("welcome", (msg)=>{
-    console.log(msg);
-    io.sockets.emit("callback", "server success")
+
+  socket.on("findRooms", ()=>{
+    io.sockets.emit("getRooms", publicRooms());
   });
+
+  socket.on("enterRoom" ,(roomName) => {
+    socket.join(roomName);
+  })
+
+
 });
 
 server.listen(PORT, () => {
