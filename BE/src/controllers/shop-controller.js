@@ -82,7 +82,7 @@ class ShopController {
 
   async delete(req, res, next) {
     try {
-      const { shopId } = req.params;
+      const shopId = parseInt(req.params.shopId);
       const result = await shopService.deleteById(shopId);
       res.status(200).json(result);
     } catch (e) {

@@ -26,7 +26,7 @@ class UserService {
   }
 
   async getById(userId) {
-    const columnArr = [
+    const filterArr = [
       "userId",
       "generation",
       "track",
@@ -41,7 +41,7 @@ class UserService {
       "updatedAt",
       "deletedAt",
     ];
-    const [user] = await this.userModel.get({ userId }, columnArr);
+    const [user] = await this.userModel.get({ userId }, filterArr);
     return user;
   }
 
