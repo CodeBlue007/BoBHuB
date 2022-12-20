@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
 import { Title } from './ChatStyle';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, TextField } from '@mui/material';
+import {SocketContext} from "../../../socket/SocketContext";
+
 
 const InputContainer = styled.div`
   display: flex;
@@ -36,6 +38,8 @@ interface ChatRoomProps {
 const ChatRoom = ({ roomName }: ChatRoomProps) => {
   const [messages, setMessages] = useState<string[]>([]);
   const [content, setContent] = useState<string>('');
+  const socket = useContext(SocketContext);
+
 
   type sendMessageType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
 
@@ -51,6 +55,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   };
 
   useEffect(() => {
+    socket.emit("enterRoom")
     const start = ["입장하셨습니다."]
     setMessages(start);
   }, []);
