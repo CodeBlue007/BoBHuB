@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("food");
+const o = new (require("../../utils/build-query"))("food");
 
 class FoodModel {
   async create(foodDTO) {
@@ -20,8 +20,8 @@ class FoodModel {
       const query = o.makeSelectQuery(undefined, whereArr);
       console.log(query);
 
-      const [comment] = await pool.query(query);
-      return comment[0];
+      const [food] = await pool.query(query);
+      return food[0];
     } catch (err) {
       throw new Error(err);
     }
@@ -32,8 +32,8 @@ class FoodModel {
       const query = o.makeSelectQuery(undefined, whereArr);
       console.log(query);
 
-      const [comments] = await pool.query(query);
-      return comments;
+      const [food] = await pool.query(query);
+      return food;
     } catch (err) {
       throw new Error(err);
     }

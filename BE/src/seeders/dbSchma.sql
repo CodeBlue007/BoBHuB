@@ -1,7 +1,7 @@
 ﻿CREATE DATABASE IF NOT EXISTS bob_hub;
 USE bob_hub;
 CREATE TABLE IF NOT EXISTS `category` (
-  `category` VARCHAR(45) , 
+  `category` VARCHAR(45) DEFAULT '없음', 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
@@ -13,20 +13,20 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `name` VARCHAR(45) UNIQUE, 
   `distance` INTEGER, 
   `address` VARCHAR(45), 
-  `menu` VARCHAR(45), 
-  `shopPicture` VARCHAR(45), 
+  `menu` VARCHAR(110), 
+  `shopPicture` VARCHAR(110), 
   `description` VARCHAR(45), 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (`shopId`, `category`), 
-  FOREIGN KEY (`category`) REFERENCES `category` (`category`) ON DELETE NO ACTION ON UPDATE CASCADE
+  FOREIGN KEY (`category`) REFERENCES `category` (`category`) ON DELETE SET DEFAULT ACTION ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `food` (
   `foodId` INTEGER NOT NULL auto_increment, 
   `shopId` INTEGER NOT NULL, 
   `name` VARCHAR(45) UNIQUE, 
-  `picture` VARCHAR(45), 
+  `picture` VARCHAR(110), 
   `price` INTEGER, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` VARCHAR(45) UNIQUE, 
   `password` VARCHAR(60), 
   `phone` VARCHAR(45) UNIQUE, 
-  `profile` VARCHAR(45), 
+  `profile` VARCHAR(110), 
   `role` ENUM('elicer','admin') NOT NULL DEFAULT 'elicer', 
   `status` ENUM('graduation','active','inActive') NOT NULL DEFAULT 'active', 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 

@@ -15,10 +15,9 @@ const {
   eliceRouter,
   loginRouter,
   commentRouter,
+  adminRouter,
 } = require("./routers");
-
-const { errorLogger, errorHandler } = require("./middlewares");
-
+const { errorLogger, errorHandler, isLoggedIn, isAdmin } = require("./middlewares");
 const app = express();
 passportConfig();
 
@@ -30,15 +29,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.urlencoded({ extended: false }));
-
 app.use("/api/auth", loginRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/shop", shopRouter);
+app.use("/api/categories", categoryRouter);
+app.use("/api/shops", shopRouter);
 app.use("/api/food", foodRouter);
-app.use("/api/user", userRouter);
+app.use("/api/users", userRouter);
 // app.use("/api/group", groupRouter);
 app.use("/api/elice", eliceRouter);
-app.use("/api/comment", commentRouter);
+app.use("/api/comments", commentRouter);
+app.use("/api/admin", isLoggedIn, isAdmin, adminRouter);
 
 app.use(errorLogger);
 app.use(errorHandler);

@@ -7,4 +7,5 @@ module.exports = {
   ...require("./comment-router"),
   // ...require("./group-router"),
   ...require("./food-router"),
+  ...require("./admin-router"),
 };

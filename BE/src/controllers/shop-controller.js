@@ -1,11 +1,11 @@
 const { shopService } = require("../services");
-
+const { isEmptyObject } = require("../utils");
 class ShopController {
   async create(req, res, next) {
     const { category, name, address, description } = req.body;
     const distance = parseInt(req.body.distance);
-    const menu = req.files.menu[0] ? req.files.menu[0].location : null;
-    const shopPicture = req.files.shopPicture[0] ? req.files.shopPicture[0].location : null;
+    const menu = req.files?.menu ? req.files.menu[0].location : null;
+    const shopPicture = req.files?.shopPicture ? req.files.shopPicture[0].location : null;
 
     try {
       const result = await shopService.create({
@@ -58,8 +58,8 @@ class ShopController {
       const shopId = parseInt(req.params.shopId);
       const { category, name, address, description } = req.body;
       const distance = parseInt(req.body.distance);
-      const menu = req.files.menu ? req.files.menu.location : null;
-      const shopPicture = req.files.shopPicture ? req.files.shopPicture.location : null;
+      const menu = req.files?.menu ? req.files.menu[0].location : null;
+      const shopPicture = req.files?.shopPicture ? req.files.shopPicture[0].location : null;
 
       const result = await shopService.update(
         {
@@ -82,7 +82,7 @@ class ShopController {
 
   async delete(req, res, next) {
     try {
-      const { shopId } = req.params;
+      const shopId = parseInt(req.params.shopId);
       const result = await shopService.deleteById(shopId);
       res.status(200).json(result);
     } catch (e) {

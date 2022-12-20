@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("track");
+const o = new (require("../../utils/build-query"))("track");
 
 class TrackModel {
   async create(eliceDTO) {

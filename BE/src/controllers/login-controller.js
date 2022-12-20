@@ -1,7 +1,7 @@
 const passport = require("passport");
 
 class LoginController {
-  local(req, res, next) {
+  login(req, res, next) {
     passport.authenticate("local", (authError, user, info) => {
       if (authError) {
         console.error(authError);

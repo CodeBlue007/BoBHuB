@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("shop");
+const o = new (require("../../utils/build-query"))("shop");
 
 class ShopModel {
   async count(req, res, next) {

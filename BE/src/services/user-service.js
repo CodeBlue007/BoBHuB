@@ -1,5 +1,5 @@
 const { userModel } = require("../db/models");
-const buildRes = require("../util/build-response");
+const buildRes = require("../utils/build-response");
 const bcrypt = require("bcrypt");
 
 class UserService {
@@ -16,7 +16,7 @@ class UserService {
     return buildRes("c", result);
   }
 
-  async nickNameCheck(nickName) {
+  async checkNickname(nickName) {
     const user = await this.userModel.get({ nickName });
     let result = {};
     if (user.length == 0) result.message = "사용가능한 닉네임입니다.";
@@ -26,7 +26,8 @@ class UserService {
   }
 
   async getById(userId) {
-    const columnArr = [
+    // password 만 제외
+    const filterArr = [
       "userId",
       "generation",
       "track",
@@ -41,7 +42,7 @@ class UserService {
       "updatedAt",
       "deletedAt",
     ];
-    const [user] = await this.userModel.get({ userId }, columnArr);
+    const [user] = await this.userModel.get({ userId }, filterArr);
     return user;
   }
 
