@@ -15,7 +15,9 @@ const io = SocketIO(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("socket connected");
+  // console.log("socket connected");
+  // console.log("socket", socket);
+  // console.log(io.sockets.adapter);
 
   socket.on("welcome", (msg)=> console.log(msg));
 });
