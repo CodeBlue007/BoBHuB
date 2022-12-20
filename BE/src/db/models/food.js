@@ -20,8 +20,8 @@ class FoodModel {
       const query = o.makeSelectQuery(undefined, whereArr);
       console.log(query);
 
-      const [comment] = await pool.query(query);
-      return comment[0];
+      const [food] = await pool.query(query);
+      return food[0];
     } catch (err) {
       throw new Error(err);
     }

@@ -8,8 +8,8 @@ module.exports = () => {
   });
 
   passport.deserializeUser((userId, done) => {
-    userModel // 있는지 확인
-      .get({ userId }) // 여기서 db 조회를 꼭하고 넘어가야되는지,
+    userModel
+      .get({ userId })
       .then(([user]) => done(null, user))
       .catch((err) => done(err));
   });

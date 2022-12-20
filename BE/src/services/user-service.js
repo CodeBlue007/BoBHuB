@@ -26,6 +26,7 @@ class UserService {
   }
 
   async getById(userId) {
+    // password 만 제외
     const filterArr = [
       "userId",
       "generation",
