@@ -15,6 +15,7 @@ import { useRef, useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import type { FoodType } from './Foods';
 import { fetchCategoryList } from '../../Api/categoryApi';
+import type { PostShopBodyType } from '../../Api/foodApi';
 
 interface FoodAddFormProps {
   handleClose: () => void;
@@ -33,13 +34,11 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
   const [categoryList, setCategoryList] = useState<[]>([]);
 
   const clickUpdateBtn = async (id: string) => {
-    const body: FoodType = {
+    const body: PostShopBodyType = {
       name: name.current?.value as string,
       distance: distance.current?.value as number,
       address: address.current?.value as string,
       description: description.current?.value as string,
-      id: new Date().getTime().toString(),
-      like: 0,
       category: category.current?.value as string,
     };
     await updateFoodData(id, body);
@@ -63,13 +62,11 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
   const clickAddButtonHandler = async () => {
     if (!name.current) return;
 
-    const body: FoodType = {
+    const body: PostShopBodyType = {
       name: name.current.value,
       distance: distance.current?.value as number,
       address: address.current?.value as string,
       description: description.current?.value as string,
-      id: new Date().getTime().toString(),
-      like: 0,
       category: category.current?.value as string,
     };
     await postFoodData(body);
@@ -150,10 +147,10 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
           )}
           {btnState === 'UPDATE' && (
             <ButtonGroup variant="outlined" aria-label="outlined button group">
-              <Button onClick={() => clickUpdateBtn(food.id)}>수정</Button>
+              <Button onClick={() => clickUpdateBtn(food.shopId)}>수정</Button>
               <Button
                 onClick={() => {
-                  clickDeleteBtn(food.id);
+                  clickDeleteBtn(food.shopId);
                 }}>
                 삭제
               </Button>

@@ -47,13 +47,15 @@ const UserTable = ({ users, fetchUserData }: UserTableProps) => {
           </TableHead>
           <TableBody>
             {users.map((user) => (
-              <TableRow key={user.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableRow
+                key={user.userId}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">
                   {user.name}
                 </TableCell>
                 <TableCell align="center">{user.email}</TableCell>
-                <TableCell align="center">{user.nickname}</TableCell>
-                <TableCell align="center">{user.auth}</TableCell>
+                <TableCell align="center">{user.nickName}</TableCell>
+                <TableCell align="center">{user.role}</TableCell>
                 <TableCell align="center">
                   <Button variant="outlined" onClick={() => handleOpen(user)}>
                     정보 조회

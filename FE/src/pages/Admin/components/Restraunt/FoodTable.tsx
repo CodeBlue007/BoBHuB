@@ -43,7 +43,7 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell align="center">좋아요</TableCell>
+              <TableCell align="center">별점</TableCell>
               <TableCell align="center">설명</TableCell>
               <TableCell align="center">카테고리</TableCell>
               <TableCell align="center">수정</TableCell>
@@ -51,11 +51,13 @@ const FoodTable = ({ foods, setFoodsData }: FoodTableProps) => {
           </TableHead>
           <TableBody>
             {foods.map((food) => (
-              <TableRow key={food.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableRow
+                key={food.shopId}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell component="th" scope="row">
                   {food.name}
                 </TableCell>
-                <TableCell align="center">{food.like}</TableCell>
+                <TableCell align="center">{food.starAverage}</TableCell>
                 <TableCell align="center">{food.description}</TableCell>
                 <TableCell align="center">{food.category}</TableCell>
                 <TableCell align="center">
