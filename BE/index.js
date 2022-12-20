@@ -18,8 +18,11 @@ io.on("connection", (socket) => {
   // console.log("socket connected");
   // console.log("socket", socket);
   // console.log(io.sockets.adapter);
-
-  socket.on("welcome", (msg)=> console.log(msg));
+  console.log("소켓서버와 연결되었습니다.")
+  socket.on("welcome", (msg)=>{
+    console.log(msg);
+    io.sockets.emit("callback", "server success")
+  });
 });
 
 server.listen(PORT, () => {
