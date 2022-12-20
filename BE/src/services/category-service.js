@@ -1,5 +1,5 @@
 const { categoryModel } = require("../db/models");
-const buildRes = require("../util/build-response");
+const buildRes = require("../utils/build-response");
 
 class CategoryService {
   constructor(categoryModel) {

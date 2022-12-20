@@ -1,10 +1,8 @@
 const { Router } = require("express");
 const { userController } = require("../controllers");
-const { isLoggedIn, isNotLoggedIn, isAdmin, imageUploader } = require("../middlewares");
+const { isLoggedIn, isNotLoggedIn, imageUploader } = require("../middlewares");
 
 const userRouter = Router();
-const userAuthRouter = Router();
-const userAdminRouter = Router();
 
 userRouter.post(
   "/join",
@@ -12,17 +10,14 @@ userRouter.post(
   isNotLoggedIn,
   userController.create
 );
-userRouter.get("/nickNameCheck", userController.nickNameCheck);
+userRouter.get("/nicknames/:nickname", userController.checkNickname);
+userRouter.get("/", isLoggedIn, userController.getById);
+userRouter.patch("/", isLoggedIn, userController.update);
+userRouter.delete("/", isLoggedIn, userController.delete);
 
-userRouter.use("/auth", isLoggedIn, userAuthRouter);
-
-userAuthRouter.get("/", userController.getById);
-userAuthRouter.patch("/", userController.update);
-userAuthRouter.delete("/", userController.delete);
-
-userRouter.use("/admin", isLoggedIn, isAdmin, userAdminRouter);
+const userAdminRouter = Router();
 
 userAdminRouter.get("/", userController.getAllByAdmin);
 userAdminRouter.patch("/:userId", userController.updateByAdmin);
 
-module.exports = { userRouter };
+module.exports = { userRouter, userAdminRouter };

@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("category");
+const o = new (require("../../utils/build-query"))("category");
 
 class CategoryModel {
   async create(categoryDTO) {
