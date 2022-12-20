@@ -25,11 +25,7 @@ class UserService {
     return result;
   }
 
-  async getById(userId, logginedUserId, role) {
-    if (role !== "admin") {
-      const isByAuth = userId === logginedUserId;
-      if (!isByAuth) throw new Error("권한이 없습니다.");
-    }
+  async getById(userId) {
     const columnArr = [
       "userId",
       "generation",
@@ -54,13 +50,9 @@ class UserService {
     return user;
   }
 
-  async update(exUserDTO, gotUserId, userId) {
-    const isByAuth = gotUserId === userId;
-    if (!isByAuth) throw new Error("권한이 없습니다.");
-
+  async update(exUserDTO, userDTO) {
     const { track, generation, name, nickName, newPassword, password, phone, profile } =
       exUserDTO;
-    const [userDTO] = await this.userModel.get({ userId });
     const correctPasswordHash = userDTO.password;
     const newUserDTO = {
       ...(track && { track }),
@@ -82,6 +74,7 @@ class UserService {
       }
     }
 
+    const userId = userDTO.userId;
     const result = await this.userModel.update(newUserDTO, { userId });
     return buildRes("u", result);
   }
@@ -91,7 +84,7 @@ class UserService {
     return buildRes("u", result);
   }
 
-  async deleteById(gotUserId, userId) {
+  async delete(gotUserId, userId) {
     const isByAuth = userId === gotUserId;
     if (!isByAuth) throw new Error("권한이 없습니다.");
 

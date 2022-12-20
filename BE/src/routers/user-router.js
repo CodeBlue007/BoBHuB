@@ -6,9 +6,9 @@ const userRouter = Router();
 
 userRouter.post("/join", isNotLoggedIn, userController.create);
 userRouter.get("/nicknames/:nickname", userController.checkNickname);
-userRouter.get("/:userId", isLoggedIn, userController.getById);
-userRouter.patch("/:userId", isLoggedIn, userController.update);
-userRouter.delete("/:userId", isLoggedIn, userController.delete);
+userRouter.get("/", isLoggedIn, userController.getById);
+userRouter.patch("/", isLoggedIn, userController.update);
+userRouter.delete("/", isLoggedIn, userController.delete);
 
 const userAdminRouter = Router();
 
