@@ -1,7 +1,7 @@
 ﻿CREATE DATABASE IF NOT EXISTS bob_hub;
 USE bob_hub;
 CREATE TABLE IF NOT EXISTS `category` (
-  `category` VARCHAR(45) , 
+  `category` VARCHAR(45) DEFAULT '없음', 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (`shopId`, `category`), 
-  FOREIGN KEY (`category`) REFERENCES `category` (`category`) ON DELETE NO ACTION ON UPDATE CASCADE
+  FOREIGN KEY (`category`) REFERENCES `category` (`category`) ON DELETE SET DEFAULT ACTION ON UPDATE CASCADE
 );
 CREATE TABLE IF NOT EXISTS `food` (
   `foodId` INTEGER NOT NULL auto_increment, 

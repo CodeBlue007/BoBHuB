@@ -2,7 +2,7 @@
 CREATE DATABASE IF NOT EXISTS bob_hub;
 USE bob_hub;
 CREATE TABLE IF NOT EXISTS `category` (
-  `category` VARCHAR(45) , 
+  `category` VARCHAR(45) DEFAULT '없음' , 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
