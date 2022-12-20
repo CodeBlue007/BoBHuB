@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { FoodType } from '../components/Restraunt/Foods';
-export const axiosInstance = axios.create({ baseURL: 'http://localhost:5000' });
+export const axiosInstance = axios.create({ withCredentials: true });
 
 export interface PostShopBodyType {
   category: string;
@@ -12,7 +12,7 @@ export interface PostShopBodyType {
 
 export const postFoodData = async (body: PostShopBodyType) => {
   try {
-    const res = await axiosInstance.post('/foods', body);
+    const res = await axiosInstance.post('/api/admin/shops', body);
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -21,7 +21,7 @@ export const postFoodData = async (body: PostShopBodyType) => {
 
 export const deleteFoodData = async (id: string) => {
   try {
-    const res = await axiosInstance.delete(`/foods/${id}`);
+    const res = await axiosInstance.delete(`/api/admin/shops/${id}`);
     console.log(res);
   } catch (error) {
     console.log(error);
@@ -40,7 +40,7 @@ export const fetchFoodData = async () => {
 
 export const updateFoodData = async (id: string, body: PostShopBodyType) => {
   try {
-    const res = await axiosInstance.patch(`/foods/${id}`, body);
+    const res = await axiosInstance.patch(`/api/admin/shops/${id}`, body);
     console.log(res);
   } catch (error) {
     console.log(error);

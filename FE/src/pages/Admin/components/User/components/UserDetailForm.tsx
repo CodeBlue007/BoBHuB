@@ -44,7 +44,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
   const auth = useRef<TextFieldProps>();
 
   const updateUserData = (body: { nickName: string; role: string }) => {
-    return axios.patch(`http://localhost:5000/admin/users/${user.userId}`, body);
+    return axios.patch(`/api/admin/users/${user.userId}`, body, { withCredentials: true });
   };
 
   const clickUpdateBtn = async () => {

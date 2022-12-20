@@ -22,13 +22,13 @@ export type UserType = {
 const Users = () => {
   const [users, setUsers] = useState<UserType[]>([]);
   const fetchUserData = async () => {
-    const res = await axios('api/admin/users');
+    const res = await axios('/api/admin/users');
     const users: UserType[] = await res.data;
     setUsers([...users]);
   };
 
   const loginTest = async () => {
-    const res = await axios.post('api/auth/login', {
+    const res = await axios.post('/api/auth/login', {
       email: 'admin@elice.com',
       password: '1111',
     });
@@ -36,7 +36,7 @@ const Users = () => {
   };
 
   const logoutTest = async () => {
-    const res = await axios.get('api/auth/logout');
+    const res = await axios.get('/api/auth/logout');
     console.log(res);
   };
   useEffect(() => {
@@ -47,14 +47,14 @@ const Users = () => {
       <H2>유저 조회</H2>
       <UserTable fetchUserData={fetchUserData} users={users} />
       <button
-        onClick={async () => {
-          await loginTest();
+        onClick={() => {
+          loginTest();
         }}>
         로그인로그인
       </button>
       <button
-        onClick={async () => {
-          await logoutTest();
+        onClick={() => {
+          logoutTest();
         }}>
         로그아웃
       </button>

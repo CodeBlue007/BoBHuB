@@ -67,7 +67,8 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
       distance: distance.current?.value as number,
       address: address.current?.value as string,
       description: description.current?.value as string,
-      category: category.current?.value as string,
+      // category: category.current?.value as string,
+      category: '한식',
     };
     await postFoodData(body);
     setFoodsData();
