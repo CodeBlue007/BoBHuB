@@ -34,8 +34,6 @@ class BuildQueryString {
     const column = columnArr.join(", ");
     const where = whereArr ? "where " + whereArr.join(" and ") : "";
 
-    console.log("whereArr :", whereArr, "where :", where);
-
     return `select ${column} from ${this.table} ${where}`;
   }
 
