@@ -13,11 +13,13 @@ const initialState = [
   },
 ];
 
-createSlice({
+export const groupSlice = createSlice({
   name: 'foods',
   initialState,
   reducers: {
     initialSet: (state, action) => (state = [action.payload]),
-    // addPerson: (state, action) => state.find((group)=> {group.groupId === action.payload.groupId})?.likedNum += 1,
   },
 });
+
+export default groupSlice.reducer;
+export const groupAction = groupSlice.actions;
