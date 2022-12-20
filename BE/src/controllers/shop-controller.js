@@ -33,10 +33,7 @@ class ShopController {
   }
   async getAll(req, res, next) {
     try {
-      const page = Number(req.query.page || 1);
-      const perpage = Number(req.query.perpage || 8);
-
-      const shopList = await shopService.getAll(page, perpage);
+      const shopList = await shopService.getAll();
       return res.status(200).json(shopList);
     } catch (e) {
       next(e);
@@ -58,8 +55,8 @@ class ShopController {
       const shopId = parseInt(req.params.shopId);
       const { category, name, address, description } = req.body;
       const distance = parseInt(req.body.distance);
-      const menu = req.files?.menu ? req.files.menu[0].location : null;
-      const shopPicture = req.files?.shopPicture ? req.files.shopPicture[0].location : null;
+      const menu = req.files.menu ? req.files.menu.location : null;
+      const shopPicture = req.files.shopPicture ? req.files.shopPicture.location : null;
 
       const result = await shopService.update(
         {
