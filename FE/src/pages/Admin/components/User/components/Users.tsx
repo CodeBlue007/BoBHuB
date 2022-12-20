@@ -22,21 +22,21 @@ export type UserType = {
 const Users = () => {
   const [users, setUsers] = useState<UserType[]>([]);
   const fetchUserData = async () => {
-    const res = await axios('http://localhost:5000/api/admin/users');
+    const res = await axios('api/admin/users');
     const users: UserType[] = await res.data;
     setUsers([...users]);
   };
 
   const loginTest = async () => {
-    const res = await axios.post('http://localhost:5000/api/auth/login', {
-      email: 'eun@admin',
+    const res = await axios.post('api/auth/login', {
+      email: 'admin@elice.com',
       password: '1111',
     });
     console.log(res);
   };
 
   const logoutTest = async () => {
-    const res = await axios.get('http://localhost:5000/api/auth/logout');
+    const res = await axios.get('api/auth/logout');
     console.log(res);
   };
   useEffect(() => {
