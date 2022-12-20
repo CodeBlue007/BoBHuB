@@ -2,14 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = [
   {
-    groupId: '',
-    shopId: '',
-    userId: '',
-    groupLimit: 0,
-    timeLimit: 15,
-    createTime: 0,
-    likedNum: 0,
-    isCompleted: false,
+    groupId: '', //
+    shopId: '', //
+    userId: '', // 참여한 유저들 목록이 필요할듯?
+    groupLimit: 0, //
+    timeLimit: 15, //
+    createTime: 0, //
+    likedNum: 0, //
+    isCompleted: false, //
   },
 ];
 
