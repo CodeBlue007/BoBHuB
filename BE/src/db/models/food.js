@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("food");
+const o = new (require("../../utils/build-query"))("food");
 
 class FoodModel {
   async create(foodDTO) {

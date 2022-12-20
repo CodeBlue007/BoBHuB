@@ -1,5 +1,5 @@
 const { commentModel } = require("../db/models");
-const buildRes = require("../util/build-response");
+const buildRes = require("../utils/build-response");
 
 class CommentService {
   constructor(commentModel) {

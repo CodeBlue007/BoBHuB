@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("user");
+const o = new (require("../../utils/build-query"))("user");
 
 class UserModel {
   async create(userDTO) {

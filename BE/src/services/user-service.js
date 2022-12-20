@@ -1,5 +1,5 @@
 const { userModel } = require("../db/models");
-const buildRes = require("../util/build-response");
+const buildRes = require("../utils/build-response");
 const bcrypt = require("bcrypt");
 
 class UserService {

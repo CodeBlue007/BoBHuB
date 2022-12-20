@@ -1,5 +1,5 @@
 const { trackModel, generationModel } = require("../db/models");
-const buildRes = require("../util/build-response");
+const buildRes = require("../utils/build-response");
 
 class EliceService {
   constructor(trackModel, generationModel) {

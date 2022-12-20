@@ -1,6 +1,6 @@
 const { shopModel } = require("../db/models");
-const { pagination } = require("../util");
-const buildRes = require("../util/build-response");
+const { pagination } = require("../utils");
+const buildRes = require("../utils/build-response");
 const { imageDeleter } = require("../middlewares");
 
 class ShopService {

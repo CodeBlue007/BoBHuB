@@ -1,5 +1,5 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("comment");
+const o = new (require("../../utils/build-query"))("comment");
 
 class CommentModel {
   async create(commentDTO) {

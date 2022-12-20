@@ -17,9 +17,7 @@ const {
   commentRouter,
   adminRouter,
 } = require("./routers");
-
 const { errorLogger, errorHandler, isLoggedIn, isAdmin } = require("./middlewares");
-
 const app = express();
 passportConfig();
 
@@ -31,7 +29,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.urlencoded({ extended: false }));
-
 app.use("/api/auth", loginRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/shops", shopRouter);

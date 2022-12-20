@@ -1,5 +1,5 @@
 const { foodModel } = require("../db/models");
-const buildRes = require("../util/build-response");
+const buildRes = require("../utils/build-response");
 const { imageDeleter } = require("../middlewares");
 
 class FoodService {
