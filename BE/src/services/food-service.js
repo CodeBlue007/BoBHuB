@@ -18,7 +18,7 @@ class FoodService {
   }
 
   async update(newFoodDTO, foodId) {
-    let { picture } = newShopDTO;
+    let { picture } = newFoodDTO;
     if (picture) {
       const food = await foodModel.getById(foodId);
       if (picture) imageDeleter(food.picture);
@@ -30,7 +30,7 @@ class FoodService {
 
   async deleteById(foodId) {
     const food = await foodModel.getById(foodId);
-    if (food) throw new Error("DB에서 id를 검색하지 못했습니다.");
+    if (food.length === 0) throw new Error("DB에서 id를 검색하지 못했습니다.");
 
     const { picture } = food;
     if (picture) imageDeleter(picture);
