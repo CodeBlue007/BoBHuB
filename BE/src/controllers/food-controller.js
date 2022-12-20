@@ -6,7 +6,8 @@ class FoodController {
       const { name } = req.body;
       const price = parseInt(req.body.price);
       const shopId = parseInt(req.body.shopId);
-      const picture = req.file.location;
+      const picture = req.file ? req.file.location : null;
+
       const result = await foodService.create({ shopId, name, price, picture });
       return res.status(200).json(result);
     } catch (e) {
@@ -28,7 +29,8 @@ class FoodController {
   async update(req, res, next) {
     try {
       const foodId = parseInt(req.params.foodId);
-      const { picture, name, price } = req.body;
+      const { name, price } = req.body;
+      const picture = req.file ? req.file.location : null;
 
       const result = await foodService.update({ picture, name, price }, foodId);
 

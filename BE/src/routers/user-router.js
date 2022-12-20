@@ -1,10 +1,15 @@
 const { Router } = require("express");
 const { userController } = require("../controllers");
-const { isLoggedIn, isNotLoggedIn } = require("../middlewares");
+const { isLoggedIn, isNotLoggedIn, imageUploader } = require("../middlewares");
 
 const userRouter = Router();
 
-userRouter.post("/join", isNotLoggedIn, userController.create);
+userRouter.post(
+  "/join",
+  imageUploader.single("profile"),
+  isNotLoggedIn,
+  userController.create
+);
 userRouter.get("/nicknames/:nickname", userController.checkNickname);
 userRouter.get("/", isLoggedIn, userController.getById);
 userRouter.patch("/", isLoggedIn, userController.update);

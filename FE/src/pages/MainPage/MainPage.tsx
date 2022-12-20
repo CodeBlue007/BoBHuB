@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import SimpleSlider from './components/SliderSection';
 
 const Content = styled.div`
-  height: 230vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   min-width: 1000px;
   display: flex;
   flex-direction: column;

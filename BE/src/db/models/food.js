@@ -14,6 +14,18 @@ class FoodModel {
       throw new Error(err);
     }
   }
+  async getById(foodId) {
+    try {
+      const whereArr = o.objToQueryArray({ foodId });
+      const query = o.makeSelectQuery(undefined, whereArr);
+      console.log(query);
+
+      const [comment] = await pool.query(query);
+      return comment[0];
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
   async getByShopId(shopId) {
     try {
       const whereArr = o.objToQueryArray({ shopId });

@@ -16,7 +16,7 @@ const allowedExtensions = [".png", ".jpg", ".jpeg", ".bmp"];
 const imageUploader = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "bob-hub",
+    bucket: process.env.S3_BUCKET_NAME,
     key: (req, file, callback) => {
       const uploadDirectory = req.query.directory ?? "default";
       const extension = path.extname(file.originalname);
@@ -27,6 +27,27 @@ const imageUploader = multer({
     },
     acl: "public-read-write",
   }),
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-module.exports = { imageUploader };
+const imageDeleter = (location) => {
+  let params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: location.split("/").slice(-2).join("/"),
+  };
+
+  try {
+    s3.deleteObject(params, function (error, data) {
+      if (error) {
+        console.log("err: ", error, error.stack);
+      } else {
+        console.log(" 정상 삭제 되었습니다.");
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+module.exports = { imageUploader, imageDeleter };

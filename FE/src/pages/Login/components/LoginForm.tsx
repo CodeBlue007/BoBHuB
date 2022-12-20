@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextField, Button } from '@mui/material';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import KeyIcon from '@mui/icons-material/Key';
+import InputAdornment from '@mui/material/InputAdornment';
 import loginThumbnail from '../../../assets/talk.jpg';
-import { validateID, validatePassword } from '../../../util/validateLogin';
+import { validateEmail, validatePassword } from '../../../util/validateLogin';
 
 const LoginFormContainer = styled.form`
   display: flex;
@@ -58,7 +61,7 @@ const BoxContainer = styled.div`
 
   & input {
     font-size: 15px;
-    width: 28vw;
+    width: 25vw;
     height: 4vh;
   }
 
@@ -73,7 +76,7 @@ const BoxContainer = styled.div`
 
   & button {
     margin: 20px auto;
-    width: 28.5vw;
+    width: 26.5vw;
     height: 4vh;
     font-size: 17px;
     border: none;
@@ -91,21 +94,21 @@ const BoxContainer = styled.div`
   & .goToRegister {
     font-size: 14px;
     margin-top: -5px;
-    margin-right: 17vw;
+    margin-right: 16.5vw;
   }
 `;
 
 type loginFormProps = {
-  onLoginSubmit: (loginForm: { id: string; password: string }) => void;
+  onLoginSubmit: (loginForm: { email: string; password: string }) => void;
 };
 
 const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
   const [loginForm, setLoginForm] = useState({
-    id: '',
+    email: '',
     password: '',
   });
 
-  const { id, password } = loginForm;
+  const { email, password } = loginForm;
 
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -120,7 +123,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     onLoginSubmit(loginForm);
     // form 초기화
     setLoginForm({
-      id: '',
+      email: '',
       password: '',
     });
   };
@@ -133,18 +136,23 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
       </ImgContainer>
 
       <BoxContainer>
-        <h1>Sign In</h1>
+        <h1>[로고 들어갈 자리]</h1>
         <TextField
-          name="id"
-          label="아이디"
+          name="email"
+          label="이메일"
           variant="standard"
-          placeholder="아이디를 입력해주세요."
-          value={id}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <MailOutlineIcon />
+              </InputAdornment>
+            ),
+          }}
+          placeholder="이메일을 입력해주세요."
+          value={email}
           onChange={onTextFieldChange}
-          error={!validateID(loginForm.id)}
-          helperText={
-            !validateID(loginForm.id) ? '아이디는 영문(대·소문자) 5~15글자이어야 합니다.' : ''
-          }
+          error={!validateEmail(loginForm.email)}
+          helperText={!validateEmail(loginForm.email) ? '이메일 형식이 올바르지 않습니다.' : ''}
         />
 
         <TextField
@@ -152,6 +160,13 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
           name="password"
           label="비밀번호"
           variant="standard"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <KeyIcon />
+              </InputAdornment>
+            ),
+          }}
           placeholder="비밀번호를 입력해주세요."
           value={password}
           onChange={onTextFieldChange}
@@ -167,8 +182,8 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
           로그인
         </Button>
         <div className="goToRegister">
-          계정이 없으신가요? &nbsp;
-          <Link to="/register">회원가입 바로가기</Link>
+          아직 계정이 없으신가요? &nbsp;
+          <Link to="/register">회원가입</Link>
         </div>
       </BoxContainer>
     </LoginFormContainer>

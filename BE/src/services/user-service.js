@@ -54,15 +54,10 @@ class UserService {
     const { track, generation, name, nickName, newPassword, password, phone, profile } =
       exUserDTO;
     const correctPasswordHash = userDTO.password;
-    const newUserDTO = {
-      ...(track && { track }),
-      ...(generation && { generation }),
-      ...(name && { name }),
-      ...(nickName && { nickName }),
-      ...(phone && { phone }),
-      ...(profile && { profile }),
-    };
 
+    const newUserDTO = { track, generation, name, nickName, phone, profile };
+
+    if (profile) imageDeleter(userDTO.profile);
     if (password) {
       const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
       if (!isPasswordCorrect) {
@@ -84,10 +79,9 @@ class UserService {
     return buildRes("u", result);
   }
 
-  async delete(gotUserId, userId) {
-    const isByAuth = userId === gotUserId;
-    if (!isByAuth) throw new Error("권한이 없습니다.");
-
+  async delete(userDTO) {
+    if (profile) imageDeleter(userDTO.profile);
+    const { userId } = userDTO;
     const result = await this.userModel.deleteById(userId);
     return buildRes("d", result);
   }
