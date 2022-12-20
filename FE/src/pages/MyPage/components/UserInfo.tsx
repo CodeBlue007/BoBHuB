@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { UserInfoType } from '../MyPage';
-import { current } from '@reduxjs/toolkit';
 import {
     validateName,
     validateNickName,
@@ -14,7 +13,9 @@ import {
     validatePhone,
     validateEmail,
     validateConfirmNum,
-  } from '../../../util/validateRegister';
+} from '../../../util/validateRegister';
+import { validatePassword } from '../../../util/validateLogin';
+import * as API from '../../FoodList/API';
 
 interface UserType {
     userInfo: UserInfoType;
@@ -26,6 +27,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserType) => {
     const [inputChange, setInputChange] = useState('');
     const handleClickUpdate = (e: React.MouseEvent<HTMLElement>, editTarget: string) => {
         e.preventDefault();
+        setInputChange('');
         switch (editTarget) {
             case 'name':
                 setUserInfoEditing({ isNameEditing: true, isNickEditing: false, isPhoneEditing: false, isEmailEditing: false, isPWEditing: false });
@@ -64,11 +66,53 @@ const UserInfo = ({ userInfo, setUserInfo }: UserType) => {
         }
     }
 
-    const handleClickSuccess = (e: React.MouseEvent<HTMLElement>, editSuccess: string) => {
-        e.preventDefault();
+    const nickDuplicationCheck = async () => {
+        const res = await API.get(`http://localhost:4000/msg`);
+        return (res.message === '같은 닉네임이 있습니다.') ? true : false;
+    }
+
+    const validInput = (editSuccess: string) => {
+        //성공api post
         clickBtn_changeEditState(editSuccess);
         setUserInfo({ ...userInfo, [editSuccess]: inputChange });
         setInputChange('');
+    }
+
+    const handleClickSuccess = async (e: React.MouseEvent<HTMLElement>, editSuccess: string) => {
+        e.preventDefault();
+        if (editSuccess === 'name') {
+            if (!validateName(inputChange)) {
+                alert('사용할 수 없는 이름입니다.');
+                return;
+            } else {
+                validInput(editSuccess);
+            }
+        } else if (editSuccess === 'nickName') {
+            if (!validateNickName(inputChange)) {
+                alert('사용할 수 없는 닉네임입니다.');
+                return;
+            } else if (await nickDuplicationCheck()) {
+                alert('이미 사용중인 닉네임입니다.');
+                return;
+            } else {
+                validInput(editSuccess);
+            }
+        } else if (editSuccess === 'phone') {
+            if (!validatePhone(inputChange)) {
+                alert('유효하지 않은 휴대폰 번호 형식입니다.');
+                return;
+            } else {
+                validInput(editSuccess);
+            }
+        } else if (editSuccess === 'email') {
+            if (!validateEmail(inputChange)) {
+                alert('유효하지 않은 이메일 형식입니다.');
+                return;
+            } else {
+                validInput(editSuccess);
+            }
+        }
+
     }
 
     const handleClickCancel = (e: React.MouseEvent<HTMLElement>, editCancel: string) => {
@@ -88,11 +132,21 @@ const UserInfo = ({ userInfo, setUserInfo }: UserType) => {
                 {userInfoEditing.isNameEditing ?
                     (<>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 }, }}>
-                            <TextField value={inputChange} onChange={handleUserInfoChange} sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Name" />
+                            <TextField
+                                value={inputChange}
+                                onChange={handleUserInfoChange}
+                                sx={{ height: '45px' }}
+                                color="secondary"
+                                size='small'
+                                id="demo-helper-text-misaligned-no-helper"
+                                label="Name"
+                                error={!validateName(inputChange)}
+                                helperText={!validateName(inputChange) ? '이름은 한글 2~6글자이어야 합니다.' : '사용할 수 있는 이름입니다.'}
+                            />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold', margin:'15px 10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'name')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold',  margin:'15px 0px' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'name')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'name')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 0px' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'name')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
@@ -115,19 +169,23 @@ const UserInfo = ({ userInfo, setUserInfo }: UserType) => {
                 {userInfoEditing.isNickEditing ?
                     (<>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
-                            <TextField 
-                                error
-                                onChange={handleUserInfoChange} 
-                                sx={{ height: '45px' }} 
-                                color="secondary" 
-                                size='small' 
-                                id="demo-helper-text-misaligned-no-helper" 
+                            <TextField
+                                onChange={handleUserInfoChange}
+                                sx={{ height: '45px' }}
+                                color="secondary"
+                                size='small'
+                                id="demo-helper-text-misaligned-no-helper"
                                 label="Nickname"
-                                helperText={!validateName(inputChange) ? '이름은 한글 2~6글자이어야 합니다.' : ''}
-                             />
+                                error={!validateNickName(inputChange)}
+                                helperText={
+                                    !validateNickName(inputChange)
+                                        ? '닉네임은 한글·영문(대·소문자) 5~10글자이어야 합니다.'
+                                        : ''
+                                }
+                            />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold', margin:'15px 10px',}} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'nickName')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 10px', }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'nickName')}>취소</Button>
                             <Button sx={{ fontWeight: 'bold', margin: '15px 0' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'nickName')}>완료</Button>
                         </Stack>
                     </>) :
@@ -144,11 +202,20 @@ const UserInfo = ({ userInfo, setUserInfo }: UserType) => {
                 {userInfoEditing.isPhoneEditing ?
                     (<>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
-                            <TextField onChange={handleUserInfoChange} sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Phone" />
+                            <TextField
+                                onChange={handleUserInfoChange}
+                                sx={{ height: '45px' }}
+                                color="secondary"
+                                size='small'
+                                id="demo-helper-text-misaligned-no-helper"
+                                label="Phone"
+                                error={!validatePhone(inputChange)}
+                                helperText={!validatePhone(inputChange) ? '유효한 휴대폰번호 형식이 아닙니다.' : ''}
+                            />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold',  margin:'15px 10px'}} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'phone')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold', margin:'15px 0'}} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'phone')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'phone')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 0' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'phone')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
@@ -165,11 +232,20 @@ const UserInfo = ({ userInfo, setUserInfo }: UserType) => {
                     (<>
                         <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}
                         >
-                            <TextField onChange={handleUserInfoChange} sx={{ height: '45px' }} color="secondary" size='small' id="demo-helper-text-misaligned-no-helper" label="Email" />
+                            <TextField
+                                onChange={handleUserInfoChange}
+                                sx={{ height: '45px' }}
+                                color="secondary"
+                                size='small'
+                                id="demo-helper-text-misaligned-no-helper"
+                                label="Email"
+                                error={!validateEmail(inputChange)}
+                                helperText={!validateEmail(inputChange) ? '유효한 이메일 형식이 아닙니다.' : ''}
+                            />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold',  margin:'15px 10px'}} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'email')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold',  margin:'15px 0'}} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'email')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'email')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 0' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'email')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
@@ -184,13 +260,26 @@ const UserInfo = ({ userInfo, setUserInfo }: UserType) => {
                 <TableHeader>비밀번호</TableHeader>
                 {userInfoEditing.isPWEditing ?
                     (<>
-                        <Box
-                            sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 }, }}>
-                            <TextField sx={{ height: '45px' }} color="secondary" size='small' id="outlined-password-input" label="Password" type="password" autoComplete="current-password" />
+                        <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 }, }}>
+                            <TextField
+                                sx={{ height: '45px' }}
+                                color="secondary" size='small'
+                                id="outlined-password-input"
+                                label="Password"
+                                type="password"
+                                autoComplete="current-password"
+                                onChange={handleUserInfoChange}
+                                error={!validatePassword(inputChange)}
+                                helperText={
+                                    !validatePassword(inputChange)
+                                        ? '비밀번호는 8~20자리 영문·숫자 조합이어야 합니다.'
+                                        : ''
+                                }
+                            />
                         </Box>
                         <Stack direction="row">
-                            <Button sx={{ fontWeight: 'bold',  margin:'15px 10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'password')}>취소</Button>
-                            <Button sx={{ fontWeight: 'bold',  margin:'15px 0' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'password')}>완료</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 10px' }} color="secondary" size="medium" variant="outlined" onClick={(e) => handleClickCancel(e, 'password')}>취소</Button>
+                            <Button sx={{ fontWeight: 'bold', margin: '15px 0' }} color="secondary" size="medium" variant="contained" onClick={(e) => handleClickSuccess(e, 'password')}>완료</Button>
                         </Stack>
                     </>) :
                     (<TableData>
