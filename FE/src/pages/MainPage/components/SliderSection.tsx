@@ -51,6 +51,7 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
+    justify-content: center;
   } //item
 
   .slide {
@@ -109,17 +110,17 @@ const TitleBox = styled.div`
   font-weight: bold;
 `;
 
-export function NextArrow() {
+export function NextArrow({ onClick }: any) {
   return (
-    <div className="arrow arrow-right">
+    <div className="arrow arrow-right" onClick={onClick}>
       <MdKeyboardArrowRight />
     </div>
   );
 }
 
-export function PrevArrow() {
+export function PrevArrow({ onClick }: any) {
   return (
-    <div className="arrow arrow-left">
+    <div className="arrow arrow-left" onClick={onClick}>
       <MdKeyboardArrowLeft />
     </div>
   );
@@ -139,7 +140,6 @@ export default function SimpleSlider() {
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
-    draggable: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     beforeChange: (current: number, next: number) => setSlideIndex(next),
@@ -163,7 +163,7 @@ export default function SimpleSlider() {
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/posts').then((response) => setResult(response.data));
+    axios.get('http://localhost:3000/posts').then((response) => setResult(response.data));
   }, []);
 
   return (

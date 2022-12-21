@@ -4,6 +4,9 @@ import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import heart from './assets/Heart.gif';
+import hamburger from './assets/Hamburger.gif';
+import chat from './assets/Chat.gif';
 
 const StyledSlider = styled(Slider)`
   height: 100%;
@@ -25,7 +28,7 @@ const Div = styled.div`
     width: 500px;
     height: 500px;
     margin: 0 auto;
-    background-color: #f0f9ff;
+    justify-content: center;
   }
 
   .slick-prev:before,
@@ -41,11 +44,13 @@ const Div = styled.div`
   .slick-prev:before {
     position: absolute;
     left: 400px;
+    top: -20px;
   }
 
   .slick-next:before {
     position: absolute;
     right: 400px;
+    top: -20px;
   }
 
   .slick-slide {
@@ -53,6 +58,15 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
+  }
+
+  img {
+    margin-left: 50px;
+  }
+
+  span {
+    font-size: 1.5em;
+    font-weight: bold;
   }
 `;
 
@@ -73,22 +87,16 @@ const UserGuide = () => {
       <Div>
         <StyledSlider {...settings}>
           <div>
-            <h3>1</h3>
+            <img src={heart} alt="Heart" style={{ height: '400px' }} />
+            <span>원하는 식당에 찜하기 버튼을 누르세요!</span>
           </div>
           <div>
-            <h3>2</h3>
+            <img src={chat} alt="Chat" style={{ height: '400px' }} />
+            <span>채팅방이 생성되면 밥메이트들과 약속을 정해봐요!</span>
           </div>
           <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
+            <img src={hamburger} alt="Hamburger" style={{ height: '400px' }} />
+            <span>밥메이트들과 맛있는 식사하세요~</span>
           </div>
         </StyledSlider>
       </Div>
