@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextField, Button } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -112,6 +112,8 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
   const { email, password } = loginForm;
 
+  const navigate = useNavigate();
+
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginForm({
@@ -124,7 +126,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     e.preventDefault();
 
     onLoginSubmit(loginForm);
-    const res = await axios.post('/api/auth/login', loginForm);
+    const res = await API.post('/api/auth/login', loginForm);
 
     // form 초기화
     setLoginForm({
@@ -132,7 +134,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
       password: '',
     });
 
-    window.location.href = '/';
+    navigate('/');
   };
 
   return (
