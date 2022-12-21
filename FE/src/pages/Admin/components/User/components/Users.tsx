@@ -4,20 +4,30 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 export type UserType = {
+  userId: number;
+  generation: number;
+  track: string;
   name: string;
-  id: string;
+  nickName: string;
   email: string;
-  auth: string;
-  nickname: string;
+  phone: string;
+  profile: any;
+  role: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: any;
+  deletedAt: any;
 };
 
 const Users = () => {
   const [users, setUsers] = useState<UserType[]>([]);
+
   const fetchUserData = async () => {
-    const res = await axios('http://localhost:3001/users');
+    const res = await axios('/api/admin/users');
     const users: UserType[] = await res.data;
     setUsers([...users]);
   };
+
   useEffect(() => {
     fetchUserData();
   }, []);
