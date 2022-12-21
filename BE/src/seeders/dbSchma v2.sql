@@ -79,26 +79,25 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  UNIQUE `comment_userId_shopId_eliceId_unique` (`userId`, `shopId` ), 
   PRIMARY KEY (
     `commentId`, `userId`, `shopId`
   ), 
   FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE, 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE IF NOT EXISTS `group` (
-  `groupId` INTEGER NOT NULL auto_increment, 
+CREATE TABLE IF NOT EXISTS `party` (
+  `partyId` INTEGER NOT NULL auto_increment, 
   `shopId` INTEGER NOT NULL, 
   `userId` INTEGER NOT NULL, 
-  `grouplimit` INTEGER, 
-  `timeLimit` INTEGER, 
-  `likedNum` INTEGER, 
-  `isComplete` BLOB, 
+  `partylimit` INTEGER NOT NULL DEFAULT 4, 
+  `timeLimit` INTEGER NOT NULL DEFAULT 30, 
+  `likedNum` INTEGER NOT NULL DEFAULT 1, 
+  `isComplete` BOOLEAN NOT NULL DEFAULT FALSE, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (
-    `groupId`, `shopId`, 
+    `partyId`, `shopId`, 
     `userId`
   ), 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`), 
@@ -107,13 +106,13 @@ CREATE TABLE IF NOT EXISTS `group` (
 CREATE TABLE IF NOT EXISTS `pick` (
   `pickId` INTEGER NOT NULL auto_increment, 
   `userId` INTEGER NOT NULL, 
-  `groupId` INTEGER NOT NULL, 
+  `partyId` INTEGER NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  PRIMARY KEY (`pickId`, `userId`, `groupId`), 
+  PRIMARY KEY (`pickId`, `userId`, `partyId`), 
   FOREIGN KEY (`userId`) REFERENCES `user` (`userId`), 
-  FOREIGN KEY (`groupId`) REFERENCES `group` (`groupId`),
+  FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`),
   INDEX `FK_User_TO_Pick_1` USING BTREE (`userId`),
-  INDEX `FK_Group_TO_Pick_1` USING BTREE (`groupId`)
+  INDEX `FK_Party_TO_Pick_1` USING BTREE (`partyId`)
 );

@@ -13,8 +13,7 @@ const ChatPage = ({ handleClick }: ChatPageProps) => {
   const [enterRoom, setEnterRoom] = useState<boolean>(false);
   const [targetRoom, setTargetRoom] = useState<string>('');
 
-  const moveRoom = (e: React.MouseEvent<HTMLLIElement>) => {
-    const roomName = e.currentTarget.innerText;
+  const moveRoom = (roomName : string) => {
     setTargetRoom(roomName);
     setEnterRoom(true);
   };

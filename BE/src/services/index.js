@@ -5,5 +5,5 @@ module.exports = {
   ...require("./elice-service"),
   ...require("./user-service"),
   ...require("./comment-service"),
-  // ...require("./group-service"),
+  ...require("./party-service"),
 };
