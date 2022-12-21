@@ -20,10 +20,21 @@ class ShopModel {
       throw new Error(err);
     }
   }
-  async getAll(limit, offSet) {
+  async getAll() {
     try {
-      let query = o.makeSelectQuery();
-      query = o.addPagenationQuery(query, limit, offSet);
+      let query = `select *
+      from shop s
+      left join(select shopId
+        , JSON_ARRAYAGG(JSON_OBJECT('name', name, 'picture', picture ,'price',price)) as food
+      from food
+      group by shopId) as f
+      on s.shopId = f.shopId
+      left join (SELECT shopId
+        , AVG(star) AS avgStar
+     FROM comment
+    GROUP BY shopId) c on s.shopId = c.shopId;
+    `;
+
       console.log(query);
 
       const [shops] = await pool.query(query);

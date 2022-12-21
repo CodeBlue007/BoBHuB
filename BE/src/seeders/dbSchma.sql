@@ -81,7 +81,6 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
-  UNIQUE `comment_userId_shopId_eliceId_unique` (`userId`, `shopId` ), 
   PRIMARY KEY (
     `commentId`, `userId`, `shopId`
   ), 

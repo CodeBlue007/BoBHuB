@@ -18,10 +18,8 @@ class ShopService {
     return totalData;
   }
 
-  async getAll(page, perpage) {
-    const { limit, offSet } = pagination(page, perpage);
-
-    const shops = await this.shopModel.getAll(limit, offSet);
+  async getAll() {
+    const shops = await this.shopModel.getAll();
     return shops;
   }
 
