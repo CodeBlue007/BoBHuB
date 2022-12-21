@@ -92,7 +92,7 @@ const FoodDetail = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const commentData = await API.get(`/api/shops/`);
+      const commentData = await API.get(`/api/shops`);
       // const shopData = await getShop();
 
       console.log('success', commentData);
