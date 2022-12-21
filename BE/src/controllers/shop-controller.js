@@ -4,12 +4,8 @@ class ShopController {
   async create(req, res, next) {
     const { category, name, address, description } = req.body;
     const distance = parseInt(req.body.distance);
-    console.log(isEmptyObject(req.files));
-    if (!isEmptyObject(req.files)) {
-      console.log(req.files.menu);
-      const menu = req.files.menu[0] ? req.files.menu[0].location : null;
-      const shopPicture = req.files.shopPicture[0] ? req.files.shopPicture[0].location : null;
-    }
+    const menu = req.files?.menu ? req.files.menu[0].location : null;
+    const shopPicture = req.files?.shopPicture ? req.files.shopPicture[0].location : null;
 
     try {
       const result = await shopService.create({
@@ -37,10 +33,7 @@ class ShopController {
   }
   async getAll(req, res, next) {
     try {
-      const page = Number(req.query.page || 1);
-      const perpage = Number(req.query.perpage || 8);
-
-      const shopList = await shopService.getAll(page, perpage);
+      const shopList = await shopService.getAll();
       return res.status(200).json(shopList);
     } catch (e) {
       next(e);

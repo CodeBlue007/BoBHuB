@@ -18,10 +18,8 @@ class ShopService {
     return totalData;
   }
 
-  async getAll(page, perpage) {
-    const { limit, offSet } = pagination(page, perpage);
-
-    const shops = await this.shopModel.getAll(limit, offSet);
+  async getAll() {
+    const shops = await this.shopModel.getAll();
     return shops;
   }
 
@@ -45,7 +43,7 @@ class ShopService {
 
   async deleteById(shopId) {
     const shop = await shopModel.getByShopId(shopId);
-    if (shop) throw new Error("DB에서 id를 검색하지 못했습니다.");
+    if (!shop) throw new Error("DB에서 id를 검색하지 못했습니다.");
 
     const { menu, shopPicture } = shop;
     if (menu) imageDeleter(menu);

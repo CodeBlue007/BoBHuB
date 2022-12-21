@@ -2,7 +2,7 @@ import { Table, TableRow, TableHeader, TableData, WarningMessage } from './UserI
 import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import React from 'react';
-import * as API from '../../FoodList/API';
+import * as API from '../../../api/API';
 
 const DeleteUser = () => {
 

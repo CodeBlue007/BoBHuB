@@ -4,13 +4,17 @@ import FoodTable from './FoodTable';
 import { fetchFoodData } from '../../Api/foodApi';
 
 export type FoodType = {
+  shopId: string;
+  category: string;
   name: string;
-  like: number;
   distance: number;
   address: string;
+  menu: any;
+  shopPicture: any;
+  starAverage: number;
   description: string;
-  id: string;
-  category: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 const Foods = () => {

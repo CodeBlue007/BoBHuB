@@ -43,14 +43,14 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
   const nickname = useRef<TextFieldProps>();
   const auth = useRef<TextFieldProps>();
 
-  const updateUserData = (body: { nickname: string; auth: string }) => {
-    return axios.patch(`http://localhost:3001/users/${user.id}`, body);
+  const updateUserData = (body: { nickName: string; role: string }) => {
+    return axios.patch(`/api/admin/users/${user.userId}`, body, { withCredentials: true });
   };
 
   const clickUpdateBtn = async () => {
     const body = {
-      nickname: nickname.current?.value as string,
-      auth: auth.current?.value as string,
+      nickName: nickname.current?.value as string,
+      role: auth.current?.value as string,
     };
     await updateUserData(body);
     fetchUserData();
@@ -71,11 +71,11 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
       </Div>
       <Div>
         <label htmlFor="nickname">닉네임</label>
-        <TextField id="nickname" type="text" defaultValue={user.nickname} inputRef={nickname} />
+        <TextField id="nickname" type="text" defaultValue={user.nickName} inputRef={nickname} />
       </Div>
       <Div>
         <label htmlFor="auth">권한</label>
-        <Select defaultValue={user.auth} inputRef={auth}>
+        <Select defaultValue={user.role} inputRef={auth}>
           <MenuItem value="racer">racer</MenuItem>
           <MenuItem value="admin">admin</MenuItem>
         </Select>

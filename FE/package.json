@@ -18,6 +18,7 @@
     "axios": "^1.2.1",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
@@ -66,5 +67,6 @@
     "@types/styled-components": "^5.1.26",
     "json-server": "^0.17.1",
     "nodemon": "^2.0.20"
-  }
+  },
+  "proxy": "http://localhost:5000/"
 }

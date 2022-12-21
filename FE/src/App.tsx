@@ -1,19 +1,22 @@
 import { GlobalStyle } from './styles/GlobalStyle';
 import Router from './Router';
 import ChatApp from './components/ChatApp/ChatApp';
-import io from 'socket.io-client';
+import { ThemeProvider } from 'styled-components';
+import theme from './styles/theme';
+
 
 function App() {
 
-  const socket = io('http://localhost:5000');
 
   return (
-    <div>
-      <GlobalStyle />
-      <Router/>
-      <ChatApp/>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div>
+        <GlobalStyle />
+        <Router />
+        <ChatApp />
+      </div>
+    </ThemeProvider>
   );
-  }
+}
 
 export default App;
