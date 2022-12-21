@@ -51,6 +51,7 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
+    justify-content: center;
   } //item
 
   .slide {
@@ -100,7 +101,6 @@ const Div = styled.div`
     font-weight: bold;
   }
 `;
-const SliderItem = styled.div``;
 
 const TitleBox = styled.div`
   height: 30px;
@@ -110,17 +110,17 @@ const TitleBox = styled.div`
   font-weight: bold;
 `;
 
-function NextArrow() {
+export function NextArrow({ onClick }: any) {
   return (
-    <div className="arrow arrow-right">
+    <div className="arrow arrow-right" onClick={onClick}>
       <MdKeyboardArrowRight />
     </div>
   );
 }
 
-function PrevArrow() {
+export function PrevArrow({ onClick }: any) {
   return (
-    <div className="arrow arrow-left">
+    <div className="arrow arrow-left" onClick={onClick}>
       <MdKeyboardArrowLeft />
     </div>
   );
@@ -140,7 +140,6 @@ export default function SimpleSlider() {
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
-    draggable: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     beforeChange: (current: number, next: number) => setSlideIndex(next),
@@ -164,7 +163,7 @@ export default function SimpleSlider() {
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/posts').then((response) => setResult(response.data));
+    axios.get('http://localhost:3000/posts').then((response) => setResult(response.data));
   }, []);
 
   return (
@@ -173,13 +172,13 @@ export default function SimpleSlider() {
       <div>
         <StyledSlider {...settings}>
           {result.map((menu: Menu, index: number) => (
-            <SliderItem
+            <div
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${menu}${index}`}>
               <img src={menu.img} alt="img" />
               <span>{menu.name}</span>
               <Button variant="contained">찜하기</Button>
-            </SliderItem>
+            </div>
           ))}
         </StyledSlider>
       </div>

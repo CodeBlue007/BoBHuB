@@ -12,6 +12,7 @@ const NavBar = () => {
           Bobhub
         </Typography>
         <Stack direction="row" spacing={2}>
+          <Button color="inherit">밥허브 이용가이드</Button>
           <Button color="inherit">마이페이지</Button>
           <Button color="inherit">로그인</Button>
           <Button color="inherit">회원가입</Button>
