@@ -34,11 +34,17 @@ const ChatList = ({moveRoom} : ChatListProps) => {
 
     socket.emit("nickName", randomId);
 
+    // socket.on("roomChange", (rooms) => {
+    //   setRoomArray(rooms);
+    // })
+    // 실제 room 연결시 변화감지
+
     // socket.emit("findRooms");
     // socket.on("getRooms", (rooms)=> {
     //   console.log("get rooms");
     //   setRoomArray(rooms);
     // })
+    // 실제 room이 만들어진걸 확인함.
   }, [])
 
   return (

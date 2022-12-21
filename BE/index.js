@@ -5,6 +5,7 @@ const { app } = require("./src/app.js");
 const PORT = process.env.PORT || 5000;
 
 const server = http.createServer(app);
+
 const io = SocketIO(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -12,7 +13,7 @@ const io = SocketIO(server, {
     allowedHeaders: ["my-custom-header"],
     credentials: true
   }
-});
+}); 
 
 const publicRooms = () => {
   const sids = io.sockets.adapter.sids;
@@ -48,23 +49,23 @@ io.on("connection", (socket) => {
     const socketName = socket.nickname;
     socket.join(roomName);
     moveRoom(roomName);
-    socket.to(roomName).emit("welcome", socketName);
+    socket.to(roomName).emit("welcome", socketName, roomName);
     check();
   })
 
   socket.on("sendMessage", (msg, room, callback) => {
-    socket.to(room).emit("getMessage", `${socket.nickname} : ${msg}`);
-    callback();
+    socket.to(room).emit("getMessage",room,`${socket.nickname} : ${msg}`);
+    callback(msg,room);
   })
 
   socket.on("disconnecting", () => {
     socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
     console.log("socket is disconnecting");
-    io.sockets.emit("room_change", publicRooms());
+    io.sockets.emit("roomChange", publicRooms());
   });
-
+                                                                                                                         
   socket.on("disconnect", () => {
-    io.sockets.emit("room_change", publicRooms());
+    io.sockets.emit("roomChange", publicRooms());
     console.log("socket is disconnected");
   });
 

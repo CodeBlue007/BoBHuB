@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { Title } from './ChatStyle';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { SocketContext } from '../../../socket/SocketContext';
 
@@ -34,12 +34,24 @@ interface ChatRoomProps {
   roomName: string;
 }
 
+type sendMessageType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
+
 const ChatRoom = ({ roomName }: ChatRoomProps) => {
   const [messages, setMessages] = useState<string[]>([]);
   const [content, setContent] = useState<string>('');
   const socket = useContext(SocketContext);
+  const scrollRef = useRef<HTMLUListElement>(null);
 
-  type sendMessageType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
+  const enterRoom = () =>{
+    const welcome = "방에 입장하셨습니다."
+    setMessages((current)=> [...current, welcome]);
+  }
+
+  const addMessage = (msg : string, currentRoom:string) => {
+    if(currentRoom !== roomName) return;
+    const message = `You : ${msg}`;
+    setMessages((current) => [...current, message])
+  }
 
   const sendMessage = (e: sendMessageType) => {
     e.preventDefault();
@@ -47,39 +59,37 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
       alert('메세지를 입력해주세요');
       return;
     }
-    socket.emit('sendMessage', content, roomName, () => {
-      const message = `You : ${content}`;
-      setMessages((current) => [...current, message]);
-    });
-
+    socket.emit('sendMessage', content, roomName, addMessage);
     setContent('');
   };
-  
-  const enterRoom = () =>{
-    const welcome = "방에 입장하셨습니다."
-    setMessages((current)=> [...current, welcome]);
-  }
 
   useEffect(() => {
 
     enterRoom();
-    
-    socket.on('welcome', (nick) => {
+
+    socket.on('welcome', (nick, getRoomName) => {
       const welcome = `${nick}님이 입장하셨습니다.`;
-      setMessages((current) => [...current, welcome]);
+      if(roomName === getRoomName){
+        setMessages((current) => [...current, welcome]);
+      }
     });
   
-    socket.on("getMessage", (msg)=> { 
+    socket.on("getMessage", (currentRoom, msg)=> { 
+      if(currentRoom !== roomName) return;
       setMessages((current) => [...current, msg]);
     })
   }, []);
+
+  useEffect(() => {
+    scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
+  }, [messages]);
  
 
   return (
     <>
       <form onSubmit={sendMessage}>
         <Title>{roomName}</Title>
-        <TextContainer>
+        <TextContainer ref={scrollRef}>
           {messages.map((message, idx) => (
             <Text key={`${message}${idx}`}>{message}</Text>
           ))}
