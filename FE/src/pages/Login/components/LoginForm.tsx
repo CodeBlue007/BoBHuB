@@ -120,17 +120,19 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     });
   };
 
-  const handleLoginSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     onLoginSubmit(loginForm);
-    const res= await axios.post("/api/auth/login",loginForm);
+    const res = await axios.post('/api/auth/login', loginForm);
 
     // form 초기화
     setLoginForm({
       email: '',
       password: '',
     });
+
+    window.location.href = '/';
   };
 
   return (
