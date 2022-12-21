@@ -15,6 +15,7 @@ const {
   eliceRouter,
   loginRouter,
   commentRouter,
+  partyRouter,
   adminRouter,
 } = require("./routers");
 const { errorLogger, errorHandler, isLoggedIn, isAdmin } = require("./middlewares");
@@ -34,10 +35,10 @@ app.use("/api/categories", categoryRouter);
 app.use("/api/shops", shopRouter);
 app.use("/api/food", foodRouter);
 app.use("/api/users", userRouter);
-// app.use("/api/group", groupRouter);
 app.use("/api/elice", eliceRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/admin", isLoggedIn, isAdmin, adminRouter);
+app.use("/api/parties", isLoggedIn, partyRouter);
 
 app.use(errorLogger);
 app.use(errorHandler);
