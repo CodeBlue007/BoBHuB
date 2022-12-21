@@ -9,8 +9,7 @@ import NavBar from '../../components/NavBar';
 import { commentStateType, shopStateType } from './types/Type';
 import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
-
-
+import * as API from "../../api/API";
 
 const Pagecontainer = styled.section`
   display: flex;
@@ -53,6 +52,8 @@ const MenuCard = styled(Card)`
   padding: 10px;
 `;
 
+const baseURL = `http://localhost:5000/api`;
+
 const FoodDetail = () => {
   const [shop, setShop] = useState<shopStateType>({
     shopId: 0,
@@ -91,15 +92,15 @@ const FoodDetail = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const commentData = await getComment();
-      const shopData = await getShop();
+      const commentData = await API.get(`/api/shops/`);
+      // const shopData = await getShop();
 
       console.log('success', commentData);
-      console.log('success', shopData);
+      // console.log('success', shopData);
 
-      setCommentState(commentData);
-      setShop(shopData);
-      setLoading(false);
+      // setCommentState(commentData);
+      // setShop(shopData);
+      // setLoading(false);
     };
 
     fetchData();
