@@ -28,6 +28,10 @@ app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// const { setData } = require("../test");
+// console.log(setData);
+// setData();
+
 app.use(express.urlencoded({ extended: false }));
 app.use("/api/auth", loginRouter);
 app.use("/api/categories", categoryRouter);
