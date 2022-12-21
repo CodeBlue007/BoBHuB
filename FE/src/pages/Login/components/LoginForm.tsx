@@ -7,7 +7,8 @@ import KeyIcon from '@mui/icons-material/Key';
 import InputAdornment from '@mui/material/InputAdornment';
 import loginThumbnail from '../../../assets/talk.jpg';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
-
+import * as API from '../../../api/API';
+import axios from 'axios';
 const LoginFormContainer = styled.form`
   display: flex;
   flex-direction: row;
@@ -118,9 +119,12 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     });
   };
 
-  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLoginSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const res= await API.post("/api/auth/login",loginForm);
     onLoginSubmit(loginForm);
+    
     // form 초기화
     setLoginForm({
       email: '',

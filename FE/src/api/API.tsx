@@ -1,16 +1,13 @@
 import axios from 'axios';
+import { response } from 'express';
 
-const token = '';
 const instance = axios.create({
-    baseURL: `http://localhost:4000`,
-    //http://localhost:5000/api
     headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${localStorage.getItem(token)}`
+        "Content-Type": "application/json"
     }
 });
 
-//instance.defaults.headers.common['Authorization']=token;
+instance.defaults.withCredentials = true;
 
 const get = async (url = "") => {
     try {
@@ -30,7 +27,7 @@ const del = async (url = "") => {
     }
 };
 
-const post = async (url = "", post: [] | {}) => {
+const post = async (url = "", post: {}) => {
     try {
         const { data } = await instance.post(url, post);
         return data;
@@ -39,7 +36,7 @@ const post = async (url = "", post: [] | {}) => {
     }
 };
 
-const patch = async (url = "", patch: [] | {}) => {
+const patch = async (url = "", patch: {}) => {
     try {
         const { data } = await instance.patch(url, patch);
         return data;
