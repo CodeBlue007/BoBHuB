@@ -2,8 +2,7 @@ import styled, { css } from 'styled-components';
 import { Title } from './ChatStyle';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, TextField } from '@mui/material';
-import {SocketContext} from "../../../socket/SocketContext";
-
+import { SocketContext } from '../../../socket/SocketContext';
 
 const InputContainer = styled.div`
   display: flex;
@@ -27,9 +26,9 @@ const TextContainer = styled.ul`
 `;
 
 const Text = styled.li`
-    font-size : 17px;
-    padding : 10px;
-`
+  font-size: 17px;
+  padding: 10px;
+`;
 
 interface ChatRoomProps {
   roomName: string;
@@ -40,7 +39,6 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   const [content, setContent] = useState<string>('');
   const socket = useContext(SocketContext);
 
-
   type sendMessageType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
 
   const sendMessage = (e: sendMessageType) => {
@@ -49,23 +47,42 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
       alert('메세지를 입력해주세요');
       return;
     }
+    socket.emit('sendMessage', content, roomName, () => {
+      const message = `You : ${content}`;
+      setMessages((current) => [...current, message]);
+    });
 
-    setMessages((current) => [...current, content]);
     setContent('');
   };
+  
+  const enterRoom = () =>{
+    const welcome = "방에 입장하셨습니다."
+    setMessages((current)=> [...current, welcome]);
+  }
 
   useEffect(() => {
-    socket.emit("enterRoom")
-    const start = ["입장하셨습니다."]
-    setMessages(start);
+
+    enterRoom();
+    
+    socket.on('welcome', (nick) => {
+      const welcome = `${nick}님이 입장하셨습니다.`;
+      setMessages((current) => [...current, welcome]);
+    });
+  
+    socket.on("getMessage", (msg)=> { 
+      setMessages((current) => [...current, msg]);
+    })
   }, []);
+ 
 
   return (
     <>
       <form onSubmit={sendMessage}>
         <Title>{roomName}</Title>
         <TextContainer>
-        {messages.map((message,idx)=> <Text key={`${message}${idx}`}>{message}</Text>)}
+          {messages.map((message, idx) => (
+            <Text key={`${message}${idx}`}>{message}</Text>
+          ))}
         </TextContainer>
         <InputContainer>
           <TextField
@@ -73,13 +90,14 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
             label="메세지를 입력하세요"
             variant="filled"
             sx={{
-              width: { sm: 100, md: 210 },
+              width: '200px',
+              marginLeft: '10px',
               '& .MuiInputBase-root': {
                 height: 49,
               },
             }}
             value={content}
-            onChange={(e:React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}
           />
           <Button
             variant="contained"

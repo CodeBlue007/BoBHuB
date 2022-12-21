@@ -21,17 +21,18 @@ const ChatList = ({moveRoom} : ChatListProps) => {
 
   const handleMove = (e: React.MouseEvent<HTMLLIElement>) =>{
     const roomName = e.currentTarget.innerText;
-    moveRoom(roomName);
-    socket.emit("enterRoom", roomName);
-
+    socket.emit("enterRoom", roomName, moveRoom);
   }
 
 
   useEffect(()=> {
 
     const rooms = ["Room1", "Room2", "Room3"];
-
     setRoomArray([...rooms]);
+
+    const randomId = Math.floor(Math.random() * 10000);
+
+    socket.emit("nickName", randomId);
 
     // socket.emit("findRooms");
     // socket.on("getRooms", (rooms)=> {
@@ -39,12 +40,6 @@ const ChatList = ({moveRoom} : ChatListProps) => {
     //   setRoomArray(rooms);
     // })
   }, [])
-
-
-  useEffect(() => {
-    const rooms = ['room1', 'room2', 'room3'];
-    setRoomArray([...rooms]);
-  }, []);
 
   return (
     <>

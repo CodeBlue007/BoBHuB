@@ -14,33 +14,61 @@ const io = SocketIO(server, {
   }
 });
 
-const publicRooms= () => {
+const publicRooms = () => {
   const sids = io.sockets.adapter.sids;
   const rooms = io.sockets.adapter.rooms;
 
   const publicRooms = [];
-  rooms.forEach((_,key)=> {
-      if(sids.get(key) === undefined){
-          publicRooms.push(key);
-      }
+  rooms.forEach((_, key) => {
+    if (sids.get(key) === undefined) {
+      publicRooms.push(key);
+    }
   })
   return publicRooms;
+}
+
+const check = () => {
+  console.log("Sid", io.sockets.adapter.sids);
+  console.log("Rooms", io.sockets.adapter.rooms);
 }
 
 io.on("connection", (socket) => {
   // console.log("socket connected");
   // console.log("socket", socket);
   // console.log(io.sockets.adapter);
-  console.log("소켓서버와 연결되었습니다.")
+  socket["nickname"] = "Anon";
+  console.log("소켓서버와 연결되었습니다.");
+  check();
 
-  socket.on("findRooms", ()=>{
+  socket.on("findRooms", () => {
     io.sockets.emit("getRooms", publicRooms());
   });
 
-  socket.on("enterRoom" ,(roomName) => {
+  socket.on("enterRoom", (roomName, moveRoom) => {
+    const socketName = socket.nickname;
     socket.join(roomName);
+    moveRoom(roomName);
+    socket.to(roomName).emit("welcome", socketName);
+    check();
   })
 
+  socket.on("sendMessage", (msg, room, callback) => {
+    socket.to(room).emit("getMessage", `${socket.nickname} : ${msg}`);
+    callback();
+  })
+
+  socket.on("disconnecting", () => {
+    socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
+    console.log("socket is disconnecting");
+    io.sockets.emit("room_change", publicRooms());
+  });
+
+  socket.on("disconnect", () => {
+    io.sockets.emit("room_change", publicRooms());
+    console.log("socket is disconnected");
+  });
+
+  socket.on("nickName", (nickname) => socket["nickname"] = nickname);
 
 });
 
