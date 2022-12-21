@@ -9,3 +9,5 @@ export const socket = socketio(ENDPOINT); //연결
 type socketType = Socket<DefaultEventsMap, DefaultEventsMap>;
 
 export const SocketContext = React.createContext<socketType>(socket); //socket만듬 export
+
+
