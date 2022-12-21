@@ -29,8 +29,9 @@ const del = async (url = "") => {
 
 const post = async (url = "", post: {}) => {
     try {
-        const { data } = await instance.post(url, post);
-        return data;
+        const result = await instance.post(url, post);
+        console.log(result);
+        return result.data;
     } catch (err) {
         console.error(err);
     }

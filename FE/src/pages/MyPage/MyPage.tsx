@@ -37,10 +37,10 @@ const MyPage = () => {
 
   // 사용자 정보 조회 api
   const getUserInfoAPI = async () => {
-    const res = await axios.get(`http://localhost:4000/user`);
-    //setUserInfo(await API.get(`http://localhost:5000/api/user`));
-    console.log(res.data);
-    setUserInfo(res.data);
+    const res=await API.get('/api/users')
+    setUserInfo(res);
+    // console.log(res);
+    // setUserInfo(res);
   };
 
   useEffect(() => {
