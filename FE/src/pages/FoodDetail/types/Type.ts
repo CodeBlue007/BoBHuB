@@ -17,7 +17,6 @@ export interface commentStateType extends postCommentType{
     deletedAt : stringNull;  
 }
 
-
 export type shopStateType = {
     "shopId" : number;
     "category" : string;

@@ -14,15 +14,16 @@ export interface Party {
 }
 
 const StyledSlider = styled(Slider)`
-  height: 100%;
+  border : 1px solid black;
+  height: 40vh;
 `;
 
 const Div = styled.div`
-  height: 500px;
+  height: 30vw;
   background-color: rgba(132, 168, 0);
-  position: absolute;
-  top: 800px;
-  width: 100vw;
+  border : 1px solid black;
+  box-sizing: border-box;
+  width: 100%;
   place-items: center;
 
   .slick-prev:before {
@@ -69,7 +70,7 @@ const Div = styled.div`
     padding: 5px 15px;
     border-radius: 10px;
     width: 10px;
-    position: absolute;
+    /* position: absolute; */
     top: 180px;
     background-color: transparent;
     color: white;
@@ -93,7 +94,7 @@ const Div = styled.div`
   }
 
   span {
-    position: absolute;
+    /* position: absolute; */
     top: 150px;
     color: white;
     font-size: 2rem;
@@ -108,6 +109,10 @@ const TitleBox = styled.div`
   color: white;
   font-weight: bold;
 `;
+
+const ItemContainer = styled.div`
+  border: 1px solid black;
+`
 
 export function NextArrow() {
   return (
@@ -159,11 +164,13 @@ export default function SimpleSlider() {
     ],
   };
 
+
   const [parties, setParties] = useState<Party[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
 
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
+    console.log(data);
     setParties([...data]);
   };
 
@@ -178,13 +185,13 @@ export default function SimpleSlider() {
         <StyledSlider {...settings}>
           {parties.length === 0 && <div>활성화된 식당이 없습니다.</div>}
           {parties.map((party: Party, index: number) => (
-            <div
+            <ItemContainer
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${party.shopId}`}>
               <img src={party.shopImage} alt="img" />
               <span>{party.shopName}</span>
               <Button variant="contained">찜하기</Button>
-            </div>
+            </ItemContainer>
           ))}
         </StyledSlider>
       </div>

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { shopStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
