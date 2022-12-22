@@ -33,3 +33,10 @@ export type shopStateType = {
     "deletedAt" : stringNull;   
 }
 
+export type menuStateType = {
+    foodId : number;
+    shopId : number;
+    picture : string;
+    name : string;
+    price : number;
+}

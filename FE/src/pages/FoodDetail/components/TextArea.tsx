@@ -71,10 +71,12 @@ const TextArea = ({commentId,commentStar,content,canRevise,updateRevise,updateRe
             alert("댓글을 입력해주세요");
             return;
         }
-        const star = commentStar === null ? 0 : commentStar;
-
+        if(commentStar === null){
+            alert("별점을 입력해주세요");
+            return;
+        }
         const reviseComment = {
-            star,
+            star : commentStar,
             content:textValue,
         }
 

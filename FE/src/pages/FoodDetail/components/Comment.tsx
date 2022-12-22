@@ -25,13 +25,13 @@ const CommentField = styled(TextField)`
 
 
 interface commnetProps{
-  updateComment : () => void;
+  updateCommentState : () => void;
   shopId : number;
 }
 
 type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
 
-const Comment = ({updateComment, shopId} : commnetProps) => {
+const Comment = ({updateCommentState, shopId} : commnetProps) => {
 
   const [content, setContent] = useState<string>("");
   const [starValue, setStarValue] = useState<number | null>(5);
@@ -40,7 +40,7 @@ const Comment = ({updateComment, shopId} : commnetProps) => {
     const res = API.post("/api/comments",comment);
     console.log(res);
   }
-  
+
   const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setStarValue(newValue);
   const fieldChange = (e:React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
 
@@ -48,17 +48,20 @@ const Comment = ({updateComment, shopId} : commnetProps) => {
     e.preventDefault();
 
     if(content === ''){
-      alert("댓글을 입력해주세요");
+      alert("댓글을 입력해주세요.");
       return;
     }
-    const star =  starValue === null ? 0 : starValue;
+    if(starValue === null){
+      alert("별점을 입력해주세요.");
+      return;
+    }
     const newComment = {
       shopId,
       content,
-      star,
+      star : starValue,
     }
     postComment(newComment);
-    updateComment();
+    updateCommentState();
     setContent('');
   }
 

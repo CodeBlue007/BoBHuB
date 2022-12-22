@@ -6,6 +6,7 @@ import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
 import { commentStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
+import * as API from "../../../api/API";
 
 const ListContainer = styled(FlexContainer)`
   height: 150px;
@@ -50,12 +51,12 @@ const CustomButton = styled(Button)`
 
 interface CommentList {
   commentProp: commentStateType;
-  deleteComment: (id: number) => void;
+  updateCommentState : () => void;
 }
 
 const CommentList = ({
   commentProp: { commentId, userId, shopId, content, star },
-  deleteComment,
+  updateCommentState,
 }: CommentList) => {
   const [canRevise, setRevise] = useState<boolean>(false);
   const [canReadOnly, setReadOnly] = useState<boolean>(true);
@@ -66,12 +67,18 @@ const CommentList = ({
     setReadOnly(false);
   };
 
+  const deleteComment = async (commentId:number) => {
+    const res = await API.delete(`/api/comments/${commentId}`);
+    console.log(res);
+    updateCommentState();
+  }
+
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const id = Number(e.currentTarget.dataset.id);
-    deleteComment(id);
+    const commentId = Number(e.currentTarget.dataset.id);
+    deleteComment(commentId);
   };
 
   const updateRevise = useCallback((bool: boolean) => {
