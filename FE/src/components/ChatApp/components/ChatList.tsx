@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useContext} from 'react';
 import styled from 'styled-components';
 import {TextCss, Title} from "./ChatStyle";
+import {SocketContext} from "../../../socket/SocketContext";
 
 const None = styled.li`
   font-size: 15px;
@@ -11,29 +12,40 @@ const List = styled(None)`
 `;
 
 interface ChatListProps{
-    moveRoom : (e:React.MouseEvent<HTMLLIElement>) => void;
+    moveRoom : (x:string) => void;
 }
-
-// const publicRooms= () => {
-//   const sids = io.sockets.adapter.sids;
-//   const rooms = io.sockets.adapter.rooms;
-
-//   const publicRooms = [];
-//   rooms.forEach((_,key)=> {
-//       if(sids.get(key) === undefined){
-//           publicRooms.push(key);
-//       }
-//   })
-//   return publicRooms;
-// }
 
 const ChatList = ({moveRoom} : ChatListProps) => {
   const [roomArray, setRoomArray] = useState<string[]>([]);
+  const socket = useContext(SocketContext);
 
-  useEffect(() => {
-    const rooms = ['room1', 'room2', 'room3'];
+  const handleMove = (e: React.MouseEvent<HTMLLIElement>) =>{
+    const roomName = e.currentTarget.innerText;
+    socket.emit("enterRoom", roomName, moveRoom);
+  }
+
+
+  useEffect(()=> {
+
+    const rooms = ["Room1", "Room2", "Room3"];
     setRoomArray([...rooms]);
-  }, []);
+
+    const randomId = Math.floor(Math.random() * 10000);
+
+    socket.emit("nickName", randomId);
+
+    // socket.on("roomChange", (rooms) => {
+    //   setRoomArray(rooms);
+    // })
+    // 실제 room 연결시 변화감지
+
+    // socket.emit("findRooms");
+    // socket.on("getRooms", (rooms)=> {
+    //   console.log("get rooms");
+    //   setRoomArray(rooms);
+    // })
+    // 실제 room이 만들어진걸 확인함.
+  }, [])
 
   return (
     <>
@@ -43,7 +55,7 @@ const ChatList = ({moveRoom} : ChatListProps) => {
           <List>"채팅방이 없습니다"</List>
         ) : (
           roomArray.map((roomName, idx) => (
-            <List onClick={moveRoom} key={`${roomName}${idx}`}>
+            <List onClick={handleMove} key={`${roomName}${idx}`}>
               {roomName}
             </List>
           ))

@@ -17,19 +17,19 @@ const SideBarListItems = ({ clickUsersBtn, clickRestaurantBtn }: ListItemProps) 
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="대시보드" />
     </ListItemButton>
     <ListItemButton onClick={clickRestaurantBtn}>
       <ListItemIcon>
         <FoodBankIcon />
       </ListItemIcon>
-      <ListItemText primary="Restaurants" />
+      <ListItemText primary="식당" />
     </ListItemButton>
     <ListItemButton onClick={clickUsersBtn}>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Users" />
+      <ListItemText primary="유저" />
     </ListItemButton>
   </React.Fragment>
 );

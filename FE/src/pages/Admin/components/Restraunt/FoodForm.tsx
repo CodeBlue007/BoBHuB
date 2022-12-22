@@ -7,6 +7,7 @@ import {
   TextFieldProps,
   Button,
   ButtonGroup,
+  Input,
 } from '@mui/material';
 import { postFoodData, updateFoodData, deleteFoodData } from '../../Api/foodApi';
 import { style } from './FoodModal';
@@ -14,6 +15,7 @@ import { useRef, useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import type { FoodType } from './Foods';
 import { fetchCategoryList } from '../../Api/categoryApi';
+import type { PostShopBodyType } from '../../Api/foodApi';
 
 interface FoodAddFormProps {
   handleClose: () => void;
@@ -23,7 +25,7 @@ interface FoodAddFormProps {
 }
 
 const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProps) => {
-  const name = useRef<TextFieldProps>();
+  const name = useRef<HTMLInputElement>(null);
   const distance = useRef<TextFieldProps>();
   const address = useRef<TextFieldProps>();
   const description = useRef<TextFieldProps>();
@@ -32,13 +34,11 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
   const [categoryList, setCategoryList] = useState<[]>([]);
 
   const clickUpdateBtn = async (id: string) => {
-    const body: FoodType = {
+    const body: PostShopBodyType = {
       name: name.current?.value as string,
       distance: distance.current?.value as number,
       address: address.current?.value as string,
       description: description.current?.value as string,
-      id: new Date().getTime().toString(),
-      like: 0,
       category: category.current?.value as string,
     };
     await updateFoodData(id, body);
@@ -60,14 +60,15 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
   }, []);
 
   const clickAddButtonHandler = async () => {
-    const body: FoodType = {
-      name: name.current?.value as string,
+    if (!name.current) return;
+
+    const body: PostShopBodyType = {
+      name: name.current.value,
       distance: distance.current?.value as number,
       address: address.current?.value as string,
       description: description.current?.value as string,
-      id: new Date().getTime().toString(),
-      like: 0,
-      category: category.current?.value as string,
+      // category: category.current?.value as string,
+      category: '한식',
     };
     await postFoodData(body);
     setFoodsData();
@@ -93,8 +94,8 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
           <label htmlFor="distance">거리</label>
           <TextField
             required
-            id="distance"
             label="distance"
+            id="distance"
             inputRef={distance}
             defaultValue={btnState === 'UPDATE' ? food.distance : ''}
           />
@@ -147,10 +148,10 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
           )}
           {btnState === 'UPDATE' && (
             <ButtonGroup variant="outlined" aria-label="outlined button group">
-              <Button onClick={() => clickUpdateBtn(food.id)}>수정</Button>
+              <Button onClick={() => clickUpdateBtn(food.shopId)}>수정</Button>
               <Button
                 onClick={() => {
-                  clickDeleteBtn(food.id);
+                  clickDeleteBtn(food.shopId);
                 }}>
                 삭제
               </Button>

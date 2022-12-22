@@ -11,5 +11,9 @@
   },
   "devDependencies": {
     "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "http-proxy-middleware": "^2.0.6",
+    "socket.io-client": "^4.5.4"
   }
 }

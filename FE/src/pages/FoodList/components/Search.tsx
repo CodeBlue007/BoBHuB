@@ -1,9 +1,13 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import styled from 'styled-components';
+interface SearchInputProps {
+    searchInput: string
+    setSearchInput: React.Dispatch<React.SetStateAction<string>>;
+}
 
-const Search = () => {
-    const [searchInput, setSearchInput] = useState<string>('');
+const Search = ({ searchInput, setSearchInput }: SearchInputProps) => {
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchInput(e.target.value);
     };

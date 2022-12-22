@@ -5,7 +5,7 @@ module.exports = {
   ...require("./elice-router"),
   ...require("./shop-router"),
   ...require("./comment-router"),
-  // ...require("./group-router"),
+  ...require("./party-router"),
   ...require("./food-router"),
   ...require("./admin-router"),
 };
