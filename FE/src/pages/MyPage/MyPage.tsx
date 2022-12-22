@@ -157,11 +157,10 @@ const UserRole = styled.div`
 // `
 
 const ImgCircle = styled.img`
-    margin-top:50px;
-    width:75px;
-    height:75px;
-    border-radius:50px;
-
+  margin-top: 50px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50px;
 `;
 const FileUpload = styled.input`
   width: 75px;

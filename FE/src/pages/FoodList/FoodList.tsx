@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as API from '../../api/API';
-import axios from 'axios';
+
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -10,22 +10,28 @@ import MenuCard from './components/MenuCard';
 import Search from './components/Search';
 import NavBar from '../../components/NavBar';
 
-type shopInfo = {
-  name: string;
-  category: string;
-  description: string;
-  menuList: string[];
-  starAverage: number;
-};
-
 const FoodList = () => {
   const [searchInput, setSearchInput] = useState<string>('');
   const [categoryFoodList, setCategoryFoodList] = useState([
-    { name: '', category: '', description: '', menuList: [], starAverage: 0 },
+    {
+      name: '',
+      category: '',
+      description: '',
+      food: [{ name: '', picture: '' }],
+      avgStar: 0,
+      shopId: 0,
+    },
   ]); //카테고리별 식당데이터
   const [foodList, setFoodList] = useState([]); //전체 식당데이터
   const [searchList, setSearchList] = useState([
-    { name: '', category: '', description: '', menuList: [], starAverage: 0 },
+    {
+      name: '',
+      category: '',
+      description: '',
+      food: [{ name: '', picture: '' }],
+      avgStar: 0,
+      shopId: 0,
+    },
   ]); //검색데이터
   const [value, setValue] = useState('one');
 
@@ -65,10 +71,10 @@ const FoodList = () => {
 
   // 식당전체조회 api
   const getFoodListAPI = async () => {
-    const result = await API.get(``);
-    setFoodList(result.data);
-    setCategoryFoodList(result.data);
-    setSearchList(result.data);
+    const res = await API.get(`/api/shops`);
+    setFoodList(res);
+    setCategoryFoodList(res);
+    setSearchList(res);
   };
 
   useEffect(() => {
@@ -76,8 +82,8 @@ const FoodList = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = categoryFoodList.filter((food) => {
-      return food.name.toUpperCase().includes(searchInput.toUpperCase());
+    const filtered = categoryFoodList.filter((shop) => {
+      return shop.name.toUpperCase().includes(searchInput.toUpperCase());
     });
     setSearchList(filtered);
   }, [value, searchInput]);
@@ -105,14 +111,15 @@ const FoodList = () => {
       </CategoryBox>
       <CardContainer>
         {searchList.map((x, i) => {
-          const { name, category, description, menuList, starAverage } = x;
+          const { name, category, description, food, avgStar, shopId } = x;
           return (
             <MenuCard
               name={name}
               category={category}
               description={description}
-              menuList={menuList}
-              starAverage={starAverage}
+              food={food}
+              avgStar={avgStar}
+              shopId={shopId}
               key={`menucard-${i}`}
             />
           );

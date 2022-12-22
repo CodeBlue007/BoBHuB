@@ -17,7 +17,6 @@ import {
 import { validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
 import axios from 'axios';
-
 interface UserProps {
   userInfo: UserInfoType;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfoType>>;
@@ -38,7 +37,6 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
     e.preventDefault();
     setPWUpdate({ newPW: '', newPWCheck: '' });
     setInputChange('');
-    console.log(pwUpdate);
     switch (editTarget) {
       case 'name':
         setUserInfoEditing({
@@ -108,15 +106,17 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
   };
 
   const nickDuplicationCheck = async () => {
-    const res = await axios.get(`http://localhost:4000/msg`);
+    const res = await API.get(`http://localhost:4000/msg`);
     return res.data.message === '같은 닉네임이 있습니다.' ? true : false;
   };
 
-  const validInput = (editSuccess: string) => {
-    //성공api post
-    clickBtn_changeEditState(editSuccess);
+  const validInput = async (editSuccess: string) => {
     setUserInfo({ ...userInfo, [editSuccess]: inputChange });
     setInputChange('');
+    console.log(userInfo);
+    const res = await axios.patch(`/api/users`, userInfo,{withCredentials:true});
+    console.log(res);
+    clickBtn_changeEditState(editSuccess);
   };
 
   const handleClickSuccess = async (e: React.MouseEvent<HTMLElement>, editSuccess: string) => {
@@ -140,6 +140,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
       }
     } else if (editSuccess === 'phone') {
       if (!validatePhone(inputChange)) {
+        console.log(inputChange);
         alert('유효하지 않은 휴대폰 번호 형식입니다.');
         return;
       } else {
@@ -160,12 +161,14 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
         alert('비밀번호가 일치하지 않습니다.');
         return;
       } else {
+        //setUSerInfo(pw,newpw)
         //회원정보 수정 api 요청(기존비번,새비번)
         //if->올바른 비번:
         // clickBtn_changeEditState(editSuccess);
         // setInputChange('');
         // setPWUpdate({newPW:'',newPWCheck:''});
         //else-> 틀릴시, alert, return
+        //setuserinfo(pw='',newpw='')
       }
     }
   };
