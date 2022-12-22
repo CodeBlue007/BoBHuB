@@ -1,0 +1,19 @@
+{
+  "name": "bobhub",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "i-fe": "cd FE && npm i",
+    "i-be": "cd BE && npm i",
+    "front": "cd FE && npm start",
+    "server": "cd BE && npm start",
+    "dev": "concurrently --kill-others-on-fail \"npm run front\" \"npm run server\""
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "http-proxy-middleware": "^2.0.6",
+    "socket.io-client": "^4.5.4"
+  }
+}
