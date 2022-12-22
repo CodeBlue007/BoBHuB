@@ -5,18 +5,18 @@ import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 const fontSizes = {
   title: 16,
   subTitle: 14,
-  small: 10,
-};
+    small: 10,
+  };
 
-const colors = {
-  title: '#5a3bbf',
-};
+  const colors = {
+    title: '#5a3bbf',
+  };
 
-const bgColors = {
-  test1: '#5a3bbf',
-  test2: '#635038',
-  test3: '#BB2649',
-};
+  const bgColors = {
+    test1: '#5a3bbf',
+    test2: '#635038',
+    test3: '#BB2649',
+  };
 
 // 반응형
 // const deviceSizes = {

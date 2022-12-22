@@ -53,10 +53,14 @@ io.on("connection", (socket) => {
     check();
   })
 
+  //하트 4개 딱 눌럿을대 4개 채운 클라방파고 > id값바탕으로 강제로 방을파게해줌 있으면 좋은데   
+
   socket.on("sendMessage", (msg, room, callback) => {
     socket.to(room).emit("getMessage",room,`${socket.nickname} : ${msg}`);
     callback(msg,room);
-  })
+  }) 
+  // 메시를 받는 부분 roomName, roomId, => DB연동 저장 채팅로그
+  // 다시 프론트가 Room => 로그를 뿌려준다.
 
   socket.on("disconnecting", () => {
     socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));

@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { fetchParties } from '../api/fetchParties';
 
-interface Menu {
-  id: number;
-  name: string;
-  img: string;
+export interface Party {
+  shopId: number;
+  shopName: string;
+  shopImage: string;
 }
 
 const StyledSlider = styled(Slider)`
@@ -51,7 +51,6 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
-    justify-content: center;
   } //item
 
   .slide {
@@ -110,17 +109,17 @@ const TitleBox = styled.div`
   font-weight: bold;
 `;
 
-export function NextArrow({ onClick }: any) {
+export function NextArrow() {
   return (
-    <div className="arrow arrow-right" onClick={onClick}>
+    <div className="arrow arrow-right">
       <MdKeyboardArrowRight />
     </div>
   );
 }
 
-export function PrevArrow({ onClick }: any) {
+export function PrevArrow() {
   return (
-    <div className="arrow arrow-left" onClick={onClick}>
+    <div className="arrow arrow-left">
       <MdKeyboardArrowLeft />
     </div>
   );
@@ -140,6 +139,7 @@ export default function SimpleSlider() {
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
+    draggable: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     beforeChange: (current: number, next: number) => setSlideIndex(next),
@@ -159,11 +159,16 @@ export default function SimpleSlider() {
     ],
   };
 
-  const [result, setResult] = useState([]);
+  const [parties, setParties] = useState<Party[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
 
+  const setPartiesData = async () => {
+    const data: Party[] = await fetchParties();
+    setParties([...data]);
+  };
+
   useEffect(() => {
-    axios.get('http://localhost:3000/posts').then((response) => setResult(response.data));
+    setPartiesData();
   }, []);
 
   return (
@@ -171,12 +176,13 @@ export default function SimpleSlider() {
       <TitleBox>오늘 뭐 먹지?</TitleBox>
       <div>
         <StyledSlider {...settings}>
-          {result.map((menu: Menu, index: number) => (
+          {parties.length === 0 && <div>활성화된 식당이 없습니다.</div>}
+          {parties.map((party: Party, index: number) => (
             <div
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
-              key={`${menu}${index}`}>
-              <img src={menu.img} alt="img" />
-              <span>{menu.name}</span>
+              key={`${party.shopId}`}>
+              <img src={party.shopImage} alt="img" />
+              <span>{party.shopName}</span>
               <Button variant="contained">찜하기</Button>
             </div>
           ))}
