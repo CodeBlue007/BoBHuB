@@ -34,12 +34,9 @@ class ShopModel {
      FROM comment
     GROUP BY shopId) c on s.shopId = c.id2;
     `;
-
       console.log(query);
 
       const [shops] = await pool.query(query);
-      console.log(shops);
-
       return shops;
     } catch (err) {
       throw new Error(err);
