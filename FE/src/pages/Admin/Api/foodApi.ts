@@ -1,6 +1,4 @@
-import axios from 'axios';
-import type { FoodType } from '../components/Restraunt/Foods';
-export const axiosInstance = axios.create({ withCredentials: true });
+import { get, patch, post, delete as deleteApi } from '../../../api/API';
 
 export interface PostShopBodyType {
   category: string;
@@ -11,38 +9,18 @@ export interface PostShopBodyType {
 }
 
 export const postFoodData = async (body: PostShopBodyType) => {
-  try {
-    const res = await axiosInstance.post('/api/admin/shops', body);
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  }
+  await post('/api/admin/shops', body);
 };
 
 export const deleteFoodData = async (id: string) => {
-  try {
-    const res = await axiosInstance.delete(`/api/admin/shops/${id}`);
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  }
+  await deleteApi(`/api/admin/shops/${id}`);
 };
 
 export const fetchFoodData = async () => {
-  try {
-    const res = await axiosInstance('/api/shops');
-    const foods = await res.data;
-    return foods;
-  } catch (error) {
-    console.log(error);
-  }
+  const foods = await get('/api/shops');
+  return foods;
 };
 
 export const updateFoodData = async (id: string, body: PostShopBodyType) => {
-  try {
-    const res = await axiosInstance.patch(`/api/admin/shops/${id}`, body);
-    console.log(res);
-  } catch (error) {
-    console.log(error);
-  }
+  await patch(`/api/admin/shops/${id}`, body);
 };

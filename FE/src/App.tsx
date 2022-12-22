@@ -5,18 +5,21 @@ import { ThemeProvider } from 'styled-components';
 import theme from './styles/theme';
 import { SocketContext, socket } from './socket/SocketContext';
 import GlobalFont from './styles/GlobalFont';
-
+import store from './store/store';
+import { Provider } from 'react-redux/es/exports';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <SocketContext.Provider value={socket}>
-        <Router />
-        <ChatApp />
-        <GlobalStyle />
-        <GlobalFont />
-      </SocketContext.Provider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <SocketContext.Provider value={socket}>
+          <Router />
+          <ChatApp />
+          <GlobalStyle />
+          <GlobalFont />
+        </SocketContext.Provider>
+      </ThemeProvider>
+    </Provider>
   );
 }
 

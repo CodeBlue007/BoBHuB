@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Intro = styled.div`
   display: flex;
   flex-direction: column;
-  width: 550px;
+  min-width: 550px;
   height: 100%;
   position: absolute;
   top: 205px;
@@ -25,13 +25,13 @@ const Intro = styled.div`
 `;
 
 const Container = styled.div`
-position: relative;
-box-sizing: border-box;
-width: 100%;
-   &:after {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  &:after {
     position: absolute;
-    left:0;
-    top:0;
+    left: 0;
+    top: 0;
     width: 100%;
     height: 100%;
     content: '';
@@ -54,7 +54,7 @@ const IntroSection = () => {
         <div className="sub" style={{ zIndex: 1 }}>
           밥허브로 밥메이트 구해요~
         </div>
-        <Button variant="contained" style={{ zIndex: 1}} sx={{backgroundColor:'#E59A59'}}>
+        <Button variant="contained" style={{ zIndex: 1 }} sx={{ backgroundColor: '#E59A59' }}>
           맛집 찾기
         </Button>
       </Intro>
