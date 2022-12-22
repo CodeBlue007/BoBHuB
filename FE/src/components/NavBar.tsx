@@ -1,13 +1,20 @@
 import { AppBar, IconButton, Toolbar, Typography, Stack, Button } from '@mui/material';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import { Link } from 'react-router-dom';
-import { useEffect, Fragment } from 'react';
+import { useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserData, userAction } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
 import { get } from '../api/API';
+import MyParty from './MyParty';
 
 const NavBar = () => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [myPartyList, setMyPartyList] = useState<[]>([]);
+
+  const hanleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(loginUserData());
@@ -20,7 +27,9 @@ const NavBar = () => {
   };
 
   const fetchMyParty = async () => {
+    hanleOpen();
     const myPartyList = await get('/api/parties/likedParty');
+    // setMyPartyList([...myPartyList]);
     console.log(myPartyList);
   };
 
@@ -66,6 +75,7 @@ const NavBar = () => {
             </Fragment>
           )}
         </Stack>
+        {open && <MyParty handleClose={handleClose} open={open} />}
       </Toolbar>
     </AppBar>
   );
