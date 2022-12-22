@@ -55,7 +55,7 @@ interface CommentList {
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, shopId, content, star },
+  commentProp: { commentId, userId, content, star,profile,nickName },
   updateCommentState,
 }: CommentList) => {
   const [canRevise, setRevise] = useState<boolean>(false);
@@ -89,14 +89,16 @@ const CommentList = ({
     setReadOnly(bool);
   }, []);
 
+  const userProfile = profile === null? undefined : profile;
+
   return (
     <>
       <ListContainer>
         <AvatarContainer>
-          <Avatar alt="Remy Sharp" src="/img/chickfood.jpg" sx={{ width: 55, height: 50 }} />
+          <Avatar alt="userProfile" src={userProfile} sx={{ width: 55, height: 50 }} />
         </AvatarContainer>
         <ContentContainer>
-          <Typography component="legend">{userId}</Typography>
+          <Typography component="legend">{nickName}</Typography>
           <Rating
             name="read-only"
             value={commentStar}
