@@ -1,14 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
 import styled from 'styled-components';
 import { Card } from '@mui/material';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import { commentStateType, shopStateType } from './types/Type';
+import { commentStateType, shopStateType, menuStateType } from './types/Type';
 import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
+import DetailSlider from "./components/DetailSlider";
 import * as API from "../../api/API";
 
 const Pagecontainer = styled.section`
@@ -52,10 +52,8 @@ const MenuCard = styled(Card)`
   padding: 10px;
 `;
 
-const baseURL = `http://localhost:5000/api`;
-
 const FoodDetail = () => {
-  const [shop, setShop] = useState<shopStateType>({
+  const [shopState, setShopState] = useState<shopStateType>({
     shopId: 0,
     category: '',
     name: '',
@@ -67,44 +65,55 @@ const FoodDetail = () => {
     description: '',
     createdAt: '',
     updatedAt: '',
+    deletedAt : '',
   });
-  const [commentState, setCommentState] = useState<commentStateType[]>([]);
+  const [commentState,setCommentState ] = useState<commentStateType[]>([]);
+  const [memuState, setMenuState] = useState<menuStateType[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [update, setUpdated] = useState<boolean>(false);
 
-
-  const getComment = async () => {
-    const response = await axios.get('http://localhost:3001/comment');
-    return response.data;
-  };
-
-  const getShop = async () => {
-    const response = await axios.get('http://localhost:3001/shop');
-    return response.data;
-  };
-
-  const updateComment = useCallback((comment:commentStateType) => {
-    setCommentState((current) => [comment, ...current]);
+  const updateCommentState = useCallback(()=>{
+    setUpdated((current) => !current);
   }, []);
 
-  const deleteComment = useCallback((id:number) => {
-    setCommentState((current) => current.filter((comments) => comments.commentId !== id));
-  },[]);
+  // 1.서버요청 > 프론트 UI 업데이트 (요청에 따른 결과 필터링) > JS 
+  // 2.서버요청 > 상위 state에서 댓글 rendering  어떤게 맞을까여 > React 
+  // 서비스 요구사항에 따라 다름. 
+  // 1번 > 최신화는 덜되지만 빠름
+  // 2번 > 갱신가능, 부하
+
+  const fetchCommentState = async()=> {
+    const commentState = await API.get(`/api/comments?shopId=${5}`);
+    console.log(commentState);
+    setCommentState(commentState);
+  }
+
+  const fetchShopState = async()=> {
+    const fetchShop = async() => await API.get(`/api/shops/5`);
+    const fetchMenu = async() => await API.get(`/api/food?shopId=5`);
+
+    const [shopState, menuState] = await Promise.all([fetchShop(), fetchMenu()]);
+    // const settledResult = await Promise.allSettled([fetchShop(), fetchMenu()]);
+    //status 2가지라 결과값이 다름 > typeGuard 해줘야함.
+    console.log(shopState, memuState);
+    setShopState(shopState);
+    setMenuState(memuState);
+  }
+
+  const fetchInitialData = async () => {
+    await fetchCommentState();
+    await fetchShopState();
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const commentData = await API.get(`/api/shops`);
-      // const shopData = await getShop();
-
-      console.log('success', commentData);
-      // console.log('success', shopData);
-
-      // setCommentState(commentData);
-      // setShop(shopData);
-      // setLoading(false);
-    };
-
-    fetchData();
+    fetchInitialData();
   }, []);
+
+  useEffect(()=> {
+    fetchCommentState();
+  }, [update]);
+
 
   return (
     <Pagecontainer>
@@ -115,25 +124,24 @@ const FoodDetail = () => {
           <NavBar />
           <DetailContainer>
             <div>
-              <ImageContainer>
-                <Image image={'/img/chickfood.jpg'} />
-              </ImageContainer>
+              <DetailSlider/>
               <MenuCard>
-                <p>주소 : {shop.address}</p>
-                <p>Distance : {shop.distance}</p>
+                <p>주소 : {shopState.address}</p>
+                <p>Distance : {shopState.distance}</p>
               </MenuCard>
             </div>
-           <Content shop={shop}/>
+           <Content shop={shopState}/>
           </DetailContainer>
           <Comment
-            updateComment={updateComment}
+            updateCommentState={updateCommentState}
+            shopId={shopState.shopId}
           />
           <CommentContainer>
             {commentState.map((comment) => (
               <CommentList
                 key={comment.commentId}
                 commentProp={comment}
-                deleteComment={deleteComment}
+                updateCommentState={updateCommentState}
               />
             ))}
           </CommentContainer>

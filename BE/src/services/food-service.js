@@ -24,22 +24,34 @@ class FoodService {
     const food = await this.foodModel.getByShopId(shopId);
     return food;
   }
-  // 오류 !
+  // 오류?
   async update(newFoodDTO, foodId) {
     const food = await this.foodModel.getById(foodId);
     if (!food) {
       throw new NotFound("존재하는 대표메뉴가 없습니다.");
     }
+    try {
+      const result = await this.foodModel.update(newFoodDTO, { foodId });
+      return buildRes("u", result);
+    } catch {
+      throw new BadRequest("Body에 작성한 내용에 오류가 있습니다.");
+    }
+  }
 
-    let { picture } = newFoodDTO;
-    if (picture) imageDeleter(food.picture);
+  async updateImage(newPicture, foodId) {
+    const food = await foodModel.getById(foodId);
+    if (!food) {
+      throw new NotFound("존재하는 대표메뉴가 없습니다.");
+    }
+    if (food.picture) imageDeleter(food.picture);
+    const newFoodDTO = { picture: newPicture };
 
-    // try {
-    const result = await this.foodModel.update(newFoodDTO, { foodId });
-    return buildRes("u", result);
-    // } catch {
-    // throw new BadRequest("form-data에 작성한 내용에 오류가 있습니다.");
-    // }
+    try {
+      const result = await this.foodModel.update(newFoodDTO, { foodId });
+      return buildRes("u", result);
+    } catch {
+      throw new BadRequest("form-data에 작성한 내용에 오류가 있습니다.");
+    }
   }
 
   async deleteById(foodId) {

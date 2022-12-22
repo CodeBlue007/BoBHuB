@@ -2,6 +2,7 @@ const { userModel } = require("../db/models");
 const buildRes = require("../utils/build-response");
 const bcrypt = require("bcrypt");
 const { BadRequest, Unauthorized, Forbidden, NotFound } = require("../utils/error-factory");
+const { imageDeleter } = require("../middlewares");
 
 class UserService {
   constructor(userModel) {
@@ -69,12 +70,11 @@ class UserService {
   }
 
   async update(exUserDTO, userDTO) {
-    const { track, generation, name, nickName, newPassword, password, phone, profile } =
-      exUserDTO;
+    const { track, generation, name, nickName, newPassword, password, phone } = exUserDTO;
     const correctPasswordHash = userDTO.password;
-    const newUserDTO = { track, generation, name, nickName, phone, profile };
 
-    if (profile) imageDeleter(userDTO.profile);
+    const newUserDTO = { track, generation, name, nickName, phone };
+
     if (password) {
       const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
       if (!isPasswordCorrect) {
@@ -100,6 +100,15 @@ class UserService {
     } catch {
       throw new BadRequest("form-data에 작성한 내용에 오류가 있습니다.");
     }
+  }
+
+  async updateImage(newProfile, userDTO) {
+    const { userId, profile } = userDTO;
+    if (profile) imageDeleter(profile);
+
+    const newUserDTO = { profile: newProfile };
+    const result = await this.userModel.update(newUserDTO, { userId });
+    return buildRes("u", result);
   }
 
   async updateByAdmin(newUserDTO, userId) {

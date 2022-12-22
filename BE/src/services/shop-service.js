@@ -1,5 +1,4 @@
 const { shopModel } = require("../db/models");
-const { pagination } = require("../utils");
 const buildRes = require("../utils/build-response");
 const { imageDeleter } = require("../middlewares");
 const { BadRequest, NotFound } = require("../utils/error-factory");
@@ -45,18 +44,27 @@ class ShopService {
     if (!shop) {
       throw new NotFound("존재하는 식당이 없습니다.");
     }
-    let { menu, shopPicture } = newShopDTO;
-    if (menu || shopPicture) {
-      if (menu) imageDeleter(shop.menu);
-      if (shopPicture) imageDeleter(shop.shopPicture);
-    }
 
     try {
       const result = await this.shopModel.update(newShopDTO, { shopId });
       return buildRes("u", result);
     } catch {
-      throw new BadRequest("form-data에 작성한 내용에 오류가 있습니다.");
+      throw new BadRequest("Body에 작성한 내용에 오류가 있습니다.");
     }
+  }
+
+  async updateImage(newImageDTO, shopId) {
+    const shop = await shopModel.getByShopId(shopId);
+    if (!shop) {
+      throw new NotFound("존재하는 식당이 없습니다.");
+    }
+
+    const { menu, shopPicture } = shop;
+    if (menu) imageDeleter(menu);
+    if (shopPicture) imageDeleter(shopPicture);
+
+    const result = await this.shopModel.update(newImageDTO, { shopId });
+    return buildRes("u", result);
   }
 
   async deleteById(shopId) {
