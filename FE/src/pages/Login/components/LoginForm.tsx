@@ -55,7 +55,7 @@ const BoxContainer = styled.div`
   align-items: center;
   box-sizing: border-box;
 
-  background-color: #f3f3f3;
+  background-color: #fcf3eb;
   border-radius: 4px;
 
   height: 46vh;
@@ -211,7 +211,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
           }
         />
 
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" sx={{backgroundColor:'#E59A59'}}>
           로그인
         </Button>
         <div className="goToRegister">

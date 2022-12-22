@@ -20,7 +20,7 @@ const StyledSlider = styled(Slider)`
 
 const Div = styled.div`
   height: 30vw;
-  background-color: rgba(132, 168, 0);
+  background-color: #fffaf5;
   border : 1px solid black;
   box-sizing: border-box;
   width: 100%;
@@ -106,7 +106,7 @@ const TitleBox = styled.div`
   height: 30px;
   font-size: 2em;
   margin: 30px 30px 30px 30px;
-  color: white;
+  color: #424140;
   font-weight: bold;
 `;
 

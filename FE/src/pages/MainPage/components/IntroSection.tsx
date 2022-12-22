@@ -54,7 +54,7 @@ const IntroSection = () => {
         <div className="sub" style={{ zIndex: 1 }}>
           밥허브로 밥메이트 구해요~
         </div>
-        <Button variant="contained" style={{ zIndex: 1}}>
+        <Button variant="contained" style={{ zIndex: 1}} sx={{backgroundColor:'#E59A59'}}>
           맛집 찾기
         </Button>
       </Intro>

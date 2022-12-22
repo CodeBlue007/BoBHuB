@@ -129,6 +129,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   margin-bottom: 50px;
+  background-color:#FCF3EB;
 `;
 
 const CategoryBox = styled.div`
@@ -140,6 +141,6 @@ const CardContainer = styled.div`
   grid-template-columns: 400px 400px 400px;
   grid-column-gap: 18px;
   grid-row-gap: 32px;
-  background-color: #efebf5;
+  background-color: white;
   padding: 28px;
 `;
