@@ -183,7 +183,7 @@ export default function SimpleSlider() {
         <StyledSlider {...settings}>
           {parties.length === 0 && <div>활성화된 식당이 없습니다.</div>}
           {parties.map((party: Party, index: number) => (
-            <NavLink to={'/foodDetail:' + party.shopId}>
+            <NavLink to={`/foodDetail:${party.shopId}`}>
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${party.shopId}`}
               <img src={party.shopPicture} alt="img" />
