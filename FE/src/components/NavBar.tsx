@@ -12,8 +12,7 @@ const NavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [myPartyList, setMyPartyList] = useState<[]>([]);
 
-  const hanleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpenToggle = () => setOpen(!open);
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -21,13 +20,13 @@ const NavBar = () => {
   }, []);
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
 
-  const logout = async () => {
-    await get('/api/auth/logout');
+  const logout = () => {
     dispatch(userAction.logout());
+    get('/api/auth/logout');
   };
 
   const fetchMyParty = async () => {
-    hanleOpen();
+    handleOpenToggle();
     const myPartyList = await get('/api/parties/likedParty');
     // setMyPartyList([...myPartyList]);
     console.log(myPartyList);
@@ -75,7 +74,7 @@ const NavBar = () => {
             </Fragment>
           )}
         </Stack>
-        {open && <MyParty handleClose={handleClose} open={open} />}
+        {open && <MyParty handleClose={handleOpenToggle} open={open} />}
       </Toolbar>
     </AppBar>
   );
