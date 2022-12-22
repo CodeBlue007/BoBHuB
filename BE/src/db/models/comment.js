@@ -28,11 +28,13 @@ class CommentModel {
 
   async getByShopId(shopId) {
     try {
-      const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = `select * from comment join (SELECT userId
+        , nickName, profile
+     FROM user ) u on u.userId = comment.userId  where shopId = ?`;
+
       console.log(query);
 
-      const [comments] = await pool.query(query);
+      const [comments] = await pool.query(query, [shopId]);
       return comments;
     } catch (err) {
       throw new Error(err);
