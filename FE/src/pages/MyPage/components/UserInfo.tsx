@@ -493,8 +493,3 @@ export const WarningMessage = styled.div`
   margin-top: 10px;
   font-size: 12px;
 `;
-
-export const WarningMessage = styled.div`
-    margin-top:10px;
-    font-size:12px;
-`

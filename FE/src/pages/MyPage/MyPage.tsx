@@ -37,7 +37,7 @@ const MyPage = () => {
 
   // 사용자 정보 조회 api
   const getUserInfoAPI = async () => {
-    const res=await API.get('/api/users')
+    const res = await API.get('/api/users');
     setUserInfo(res);
     // console.log(res);
     // setUserInfo(res);
@@ -168,7 +168,3 @@ const FileUpload = styled.input`
   width: 75px;
   margin-top: 10px;
 `;
-
-const DeleteTitle = styled(SubTitle)`
-    margin-top:80px;
-`

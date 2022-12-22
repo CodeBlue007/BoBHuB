@@ -4,7 +4,6 @@ import postRegisterData from '../Api/registerAPI';
 const RegisterContent = () => {
   const onRegSubmit = (regForm: {
     name: string;
-    id: string;
     nickName: string;
     password: string;
     passwordCheck?: string;
@@ -12,7 +11,8 @@ const RegisterContent = () => {
     email: string;
     confirmNum?: string;
     track: string;
-    generation: number;
+    // generation: number;
+    generation: string;
   }) => {
     delete regForm.passwordCheck;
     delete regForm.confirmNum;

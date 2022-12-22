@@ -1,21 +1,22 @@
 export interface regFormProps {
   onRegSubmit: (regForm: {
     name: string;
-    id: string;
     nickName: string;
+    email: string;
+    confirmNum: string;
     password: string;
     passwordCheck: string;
     phone: string;
-    email: string;
-    confirmNum: string;
     track: string;
-    generation: number;
+    // generation: number;
+    generation: string;
   }) => void;
 }
 
 export type regReqType = {
   track: string;
-  generation: number;
+  // generation: number;
+  generation: string;
   name: string;
   email: string;
   nickName: string;
@@ -26,7 +27,6 @@ export type regReqType = {
 
 // export type regForm = {
 //   name: string;
-//   id: string;
 //   nickName: string;
 //   password: string;
 //   passwordCheck: string;
@@ -34,5 +34,6 @@ export type regReqType = {
 //   email: string;
 //   confirmNum: string;
 //   track: string;
-//   generation: number;
+// generation: number;
+// generation: string;
 // };

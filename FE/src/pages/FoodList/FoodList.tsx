@@ -143,12 +143,3 @@ const CardContainer = styled.div`
   background-color: #efebf5;
   padding: 28px;
 `;
-
-const CardContainer = styled.div`
-    display:grid;
-    grid-template-columns:400px 400px 400px;
-    grid-column-gap:18px;
-    grid-row-gap:32px;
-    background-color:#efebf5;
-    padding:28px;
-`

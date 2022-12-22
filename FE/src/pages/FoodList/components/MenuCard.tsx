@@ -124,10 +124,3 @@ const StarTotal = styled.span`
   color: #727273;
   right: 44px;
 `;
-
-const StarTotal = styled.span`
-    position:absolute;
-    bottom:25px;
-    color:#727273;
-    right: 44px;
-`
