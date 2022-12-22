@@ -1,5 +1,5 @@
 const { userService } = require("../src/services");
-const { adminUsers } = require("./admin-users");
+const { adminUsers } = require("./data/admin-users");
 
 const createAdmins = async () => {
   console.log("adminData 생성중");
