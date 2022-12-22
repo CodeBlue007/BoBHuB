@@ -9,8 +9,8 @@ import { fetchParties } from '../api/fetchParties';
 
 export interface Party {
   shopId: number;
-  name: string;
-  img: string;
+  shopName: string;
+  shopImage: string;
 }
 
 const StyledSlider = styled(Slider)`
@@ -181,8 +181,8 @@ export default function SimpleSlider() {
             <div
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${party.shopId}`}>
-              <img src={party.img} alt="img" />
-              <span>{party.name}</span>
+              <img src={party.shopImage} alt="img" />
+              <span>{party.shopName}</span>
               <Button variant="contained">찜하기</Button>
             </div>
           ))}
