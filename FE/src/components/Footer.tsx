@@ -3,9 +3,6 @@ import { Row, Col } from 'antd';
 
 const Wrapper = styled.footer`
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
   width: 100vw;
   text-align: center;
   height: 15vh;
