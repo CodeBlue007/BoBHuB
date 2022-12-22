@@ -1,26 +1,27 @@
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import FoodTable from './FoodTable';
-import { fetchFoodData } from '../Api/foodApi';
+import { fetchFoodData } from '../../Api/foodApi';
 
 export type FoodType = {
+  shopId: string;
+  category: string;
   name: string;
-  like: number;
   distance: number;
   address: string;
+  menu: any;
+  shopPicture: any;
+  starAverage: number;
   description: string;
-  id: string;
-  category: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 const Foods = () => {
-  const [foods, setFoods] = useState([]);
+  const [foods, setFoods] = useState<FoodType[]>([]);
   const setFoodsData = async () => {
-    const data = await fetchFoodData();
-    setFoods(() => {
-      return data;
-    });
+    const data: FoodType[] = await fetchFoodData();
+    setFoods([...data]);
   };
 
   useEffect(() => {

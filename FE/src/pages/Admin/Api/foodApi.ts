@@ -1,22 +1,48 @@
 import axios from 'axios';
-import { FoodType } from '../Restraunt/Foods';
+import type { FoodType } from '../components/Restraunt/Foods';
+export const axiosInstance = axios.create({ withCredentials: true });
 
-export const postFoodData = async (body: FoodType) => {
-  await axios
-    .post('http://localhost:3001/foods', body)
-    .then(() => console.log('post'))
-    .catch((e) => console.log(e));
+export interface PostShopBodyType {
+  category: string;
+  name: string;
+  distance: number;
+  address: string;
+  description: string;
+}
+
+export const postFoodData = async (body: PostShopBodyType) => {
+  try {
+    const res = await axiosInstance.post('/api/admin/shops', body);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const deleteFoodData = async (id: string | undefined) => {
-  await axios
-    .delete(`http://localhost:3001/foods/${id}`)
-    .then(() => console.log('delete'))
-    .catch((e) => console.log(e));
+export const deleteFoodData = async (id: string) => {
+  try {
+    const res = await axiosInstance.delete(`/api/admin/shops/${id}`);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const fetchFoodData = async () => {
-  const res = await axios('http://localhost:3001/foods');
-  const foods = await res.data;
-  return foods;
+  try {
+    const res = await axiosInstance('/api/shops');
+    const foods = await res.data;
+    return foods;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateFoodData = async (id: string, body: PostShopBodyType) => {
+  try {
+    const res = await axiosInstance.patch(`/api/admin/shops/${id}`, body);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
 };

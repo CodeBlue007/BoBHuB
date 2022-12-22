@@ -45,13 +45,13 @@ const IntroSection = () => {
         <source src={'video/teamLunch.mp4'} type="video/mp4" />
       </video>
       <Intro>
-        <div className="main" style={{ zIndex: 100 }}>
+        <div className="main" style={{ zIndex: 1 }}>
           혼자 밥 먹기 싫을 땐?
         </div>
-        <div className="sub" style={{ zIndex: 100 }}>
+        <div className="sub" style={{ zIndex: 1 }}>
           밥허브로 밥메이트 구해요~
         </div>
-        <Button variant="contained" style={{ zIndex: 100 }}>
+        <Button variant="contained" style={{ zIndex: 1}}>
           맛집 찾기
         </Button>
       </Intro>
