@@ -15,10 +15,12 @@ shopAdminRouter.post(
   imageUploader.fields([{ name: "menu" }, { name: "shopPicture" }]),
   shopController.create
 );
-shopAdminRouter.patch(
-  "/:shopId",
+shopAdminRouter.patch("/:shopId", shopController.update);
+
+shopAdminRouter.post(
+  "/:shopId/image",
   imageUploader.fields([{ name: "menu" }, { name: "shopPicture" }]),
-  shopController.update
+  shopController.updateImage
 );
 shopAdminRouter.delete("/:shopId", shopController.delete);
 

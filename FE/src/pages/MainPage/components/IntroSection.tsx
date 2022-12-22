@@ -25,22 +25,25 @@ const Intro = styled.div`
 `;
 
 const Container = styled.div`
-  :after {
-    width: 100%;
+position: relative;
+box-sizing: border-box;
+width: 100%;
+   &:after {
     position: absolute;
-    top: 63px;
-    left: 5px;
-    bottom: 0;
-    left: 0;
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
     content: '';
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
   }
 `;
 
 const IntroSection = () => {
   return (
-    <Container style={{ display: 'flex', flexDirection: 'row' }}>
+    <Container>
       <video autoPlay={true} muted={true} style={{ width: '100%', height: 'auto' }} loop>
         <source src={'video/teamLunch.mp4'} type="video/mp4" />
       </video>

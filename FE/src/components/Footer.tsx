@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
 const FooterBox = styled.footer`
-  font-size: 30px;
+display: flex;
+align-items: center;
+justify-content: center;
+  font-size: 20px;
   width: 100vw;
   text-align: center;
-  bottom: 0;
+  height: 15vh;
 `;
 
 const Footer = () => {

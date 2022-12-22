@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { shopStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
@@ -44,12 +44,6 @@ const Content = ({shop} : Contentype) => {
   const [isClicked, setClicked] = useState<boolean>(false);
   const [people, setPeople] = useState<number>(2);
   const [duration, setDuration] = useState<number>(15);
-  const [likeAll, setlikeAll] = useState<number>(0);
-
-  useEffect(()=> {
-    setlikeAll(shop.like);
-  },[]);
-
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isClicked) {
@@ -57,12 +51,12 @@ const Content = ({shop} : Contentype) => {
       return;
     }
     setClicked(true);
-    setlikeAll((current) => current + 1);
+    alert("찜하기를 완료했습니다.")
   };
 
   return (
     <ContentContainer>
-      <MenuCard size={"25px"} width={"15vw"}><p>{shop.name}</p></MenuCard>
+      <MenuCard size={"25px"} width={"15vw"} style={{textAlign:`center`}}><p>{shop.name}</p></MenuCard>
       <MenuCard size={"15px"} width={"20vw"}>
         <p>{shop.description}</p>
       </MenuCard>
@@ -76,7 +70,7 @@ const Content = ({shop} : Contentype) => {
           <SelectTags type={'Duration'} value={duration} setValue={setDuration} />
         </SelectContainer>
       </MenuContainer>
-      <LikeButton variant="contained" onClick={handleClick}>{`찜하기 ❤ : ${likeAll}`}</LikeButton>
+      <LikeButton variant="contained" onClick={handleClick}>{`찜하기 ❤`}</LikeButton>
     </ContentContainer>
   );
 };

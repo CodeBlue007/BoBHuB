@@ -1,12 +1,21 @@
 
-export type commentStateType = {
-    commentId: number;
-    userId: number;
-    shopId: number;
+type stringNull = string|null;
+type numberNull = number|null;
+
+
+export interface postCommentType{
+    shopId?: number;
     content: string;
-    star: number|null;
+    star: numberNull;
 }
 
+export interface commentStateType extends postCommentType{
+    userId : number;
+    commentId: number;
+    createdAt : stringNull;
+    updatedAt : stringNull;
+    deletedAt : stringNull;  
+}
 
 export type shopStateType = {
     "shopId" : number;
@@ -14,10 +23,19 @@ export type shopStateType = {
     "name" : string;
     "distance" : number;
     "address": string;
-    "menu": string;
-    "shopPicture": string;
+    "menu": stringNull;
+    "shopPicture": stringNull;
     "like" : number;
     "description" : string;
-    "createdAt" : string;
-    "updatedAt" : string;
+    "createdAt" : stringNull;
+    "updatedAt" : stringNull;
+    "deletedAt" : stringNull;   
+}
+
+export type menuStateType = {
+    foodId : number;
+    shopId : number;
+    picture : string;
+    name : string;
+    price : number;
 }
