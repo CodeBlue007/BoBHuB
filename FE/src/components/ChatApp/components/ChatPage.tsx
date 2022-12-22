@@ -24,7 +24,7 @@ const ChatPage = ({ handleClick }: ChatPageProps) => {
         sx={{
           width: '300px',
           height: '500px',
-          backgroundColor: 'crimson',
+          backgroundColor: '#888870',
           zIndex: 10,
           borderRadius: '15px',
         }}

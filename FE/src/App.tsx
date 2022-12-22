@@ -1,22 +1,25 @@
 import { GlobalStyle } from './styles/GlobalStyle';
 import Router from './Router';
 import ChatApp from './components/ChatApp/ChatApp';
-import { theme } from './styles/theme';
+import { ThemeProvider } from 'styled-components';
+import theme from './styles/theme';
 import { SocketContext, socket } from './socket/SocketContext';
-import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+import GlobalFont from './styles/GlobalFont';
+import store from './store/store';
+import { Provider } from 'react-redux/es/exports';
 
 function App() {
   return (
-    <StyledThemeProvider theme={theme}>
-      {/* <MuiThemeProvider theme={muitheme}> */}
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
         <SocketContext.Provider value={socket}>
           <Router />
           <ChatApp />
           <GlobalStyle />
+          <GlobalFont />
         </SocketContext.Provider>
-      {/* </MuiThemeProvider> */}
-    </StyledThemeProvider>
+      </ThemeProvider>
+    </Provider>
   );
 }
 

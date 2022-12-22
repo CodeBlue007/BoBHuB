@@ -26,7 +26,7 @@ const DeleteUser = () => {
             <TableRow>
                 <TableHeader>계정탈퇴</TableHeader>
                 <TableData>
-                    <Button onClick={handleUserDelete} sx={{ fontWeight: 'bold' }} variant="outlined" color="error">
+                    <Button onClick={handleUserDelete} sx={{ fontWeight: 'bold',backgroundColor:'#a82a1E',color:'white' }} variant="outlined" color="error">
                         계정탈퇴
                     </Button>
                     <DeleteCheckMessage>*계정 탈퇴 시, 복구 불가능합니다.</DeleteCheckMessage>

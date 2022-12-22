@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import StarRateIcon from '@mui/icons-material/StarRate';
+import { useNavigate } from 'react-router-dom';
 
 type ShopListProps = {
   name: string; //식당명
@@ -25,9 +26,11 @@ const defaultProps: ShopListProps = {
 };
 
 const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopListProps) => {
+  const navigate = useNavigate();
   const goToFoodDetailPage = () => {
-    window.location.href = `/foodlist/${shopId}`;
+    navigate(`/foodlist/${shopId}`);
   };
+
   return (
     <Container onClick={goToFoodDetailPage}>
       <CardTitle>
@@ -74,9 +77,8 @@ MenuCard.defaultProps = defaultProps;
 export default MenuCard;
 
 const Container = styled.div`
-  background-color: #f7f7f7;
-  border: 0px solid #8952bf;
-  border-radius: 8px;
+  background-color: ${(props) => props.theme.colors.innerContainer};
+  border-radius: 10px;
   width: 400px;
   height: 470px;
   box-sizing: border-box;
@@ -90,9 +92,9 @@ const Container = styled.div`
 
 const CardTitle = styled.h5`
   font-weight: bold;
-  font-size: 18px;
+  font-size: ${(props) => props.theme.font.size.containerTitle};
   line-height: 26px;
-  color: #151618;
+  color: ${(props) => props.theme.font.color.balck};
   margin-top: 25px;
   margin-bottom: 16px;
 `;
@@ -107,21 +109,21 @@ const CardImage = styled.div``;
 
 const CardDescription = styled.p`
   color: #5e5f61;
-  font-size: 14px;
+  font-size: ${(props) => props.theme.font.size.normal};
   margin: 16px 0;
   line-height: 20px;
 `;
 
 const MenuList = styled.div``;
 const Menu = styled.li`
-  font-size: 14px;
+  font-size: ${(props) => props.theme.font.size.normal};
   line-height: 18px;
 `;
 
 const Line = styled.div`
   width: 400px;
   height: 1px;
-  background-color: #dfdce0;
+  background-color: ${(props) => props.theme.colors.lightGray};
   position: absolute;
   left: 0;
   bottom: 60px;

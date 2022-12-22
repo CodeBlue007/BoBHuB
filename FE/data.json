@@ -1,4 +1,24 @@
 {
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "msg": {
+    "message": "있습니다."
+  },
   "user": {
     "userId": "1234",
     "track": "SW",
@@ -9,5 +29,176 @@
     "profile": "https://png.pngtree.com/background/20211216/original/pngtree-dining-room-at-night-picture-image_1531627.jpg",
     "role": "elicer",
     "nickName": "nick"
-  }
+  },
+  "shops": [
+    {
+      "shopId": "1234",
+      "category": "한식",
+      "name": "성ab낙1",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 5.0,
+      "description": "맛나는 우리 한식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "한식",
+      "name": "성수낙aa낙2",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 4.0,
+      "description": "맛나는 우리 한식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "한식",
+      "name": "성수낙낙3ㅁㅁ",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 한식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "한식",
+      "name": "성수낙라낙4",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 한식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "한식",
+      "name": "성수낙c낙5",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 한식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "한식",
+      "name": "성수낙c낙6",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 한식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "중식",
+      "name": "성수낙rr낙7",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 중식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "분식",
+      "name": "성수racer낙낙8",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 분식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "양식",
+      "name": "성수낙낙9",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 양식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "양식",
+      "name": "성수낙낙10",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 양식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "양식",
+      "name": "성수낙낙11",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 양식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "일식",
+      "name": "성수낙낙12",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.5,
+      "description": "맛나는 우리 일식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    },
+    {
+      "shopId": "1234",
+      "category": "일식",
+      "name": "성수낙낙13",
+      "distance": 300,
+      "address": "건대쪽",
+      "menu": "#",
+      "shopPicture": "#",
+      "starAverage": 3.8,
+      "description": "맛나는 우리 일식",
+      "createdAt": "2022-11-12T03:01:13.933Z",
+      "updatedAt": "2022-11-12T03:01:14.288Z"
+    }
+  ]
 }
