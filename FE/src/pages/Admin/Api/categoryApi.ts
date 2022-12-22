@@ -1,11 +1,5 @@
-import { axiosInstance } from './foodApi';
-
+import { get } from '../../../api/API';
 export const fetchCategoryList = async () => {
-  try {
-    const res = await axiosInstance('/api/categories');
-    const categories = await res.data;
-    return categories;
-  } catch (error) {
-    console.log(error);
-  }
+  const categories = await get('/api/categories');
+  return categories;
 };

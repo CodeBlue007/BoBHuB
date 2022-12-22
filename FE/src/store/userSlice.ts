@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { get } from '../api/API';
 
 export const loginUserData = createAsyncThunk('user/loginUserData', async () => {
-  const res = await axios.get('api/users', { withCredentials: true });
-  const data = await res.data;
+  const data = await get('api/users');
   return data;
 });
 const initialState = {
@@ -35,9 +34,6 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginUserData.pending, (state, action) => {
-      state = state;
-    });
     builder.addCase(loginUserData.fulfilled, (state, action) => {
       state.isLogin = true;
       state.currentUser = { ...action.payload };
