@@ -16,19 +16,19 @@ class BadRequest extends ErrorFactory {
 class Unauthorized extends ErrorFactory {
   constructor(message) {
     if (message) super(message, 401);
-    else super("Unauthorized", 401, 401);
+    else super("Unauthorized", 401);
   }
 }
 class Forbidden extends ErrorFactory {
   constructor(message) {
     if (message) super(message, 403);
-    else super("Forbidden", 403, 403);
+    else super("Forbidden", 403);
   }
 }
 class NotFound extends ErrorFactory {
   constructor(message) {
     if (message) super(message, 404);
-    else super("NotFound", 404, 404);
+    else super("NotFound", 404);
   }
 }
 
