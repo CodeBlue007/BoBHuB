@@ -22,13 +22,13 @@ class CategoryService {
   }
 
   async update(newCategory, category) {
-    if (newCategory === category) {
-      throw new BadRequest("수정할 카테고리와 기존 카테고리의 이름이 동일합니다.");
-    }
-
     const exCategory = await this.categoryModel.getById(category);
     if (exCategory.length === 0) {
       throw new NotFound("존재하는 카테고리가 없습니다.");
+    }
+
+    if (newCategory === category) {
+      throw new BadRequest("수정할 카테고리와 기존 카테고리의 이름이 동일합니다.");
     }
 
     try {
