@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 const FooterBox = styled.footer`
-  font-size: 30px;
+  font-size: 20px;
   width: 100vw;
   text-align: center;
-  bottom: 0;
 `;
 
 const Footer = () => {
