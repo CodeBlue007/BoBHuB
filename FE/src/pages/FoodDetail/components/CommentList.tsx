@@ -97,6 +97,8 @@ const CommentList = ({
             onChange={ratingChange}
           />
           <TextArea
+            commentId = {commentId}
+            commentStar ={commentStar}
             content={content}
             canRevise={canRevise}
             updateRevise={updateRevise}

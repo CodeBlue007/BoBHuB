@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { TextField, Button, Typography, Rating } from '@mui/material';
 import React, { useState } from 'react';
-import { commentStateType } from '../types/Type';
+import { postCommentType } from '../types/Type';
+import * as API from "../../../api/API";
 
 
 const CommentContainer = styled.form`
@@ -24,17 +25,22 @@ const CommentField = styled(TextField)`
 
 
 interface commnetProps{
-  updateComment : (x:commentStateType) => void
+  updateComment : () => void;
+  shopId : number;
 }
 
 type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
 
-const Comment = ({updateComment} : commnetProps) => {
+const Comment = ({updateComment, shopId} : commnetProps) => {
 
   const [content, setContent] = useState<string>("");
   const [starValue, setStarValue] = useState<number | null>(5);
 
-
+  const postComment = async(comment:postCommentType) => {
+    const res = API.post("/api/comments",comment);
+    console.log(res);
+  }
+  
   const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setStarValue(newValue);
   const fieldChange = (e:React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
 
@@ -45,16 +51,14 @@ const Comment = ({updateComment} : commnetProps) => {
       alert("댓글을 입력해주세요");
       return;
     }
+    const star =  starValue === null ? 0 : starValue;
     const newComment = {
-      commentId : Math.floor(Math.random() * 10000),
-      userId: 123465,
-      shopId : 12313,
-      star : starValue,
+      shopId,
       content,
+      star,
     }
-
-    updateComment(newComment);
-
+    postComment(newComment);
+    updateComment();
     setContent('');
   }
 
