@@ -8,7 +8,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
 
 export interface Party {
-  id: number;
+  shopId: number;
   name: string;
   img: string;
 }
@@ -180,7 +180,7 @@ export default function SimpleSlider() {
           {parties.map((party: Party, index: number) => (
             <div
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
-              key={`${party}${index}`}>
+              key={`${party.shopId}`}>
               <img src={party.img} alt="img" />
               <span>{party.name}</span>
               <Button variant="contained">찜하기</Button>
