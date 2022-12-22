@@ -71,10 +71,6 @@ class UserService {
   async update(exUserDTO, userDTO) {
     const { track, generation, name, nickName, newPassword, password, phone, profile } =
       exUserDTO;
-    if (exUserDTO.password === exUserDTO.newPassword) {
-      throw new BadRequest("기존 비밀번호와 다른 새 비밀번호를 입력해주세요.");
-    }
-
     const correctPasswordHash = userDTO.password;
     const newUserDTO = { track, generation, name, nickName, phone, profile };
 
