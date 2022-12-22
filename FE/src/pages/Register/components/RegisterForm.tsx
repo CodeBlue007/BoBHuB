@@ -284,6 +284,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
 
         <TextField
           required
+          // type={showPassword ? 'text' : 'password'}
           type="password"
           name="password"
           variant="standard"
@@ -293,6 +294,19 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
                 <KeyIcon />
               </InputAdornment>
             ),
+
+            // endAdornment: (
+            //   <InputAdornment position="end">
+            //     <IconButton
+            //       aria-label="toggle password visibility"
+            //       onClick={handleClickShowPassword}
+            //       onMouseDown={handleMouseDownPassword}
+            //       edge="end"
+            //     >
+            //     {showPassword ? <VisibilityOff /> : <Visibility />}
+            //     </IconButton>
+            //   </InputAdornment>
+            // )
           }}
           sx={{
             input: {
