@@ -16,7 +16,10 @@ class PartyModel {
   }
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
+      let query = o.makeSelectQuery();
+      query += ` join(select name, shopPicture,menu, address ,shopId
+        from shop) as s
+        on s.shopId = party.shopId`;
       console.log(query);
 
       const [parties] = await pool.query(query);
