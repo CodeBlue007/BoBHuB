@@ -1,9 +1,8 @@
 import NavBar from '../../components/NavBar';
-import MainPageFooter from './components/MainPageFooter';
+import Footer from '../../components/Footer';
 import IntroSection from './components/IntroSection';
 import styled from 'styled-components';
 import SimpleSlider from './components/SliderSection';
-import Footer from '../../components/Footer';
 
 const Content = styled.div`
   width: 100%;

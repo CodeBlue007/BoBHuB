@@ -6,22 +6,25 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
+import { NavLink } from 'react-router-dom';
 
 export interface Party {
   shopId: number;
-  shopName: string;
-  shopImage: string;
+  name: string;
+  shopPicture: string;
+  address: string;
+  avgStar: number;
 }
 
 const StyledSlider = styled(Slider)`
-  border : 1px solid black;
+  border: 1px solid black;
   height: 40vh;
 `;
 
 const Div = styled.div`
-  height: 30vw;
+  height: 100%;
   background-color: rgba(132, 168, 0);
-  border : 1px solid black;
+  border: 1px solid black;
   box-sizing: border-box;
   width: 100%;
   place-items: center;
@@ -110,10 +113,6 @@ const TitleBox = styled.div`
   font-weight: bold;
 `;
 
-const ItemContainer = styled.div`
-  border: 1px solid black;
-`
-
 export function NextArrow() {
   return (
     <div className="arrow arrow-right">
@@ -164,7 +163,6 @@ export default function SimpleSlider() {
     ],
   };
 
-
   const [parties, setParties] = useState<Party[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -185,13 +183,15 @@ export default function SimpleSlider() {
         <StyledSlider {...settings}>
           {parties.length === 0 && <div>활성화된 식당이 없습니다.</div>}
           {parties.map((party: Party, index: number) => (
-            <ItemContainer
+            <NavLink to={'/foodDetail:' + party.shopId}>
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
-              key={`${party.shopId}`}>
-              <img src={party.shopImage} alt="img" />
-              <span>{party.shopName}</span>
+              key={`${party.shopId}`}
+              <img src={party.shopPicture} alt="img" />
+              <span>{party.name}</span>
+              <span>{party.avgStar}</span>
+              <span>{party.address}</span>
               <Button variant="contained">찜하기</Button>
-            </ItemContainer>
+            </NavLink>
           ))}
         </StyledSlider>
       </div>
