@@ -10,7 +10,7 @@ class ErrorFactory extends Error {
 class BadRequest extends ErrorFactory {
   constructor(message) {
     if (message) super(message, 400);
-    else super("Bad Request", 400, 400);
+    else super("Bad Request", 400);
   }
 }
 class Unauthorized extends ErrorFactory {

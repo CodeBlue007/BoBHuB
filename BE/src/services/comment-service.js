@@ -28,7 +28,6 @@ class CommentService {
 
   async updateByAuth(newCommentDTO, commentId) {
     const exComment = await this.commentModel.getByCommentId(commentId);
-    console.log(exComment);
     if (exComment.length === 0) {
       throw new NotFound("존재하는 댓글이 없습니다.");
     }
