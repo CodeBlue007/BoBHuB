@@ -21,6 +21,7 @@ import {
   validateTrack,
   validateGeneration,
 } from '../../../util/validateRegister';
+import * as API from '../../../api/API';
 
 const RegisterFormContainer = styled.form`
   display: flex;
@@ -140,10 +141,11 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     });
   };
 
-  const handleRegSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     onRegSubmit(regForm);
+    const res = await API.post('/api/users/join', regForm);
 
     // form 초기화
     setRegForm({
