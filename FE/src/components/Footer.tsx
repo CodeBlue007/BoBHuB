@@ -5,7 +5,7 @@ const Wrapper = styled.footer`
   display: flex;
   width: 100vw;
   text-align: center;
-  height: 15vh;
+  height: 5vh;
 `;
 
 const Footer = () => {

@@ -25,7 +25,8 @@ color : white;
 `
 const CommentArea = styled.textarea`
 margin-top: 10px;
-background-color: crimson;
+background-color:#fcf3eb;
+border-radius:10px;
 color : white;
 border: none;
 border-bottom: 1px solid white;

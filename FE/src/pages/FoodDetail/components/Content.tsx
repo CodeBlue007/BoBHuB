@@ -33,6 +33,7 @@ const SelectContainer = styled.div`
 
 const LikeButton = styled(Button)`
   width: 15vw;
+  background-color:#E59A59;
 `;
 
 interface Contentype{

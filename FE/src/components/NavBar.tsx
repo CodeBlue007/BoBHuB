@@ -33,7 +33,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{backgroundColor:'#E59A59'}}>
       <Toolbar>
         <Link to="/">
           <IconButton>

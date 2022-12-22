@@ -90,7 +90,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f3f2f5;
+  background-color: #fff9f2;
 `;
 
 const SubContainer = styled.div`
@@ -157,7 +157,6 @@ const UserRole = styled.div`
 // `
 
 const ImgCircle = styled.img`
-sx={{ marginTop: '50px', width: '75px', height: '75px' }}
     margin-top:50px;
     width:75px;
     height:75px;

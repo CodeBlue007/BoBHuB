@@ -206,16 +206,14 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             </Box>
             <Stack direction="row">
               <Button
-                sx={{ fontWeight: 'bold', margin: '15px 10px' }}
-                color="secondary"
+                sx={{ fontWeight: 'bold', margin: '15px 10px' ,backgroundColor:'#A82A1E',color:'white',border:'none'}}
                 size="medium"
                 variant="outlined"
                 onClick={(e) => handleClickCancel(e, 'name')}>
                 취소
               </Button>
               <Button
-                sx={{ fontWeight: 'bold', margin: '15px 0px' }}
-                color="secondary"
+                sx={{ fontWeight: 'bold', margin: '15px 0px',backgroundColor:'#E59A59' }}
                 size="medium"
                 variant="contained"
                 onClick={(e) => handleClickSuccess(e, 'name')}>
@@ -444,7 +442,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           <TableData>
             ********
             <UpdateIcon onClick={(e) => handleClickUpdate(e, 'password')}>
-              <CreateIcon sx={{ color: '#6a4a96' }} fontSize="small" />
+              <CreateIcon sx={{ color: '#712E1E' }} fontSize="small" />
             </UpdateIcon>
           </TableData>
         )}
@@ -470,7 +468,7 @@ export const TableRow = styled.tr``;
 export const TableHeader = styled.th`
   padding: 30px;
   border-top: 0.5px solid #c9cacc;
-  background-color: #fbf7ff;
+  background-color: #fcf3eb;
   font-size: 14px;
 `;
 

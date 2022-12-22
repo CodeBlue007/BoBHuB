@@ -13,7 +13,7 @@ const ListContainer = styled(FlexContainer)`
   box-shadow: 2px 2px 2px gray;
   width: 50vw;
   border-radius: 10px;
-  background-color: crimson;
+  background-color: #ffd5af;
   position: relative;
   margin: 15px;
 `;
@@ -113,6 +113,7 @@ const CommentList = ({
           />
           <div className="buttonWrap">
             <CustomButton
+              sx={{backgroundColor:'#888870'}}
               variant="contained"
               color="secondary"
               size="small"
@@ -121,6 +122,7 @@ const CommentList = ({
               수정
             </CustomButton>
             <CustomButton
+              sx={{backgroundColor:'#a82a1e'}}
               variant="contained"
               color="error"
               size="small"
