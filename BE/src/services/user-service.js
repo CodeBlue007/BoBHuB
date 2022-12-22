@@ -1,6 +1,7 @@
 const { userModel } = require("../db/models");
 const buildRes = require("../utils/build-response");
 const bcrypt = require("bcrypt");
+const { imageDeleter } = require("../middlewares");
 
 class UserService {
   constructor(userModel) {
@@ -52,11 +53,10 @@ class UserService {
   }
 
   async update(exUserDTO, userDTO) {
-    const { track, generation, name, nickName, newPassword, password, phone, profile } =
-      exUserDTO;
+    const { track, generation, name, nickName, newPassword, password, phone } = exUserDTO;
     const correctPasswordHash = userDTO.password;
 
-    const newUserDTO = { track, generation, name, nickName, phone, profile };
+    const newUserDTO = { track, generation, name, nickName, phone };
 
     if (profile) imageDeleter(userDTO.profile);
     if (password) {
@@ -71,6 +71,15 @@ class UserService {
     }
 
     const userId = userDTO.userId;
+    const result = await this.userModel.update(newUserDTO, { userId });
+    return buildRes("u", result);
+  }
+
+  async updateImage(newProfile, userDTO) {
+    const { userId, profile } = userDTO;
+    if (profile) imageDeleter(profile);
+
+    const newUserDTO = { profile: newProfile };
     const result = await this.userModel.update(newUserDTO, { userId });
     return buildRes("u", result);
   }
