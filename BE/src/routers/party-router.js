@@ -5,6 +5,7 @@ const partyRouter = Router();
 
 partyRouter.post("/", partyController.create);
 partyRouter.get("/", partyController.getAll);
+partyRouter.get("/likedParty", partyController.getByUserId);
 partyRouter.get("/:partyId", partyController.getById);
 partyRouter.patch("/:partyId", partyController.update);
 partyRouter.delete("/:partyId", partyController.delete);
