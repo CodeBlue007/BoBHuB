@@ -17,9 +17,13 @@ class PartyModel {
   async getAll() {
     try {
       let query = o.makeSelectQuery();
-      query += ` join(select name, shopPicture,menu, address ,shopId
+      query += ` join(select name, shopPicture, menu, address ,shopId
         from shop) as s
-        on s.shopId = party.shopId`;
+        on s.shopId = party.shopId
+        left join (SELECT shopId as Id1
+          , AVG(star) AS avgStar
+       FROM comment
+      GROUP BY shopId) c on c.Id1 = party.shopId`;
       console.log(query);
 
       const [parties] = await pool.query(query);
