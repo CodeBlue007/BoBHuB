@@ -8,9 +8,9 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
 
 export interface Party {
-  id: number;
-  name: string;
-  img: string;
+  shopId: number;
+  shopName: string;
+  shopImage: string;
 }
 
 const StyledSlider = styled(Slider)`
@@ -180,9 +180,9 @@ export default function SimpleSlider() {
           {parties.map((party: Party, index: number) => (
             <div
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
-              key={`${party}${index}`}>
-              <img src={party.img} alt="img" />
-              <span>{party.name}</span>
+              key={`${party.shopId}`}>
+              <img src={party.shopImage} alt="img" />
+              <span>{party.shopName}</span>
               <Button variant="contained">찜하기</Button>
             </div>
           ))}
