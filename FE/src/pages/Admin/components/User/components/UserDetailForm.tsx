@@ -31,14 +31,6 @@ interface UserDetailFormProps {
   handleClose: () => void;
 }
 
-const initUserDetail = {
-  name: '',
-  id: '',
-  email: '',
-  auth: '',
-  nickname: '',
-};
-
 const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProps) => {
   const nickname = useRef<TextFieldProps>();
   const auth = useRef<TextFieldProps>();

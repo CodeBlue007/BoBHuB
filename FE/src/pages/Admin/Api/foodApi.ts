@@ -6,6 +6,7 @@ export interface PostShopBodyType {
   distance: number;
   address: string;
   description: string;
+  menu: any;
 }
 
 export const postFoodData = async (body: PostShopBodyType) => {

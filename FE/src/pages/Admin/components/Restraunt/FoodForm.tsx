@@ -7,7 +7,6 @@ import {
   TextFieldProps,
   Button,
   ButtonGroup,
-  Input,
 } from '@mui/material';
 import { postFoodData, updateFoodData, deleteFoodData } from '../../Api/foodApi';
 import { style } from './FoodModal';
@@ -15,7 +14,6 @@ import { useRef, useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import type { FoodType } from './Foods';
 import { fetchCategoryList } from '../../Api/categoryApi';
-import type { PostShopBodyType } from '../../Api/foodApi';
 
 interface FoodAddFormProps {
   handleClose: () => void;
@@ -30,27 +28,9 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
   const address = useRef<TextFieldProps>();
   const description = useRef<TextFieldProps>();
   const category = useRef<TextFieldProps>();
-  const [uploadPhoto, setUploadPhoto] = useState<File>();
+  const shopImage = useRef<HTMLInputElement>(null);
+  const [uploadPhoto, setUploadPhoto] = useState<Blob | null>(null);
   const [categoryList, setCategoryList] = useState<[]>([]);
-
-  const clickUpdateBtn = async (id: string) => {
-    const body: PostShopBodyType = {
-      name: name.current?.value as string,
-      distance: distance.current?.value as number,
-      address: address.current?.value as string,
-      description: description.current?.value as string,
-      category: category.current?.value as string,
-    };
-    await updateFoodData(id, body);
-    setFoodsData();
-    handleClose();
-  };
-
-  const clickDeleteBtn = async (id: string) => {
-    await deleteFoodData(id);
-    setFoodsData();
-    handleClose();
-  };
 
   useEffect(() => {
     (async () => {
@@ -59,20 +39,39 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
     })();
   }, []);
 
-  const clickAddButtonHandler = async () => {
-    if (!name.current) return;
+  const setFormData = () => {
+    const formData = new FormData();
+    formData.append('name', name.current?.value as string);
+    formData.append('distance', distance.current?.value as string);
+    formData.append('address', address.current?.value as string);
+    formData.append('description', description.current?.value as string);
+    formData.append('category', '한식');
+    formData.append('shopPicture', (shopImage.current?.files as FileList)[0]);
+    return formData;
+  };
 
-    const body: PostShopBodyType = {
-      name: name.current.value,
-      distance: distance.current?.value as number,
-      address: address.current?.value as string,
-      description: description.current?.value as string,
-      // category: category.current?.value as string,
-      category: '한식',
-    };
+  const clickUpdateBtn = async (id: number) => {
+    const formData = setFormData();
+    await updateFoodData(id, formData);
+    setFoodsData();
+    handleClose();
+  };
+
+  const clickDeleteBtn = async (id: number) => {
+    await deleteFoodData(id);
+    setFoodsData();
+    handleClose();
+  };
+
+  const clickAddButtonHandler = async () => {
+    const body = setFormData();
     await postFoodData(body);
     setFoodsData();
     handleClose();
+  };
+
+  const changeImgInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setUploadPhoto((event.target.files as FileList)[0]);
   };
   return (
     <Box sx={style}>
@@ -131,13 +130,7 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
         <Div>
           <Button variant="contained" component="label">
             식당 사진 업로드
-            <input
-              type="file"
-              hidden
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                setUploadPhoto((event.target.files as FileList)[0]);
-              }}
-            />
+            <input ref={shopImage} type="file" hidden onChange={changeImgInputHandler} />
           </Button>
         </Div>
         <Div>
