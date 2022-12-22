@@ -28,21 +28,26 @@ class ShopService {
   }
 
   async update(newShopDTO, shopId) {
-    let { menu, shopPicture } = newShopDTO;
-    if (menu || shopPicture) {
-      const shop = await shopModel.getByShopId(shopId);
-      if (menu) imageDeleter(shop.menu);
-      if (shopPicture) imageDeleter(shop.shopPicture);
-    }
-
     const result = await this.shopModel.update(newShopDTO, { shopId });
 
     return buildRes("u", result);
   }
 
+  async updateImage(newImageDTO, shopId) {
+    const shop = await shopModel.getByShopId(shopId);
+    if (shop.length === 0) throw new Error("DB에서 id를 검색하지 못했습니다.");
+
+    const { menu, shopPicture } = shop;
+    if (menu) imageDeleter(menu);
+    if (shopPicture) imageDeleter(shopPicture);
+
+    const result = await this.shopModel.update(newImageDTO, { shopId });
+    return buildRes("u", result);
+  }
+
   async deleteById(shopId) {
     const shop = await shopModel.getByShopId(shopId);
-    if (!shop) throw new Error("DB에서 id를 검색하지 못했습니다.");
+    if (shop.length === 0) throw new Error("DB에서 id를 검색하지 못했습니다.");
 
     const { menu, shopPicture } = shop;
     if (menu) imageDeleter(menu);

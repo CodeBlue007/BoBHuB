@@ -24,6 +24,8 @@ class FoodService {
 
   async updateImage(newPicture, foodId) {
     const food = await foodModel.getById(foodId);
+    if (food.length === 0) throw new Error("DB에서 id를 검색하지 못했습니다.");
+
     if (food.picture) imageDeleter(food.picture);
 
     const newFoodDTO = { picture: newPicture };
