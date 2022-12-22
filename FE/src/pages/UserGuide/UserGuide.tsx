@@ -1,5 +1,5 @@
 import NavBar from '../../components/NavBar';
-import MainPageFooter from '../MainPage/components/MainPageFooter';
+import Footer from '../../components/Footer';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
@@ -100,7 +100,7 @@ const UserGuide = () => {
           </div>
         </StyledSlider>
       </Div>
-      <MainPageFooter />
+      <Footer />
     </div>
   );
 };
