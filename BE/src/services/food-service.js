@@ -1,6 +1,7 @@
 const { foodModel } = require("../db/models");
 const buildRes = require("../utils/build-response");
 const { imageDeleter } = require("../middlewares");
+const { BadRequest, NotFound } = require("../utils/error-factory");
 
 class FoodService {
   constructor(foodModel) {
@@ -8,34 +9,51 @@ class FoodService {
   }
 
   async create(foodDTO) {
-    const result = await this.foodModel.create(foodDTO);
-    return buildRes("c", result);
+    try {
+      const result = await this.foodModel.create(foodDTO);
+      return buildRes("c", result);
+    } catch {
+      throw new BadRequest("form-data에 작성한 내용에 오류가 있습니다.");
+    }
   }
 
   async getByShopId(shopId) {
+    if (!shopId) {
+      throw new BadRequest("Query 입력값이 비어있습니다.");
+    }
     const food = await this.foodModel.getByShopId(shopId);
     return food;
   }
-
+  // 오류 !
   async update(newFoodDTO, foodId) {
-    let { picture } = newFoodDTO;
-    if (picture) {
-      const food = await foodModel.getById(foodId);
-      if (picture) imageDeleter(food.picture);
+    const food = await this.foodModel.getById(foodId);
+    if (!food) {
+      throw new NotFound("존재하는 대표메뉴가 없습니다.");
     }
 
+    let { picture } = newFoodDTO;
+    if (picture) imageDeleter(food.picture);
+
+    // try {
     const result = await this.foodModel.update(newFoodDTO, { foodId });
     return buildRes("u", result);
+    // } catch {
+    // throw new BadRequest("form-data에 작성한 내용에 오류가 있습니다.");
+    // }
   }
 
   async deleteById(foodId) {
-    const food = await foodModel.getById(foodId);
-    if (food.length === 0) throw new Error("DB에서 id를 검색하지 못했습니다.");
-
+    if (!foodId) {
+      throw new BadRequest("Parameter 입력값이 숫자가 아니거나 비어있습니다.");
+    }
+    const food = await this.foodModel.getById(foodId);
+    if (!food) {
+      throw new NotFound("존재하는 대표메뉴가 없습니다.");
+    }
     const { picture } = food;
     if (picture) imageDeleter(picture);
 
-    const result = await foodModel.deleteById(foodId);
+    const result = await this.foodModel.deleteById(foodId);
     return buildRes("d", result);
   }
 }
