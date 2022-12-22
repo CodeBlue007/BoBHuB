@@ -1,7 +1,5 @@
-//import styled from 'styled-components';
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
-// 필요한가ㅏ...?
 const fontSizes = {
   title: 16,
   subTitle: 14,
@@ -17,6 +15,48 @@ const bgColors = {
   test2: '#635038',
   test3: '#BB2649',
 };
+
+export const theme = {
+  fontSizes,
+  colors,
+  bgColors,
+};
+interface PaletteColor {
+  light?: string;
+  main: string;
+  dark?: string;
+  contrastText?: string;
+}
+
+// export const muitheme = createTheme({
+//   //color
+//   palette:{
+//     mode:'light',
+//     primary: {
+//     },
+//     secondary: {
+//     },
+//     error:{
+
+//     },
+//     info:{
+
+//     },
+
+//   },
+//   //font
+//   typography:{
+
+//   },
+//   //mui 컴포넌트
+//   components:{
+//     MuiButton:{
+
+//     }
+//   }
+// })
+
+
 
 // 반응형
 // const deviceSizes = {
@@ -34,11 +74,3 @@ const bgColors = {
 //     tablet: `only screen and (max-width: ${deviceSizes.tablet})`,
 //     tabletL: `only screen and (max-width: ${deviceSizes.tabletL})`,
 // };
-
-const theme = {
-  fontSizes,
-  colors,
-  bgColors,
-};
-
-export default theme;

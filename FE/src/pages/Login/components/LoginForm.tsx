@@ -8,7 +8,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import loginThumbnail from '../../../assets/talk.jpg';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
-import axios from 'axios';
 
 const LoginFormContainer = styled.form`
   display: flex;
@@ -124,14 +123,14 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     e.preventDefault();
 
     onLoginSubmit(loginForm);
-    const res = await axios.post('/api/auth/login', loginForm);
+    const res = await API.post('/api/auth/login', loginForm);
 
     // form 초기화
     setLoginForm({
       email: '',
       password: '',
     });
-
+    
     window.location.href = '/';
   };
 

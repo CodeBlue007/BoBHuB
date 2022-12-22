@@ -1,20 +1,22 @@
 import { GlobalStyle } from './styles/GlobalStyle';
 import Router from './Router';
 import ChatApp from './components/ChatApp/ChatApp';
-import { ThemeProvider } from 'styled-components';
-import theme from './styles/theme';
+import { theme } from './styles/theme';
 import { SocketContext, socket } from './socket/SocketContext';
-
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <SocketContext.Provider value={socket}>
-        <Router />
-        <ChatApp />
-        <GlobalStyle />
-      </SocketContext.Provider>
-    </ThemeProvider>
+    <StyledThemeProvider theme={theme}>
+      {/* <MuiThemeProvider theme={muitheme}> */}
+        <SocketContext.Provider value={socket}>
+          <Router />
+          <ChatApp />
+          <GlobalStyle />
+        </SocketContext.Provider>
+      {/* </MuiThemeProvider> */}
+    </StyledThemeProvider>
   );
 }
 

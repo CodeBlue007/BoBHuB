@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { response } from 'express';
 
 const instance = axios.create({
     headers: {
@@ -29,9 +28,8 @@ const del = async (url = "") => {
 
 const post = async (url = "", post: {}) => {
     try {
-        const result = await instance.post(url, post);
-        console.log(result);
-        return result.data;
+        const { data } = await instance.post(url, post);
+        return data;
     } catch (err) {
         console.error(err);
     }

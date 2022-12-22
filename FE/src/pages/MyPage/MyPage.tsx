@@ -1,14 +1,9 @@
 import styled from 'styled-components';
-import Avatar from '@mui/material/Avatar';
-import CreateIcon from '@mui/icons-material/Create';
 import UserInfo from './components/UserInfo';
 import NavBar from '../../components/NavBar';
 import DeleteUser from './components/DeleteUser';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import * as API from '../../api/API';
-import axios from 'axios';
-import React from 'react';
-import edit from '../../assets/edit.png';
 
 export type UserInfoType = {
   track: string;
@@ -32,15 +27,13 @@ const MyPage = () => {
     nickName: '',
     userId: 0,
     profile: '',
-    role: '',
+    role: ''
   });
 
   // 사용자 정보 조회 api
   const getUserInfoAPI = async () => {
-    const res=await API.get('/api/users')
+    const res = await API.get(`/api/users`);
     setUserInfo(res);
-    // console.log(res);
-    // setUserInfo(res);
   };
 
   useEffect(() => {
@@ -50,8 +43,6 @@ const MyPage = () => {
       console.error(err);
     }
   }, []);
-
-  const handleUpdateProfile = () => {};
 
   return (
     <Container>
@@ -64,9 +55,6 @@ const MyPage = () => {
           <ImgCircle alt="Profile Image" src={userInfo.profile} />
           <FileUpload type="file" accept="image/jpg,image/jpeg,image/png" multiple />
           <UserName>{userInfo.name}</UserName>
-          {/* <EditProfile onClick={handleUpdateProfile}>
-                        <CreateIcon sx={{ color: 'white', backgroundColor: '#6a4a96', borderRadius: '5px' }} fontSize='small' />
-                    </EditProfile> */}
           <UserRole>{userInfo.role === 'admin' ? '관리자' : '레이서'}</UserRole>
         </ImgContainer>
         <SubContainer>
@@ -150,20 +138,13 @@ const UserRole = styled.div`
   margin-top: 11px;
 `;
 
-// const EditProfile = styled.div`
-//     position:absolute;
-//     top:105px;
-//     right:48px;
-// `
-
 const ImgCircle = styled.img`
-sx={{ marginTop: '50px', width: '75px', height: '75px' }}
     margin-top:50px;
     width:75px;
     height:75px;
     border-radius:50px;
-
 `;
+
 const FileUpload = styled.input`
   width: 75px;
   margin-top: 10px;

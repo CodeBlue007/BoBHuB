@@ -7,7 +7,7 @@ import * as API from '../../../api/API';
 const DeleteUser = () => {
 
     const deleteUserAPI = async () => {
-        await API.delete(`http://localhost:5000/api/user/auth`);
+        await API.delete(`/api/users`);
     }
 
     const handleUserDelete = (e: React.MouseEvent<HTMLElement>) => {
@@ -15,7 +15,7 @@ const DeleteUser = () => {
         try {
             deleteUserAPI();
             alert('계정 탈퇴되었습니다.');
-            window.location.href = '/';
+            //window.location.href = '/';
         } catch (err) {
             console.error(err);
         }
