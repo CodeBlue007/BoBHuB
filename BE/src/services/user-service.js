@@ -16,7 +16,6 @@ class UserService {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     userDTO.password = hashedPassword;
-    // email, nickName, phone 세가지가 unique / email, nickName check 과정은 이미 존재
     const isExUserPhone = await this.userModel.get({ phone });
     if (isExUserPhone.length !== 0) {
       throw new Forbidden("해당 전화번호로 가입한 내역이 존재합니다.");
@@ -54,7 +53,7 @@ class UserService {
       "generation",
       "track",
       "name",
-      "nickName",
+      "nickname",
       "email",
       "phone",
       "profile",
@@ -74,10 +73,10 @@ class UserService {
   }
 
   async update(exUserDTO, userDTO) {
-    const { track, generation, name, nickName, newPassword, password, phone } = exUserDTO;
+    const { track, generation, name, nickname, newPassword, password, phone } = exUserDTO;
     const correctPasswordHash = userDTO.password;
 
-    const newUserDTO = { track, generation, name, nickName, phone };
+    const newUserDTO = { track, generation, name, nickname, phone };
 
     if (password) {
       const isPasswordCorrect = await bcrypt.compare(password, correctPasswordHash);
