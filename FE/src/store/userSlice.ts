@@ -1,10 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { get } from '../api/API';
+import axios from 'axios';
 
-export const loginUserData = createAsyncThunk('user/loginUserData', async () => {
-  const data = await get('api/users');
-  return data;
-});
+export const loginUserData = createAsyncThunk(
+  'user/loginUserData',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axios('api/users', { withCredentials: true });
+      const data = await res.data;
+      return data;
+    } catch (error) {
+      return rejectWithValue('not login');
+    }
+  },
+);
 const initialState = {
   currentUser: {
     userId: 0,
@@ -39,7 +47,7 @@ export const userSlice = createSlice({
       state.currentUser = { ...action.payload };
     });
     builder.addCase(loginUserData.rejected, (state, action) => {
-      state = state;
+      state.isLogin = false;
     });
   },
 });
