@@ -1,9 +1,9 @@
 import { AppBar, IconButton, Toolbar, Typography, Stack, Button } from '@mui/material';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import { Link } from 'react-router-dom';
-import { useEffect, Fragment, useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUserData, userAction } from '../store/userSlice';
+import { userAction } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
 import { get } from '../api/API';
 import MyParty from './MyParty';
@@ -11,13 +11,8 @@ import MyParty from './MyParty';
 const NavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [myPartyList, setMyPartyList] = useState<[]>([]);
-
   const handleOpenToggle = () => setOpen(!open);
-
   const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    dispatch(loginUserData());
-  }, []);
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
 
   const logout = () => {
@@ -33,7 +28,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor:'#E59A59'}}>
+    <AppBar position="static" sx={{ backgroundColor: '#E59A59' }}>
       <Toolbar>
         <Link to="/">
           <IconButton>
@@ -60,9 +55,11 @@ const NavBar = () => {
             <div></div>
           )}
           {isLogin ? (
-            <Button onClick={logout} color="inherit">
-              로그아웃
-            </Button>
+            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+              <Button onClick={logout} color="inherit">
+                로그아웃
+              </Button>
+            </Link>
           ) : (
             <Fragment>
               <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
@@ -74,7 +71,7 @@ const NavBar = () => {
             </Fragment>
           )}
         </Stack>
-        {open && <MyParty handleClose={handleOpenToggle} open={open} />}
+        <MyParty handleClose={handleOpenToggle} open={open} />
       </Toolbar>
     </AppBar>
   );
