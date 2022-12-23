@@ -15,7 +15,7 @@ const errCheck = (err: errorType) => {
   let message;
   if (err instanceof Error) message = err.message;
   else message = String(err);
-  alert(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${message}`);
+  console.log(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${message}`);
 };
 
 const get = async (url = '') => {
