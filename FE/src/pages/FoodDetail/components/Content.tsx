@@ -68,7 +68,6 @@ const Content = ({ shop }: Contentype) => {
   const [partyLimit, setpartyLimit] = useState<number>(2);
   const [timeLimit, setTimeLimit] = useState<number>(15);
 
-
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isClicked) {
       alert('이미 찜한 식당입니다.');
@@ -87,11 +86,11 @@ const Content = ({ shop }: Contentype) => {
       partyLimit,
       timeLimit,
     };
-    await postParty(party);
-    // const message = await postParties(party);
-    // if(message){
-    //   alert("식당모집이 완료되었습니다.")
-    //   setClicked(true);
+    const message = await postParty(party);
+    if (message) {
+      alert('식당모집이 완료되었습니다.');
+      setClicked(true);
+    }
   };
 
   return (

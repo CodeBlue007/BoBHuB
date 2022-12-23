@@ -28,5 +28,5 @@ export const getParties = async () => await API.get(`/api/parties`);
 
 export const postParty = async (party: postPartyType) => {
     const message = await API.post(`/api/parties`, party);
-    console.log(message);
-  };
+    return message;
+};
