@@ -18,7 +18,7 @@ const RegisterContent = () => {
     delete regForm.confirmNum;
 
     // 회원가입 정보 post api
-    postRegisterData(regForm);
+    // postRegisterData(regForm);
   };
   return <RegisterForm onRegSubmit={onRegSubmit} />;
 };
