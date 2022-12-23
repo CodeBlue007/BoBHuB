@@ -2,14 +2,13 @@ const nodemailer = require("nodemailer");
 
 const authMailId = process.env.MAIL_ID;
 const authMailPassword = process.env.MAIL_PASSWORD;
-
 const mailSender = {
   sendGmail: function (param) {
     var transporter = nodemailer.createTransport({
       service: "gmail",
-      prot: 587,
-      host: "smtp.gmlail.com",
-      secure: false,
+      port: 587,
+      host: "smtp.gmail.com",
+      secure: true,
       requireTLS: true,
       auth: {
         user: authMailId,
