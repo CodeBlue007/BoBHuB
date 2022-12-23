@@ -6,4 +6,5 @@ module.exports = {
   ...require("./user-service"),
   ...require("./comment-service"),
   ...require("./party-service"),
+  ...require("./util-service"),
 };

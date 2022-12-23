@@ -8,4 +8,5 @@ module.exports = {
   ...require("./party-router"),
   ...require("./food-router"),
   ...require("./admin-router"),
+  ...require("./util-router"),
 };
