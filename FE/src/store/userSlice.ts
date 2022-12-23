@@ -5,7 +5,7 @@ export const loginUserData = createAsyncThunk(
   'user/loginUserData',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios('api/users', { withCredentials: true });
+      const res = await axios('/api/users', { withCredentials: true });
       const data = await res.data;
       return data;
     } catch (error) {
