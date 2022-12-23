@@ -33,7 +33,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor:'#E59A59'}}>
+    <AppBar position="static" sx={{ backgroundColor: '#E59A59' }}>
       <Toolbar>
         <Link to="/">
           <IconButton>
@@ -60,9 +60,11 @@ const NavBar = () => {
             <div></div>
           )}
           {isLogin ? (
-            <Button onClick={logout} color="inherit">
-              로그아웃
-            </Button>
+            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+              <Button onClick={logout} color="inherit">
+                로그아웃
+              </Button>
+            </Link>
           ) : (
             <Fragment>
               <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
@@ -74,7 +76,7 @@ const NavBar = () => {
             </Fragment>
           )}
         </Stack>
-        {open && <MyParty handleClose={handleOpenToggle} open={open} />}
+        <MyParty handleClose={handleOpenToggle} open={open} />
       </Toolbar>
     </AppBar>
   );
