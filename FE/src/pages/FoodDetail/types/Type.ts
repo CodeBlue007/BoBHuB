@@ -14,9 +14,10 @@ export interface commentStateType extends postCommentType{
     commentId: number;
     createdAt : stringNull;
     updatedAt : stringNull;
-    deletedAt : stringNull;  
+    deletedAt : stringNull;
+    nickName : string;
+    profile : stringNull;
 }
-
 
 export type shopStateType = {
     "shopId" : number;
@@ -36,7 +37,25 @@ export type shopStateType = {
 export type menuStateType = {
     foodId : number;
     shopId : number;
-    picture : string;
+    picture : string|null;
     name : string;
     price : number;
+    createdAt : stringNull;
+    updatedAt : stringNull;
+    deletedAt : stringNull;   
+}
+
+export const initialShopState = {
+    shopId: 0,
+    category: '',
+    name: '',
+    distance: 0,
+    address: '',
+    menu: '',
+    shopPicture: '',
+    like: 0,
+    description: '',
+    createdAt: '',
+    updatedAt: '',
+    deletedAt : '',
 }

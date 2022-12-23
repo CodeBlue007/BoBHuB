@@ -13,7 +13,7 @@ const ListContainer = styled(FlexContainer)`
   box-shadow: 2px 2px 2px gray;
   width: 50vw;
   border-radius: 10px;
-  background-color: crimson;
+  background-color: #ffd5af;
   position: relative;
   margin: 15px;
 `;
@@ -55,7 +55,7 @@ interface CommentList {
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, shopId, content, star },
+  commentProp: { commentId, userId, content, star,profile,nickName },
   updateCommentState,
 }: CommentList) => {
   const [canRevise, setRevise] = useState<boolean>(false);
@@ -89,14 +89,16 @@ const CommentList = ({
     setReadOnly(bool);
   }, []);
 
+  const userProfile = profile === null? undefined : profile;
+
   return (
     <>
       <ListContainer>
         <AvatarContainer>
-          <Avatar alt="Remy Sharp" src="/img/chickfood.jpg" sx={{ width: 55, height: 50 }} />
+          <Avatar alt="userProfile" src={userProfile} sx={{ width: 55, height: 50 }} />
         </AvatarContainer>
         <ContentContainer>
-          <Typography component="legend">{userId}</Typography>
+          <Typography component="legend">{nickName}</Typography>
           <Rating
             name="read-only"
             value={commentStar}
@@ -113,6 +115,7 @@ const CommentList = ({
           />
           <div className="buttonWrap">
             <CustomButton
+              sx={{backgroundColor:'#888870'}}
               variant="contained"
               color="secondary"
               size="small"
@@ -121,6 +124,7 @@ const CommentList = ({
               수정
             </CustomButton>
             <CustomButton
+              sx={{backgroundColor:'#a82a1e'}}
               variant="contained"
               color="error"
               size="small"

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { shopStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
@@ -33,6 +33,7 @@ const SelectContainer = styled.div`
 
 const LikeButton = styled(Button)`
   width: 15vw;
+  background-color:#E59A59;
 `;
 
 interface Contentype{

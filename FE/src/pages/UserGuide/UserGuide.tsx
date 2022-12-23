@@ -1,5 +1,5 @@
 import NavBar from '../../components/NavBar';
-import MainPageFooter from '../MainPage/components/MainPageFooter';
+import Footer from '../../components/Footer';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
@@ -9,14 +9,13 @@ import hamburger from './assets/Hamburger.gif';
 import chat from './assets/Chat.gif';
 
 const StyledSlider = styled(Slider)`
-  height: 100%;
+  height: 64vh;
 `;
 
 const Div = styled.div`
-  height: 500px;
-  position: absolute;
-  top: 180px;
-  width: 100vw;
+  margin-top: 100px;
+  height: 100%;
+  min-width: 1000px;
   place-items: center;
 
   .slick-slider {
@@ -54,7 +53,6 @@ const Div = styled.div`
   }
 
   .slick-slide {
-    /* background-color: white; */
     border-radius: 15px;
     height: 350px;
     text-align: center;
@@ -100,7 +98,7 @@ const UserGuide = () => {
           </div>
         </StyledSlider>
       </Div>
-      <MainPageFooter />
+      <Footer />
     </div>
   );
 };

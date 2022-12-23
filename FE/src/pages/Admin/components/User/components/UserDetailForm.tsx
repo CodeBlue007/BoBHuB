@@ -3,15 +3,15 @@ import {
   Typography,
   Select,
   MenuItem,
-  SelectChangeEvent,
   TextField,
   TextFieldProps,
   Button,
 } from '@mui/material';
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import axios from 'axios';
 import type { UserType } from './Users';
 import styled from 'styled-components';
+import { patch } from '../../../../../api/API';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -44,7 +44,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
   const auth = useRef<TextFieldProps>();
 
   const updateUserData = (body: { nickName: string; role: string }) => {
-    return axios.patch(`/api/admin/users/${user.userId}`, body, { withCredentials: true });
+    return patch(`/api/admin/users/${user.userId}`, body);
   };
 
   const clickUpdateBtn = async () => {
