@@ -25,7 +25,17 @@ class UserController {
   async checkNickname(req, res, next) {
     try {
       const nickName = req.params.nickname;
-      const result = await userService.checkNickname(nickName);
+      const result = await userService.check({ nickName });
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async checkEmail(req, res, next) {
+    try {
+      const email = req.params.email;
+      const result = await userService.check({ email });
       return res.status(200).json(result);
     } catch (e) {
       next(e);
