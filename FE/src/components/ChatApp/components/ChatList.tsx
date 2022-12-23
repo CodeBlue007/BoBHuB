@@ -2,6 +2,9 @@ import { useEffect, useState,useContext} from 'react';
 import styled from 'styled-components';
 import {TextCss, Title} from "./ChatStyle";
 import {SocketContext} from "../../../socket/SocketContext";
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store/store';
+
 
 const None = styled.li`
   font-size: 15px;
@@ -18,6 +21,8 @@ interface ChatListProps{
 const ChatList = ({moveRoom} : ChatListProps) => {
   const [roomArray, setRoomArray] = useState<string[]>([]);
   const socket = useContext(SocketContext);
+  const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
+
 
   const handleMove = (e: React.MouseEvent<HTMLLIElement>) =>{
     const roomName = e.currentTarget.innerText;
@@ -30,9 +35,7 @@ const ChatList = ({moveRoom} : ChatListProps) => {
     const rooms = ["Room1", "Room2", "Room3"];
     setRoomArray([...rooms]);
 
-    const randomId = Math.floor(Math.random() * 10000);
-
-    socket.emit("nickName", randomId);
+    socket.emit("nickname", userName);
 
     // socket.on("roomChange", (rooms) => {
     //   setRoomArray(rooms);
