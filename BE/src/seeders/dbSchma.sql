@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `generation` INTEGER NOT NULL, 
   `track` VARCHAR(45) NOT NULL, 
   `name` VARCHAR(45) NOT NULL, 
-  `nickName` VARCHAR(45) NOT NULL, 
+  `nickname` VARCHAR(45) NOT NULL, 
   `email` VARCHAR(45) UNIQUE NOT NULL, 
   `password` VARCHAR(60) NOT NULL, 
   `phone` VARCHAR(45) UNIQUE NOT NULL, 

@@ -19,10 +19,11 @@ class UserService {
 
   async check(userDTO) {
     const checkPoint = Object.keys(userDTO)[0];
+    const CHECKPOINT = { nickname: "닉네임", email: "이메일" };
     const user = await this.userModel.get(userDTO);
     let result = {};
-    if (user.length == 0) result.message = `사용가능한 ${checkPoint}입니다.`;
-    else result.message = `같은 ${checkPoint}이 있습니다.`;
+    if (user.length == 0) result.message = `사용가능한 ${CHECKPOINT[checkPoint]}입니다.`;
+    else result.message = `같은 ${CHECKPOINT[checkPoint]}이 있습니다.`;
 
     return result;
   }
