@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { Card } from '@mui/material';
 import Comment from './components/Comment';
@@ -10,19 +10,20 @@ import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
 import DetailSlider from './components/DetailSlider';
 import * as API from '../../api/API';
-import { NextArrow, PrevArrow } from '../MainPage/components/SliderSection';
 
 const Pagecontainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin : 0;
 `;
 
 const DetailContainer = styled(FlexContainer)`
   width: 60vw;
   margin-bottom: 50px;
   border: 1px solid black;
+  flex-direction: column;
 `;
 
 type imgType = {
@@ -58,6 +59,8 @@ const FoodDetail = () => {
   const [menuState, setMenuState] = useState<menuStateType[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [update, setUpdated] = useState<boolean>(false);
+  const scrollRef = useRef<HTMLElement>(null);
+
 
   const updateCommentState = useCallback(() => {
     setUpdated((current) => !current);
@@ -99,7 +102,6 @@ const FoodDetail = () => {
     imgArr.push(shopState.shopPicture);
     imgArr.push(shopState.menu);
     menuState.forEach((menu) => {
-      console.log('menu Pic', menu.picture);
       imgArr.push(menu.picture);
     });
 
@@ -107,23 +109,15 @@ const FoodDetail = () => {
   };
 
   return (
-    <Pagecontainer>
+    <Pagecontainer ref={scrollRef}>
       {isLoading ? (
         'isLoading...'
       ) : (
         <>
           <NavBar />
           <DetailSlider imageArr={makeImgArr()} />
-          <DetailContainer>
-            {
-              <MenuCard>
-                <p>주소 : {shopState.address}</p>
-                <p>Distance : {shopState.distance}</p>
-              </MenuCard>
-            }
             {<Content shop={shopState} />}
-          </DetailContainer>
-          <Comment updateCommentState={updateCommentState} shopId={shopState.shopId} />
+          <Comment updateCommentState={updateCommentState} shopId={shopState.shopId} scrollRef={scrollRef}/>
           <CommentContainer>
             {commentState.map((comment) => (
               <CommentList
