@@ -17,8 +17,8 @@ class UserService {
     const hashedPassword = await bcrypt.hash(password, 10);
     userDTO.password = hashedPassword;
     // email, nickName, phone 세가지가 unique / email, nickName check 과정은 이미 존재
-    const userPhone = await this.userModel.get({ phone });
-    if (userPhone.length !== 0) {
+    const isExUserPhone = await this.userModel.get({ phone });
+    if (isExUserPhone.length !== 0) {
       throw new Forbidden("해당 전화번호로 가입한 내역이 존재합니다.");
     }
 
@@ -98,7 +98,7 @@ class UserService {
       const result = await this.userModel.update(newUserDTO, { userId });
       return buildRes("u", result);
     } catch {
-      throw new BadRequest("form-data에 작성한 내용에 오류가 있습니다.");
+      throw new BadRequest("Body에 작성한 내용에 오류가 있습니다.");
     }
   }
 
