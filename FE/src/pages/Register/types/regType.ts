@@ -1,7 +1,7 @@
 export interface regFormProps {
   onRegSubmit: (regForm: {
     name: string;
-    nickName: string;
+    nickname: string;
     email: string;
     confirmNum: string;
     password: string;
@@ -19,7 +19,7 @@ export type regReqType = {
   generation: string;
   name: string;
   email: string;
-  nickName: string;
+  nickname: string;
   password: string;
   phone: string;
   //   role: string;
@@ -27,7 +27,7 @@ export type regReqType = {
 
 // export type regForm = {
 //   name: string;
-//   nickName: string;
+//   nickname: string;
 //   password: string;
 //   passwordCheck: string;
 //   phone: string;
