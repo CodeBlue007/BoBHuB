@@ -1,5 +1,7 @@
 import { AppBar, IconButton, Toolbar, Typography, Stack, Button } from '@mui/material';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
+import logo from '../assets/BoBHuB_logo.png';
+import title from '../assets/BoBHuB_text.png';
 import { Link } from 'react-router-dom';
 import { useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +14,17 @@ import styled from 'styled-components';
 const BasicLink = styled(Link)`
   color: white;
   text-decoration: none;
+`;
+
+const Logo = styled.img`
+  width: 32px;
+  margin-top: 2px;
+  margin-right: 6px;
+`;
+
+const TitleLogo = styled.img`
+  width: 130px;
+  margin-top: 12px;
 `;
 
 const NavBar = () => {
@@ -41,12 +54,12 @@ const NavBar = () => {
     <AppBar position="static" sx={{ backgroundColor: '#E59A59' }}>
       <Toolbar>
         <BasicLink to="/">
-          <IconButton>
-            <FastfoodIcon />
-          </IconButton>
+          <Logo src={logo} alt="BoBHuB logo" />
         </BasicLink>
         <Typography fontSize={30} component="div" sx={{ flexGrow: 1 }}>
-          <BasicLink to="/">Bobhub</BasicLink>
+          <BasicLink to="/">
+            <TitleLogo src={title} alt="BoBHuB titleLogo" />
+          </BasicLink>
         </Typography>
         <Stack direction="row" spacing={2}>
           <BasicLink to="/userGuide">
