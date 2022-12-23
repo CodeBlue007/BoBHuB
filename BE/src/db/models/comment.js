@@ -21,7 +21,7 @@ class CommentModel {
   async getByShopId(shopId) {
     try {
       const query = `select * from comment join (SELECT userId
-        , nickName, profile
+        , nickname, profile
      FROM user ) u on u.userId = comment.userId  where shopId = ?`;
 
       console.log(query);

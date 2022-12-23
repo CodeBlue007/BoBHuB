@@ -25,12 +25,14 @@ color : white;
 `
 const CommentArea = styled.textarea`
 margin-top: 10px;
-background-color: crimson;
-color : white;
+padding : 10px;
+background-color:#fcf3eb;
+border-radius:10px;
+color : darygray;
 border: none;
 border-bottom: 1px solid white;
 box-sizing: border-box;
-font-size: 15px;
+font-size: 13px;
 height: 55px;
 resize: none;
 

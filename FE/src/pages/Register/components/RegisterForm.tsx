@@ -44,7 +44,7 @@ const BoxContainer = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: #f3f3f3;
+  background-color: #fcf3eb;
   border-radius: 4px;
 
   height: 85vh;

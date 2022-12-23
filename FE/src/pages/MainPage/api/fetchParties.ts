@@ -1,9 +1,8 @@
-import axios from 'axios';
-const axiosInstance = axios.create({ withCredentials: true });
+import { get } from '../../../api/API';
 
 export const fetchParties = async () => {
   try {
-    const res = await axiosInstance('/api/parties');
+    const res = await get('/api/parties');
     const parties = await res.data;
     return parties;
   } catch (error) {

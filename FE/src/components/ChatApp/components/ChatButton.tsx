@@ -22,7 +22,7 @@ const ChatButton = ({handleClick} :ChatButtonProps) => {
         variant="contained"
         sx={{
           borderRadius: '50%',
-          backgroundColor : "crimson",
+          backgroundColor : "#712E1E",
         }}
         onClick={handleClick}>
         <AddReactionOutlinedIcon />

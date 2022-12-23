@@ -1,17 +1,34 @@
 import styled from 'styled-components';
+import { Row, Col } from 'antd';
 
-const FooterBox = styled.footer`
-display: flex;
-align-items: center;
-justify-content: center;
-  font-size: 20px;
-  width: 100vw;
+const Wrapper = styled.footer`
+  display: flex;
+  width: 99vw;
   text-align: center;
-  height: 15vh;
+  height: 5vh;
+  margin: 0;
 `;
 
 const Footer = () => {
-  return <FooterBox>©SEJELMATRAMEN. ALL RIGHTS RESERVED</FooterBox>;
+  return (
+    <Wrapper>
+      <Row
+        justify="center"
+        align="middle"
+        style={{
+          height: '50px',
+          width: 'inherit',
+          backgroundColor: 'white',
+          borderTop: '0.5px solid black',
+          textAlign: 'center',
+          fontSize: '0.8em',
+          marginTop: 'auto',
+          boxSizing: 'border-box',
+        }}>
+        <Col>©SEJELMATRAMEN. ALL RIGHTS RESERVED</Col>
+      </Row>
+    </Wrapper>
+  );
 };
 
 export default Footer;

@@ -1,8 +1,7 @@
 import ChatButton from './components/ChatButton';
-import { useEffect, useState, useContext } from 'react';
+import { useState } from 'react';
 import ChatPage from './components/ChatPage';
 import styled from 'styled-components';
-import {SocketContext} from "../../socket/SocketContext";
 
 const ChatContainer = styled.section`
   position: fixed;
