@@ -38,7 +38,6 @@ const Container = styled.div<{ open: boolean }>`
   color: black;
   font-size: 14px;
   width: 450px;
-  /* height: 0; */
   background-color: white;
   position: absolute;
   top: 100%;

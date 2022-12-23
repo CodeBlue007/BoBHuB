@@ -9,6 +9,9 @@ import loginThumbnail from '../../../assets/talk.jpg';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { loginUserData } from './../../../store/userSlice';
+import { AppDispatch } from '../../../store/store';
 
 const LoginFormContainer = styled.form`
   display: flex;
@@ -115,6 +118,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     email: '',
     password: '',
   });
+  const dispatch = useDispatch<AppDispatch>();
 
   const { email, password } = loginForm;
 
@@ -133,7 +137,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     onLoginSubmit(loginForm);
     const res = await API.post('/api/auth/login', loginForm);
-
+    await dispatch(loginUserData());
     // form 초기화
     setLoginForm({
       email: '',
