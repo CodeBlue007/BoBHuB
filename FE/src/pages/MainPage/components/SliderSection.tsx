@@ -55,6 +55,7 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
+    border : 1px solid black;
   } //item
 
   .slide {
