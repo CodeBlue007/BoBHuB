@@ -10,19 +10,14 @@ class ShopModel {
     return countData[0];
   }
   async create(shopDTO) {
-    try {
-      const { keyArr, valArr } = o.objToKeyValueArray(shopDTO);
-      const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
-      const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const { keyArr, valArr } = o.objToKeyValueArray(shopDTO);
+    const query = o.makeInsertQuery(keyArr, valArr);
+    console.log(query);
+    const [result] = await pool.query(query);
+    return result;
   }
   async getAll() {
-    try {
-      let query = `select shopId, category, name, distance, address, menu, shopPicture, description, createdAt, food, avgStar
+    let query = `select shopId, category, name, distance, address, menu, shopPicture, description, createdAt, food, avgStar
       from shop s
       left join(select shopId as id1
         , JSON_ARRAYAGG(JSON_OBJECT('name', name, 'picture', picture ,'price',price)) as food
@@ -34,53 +29,41 @@ class ShopModel {
      FROM comment
     GROUP BY shopId) c on s.shopId = c.id2;
     `;
-      console.log(query);
 
-      const [shops] = await pool.query(query);
-      return shops;
-    } catch (err) {
-      throw new Error(err);
-    }
+    console.log(query);
+
+    const [shops] = await pool.query(query);
+    console.log(shops);
+
+    return shops;
   }
 
   async getByShopId(shopId) {
-    try {
-      const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+    const whereArr = o.objToQueryArray({ shopId });
+    const query = o.makeSelectQuery(undefined, whereArr);
+    console.log(query);
 
-      const [shop] = await pool.query(query);
-      return shop[0];
-    } catch (err) {
-      throw new Error(err);
-    }
+    const [shop] = await pool.query(query);
+    return shop[0];
   }
 
   async update(newShopDTO, shopDTO) {
-    try {
-      const newDTO = o.objToQueryArray(newShopDTO);
-      const oldDTO = o.objToQueryArray(shopDTO);
-      const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
+    const newDTO = o.objToQueryArray(newShopDTO);
+    const oldDTO = o.objToQueryArray(shopDTO);
+    const query = o.makeUpdateQuery(newDTO, oldDTO);
+    console.log(query);
 
-      const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const [result] = await pool.query(query);
+    return result;
   }
 
   async deleteById(shopId) {
-    try {
-      const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+    const whereArr = o.objToQueryArray({ shopId });
+    const query = o.makeDeleteQuery(whereArr);
+    console.log(query);
 
-      const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const [result] = await pool.query(query);
+    return result;
   }
 }
 
