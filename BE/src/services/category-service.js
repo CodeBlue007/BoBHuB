@@ -29,7 +29,7 @@ class CategoryService {
     if (checkExCategory.length === 0) {
       throw new ErrorFactory(
         commonErrors.NOT_FOUND,
-        403,
+        404,
         "수정할 카테고리가 존재하지 않습니다."
       );
     }
@@ -50,7 +50,7 @@ class CategoryService {
     if (checkExCategory.length === 0) {
       throw new ErrorFactory(
         commonErrors.NOT_FOUND,
-        403,
+        404,
         "수정할 카테고리가 존재하지 않습니다."
       );
     }
