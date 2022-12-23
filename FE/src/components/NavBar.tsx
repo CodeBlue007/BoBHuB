@@ -65,17 +65,17 @@ const NavBar = () => {
             <div></div>
           )}
           {isLogin ? (
-            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+            <BasicLink to="/">
               <Button onClick={logout} color="inherit">
                 로그아웃
               </Button>
-            </Link>
+            </BasicLink>
           ) : (
             <Fragment>
-              <BasicLink to="/login" style={{ color: 'white', textDecoration: 'none' }}>
+              <BasicLink to="/login">
                 <Button color="inherit">로그인</Button>
               </BasicLink>
-              <BasicLink to="/register" style={{ color: 'white', textDecoration: 'none' }}>
+              <BasicLink to="/register">
                 <Button color="inherit">회원가입</Button>
               </BasicLink>
             </Fragment>
