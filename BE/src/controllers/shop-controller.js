@@ -33,7 +33,6 @@ class ShopController {
   }
   async getAll(req, res, next) {
     try {
-      console.log('hello world');
       const shopList = await shopService.getAll();
       return res.status(200).json(shopList);
     } catch (e) {
