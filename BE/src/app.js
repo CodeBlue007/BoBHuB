@@ -40,7 +40,7 @@ app.use("/api/elice", eliceRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/admin", isLoggedIn, isAdmin, adminRouter);
 app.use("/api/parties", isLoggedIn, partyRouter);
-app.use("/api/utils", isLoggedIn, utilRouter);
+// app.use("/api/utils", isLoggedIn, utilRouter);
 
 app.use(errorLogger);
 app.use(errorHandler);

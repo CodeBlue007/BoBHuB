@@ -27,11 +27,12 @@ const CommentField = styled(TextField)`
 interface commnetProps{
   updateCommentState : () => void;
   shopId : number;
+  scrollRef : React.RefObject<HTMLElement>;
 }
 
 type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
 
-const Comment = ({updateCommentState, shopId} : commnetProps) => {
+const Comment = ({updateCommentState, shopId, scrollRef} : commnetProps) => {
 
   const [content, setContent] = useState<string>("");
   const [starValue, setStarValue] = useState<number | null>(5);
@@ -62,6 +63,7 @@ const Comment = ({updateCommentState, shopId} : commnetProps) => {
     }
     postComment(newComment);
     updateCommentState();
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
     setContent('');
   }
 
