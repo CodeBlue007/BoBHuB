@@ -1,7 +1,7 @@
-import axios from 'axios';
 import UserTable from './UserTable';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { get } from '../../../../../api/API';
 
 export type UserType = {
   userId: number;
@@ -23,8 +23,7 @@ const Users = () => {
   const [users, setUsers] = useState<UserType[]>([]);
 
   const fetchUserData = async () => {
-    const res = await axios('/api/admin/users');
-    const users: UserType[] = await res.data;
+    const users: UserType[] = await get('/api/admin/users');
     setUsers([...users]);
   };
 

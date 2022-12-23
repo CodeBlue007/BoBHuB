@@ -18,11 +18,17 @@ class FoodService {
   }
 
   async update(newFoodDTO, foodId) {
-    let { picture } = newFoodDTO;
-    if (picture) {
-      const food = await foodModel.getById(foodId);
-      if (picture) imageDeleter(food.picture);
-    }
+    const result = await this.foodModel.update(newFoodDTO, { foodId });
+    return buildRes("u", result);
+  }
+
+  async updateImage(newPicture, foodId) {
+    const food = await foodModel.getById(foodId);
+    if (food.length === 0) throw new Error("DB에서 id를 검색하지 못했습니다.");
+
+    if (food.picture) imageDeleter(food.picture);
+
+    const newFoodDTO = { picture: newPicture };
 
     const result = await this.foodModel.update(newFoodDTO, { foodId });
     return buildRes("u", result);

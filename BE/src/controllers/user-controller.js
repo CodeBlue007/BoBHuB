@@ -4,7 +4,7 @@ class UserController {
   async create(req, res, next) {
     try {
       const generation = parseInt(req.body.generation);
-      const { track, name, email, nickName, password, phone } = req.body;
+      const { track, name, email, nickname, password, phone } = req.body;
       const profile = req.file ? req.file.location : null;
 
       const addedUser = await userService.create({
@@ -12,7 +12,7 @@ class UserController {
         generation,
         name,
         email,
-        nickName,
+        nickname,
         password,
         phone,
         profile,
@@ -24,8 +24,18 @@ class UserController {
   }
   async checkNickname(req, res, next) {
     try {
-      const nickName = req.params.nickname;
-      const result = await userService.checkNickname(nickName);
+      const nickname = req.params.nickname;
+      const result = await userService.check({ nickname });
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async checkEmail(req, res, next) {
+    try {
+      const email = req.params.email;
+      const result = await userService.check({ email });
       return res.status(200).json(result);
     } catch (e) {
       next(e);
@@ -57,18 +67,31 @@ class UserController {
       const userDTO = req.user;
       const generation = parseInt(req.body.generation);
 
-      const { track, name, nickName, newPassword, password, phone, profile } = req.body;
+      const { track, name, nickname, newPassword, password, phone } = req.body;
       const exUserDTO = {
         track,
         generation,
         name,
-        nickName,
+        nickname,
         newPassword,
         password,
         phone,
-        profile,
       };
       const result = await userService.update(exUserDTO, userDTO);
+
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async updateImage(req, res, next) {
+    try {
+      const newProfile = req.file ? req.file.location : null;
+      if (!newProfile) throw new Error("요청 오류, 이미지 없음");
+
+      const userDTO = req.user;
+      const result = await userService.updateImage(newProfile, userDTO);
 
       return res.status(200).json(result);
     } catch (e) {
@@ -79,8 +102,8 @@ class UserController {
   async updateByAdmin(req, res, next) {
     try {
       const userId = parseInt(req.params.userId);
-      const { nickName, role } = req.body;
-      const newUserDTO = { nickName, role };
+      const { nickname, role } = req.body;
+      const newUserDTO = { nickname, role };
       const result = await userService.updateByAdmin(newUserDTO, userId);
 
       return res.status(200).json(result);

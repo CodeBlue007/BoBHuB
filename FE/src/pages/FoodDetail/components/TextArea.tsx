@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import * as API from "../../../api/API";
+import { postCommentType } from "../types/Type";
 
 
 const TextContainer = styled.div`
@@ -23,12 +25,14 @@ color : white;
 `
 const CommentArea = styled.textarea`
 margin-top: 10px;
-background-color: crimson;
-color : white;
+padding : 10px;
+background-color:#fcf3eb;
+border-radius:10px;
+color : darygray;
 border: none;
 border-bottom: 1px solid white;
 box-sizing: border-box;
-font-size: 15px;
+font-size: 13px;
 height: 55px;
 resize: none;
 
@@ -44,24 +48,41 @@ resize: none;
 `;
 
 interface TextAreaProps{
+    commentId : number;
+    commentStar : null|number;
     content: string;
     canRevise : boolean;
     updateRevise : (x:boolean) => void;
     updateReadOnly : (x:boolean) => void;
 }
 
-const TextArea = ({content,canRevise,updateRevise,updateReadOnly}:TextAreaProps ) => {
+const TextArea = ({commentId,commentStar,content,canRevise,updateRevise,updateReadOnly}:TextAreaProps ) => {
 
     const [textValue, setTextValue] = useState<string>(content);
 
     const handleChange = (e:React.ChangeEvent<HTMLTextAreaElement>) =>{
         setTextValue(e.target.value);
     }
+    const patchComment = async(comment:postCommentType) => {
+        const res = await API.patch(`/api/comments/${commentId}`,comment);
+        console.log(res);
+    }
+
     const reviseEnd = (e:React.MouseEvent<HTMLButtonElement>) => {
         if(textValue === ""){
             alert("댓글을 입력해주세요");
             return;
         }
+        if(commentStar === null){
+            alert("별점을 입력해주세요");
+            return;
+        }
+        const reviseComment = {
+            star : commentStar,
+            content:textValue,
+        }
+
+        patchComment(reviseComment);
         updateRevise(false);
         updateReadOnly(true);
     }

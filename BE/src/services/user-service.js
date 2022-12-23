@@ -1,6 +1,7 @@
 const { userModel } = require("../db/models");
 const buildRes = require("../utils/build-response");
 const bcrypt = require("bcrypt");
+const { imageDeleter } = require("../middlewares");
 
 class UserService {
   constructor(userModel) {
@@ -16,11 +17,13 @@ class UserService {
     return buildRes("c", result);
   }
 
-  async checkNickname(nickName) {
-    const user = await this.userModel.get({ nickName });
+  async check(userDTO) {
+    const checkPoint = Object.keys(userDTO)[0];
+    const CHECKPOINT = { nickname: "닉네임", email: "이메일" };
+    const user = await this.userModel.get(userDTO);
     let result = {};
-    if (user.length == 0) result.message = "사용가능한 닉네임입니다.";
-    else result.message = "같은 닉네임이 있습니다.";
+    if (user.length == 0) result.message = `사용가능한 ${CHECKPOINT[checkPoint]}입니다.`;
+    else result.message = `같은 ${CHECKPOINT[checkPoint]}이 있습니다.`;
 
     return result;
   }
@@ -52,11 +55,10 @@ class UserService {
   }
 
   async update(exUserDTO, userDTO) {
-    const { track, generation, name, nickName, newPassword, password, phone, profile } =
-      exUserDTO;
+    const { track, generation, name, nickName, newPassword, password, phone } = exUserDTO;
     const correctPasswordHash = userDTO.password;
 
-    const newUserDTO = { track, generation, name, nickName, phone, profile };
+    const newUserDTO = { track, generation, name, nickName, phone };
 
     if (profile) imageDeleter(userDTO.profile);
     if (password) {
@@ -71,6 +73,15 @@ class UserService {
     }
 
     const userId = userDTO.userId;
+    const result = await this.userModel.update(newUserDTO, { userId });
+    return buildRes("u", result);
+  }
+
+  async updateImage(newProfile, userDTO) {
+    const { userId, profile } = userDTO;
+    if (profile) imageDeleter(profile);
+
+    const newUserDTO = { profile: newProfile };
     const result = await this.userModel.update(newUserDTO, { userId });
     return buildRes("u", result);
   }
