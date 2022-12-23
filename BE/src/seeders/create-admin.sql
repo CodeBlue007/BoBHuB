@@ -1,3 +1,4 @@
+-- 비번 암호화 필요
 insert into user(email,name,nickName,phone,role,track,generation, password) values("soo@admin","수빈","수빈",'010-1111-1111','admin','sw',3,'1111');
 insert into user(email,name,nickName,phone,role,track,generation, password) values("chan@admin","찬수","찬수",'010-2222-2222','admin','sw',3,'1111');
 insert into user(email,name,nickName,phone,role,track,generation, password) values("eun@admin","은영","은영",'010-3333-3333','admin','sw',3,'1111');

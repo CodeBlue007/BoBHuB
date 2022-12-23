@@ -7,4 +7,5 @@ module.exports = {
   ...require("./login-controller"),
   ...require("./comment-controller"),
   ...require("./party-controller"),
+  ...require("./util-controller"),
 };
