@@ -22,6 +22,7 @@ import {
   validateGeneration,
 } from '../../../util/validateRegister';
 import * as API from '../../../api/API';
+import logo from '../../../assets/BoBHuB_logo.png';
 
 const RegisterFormContainer = styled.form`
   display: flex;
@@ -31,10 +32,9 @@ const RegisterFormContainer = styled.form`
 
   margin: 2vh auto 3vh auto;
 
-  & h1 {
-    margin: 50px auto 30px auto;
-    font-size: 2rem;
-    font-weight: 700;
+  & img {
+    margin: 50px auto 10px auto;
+    width: 160px;
   }
 `;
 
@@ -47,14 +47,14 @@ const BoxContainer = styled.div`
   background-color: #fcf3eb;
   border-radius: 4px;
 
-  height: 85vh;
+  height: 800px; //85vh;
   padding: 0px 20px;
 
   margin-bottom: 80px;
 
   & input {
     font-size: 15px;
-    width: 28vw;
+    width: 540px; //28vw;
   }
 
   & div {
@@ -90,7 +90,7 @@ const BoxContainer = styled.div`
 
   & button {
     margin: 20px auto;
-    width: 29.7vw;
+    width: 573px; //29.7vw;
     height: 5vh;
     font-size: 20px;
     font-weight: 600;
@@ -109,7 +109,7 @@ const BoxContainer = styled.div`
   & .backToLogin {
     font-size: 14px;
     margin-top: -5px;
-    margin-right: 21.5vw;
+    margin-right: 413px; //21.5vw;
   }
 `;
 
@@ -166,7 +166,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
 
   return (
     <RegisterFormContainer onSubmit={handleRegSubmit}>
-      <h1>[로고 들어갈 자리]</h1>
+      <img src={logo} alt="logo" />
       <BoxContainer>
         <TextField
           name="name"
@@ -462,7 +462,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           ))}
         </TextField> */}
 
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>
           회원가입
         </Button>
 
