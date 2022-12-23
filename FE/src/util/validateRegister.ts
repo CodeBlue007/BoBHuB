@@ -4,10 +4,10 @@ const validateName = (name: string) => {
   return nameRegex.test(name);
 };
 
-const validateNickName = (nickName: string) => {
+const validateNickName = (nickname: string) => {
   const nickNameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z]{5,10}$/;
 
-  return nickNameRegex.test(nickName);
+  return nickNameRegex.test(nickname);
 };
 
 const validatePWCheck = (password: string, passwordCheck: string) => {
