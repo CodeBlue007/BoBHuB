@@ -10,6 +10,7 @@ import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
 import DetailSlider from './components/DetailSlider';
 import { getComment, getShop, getMenu } from './foodDetailApi';
+import { useParams } from 'react-router';
 
 const Pagecontainer = styled.section`
   display: flex;
@@ -33,8 +34,7 @@ const FoodDetail = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [update, setUpdated] = useState<boolean>(false);
   const scrollRef = useRef<HTMLElement>(null);
-  const shopId = 5;
-
+  const shopId = Number(useParams().id);
 
   const updateCommentState = useCallback(() => {
     setUpdated((current) => !current);
