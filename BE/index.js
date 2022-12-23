@@ -73,7 +73,7 @@ io.on("connection", (socket) => {
     console.log("socket is disconnected");
   });
 
-  socket.on("nickName", (nickname) => socket["nickname"] = nickname);
+  socket.on("nickname", (nickname) => socket["nickname"] = nickname);
 
 });
 

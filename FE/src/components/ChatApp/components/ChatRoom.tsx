@@ -3,6 +3,8 @@ import { Title } from './ChatStyle';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { SocketContext } from '../../../socket/SocketContext';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store/store';
 
 const InputContainer = styled.div`
   display: flex;
@@ -41,6 +43,8 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   const [content, setContent] = useState<string>('');
   const socket = useContext(SocketContext);
   const scrollRef = useRef<HTMLUListElement>(null);
+  const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
+
 
   const enterRoom = () =>{
     const welcome = "방에 입장하셨습니다."
@@ -49,7 +53,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
 
   const addMessage = (msg : string, currentRoom:string) => {
     if(currentRoom !== roomName) return;
-    const message = `You : ${msg}`;
+    const message = `${userName} : ${msg}`;
     setMessages((current) => [...current, message])
   }
 
@@ -96,8 +100,10 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
         </TextContainer>
         <InputContainer>
           <TextField
+            hiddenLabel
             id="filled-basic"
             variant="filled"
+            size='small'
             sx={{
               width: '200px',
               marginLeft: '10px',
