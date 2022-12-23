@@ -6,7 +6,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 
 const SliderContainer = styled.div`
-  width: 50vw;
+  width: 800px;
   height: 450px;
   position: relative;
   margin : 20px;

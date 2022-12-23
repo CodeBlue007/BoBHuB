@@ -6,25 +6,48 @@ import { shopStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
 
-
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
-  height: 80vh;
+  width: 60vw;
+  justify-content: flex-start;
+  margin-bottom: 70px;
 `;
 
 const MenuContainer = styled(FlexContainer)`
-  width: 25vw;
+  width: inherit;
+  margin-top : 40px;
+  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+const TitleContainer = styled(FlexContainer)`
+  width: inherit;
+  justify-content: space-between;
+  padding : 20px 0;
+  border-bottom: 0.5px solid black;
+  height: 15%;
+`;
+
+const Title = styled.div`
+  font-size: 40px;
+  margin-left: 50px;
 `;
 
 type menuCardProps = {
-    width : string,
-    size : string,
-}
+  width: string;
+  size: string;
+};
 
 const MenuCard = styled(Card)<menuCardProps>`
   width: ${(props) => props.width};
-  font-size : ${(props) => props.size};
+  font-size: ${(props) => props.size};
   padding: 20px;
+  margin-left: 30px;
+  font-size: 20px;
+  flex : 2;
+  p{
+    margin-bottom: 20px;
+  }
 `;
 
 const SelectContainer = styled.div`
@@ -32,16 +55,14 @@ const SelectContainer = styled.div`
 `;
 
 const LikeButton = styled(Button)`
-  width: 15vw;
-  background-color:#E59A59;
+  width: 90px;
 `;
 
-interface Contentype{
-    shop : shopStateType;
+interface Contentype {
+  shop: shopStateType;
 }
 
-
-const Content = ({shop} : Contentype) => {
+const Content = ({ shop }: Contentype) => {
   const [isClicked, setClicked] = useState<boolean>(false);
   const [people, setPeople] = useState<number>(2);
   const [duration, setDuration] = useState<number>(15);
@@ -52,26 +73,42 @@ const Content = ({shop} : Contentype) => {
       return;
     }
     setClicked(true);
-    alert("찜하기를 완료했습니다.")
+    alert('찜하기를 완료했습니다.');
   };
 
   return (
     <ContentContainer>
-      <MenuCard size={"25px"} width={"15vw"} style={{textAlign:`center`}}><p>{shop.name}</p></MenuCard>
-      <MenuCard size={"15px"} width={"20vw"}>
-        <p>{shop.description}</p>
-      </MenuCard>
+      <TitleContainer>
+        <Title>
+          {shop.name}({shop.category})
+        </Title>
+        <LikeButton
+          variant="contained"
+          onClick={handleClick}
+          sx={{
+            backgroundColor: '#E59A59',
+            fontSize: '10px',
+            marginRight: '30px',
+          }}>{`찜하기 ❤`}</LikeButton>
+      </TitleContainer>
+
       <MenuContainer>
-        <MenuCard size={"15px"} width={"20vw"}>
-          <p>메뉴({shop.category})</p>
+        <MenuCard size={'15px'} width={'20vw'}>
+          <p>메뉴</p>
           <p>{shop.menu}</p>
+          <p>{shop.description} 추가테스트추가테스트
+          추가테스트추가테스트추가테스트추가테스트
+          추가테스트추가테스트추가테스트추가테스트
+          추가테스트추가테스트추가테스트추가테스트
+          추가테스트추가테스트</p>
+          <p>주소: {shop.address}</p>
+          <p>거리 : {shop.distance}</p>
         </MenuCard>
         <SelectContainer>
           <SelectTags type={'People'} value={people} setValue={setPeople} />
           <SelectTags type={'Duration'} value={duration} setValue={setDuration} />
         </SelectContainer>
       </MenuContainer>
-      <LikeButton variant="contained" onClick={handleClick}>{`찜하기 ❤`}</LikeButton>
     </ContentContainer>
   );
 };

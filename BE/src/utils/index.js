@@ -3,4 +3,6 @@ module.exports = {
   ...require("./error-factory"),
   ...require("./pagination"),
   ...require("./valid"),
+  ...require("./nodemailer"),
+  ...require("./generate-random-code"),
 };

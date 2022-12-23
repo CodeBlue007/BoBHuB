@@ -9,7 +9,7 @@ const Content = styled.div`
   min-width: 1000px;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden;
 `;
 
 const MainPage = () => {

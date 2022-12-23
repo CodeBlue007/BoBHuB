@@ -3,33 +3,25 @@ const o = new (require("../../utils/build-query"))("comment");
 
 class CommentModel {
   async create(commentDTO) {
-    try {
-      const { keyArr, valArr } = o.objToKeyValueArray(commentDTO);
-      const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+    const { keyArr, valArr } = o.objToKeyValueArray(commentDTO);
+    const query = o.makeInsertQuery(keyArr, valArr);
+    console.log(query);
 
-      const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const [result] = await pool.query(query);
+    return result;
   }
 
   async getAll() {
-    try {
-      const query = o.makeSelectQuery();
-      console.log(query);
-      const [comments] = await pool.query(query);
-      return comments;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const query = o.makeSelectQuery();
+    console.log(query);
+    const [comments] = await pool.query(query);
+    return comments;
   }
 
   async getByShopId(shopId) {
     try {
       const query = `select * from comment join (SELECT userId
-        , nickName, profile
+        , nickname, profile
      FROM user ) u on u.userId = comment.userId  where shopId = ?`;
 
       console.log(query);
@@ -42,43 +34,31 @@ class CommentModel {
   }
 
   async getByCommentId(commentId) {
-    try {
-      const whereArr = o.objToQueryArray({ commentId });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+    const whereArr = o.objToQueryArray({ commentId });
+    const query = o.makeSelectQuery(undefined, whereArr);
+    console.log(query);
 
-      const [comment] = await pool.query(query);
-      return comment;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const [comment] = await pool.query(query);
+    return comment;
   }
 
   async update(newCommentDTO, commentDTO) {
-    try {
-      const newDTO = o.objToQueryArray(newCommentDTO);
-      const oldDTO = o.objToQueryArray(commentDTO);
-      const query = o.makeUpdateQuery(newDTO, oldDTO);
+    const newDTO = o.objToQueryArray(newCommentDTO);
+    const oldDTO = o.objToQueryArray(commentDTO);
+    const query = o.makeUpdateQuery(newDTO, oldDTO);
 
-      console.log(query);
-      const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
-    }
+    console.log(query);
+    const [result] = await pool.query(query);
+    return result;
   }
 
   async deleteById(commentId) {
-    try {
-      const whereArr = o.objToQueryArray({ commentId });
-      const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+    const whereArr = o.objToQueryArray({ commentId });
+    const query = o.makeDeleteQuery(whereArr);
+    console.log(query);
 
-      const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const [result] = await pool.query(query);
+    return result;
   }
 }
 
