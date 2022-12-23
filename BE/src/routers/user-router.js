@@ -11,6 +11,7 @@ userRouter.post(
   userController.create
 );
 userRouter.get("/nicknames/:nickname", userController.checkNickname);
+userRouter.get("/emails/:email", userController.checkEmail);
 userRouter.get("/", isLoggedIn, userController.getById);
 userRouter.patch("/", isLoggedIn, userController.update);
 userRouter.delete("/", isLoggedIn, userController.delete);
