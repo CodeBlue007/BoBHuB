@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Intro = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 550px;
+  min-width: 600px;
   height: 100%;
   position: absolute;
   top: 205px;
