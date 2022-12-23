@@ -33,6 +33,12 @@ class UserService {
   async check(userDTO) {
     const checkPoint = Object.keys(userDTO)[0];
     const CHECKPOINT = { nickname: "닉네임", email: "이메일" };
+    if (userDTO.nickname === ":nickname") {
+      throw new NotFound("입력된 닉네임이 없습니다.");
+    }
+    if (userDTO.email === ":email") {
+      throw new NotFound("입력된 이메일이 없습니다.");
+    }
     const user = await this.userModel.get(userDTO);
     let result = {};
     if (user.length == 0) result.message = `사용가능한 ${CHECKPOINT[checkPoint]}입니다.`;
@@ -119,7 +125,7 @@ class UserService {
   }
 
   async delete(userDTO) {
-    if (profile) imageDeleter(userDTO.profile);
+    if (userDTO.profile) imageDeleter(userDTO.profile);
     const { userId } = userDTO;
     const result = await this.userModel.deleteById(userId);
     return buildRes("d", result);
