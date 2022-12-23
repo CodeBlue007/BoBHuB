@@ -1,9 +1,9 @@
 import { AppBar, IconButton, Toolbar, Typography, Stack, Button } from '@mui/material';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
 import { Link } from 'react-router-dom';
-import { Fragment, useState } from 'react';
+import { useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { userAction } from '../store/userSlice';
+import { loginUserData, userAction } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
 import { get } from '../api/API';
 import MyParty from './MyParty';
@@ -20,6 +20,10 @@ const NavBar = () => {
   const handleOpenToggle = () => setOpen(!open);
   const dispatch = useDispatch<AppDispatch>();
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
+
+  useEffect(() => {
+    dispatch(loginUserData());
+  }, []);
 
   const logout = () => {
     dispatch(userAction.logout());
@@ -42,9 +46,7 @@ const NavBar = () => {
           </IconButton>
         </BasicLink>
         <Typography fontSize={30} component="div" sx={{ flexGrow: 1 }}>
-          <BasicLink to="/">
-            Bobhub
-          </BasicLink>
+          <BasicLink to="/">Bobhub</BasicLink>
         </Typography>
         <Stack direction="row" spacing={2}>
           <BasicLink to="/userGuide">
