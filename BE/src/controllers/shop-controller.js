@@ -1,5 +1,4 @@
 const { shopService } = require("../services");
-const { isEmptyObject } = require("../utils");
 class ShopController {
   async create(req, res, next) {
     const { category, name, address, description } = req.body;
