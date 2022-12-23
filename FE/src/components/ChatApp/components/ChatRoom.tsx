@@ -97,7 +97,6 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
         <InputContainer>
           <TextField
             id="filled-basic"
-            label="메세지를 입력하세요"
             variant="filled"
             sx={{
               width: '200px',
@@ -113,7 +112,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
             variant="contained"
             color="secondary"
             size="small"
-            sx={{ backgroundColor: 'crimson', height: '46px', width: '50px' }}
+            sx={{ backgroundColor: '#E59A59', height: '46px', width: '50px' }}
             onClick={sendMessage}>
             전송
           </Button>

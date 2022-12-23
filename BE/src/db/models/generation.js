@@ -33,42 +33,39 @@ class GenerationModel {
     }
   }
 
-  async getAll() {
-    try {
-      const query = o.makeSelectQuery();
-      console.log(query);
+  async getById(eliceId) {
+    const whereArr = o.objToQueryArray({ eliceId });
+    const query = o.makeSelectQuery(undefined, whereArr);
+    console.log(query);
 
-      const [elices] = await pool.query(query);
-      return elices;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const [generationName] = await pool.query(query);
+    return generationName;
+  }
+
+  async getAll() {
+    const query = o.makeSelectQuery();
+    console.log(query);
+
+    const [elices] = await pool.query(query);
+    return elices;
   }
 
   async update(newGenerationDTO, generationDTO) {
-    try {
-      const newDTO = o.objToQueryArray(newGenerationDTO);
-      const oldDTO = o.objToQueryArray(generationDTO);
-      const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
-      const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const newDTO = o.objToQueryArray(newGenerationDTO);
+    const oldDTO = o.objToQueryArray(generationDTO);
+    const query = o.makeUpdateQuery(newDTO, oldDTO);
+    console.log(query);
+    const [result] = await pool.query(query);
+    return result;
   }
 
   async deleteById(eliceId) {
-    try {
-      const whereArr = o.objToQueryArray({ eliceId });
-      const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+    const whereArr = o.objToQueryArray({ eliceId });
+    const query = o.makeDeleteQuery(whereArr);
+    console.log(query);
 
-      const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const [result] = await pool.query(query);
+    return result;
   }
 }
 

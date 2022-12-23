@@ -1,29 +1,29 @@
-import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { Card } from '@mui/material';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import { commentStateType, shopStateType } from './types/Type';
+import { commentStateType, shopStateType, menuStateType, initialShopState } from './types/Type';
 import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
-
-
+import DetailSlider from './components/DetailSlider';
+import * as API from '../../api/API';
 
 const Pagecontainer = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0;
-  margin: 0;
+  margin : 0;
 `;
 
 const DetailContainer = styled(FlexContainer)`
   width: 60vw;
   margin-bottom: 50px;
+  border: 1px solid black;
+  flex-direction: column;
 `;
 
 type imgType = {
@@ -54,85 +54,76 @@ const MenuCard = styled(Card)`
 `;
 
 const FoodDetail = () => {
-  const [shop, setShop] = useState<shopStateType>({
-    shopId: 0,
-    category: '',
-    name: '',
-    distance: 0,
-    address: '',
-    menu: '',
-    shopPicture: '',
-    like: 0,
-    description: '',
-    createdAt: '',
-    updatedAt: '',
-  });
+  const [shopState, setShopState] = useState<shopStateType>(initialShopState);
   const [commentState, setCommentState] = useState<commentStateType[]>([]);
+  const [menuState, setMenuState] = useState<menuStateType[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [update, setUpdated] = useState<boolean>(false);
+  const scrollRef = useRef<HTMLElement>(null);
 
 
-  const getComment = async () => {
-    const response = await axios.get('http://localhost:3001/comment');
-    return response.data;
-  };
-
-  const getShop = async () => {
-    const response = await axios.get('http://localhost:3001/shop');
-    return response.data;
-  };
-
-  const updateComment = useCallback((comment:commentStateType) => {
-    setCommentState((current) => [comment, ...current]);
+  const updateCommentState = useCallback(() => {
+    setUpdated((current) => !current);
   }, []);
 
-  const deleteComment = useCallback((id:number) => {
-    setCommentState((current) => current.filter((comments) => comments.commentId !== id));
-  },[]);
+  const fetchCommentState = async () => {
+    const commentState = await API.get(`/api/comments?shopId=${5}`);
+    console.log(commentState);
+    setCommentState(commentState);
+  };
+
+  const fetchShopState = async () => {
+    const fetchShop = async () => await API.get(`/api/shops/5`);
+    const fetchMenu = async () => await API.get(`/api/food?shopId=5`);
+
+    const [shopState, menuState] = await Promise.all([fetchShop(), fetchMenu()]);
+    console.log('shopState', shopState);
+    console.log('menuState', menuState);
+    setShopState(shopState);
+    setMenuState(menuState);
+  };
+
+  const fetchInitialData = async () => {
+    await fetchCommentState();
+    await fetchShopState();
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const commentData = await getComment();
-      const shopData = await getShop();
-
-      console.log('success', commentData);
-      console.log('success', shopData);
-
-      setCommentState(commentData);
-      setShop(shopData);
-      setLoading(false);
-    };
-
-    fetchData();
+    fetchInitialData();
   }, []);
 
+  useEffect(() => {
+    fetchCommentState();
+  }, [update]);
+
+  const makeImgArr = () => {
+    const imgArr = [];
+    imgArr.push(shopState.shopPicture);
+    imgArr.push(shopState.menu);
+    menuState.forEach((menu) => {
+      imgArr.push(menu.picture);
+    });
+
+    return [...imgArr];
+  };
+
   return (
-    <Pagecontainer>
+    <Pagecontainer ref={scrollRef}>
       {isLoading ? (
         'isLoading...'
       ) : (
         <>
           <NavBar />
-          <DetailContainer>
-            <div>
-              <ImageContainer>
-                <Image image={'/img/chickfood.jpg'} />
-              </ImageContainer>
-              <MenuCard>
-                <p>주소 : {shop.address}</p>
-                <p>Distance : {shop.distance}</p>
-              </MenuCard>
-            </div>
-           <Content shop={shop}/>
-          </DetailContainer>
-          <Comment
-            updateComment={updateComment}
-          />
+          <DetailSlider imageArr={makeImgArr()} />
+            {<Content shop={shopState} />}
+          <Comment updateCommentState={updateCommentState} shopId={shopState.shopId} scrollRef={scrollRef}/>
           <CommentContainer>
             {commentState.map((comment) => (
               <CommentList
                 key={comment.commentId}
                 commentProp={comment}
-                deleteComment={deleteComment}
+                updateCommentState={updateCommentState}
               />
             ))}
           </CommentContainer>

@@ -6,13 +6,14 @@ import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
 import { commentStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
+import * as API from "../../../api/API";
 
 const ListContainer = styled(FlexContainer)`
   height: 150px;
   box-shadow: 2px 2px 2px gray;
   width: 50vw;
   border-radius: 10px;
-  background-color: crimson;
+  background-color: #ffd5af;
   position: relative;
   margin: 15px;
 `;
@@ -50,12 +51,12 @@ const CustomButton = styled(Button)`
 
 interface CommentList {
   commentProp: commentStateType;
-  deleteComment: (id: number) => void;
+  updateCommentState : () => void;
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, shopId, content, star },
-  deleteComment,
+  commentProp: { commentId, userId, content, star,profile,nickName },
+  updateCommentState,
 }: CommentList) => {
   const [canRevise, setRevise] = useState<boolean>(false);
   const [canReadOnly, setReadOnly] = useState<boolean>(true);
@@ -66,12 +67,18 @@ const CommentList = ({
     setReadOnly(false);
   };
 
+  const deleteComment = async (commentId:number) => {
+    const res = await API.delete(`/api/comments/${commentId}`);
+    console.log(res);
+    updateCommentState();
+  }
+
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const id = Number(e.currentTarget.dataset.id);
-    deleteComment(id);
+    const commentId = Number(e.currentTarget.dataset.id);
+    deleteComment(commentId);
   };
 
   const updateRevise = useCallback((bool: boolean) => {
@@ -82,14 +89,16 @@ const CommentList = ({
     setReadOnly(bool);
   }, []);
 
+  const userProfile = profile === null? undefined : profile;
+
   return (
     <>
       <ListContainer>
         <AvatarContainer>
-          <Avatar alt="Remy Sharp" src="/img/chickfood.jpg" sx={{ width: 55, height: 50 }} />
+          <Avatar alt="userProfile" src={userProfile} sx={{ width: 55, height: 50 }} />
         </AvatarContainer>
         <ContentContainer>
-          <Typography component="legend">{userId}</Typography>
+          <Typography component="legend">{nickName}</Typography>
           <Rating
             name="read-only"
             value={commentStar}
@@ -97,6 +106,8 @@ const CommentList = ({
             onChange={ratingChange}
           />
           <TextArea
+            commentId = {commentId}
+            commentStar ={commentStar}
             content={content}
             canRevise={canRevise}
             updateRevise={updateRevise}
@@ -104,6 +115,7 @@ const CommentList = ({
           />
           <div className="buttonWrap">
             <CustomButton
+              sx={{backgroundColor:'#888870'}}
               variant="contained"
               color="secondary"
               size="small"
@@ -112,6 +124,7 @@ const CommentList = ({
               수정
             </CustomButton>
             <CustomButton
+              sx={{backgroundColor:'#a82a1e'}}
               variant="contained"
               color="error"
               size="small"

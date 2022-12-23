@@ -1,11 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const loginUserData = createAsyncThunk('user/loginUserData', async () => {
-  const res = await axios.get('api/users', { withCredentials: true });
-  const data = await res.data;
-  return data;
-});
+export const loginUserData = createAsyncThunk(
+  'user/loginUserData',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axios('api/users', { withCredentials: true });
+      const data = await res.data;
+      return data;
+    } catch (error) {
+      return rejectWithValue('not login');
+    }
+  },
+);
 const initialState = {
   currentUser: {
     userId: 0,
@@ -22,6 +29,7 @@ const initialState = {
     updatedAt: null,
     deletedAt: null,
   },
+  isLogin: false,
 };
 
 export const userSlice = createSlice({
@@ -29,18 +37,17 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      state.isLogin = false;
       state.currentUser = { ...initialState.currentUser };
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginUserData.pending, (state, action) => {
-      state = state;
-    });
     builder.addCase(loginUserData.fulfilled, (state, action) => {
+      state.isLogin = true;
       state.currentUser = { ...action.payload };
     });
     builder.addCase(loginUserData.rejected, (state, action) => {
-      state = state;
+      state.isLogin = false;
     });
   },
 });

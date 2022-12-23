@@ -1,7 +1,7 @@
 const { shopModel } = require("../db/models");
-const { pagination } = require("../utils");
 const buildRes = require("../utils/build-response");
 const { imageDeleter } = require("../middlewares");
+const { BadRequest, NotFound } = require("../utils/error-factory");
 
 class ShopService {
   constructor(shopModel) {
@@ -9,8 +9,12 @@ class ShopService {
   }
 
   async create(shopDTO) {
-    const result = await this.shopModel.create(shopDTO);
-    return buildRes("c", result);
+    try {
+      const result = await this.shopModel.create(shopDTO);
+      return buildRes("c", result);
+    } catch {
+      throw new BadRequest("form-data에 작성한 내용에 오류가 있습니다.");
+    }
   }
 
   async count() {
@@ -24,32 +28,59 @@ class ShopService {
   }
 
   async getByShopId(shopId) {
+    if (!shopId) {
+      throw new BadRequest("Parameter 입력값이 숫자가 아니거나 비어있습니다.");
+    }
     const shop = await this.shopModel.getByShopId(shopId);
     return shop;
   }
 
   async update(newShopDTO, shopId) {
-    let { menu, shopPicture } = newShopDTO;
-    if (menu || shopPicture) {
-      const shop = await shopModel.getByShopId(shopId);
-      if (menu) imageDeleter(shop.menu);
-      if (shopPicture) imageDeleter(shop.shopPicture);
+    if (!shopId) {
+      throw new BadRequest("Parameter 입력값이 숫자가 아니거나 비어있습니다.");
+    }
+    const shop = await this.shopModel.getByShopId(shopId);
+    console.log(shop);
+    if (!shop) {
+      throw new NotFound("존재하는 식당이 없습니다.");
     }
 
-    const result = await this.shopModel.update(newShopDTO, { shopId });
-
-    return buildRes("u", result);
+    try {
+      const result = await this.shopModel.update(newShopDTO, { shopId });
+      return buildRes("u", result);
+    } catch {
+      throw new BadRequest("Body에 작성한 내용에 오류가 있습니다.");
+    }
   }
 
-  async deleteById(shopId) {
+  async updateImage(newImageDTO, shopId) {
     const shop = await shopModel.getByShopId(shopId);
-    if (!shop) throw new Error("DB에서 id를 검색하지 못했습니다.");
+    if (!shop) {
+      throw new NotFound("존재하는 식당이 없습니다.");
+    }
 
     const { menu, shopPicture } = shop;
     if (menu) imageDeleter(menu);
     if (shopPicture) imageDeleter(shopPicture);
 
-    const result = await shopModel.deleteById(shopId);
+    const result = await this.shopModel.update(newImageDTO, { shopId });
+    return buildRes("u", result);
+  }
+
+  async deleteById(shopId) {
+    if (!shopId) {
+      throw new BadRequest("Parameter 입력값이 숫자가 아니거나 비어있습니다.");
+    }
+    const shop = await this.shopModel.getByShopId(shopId);
+    if (!shop) {
+      throw new NotFound("존재하는 식당이 없습니다.");
+    }
+
+    const { menu, shopPicture } = shop;
+    if (menu) imageDeleter(menu);
+    if (shopPicture) imageDeleter(shopPicture);
+
+    const result = await this.shopModel.deleteById(shopId);
     return buildRes("d", result);
   }
 }

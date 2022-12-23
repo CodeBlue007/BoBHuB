@@ -7,7 +7,7 @@ import * as API from '../../../api/API';
 const DeleteUser = () => {
 
     const deleteUserAPI = async () => {
-        await API.delete(`http://localhost:5000/api/user/auth`);
+        await API.delete(`/api/users`);
     }
 
     const handleUserDelete = (e: React.MouseEvent<HTMLElement>) => {
@@ -15,7 +15,7 @@ const DeleteUser = () => {
         try {
             deleteUserAPI();
             alert('계정 탈퇴되었습니다.');
-            window.location.href = '/';
+            //window.location.href = '/';
         } catch (err) {
             console.error(err);
         }
@@ -26,7 +26,7 @@ const DeleteUser = () => {
             <TableRow>
                 <TableHeader>계정탈퇴</TableHeader>
                 <TableData>
-                    <Button onClick={handleUserDelete} sx={{ fontWeight: 'bold' }} variant="outlined" color="error">
+                    <Button onClick={handleUserDelete} sx={{ fontWeight: 'bold',backgroundColor:'#a82a1E',color:'white' }} variant="outlined" color="error">
                         계정탈퇴
                     </Button>
                     <DeleteCheckMessage>*계정 탈퇴 시, 복구 불가능합니다.</DeleteCheckMessage>

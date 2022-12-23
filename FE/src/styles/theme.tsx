@@ -1,7 +1,5 @@
-//import styled from 'styled-components';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 
-// 필요한가ㅏ...?
 const fontSizes = {
   title: 16,
   subTitle: 14,
@@ -9,36 +7,32 @@ const fontSizes = {
 };
 
 const colors = {
-  title: '#5a3bbf',
+  main: '#E59A59',
+  emphasis: '#712E1E',
+  cancel: '#A82A1E',
+  button: '#E59A59',
+  sub: '#FFD5AF',
+  background: '#FFFAF5',
+  innerContainer: '#f7f7f7',
+  container: '#FCF3EB',
+  gray: '#888870',
+  lightGray: '#C9CACC',
 };
 
-const bgColors = {
-  test1: '#5a3bbf',
-  test2: '#635038',
-  test3: '#BB2649',
+const font = {
+  color: {
+    balck: '#1E1F21',
+    white: '#ffffff',
+  },
+  size: {
+    normal: '14px',
+    containerTitle: '18px',
+  },
 };
-
-// 반응형
-// const deviceSizes = {
-//     mobileS: "320px",
-//     mobileM: "375px",
-//     mobileL: "450px",
-//     tablet: "768px",
-//     tabletL: "1024px",
-// };
-
-// const device = {
-//     mobileS: `only screen and (max-width: ${deviceSizes.mobileS})`,
-//     mobileM: `only screen and (max-width: ${deviceSizes.mobileM})`,
-//     mobileL: `only screen and (max-width: ${deviceSizes.mobileL})`,
-//     tablet: `only screen and (max-width: ${deviceSizes.tablet})`,
-//     tabletL: `only screen and (max-width: ${deviceSizes.tabletL})`,
-// };
-
 const theme = {
   fontSizes,
   colors,
-  bgColors,
+  font,
 };
 
 export default theme;
