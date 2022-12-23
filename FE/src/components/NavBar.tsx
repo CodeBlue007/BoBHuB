@@ -7,6 +7,12 @@ import { loginUserData, userAction } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
 import { get } from '../api/API';
 import MyParty from './MyParty';
+import styled from 'styled-components';
+
+const BasicLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+`;
 
 const NavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -33,25 +39,27 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor:'#E59A59'}}>
+    <AppBar position="static" sx={{ backgroundColor: '#E59A59' }}>
       <Toolbar>
-        <Link to="/">
+        <BasicLink to="/">
           <IconButton>
             <FastfoodIcon />
           </IconButton>
-        </Link>
+        </BasicLink>
         <Typography fontSize={30} component="div" sx={{ flexGrow: 1 }}>
-          Bobhub
+          <BasicLink to="/">
+            Bobhub
+          </BasicLink>
         </Typography>
         <Stack direction="row" spacing={2}>
-          <Link to="/userGuide" style={{ color: 'white', textDecoration: 'none' }}>
+          <BasicLink to="/userGuide">
             <Button color="inherit">밥허브 이용가이드</Button>
-          </Link>
+          </BasicLink>
           {isLogin ? (
             <Fragment>
-              <Link to="/mypage" style={{ color: 'white', textDecoration: 'none' }}>
+              <BasicLink to="/mypage">
                 <Button color="inherit">마이페이지</Button>
-              </Link>
+              </BasicLink>
               <Button color="inherit" onClick={fetchMyParty}>
                 찜 목록
               </Button>
@@ -65,12 +73,12 @@ const NavBar = () => {
             </Button>
           ) : (
             <Fragment>
-              <Link to="/login" style={{ color: 'white', textDecoration: 'none' }}>
+              <BasicLink to="/login" style={{ color: 'white', textDecoration: 'none' }}>
                 <Button color="inherit">로그인</Button>
-              </Link>
-              <Link to="/register" style={{ color: 'white', textDecoration: 'none' }}>
+              </BasicLink>
+              <BasicLink to="/register" style={{ color: 'white', textDecoration: 'none' }}>
                 <Button color="inherit">회원가입</Button>
-              </Link>
+              </BasicLink>
             </Fragment>
           )}
         </Stack>
