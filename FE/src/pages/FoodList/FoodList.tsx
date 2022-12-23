@@ -110,7 +110,7 @@ const FoodList = () => {
         </Box>
       </CategoryBox>
       <CardContainer>
-        {searchList.map((x, i) => {
+        {searchList?.map((x, i) => {
           const { name, category, description, food, avgStar, shopId } = x;
           return (
             <MenuCard
@@ -136,7 +136,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   margin-bottom: 50px;
-  background-color:#FCF3EB;
+  background-color: #fcf3eb;
 `;
 
 const CategoryBox = styled.div`

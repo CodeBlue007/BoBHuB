@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import styled from 'styled-components';
-import { Card } from '@mui/material';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
@@ -9,7 +8,8 @@ import { commentStateType, shopStateType, menuStateType, initialShopState } from
 import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
 import DetailSlider from './components/DetailSlider';
-import * as API from '../../api/API';
+import { getComment, getShop, getMenu } from './foodDetailApi';
+import { useParams } from 'react-router';
 
 const Pagecontainer = styled.section`
   display: flex;
@@ -19,39 +19,12 @@ const Pagecontainer = styled.section`
   margin : 0;
 `;
 
-const DetailContainer = styled(FlexContainer)`
-  width: 60vw;
-  margin-bottom: 50px;
-  border: 1px solid black;
-  flex-direction: column;
-`;
-
-type imgType = {
-  image: string;
-};
-
-const ImageContainer = styled.div`
-  width: 20vw;
-  height: 15vw;
-  overflow: hidden;
-  padding: 10px;
-`;
-
-const Image = styled.img<imgType>`
-  background: url('${(props) => props.image}') no-repeat center;
-  width: inherit;
-  height: inherit;
-`;
 
 const CommentContainer = styled(FlexContainer)`
   flex-direction: column;
   margin: 20px;
 `;
 
-const MenuCard = styled(Card)`
-  width: 20vw;
-  padding: 10px;
-`;
 
 const FoodDetail = () => {
   const [shopState, setShopState] = useState<shopStateType>(initialShopState);
@@ -60,23 +33,20 @@ const FoodDetail = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [update, setUpdated] = useState<boolean>(false);
   const scrollRef = useRef<HTMLElement>(null);
-
+  const shopId = Number(useParams().id);
 
   const updateCommentState = useCallback(() => {
     setUpdated((current) => !current);
   }, []);
 
-  const fetchCommentState = async () => {
-    const commentState = await API.get(`/api/comments?shopId=${5}`);
+  const fetchCommentState = async (shopId:number) => {
+    const commentState = await getComment(shopId)
     console.log(commentState);
     setCommentState(commentState);
   };
 
-  const fetchShopState = async () => {
-    const fetchShop = async () => await API.get(`/api/shops/5`);
-    const fetchMenu = async () => await API.get(`/api/food?shopId=5`);
-
-    const [shopState, menuState] = await Promise.all([fetchShop(), fetchMenu()]);
+  const fetchShopState = async (shopId:number) => {
+    const [shopState, menuState] = await Promise.all([getShop(shopId), getMenu(shopId)]);
     console.log('shopState', shopState);
     console.log('menuState', menuState);
     setShopState(shopState);
@@ -84,8 +54,8 @@ const FoodDetail = () => {
   };
 
   const fetchInitialData = async () => {
-    await fetchCommentState();
-    await fetchShopState();
+    await fetchCommentState(shopId);
+    await fetchShopState(shopId);
     setLoading(false);
   };
 
@@ -94,7 +64,7 @@ const FoodDetail = () => {
   }, []);
 
   useEffect(() => {
-    fetchCommentState();
+    fetchCommentState(shopId);
   }, [update]);
 
   const makeImgArr = () => {

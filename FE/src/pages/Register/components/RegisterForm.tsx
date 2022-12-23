@@ -117,7 +117,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
   // useState 방식
   const [regForm, setRegForm] = useState({
     name: '',
-    nickName: '',
+    nickname: '',
     email: '',
     confirmNum: '',
     password: '',
@@ -128,7 +128,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     generation: '',
   });
 
-  const { name, nickName, email, confirmNum, password, passwordCheck, phone, track, generation } =
+  const { name, nickname, email, confirmNum, password, passwordCheck, phone, track, generation } =
     regForm;
 
   const navigate = useNavigate();
@@ -150,7 +150,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     // form 초기화
     setRegForm({
       name: '',
-      nickName: '',
+      nickname: '',
       email: '',
       confirmNum: '',
       password: '',
@@ -197,7 +197,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         />
 
         <TextField
-          name="nickName"
+          name="nickname"
           variant="standard"
           InputProps={{
             startAdornment: (
@@ -214,11 +214,11 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
             },
           }}
           placeholder="닉네임을 입력해주세요 (한글·영문(대·소문자) 5~10글자)."
-          value={nickName}
+          value={nickname}
           onChange={onTextFieldChange}
-          error={!validateNickName(regForm.nickName) && regForm.nickName !== ''}
+          error={!validateNickName(regForm.nickname) && regForm.nickname !== ''}
           helperText={
-            !validateNickName(regForm.nickName) && regForm.nickName !== ''
+            !validateNickName(regForm.nickname) && regForm.nickname !== ''
               ? '닉네임은 한글·영문(대·소문자) 5~10글자이어야 합니다.'
               : ''
           }

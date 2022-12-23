@@ -12,12 +12,12 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <SocketContext.Provider value={socket}>
-          <Router />
-          <ChatApp />
-          <GlobalStyle />
-          <GlobalFont />
-        </SocketContext.Provider>
+        {/* <SocketContext.Provider value={socket}> */}
+        <Router />
+        {/* <ChatApp /> */}
+        <GlobalStyle />
+        <GlobalFont />
+        {/* </SocketContext.Provider> */}
       </ThemeProvider>
     </Provider>
   );
