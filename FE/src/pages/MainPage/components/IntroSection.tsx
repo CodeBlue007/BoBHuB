@@ -1,10 +1,11 @@
 import { Button } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Intro = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 550px;
+  min-width: 600px;
   height: 100%;
   position: absolute;
   top: 205px;
@@ -39,6 +40,9 @@ const Container = styled.div`
     border: 1px solid rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
   }
+  .navLink {
+    text-decoration: none;
+  }
 `;
 
 const IntroSection = () => {
@@ -54,9 +58,14 @@ const IntroSection = () => {
         <div className="sub" style={{ zIndex: 1 }}>
           밥허브로 밥메이트 구해요~
         </div>
-        <Button variant="contained" style={{ zIndex: 1 }} sx={{ backgroundColor: '#E59A59' }}>
-          맛집 찾기
-        </Button>
+        <NavLink to="/foodList" className="navLink">
+          <Button
+            variant="contained"
+            style={{ zIndex: 1 }}
+            sx={{ backgroundColor: '#E59A59', width: '500px' }}>
+            맛집 찾기
+          </Button>
+        </NavLink>
       </Intro>
     </Container>
   );

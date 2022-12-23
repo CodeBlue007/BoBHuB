@@ -9,7 +9,7 @@ import hamburger from './assets/Hamburger.gif';
 import chat from './assets/Chat.gif';
 
 const StyledSlider = styled(Slider)`
-  height: 64vh;
+  height: 73vh;
 `;
 
 const Div = styled.div`
