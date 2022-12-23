@@ -8,7 +8,6 @@ import {
   Button,
 } from '@mui/material';
 import { useRef } from 'react';
-import axios from 'axios';
 import type { UserType } from './Users';
 import styled from 'styled-components';
 import { patch } from '../../../../../api/API';
@@ -68,7 +67,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
       <Div>
         <label htmlFor="auth">권한</label>
         <Select defaultValue={user.role} inputRef={auth}>
-          <MenuItem value="racer">racer</MenuItem>
+          <MenuItem value="elicer">elicer</MenuItem>
           <MenuItem value="admin">admin</MenuItem>
         </Select>
       </Div>

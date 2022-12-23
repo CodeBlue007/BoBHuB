@@ -9,11 +9,11 @@ export interface PostShopBodyType {
   menu: any;
 }
 
-export const postFoodData = async (body: PostShopBodyType) => {
+export const postFoodData = async (body: FormData) => {
   await post('/api/admin/shops', body);
 };
 
-export const deleteFoodData = async (id: string) => {
+export const deleteFoodData = async (id: number) => {
   await deleteApi(`/api/admin/shops/${id}`);
 };
 
@@ -22,6 +22,6 @@ export const fetchFoodData = async () => {
   return foods;
 };
 
-export const updateFoodData = async (id: string, body: PostShopBodyType) => {
+export const updateFoodData = async (id: number, body: FormData) => {
   await patch(`/api/admin/shops/${id}`, body);
 };
