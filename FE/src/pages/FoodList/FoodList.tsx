@@ -136,7 +136,7 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   margin-bottom: 50px;
-  background-color:#FCF3EB;
+  background-color: #fcf3eb;
 `;
 
 const CategoryBox = styled.div`
