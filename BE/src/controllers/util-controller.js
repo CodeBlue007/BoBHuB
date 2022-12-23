@@ -1,50 +1,20 @@
-const { categoryService } = require("../services");
+const { utilService } = require("../services");
+const { BadRequest, NotFound } = require("../utils/error-factory");
 
-class CategoryController {
-  async create(req, res, next) {
-    const { category } = req.body;
+class UtilController {
+  async sendCode(req, res, next) {
     try {
-      const result = await categoryService.create({
-        category,
-      });
-      return res.status(200).json(result);
-    } catch (e) {
-      next(e);
-    }
-  }
+      const needVerifyEmail = req.body.email;
+      if (!needVerifyEmail) throw new BadRequest("검증이 필요한 email을 보내주세요");
 
-  async getAll(req, res, next) {
-    try {
-      const categoryList = await categoryService.getAll();
-      return res.status(200).json(categoryList);
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async update(req, res, next) {
-    try {
-      const { newCategory, category } = req.body;
-      const result = await categoryService.update(newCategory, category);
-
-      return res.status(200).json(result);
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async delete(req, res, next) {
-    try {
-      const { category } = req.body;
-      const result = await categoryService.deleteById(category);
-
-      return res.status(200).json(result);
+      const codeObj = await utilService.sendCode(needVerifyEmail);
+      return res.status(200).json(codeObj);
     } catch (e) {
       next(e);
     }
   }
 }
 
-const categoryController = new CategoryController();
+const utilController = new UtilController();
 
-module.exports = { categoryController };
+module.exports = { utilController };
