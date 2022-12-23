@@ -19,12 +19,12 @@ const BasicLink = styled(Link)`
 const Logo = styled.img`
   width: 32px;
   margin-top: 2px;
-  margin-right: 6px;
+  margin-right: 7px;
 `;
 
 const TitleLogo = styled.img`
-  width: 130px;
-  margin-top: 12px;
+  width: 140px;
+  margin-top: 15px;
 `;
 
 const NavBar = () => {
