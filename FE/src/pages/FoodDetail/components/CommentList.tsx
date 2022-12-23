@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
 import { commentStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
-import * as API from "../../../api/API";
+import { deleteComment } from '../foodDetailApi';
 
 const ListContainer = styled(FlexContainer)`
   height: 150px;
@@ -55,7 +55,7 @@ interface CommentList {
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, content, star,profile,nickName },
+  commentProp: { commentId, userId, content, star,profile, nickname },
   updateCommentState,
 }: CommentList) => {
   const [canRevise, setRevise] = useState<boolean>(false);
@@ -67,18 +67,13 @@ const CommentList = ({
     setReadOnly(false);
   };
 
-  const deleteComment = async (commentId:number) => {
-    const res = await API.delete(`/api/comments/${commentId}`);
-    console.log(res);
-    updateCommentState();
-  }
-
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     const commentId = Number(e.currentTarget.dataset.id);
     deleteComment(commentId);
+    updateCommentState();
   };
 
   const updateRevise = useCallback((bool: boolean) => {
@@ -98,7 +93,7 @@ const CommentList = ({
           <Avatar alt="userProfile" src={userProfile} sx={{ width: 55, height: 50 }} />
         </AvatarContainer>
         <ContentContainer>
-          <Typography component="legend">{nickName}</Typography>
+          <Typography component="legend">{nickname}</Typography>
           <Rating
             name="read-only"
             value={commentStar}
