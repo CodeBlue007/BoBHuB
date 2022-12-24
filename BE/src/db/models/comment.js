@@ -72,6 +72,23 @@ class CommentModel {
     }
   }
 
+  async getByUserId(userId) {
+    try {
+      const whereArr = o.objToQueryArray({ userId });
+      const query = o.makeSelectQuery(undefined, whereArr);
+      console.log(query);
+
+      const [comment] = await pool.query(query);
+      return comment;
+    } catch {
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
+    }
+  }
+
   async update(newCommentDTO, commentDTO) {
     try {
       const newDTO = o.objToQueryArray(newCommentDTO);
