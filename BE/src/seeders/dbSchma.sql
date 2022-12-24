@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `shop` (
   `address` VARCHAR(45), 
   `menu` VARCHAR(110), 
   `shopPicture` VARCHAR(110), 
-  `description` VARCHAR(45), 
+  `description` VARCHAR(130), 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
