@@ -7,8 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
 import { NavLink } from 'react-router-dom';
-import {SocketContext} from "../../../socket/SocketContext";
-
+import { SocketContext } from '../../../socket/SocketContext';
 
 export interface Party {
   shopId: number;
@@ -32,7 +31,7 @@ const Div = styled.div`
   place-items: center;
 
   .slick-prev:before {
-    opaicty: 1;
+    opacity: 1;
     color: black;
     left: 0;
   }
@@ -57,7 +56,7 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
-    border : 1px solid black;
+    border: 1px solid black;
   } //item
 
   .slide {
@@ -102,7 +101,7 @@ const Div = styled.div`
   span {
     /* position: absolute; */
     top: 150px;
-    color: black
+    color: black;
     font-size: 2rem;
     font-weight: bold;
   }
@@ -170,15 +169,11 @@ export default function SimpleSlider() {
   const [slideIndex, setSlideIndex] = useState(0);
   const socket = useContext(SocketContext);
 
-
-
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
     console.log(data);
     setParties([...data]);
   };
-
-
 
   useEffect(() => {
     setPartiesData();
@@ -198,7 +193,9 @@ export default function SimpleSlider() {
               <span>{party.name}</span>
               <span>{party.avgStar}</span>
               <span>{party.address}</span>
-              <Button variant="contained" sx={{cursor : 'pointer'}}>찜하기</Button>
+              <Button variant="contained" sx={{ cursor: 'pointer' }}>
+                찜하기
+              </Button>
             </NavLink>
           ))}
         </StyledSlider>
