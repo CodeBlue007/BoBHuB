@@ -1,4 +1,5 @@
 const { userService } = require("../services");
+const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class UserController {
   async create(req, res, next) {
@@ -6,6 +7,10 @@ class UserController {
       const generation = parseInt(req.body.generation);
       const { track, name, email, nickname, password, phone } = req.body;
       const profile = req.file ? req.file.location : null;
+
+      if (!password) {
+        throw new ErrorFactory(commonErrors.BAD_REQUEST, 400, "비밀번호를 입력해주세요.");
+      }
 
       const addedUser = await userService.create({
         track,
@@ -68,6 +73,14 @@ class UserController {
       const generation = parseInt(req.body.generation);
 
       const { track, name, nickname, newPassword, password, phone } = req.body;
+      if (password&&newPassword) {
+        if (password === newPassword)
+          throw new ErrorFactory(
+            commonErrors.BAD_REQUEST,
+            400,
+            "새로운 비밀번호와 현재 비밀번호가 같습니다."
+          );
+      }
       const exUserDTO = {
         track,
         generation,
@@ -88,7 +101,8 @@ class UserController {
   async updateImage(req, res, next) {
     try {
       const newProfile = req.file ? req.file.location : null;
-      if (!newProfile) throw new Error("요청 오류, 이미지 없음");
+      if (!newProfile)
+        throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "요청 오류, 이미지 없음");
 
       const userDTO = req.user;
       const result = await userService.updateImage(newProfile, userDTO);
