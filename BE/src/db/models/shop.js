@@ -28,9 +28,9 @@ class ShopModel {
       return buildRes("c", result);
     } catch {
       throw new ErrorFactory(
-        commonErrors.BAD_REQUEST,
-        400,
-        "동일한 이름의 식당이 존재하거나 Body의 요청 내용으로 DB에서 처리할 수 없습니다."
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
       );
     }
   }
@@ -81,6 +81,23 @@ class ShopModel {
     }
   }
 
+  async getByShopName(name) {
+    try {
+      const whereArr = o.objToQueryArray({ name });
+      const query = o.makeSelectQuery(undefined, whereArr);
+      console.log(query);
+
+      const [shop] = await pool.query(query);
+      return shop[0];
+    } catch {
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
+    }
+  }
+
   async update(newShopDTO, shopDTO) {
     try {
       const newDTO = o.objToQueryArray(newShopDTO);
@@ -92,9 +109,9 @@ class ShopModel {
       return buildRes("u", result);
     } catch {
       throw new ErrorFactory(
-        commonErrors.BAD_REQUEST,
-        400,
-        "동일한 이름의 식당이 존재하거나 Body의 요청 내용으로 DB에서 처리할 수 없습니다."
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
       );
     }
   }
