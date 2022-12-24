@@ -1,4 +1,4 @@
-import NavBar from '../../components/NavBar';
+import MainNavBar from './components/MainNavBar';
 import Footer from '../../components/Footer';
 import IntroSection from './components/IntroSection';
 import styled from 'styled-components';
@@ -15,7 +15,7 @@ const Content = styled.div`
 const MainPage = () => {
   return (
     <Content>
-      <NavBar />
+      <MainNavBar />
       <IntroSection />
       <SimpleSlider />
       <Footer />
