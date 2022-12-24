@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
 import Slider from 'react-slick';
@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
 import { NavLink } from 'react-router-dom';
+import { SocketContext } from '../../../socket/SocketContext';
 
 export interface Party {
   shopId: number;
@@ -30,7 +31,7 @@ const Div = styled.div`
   place-items: center;
 
   .slick-prev:before {
-    opaicty: 1;
+    opacity: 1;
     color: black;
     left: 0;
   }
@@ -55,6 +56,7 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
+    border: 1px solid black;
   } //item
 
   .slide {
@@ -99,7 +101,7 @@ const Div = styled.div`
   span {
     /* position: absolute; */
     top: 150px;
-    color: white;
+    color: black;
     font-size: 2rem;
     font-weight: bold;
   }
@@ -165,6 +167,7 @@ export default function SimpleSlider() {
 
   const [parties, setParties] = useState<Party[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
+  const socket = useContext(SocketContext);
 
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
@@ -183,14 +186,16 @@ export default function SimpleSlider() {
         <StyledSlider {...settings}>
           {parties.length === 0 && <div>활성화된 식당이 없습니다.</div>}
           {parties.map((party: Party, index: number) => (
-            <NavLink to={`/foodDetail:${party.shopId}`}>
+            <NavLink to={`/foodDetail/${party.shopId}`}>
               className={index === slideIndex ? 'slide slide-active' : 'slide'}
               key={`${party.shopId}`}
               <img src={party.shopPicture} alt="img" />
               <span>{party.name}</span>
               <span>{party.avgStar}</span>
               <span>{party.address}</span>
-              <Button variant="contained">찜하기</Button>
+              <Button variant="contained" sx={{ cursor: 'pointer' }}>
+                찜하기
+              </Button>
             </NavLink>
           ))}
         </StyledSlider>

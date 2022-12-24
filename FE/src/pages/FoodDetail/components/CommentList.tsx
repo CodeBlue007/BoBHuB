@@ -6,7 +6,9 @@ import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
 import { commentStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
-import * as API from "../../../api/API";
+import { deleteComment } from '../foodDetailApi';
+import type { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
 
 const ListContainer = styled(FlexContainer)`
   height: 150px;
@@ -51,27 +53,24 @@ const CustomButton = styled(Button)`
 
 interface CommentList {
   commentProp: commentStateType;
-  updateCommentState : () => void;
+  updateCommentState: () => void;
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, content, star,profile,nickName },
+  commentProp: { commentId, userId, content, star, profile, nickname },
   updateCommentState,
 }: CommentList) => {
   const [canRevise, setRevise] = useState<boolean>(false);
   const [canReadOnly, setReadOnly] = useState<boolean>(true);
   const [commentStar, setCommentStar] = useState<number | null>(star);
+  const loginUserId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
+
+  console.log(loginUserId);
 
   const handleRevise = (e: React.MouseEvent<HTMLButtonElement>) => {
     setRevise(true);
     setReadOnly(false);
   };
-
-  const deleteComment = async (commentId:number) => {
-    const res = await API.delete(`/api/comments/${commentId}`);
-    console.log(res);
-    updateCommentState();
-  }
 
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
@@ -79,6 +78,7 @@ const CommentList = ({
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     const commentId = Number(e.currentTarget.dataset.id);
     deleteComment(commentId);
+    updateCommentState();
   };
 
   const updateRevise = useCallback((bool: boolean) => {
@@ -89,7 +89,7 @@ const CommentList = ({
     setReadOnly(bool);
   }, []);
 
-  const userProfile = profile === null? undefined : profile;
+  const userProfile = profile === null ? undefined : profile;
 
   return (
     <>
@@ -98,7 +98,7 @@ const CommentList = ({
           <Avatar alt="userProfile" src={userProfile} sx={{ width: 55, height: 50 }} />
         </AvatarContainer>
         <ContentContainer>
-          <Typography component="legend">{nickName}</Typography>
+          <Typography component="legend">{nickname}</Typography>
           <Rating
             name="read-only"
             value={commentStar}
@@ -106,34 +106,34 @@ const CommentList = ({
             onChange={ratingChange}
           />
           <TextArea
-            commentId = {commentId}
-            commentStar ={commentStar}
+            commentId={commentId}
+            commentStar={commentStar}
             content={content}
             canRevise={canRevise}
             updateRevise={updateRevise}
             updateReadOnly={updateReadOnly}
           />
-          <div className="buttonWrap">
-            <CustomButton
-              sx={{backgroundColor:'#888870'}}
-              variant="contained"
-              color="secondary"
-              size="small"
-              startIcon={<CreateIcon />}
-              onClick={handleRevise}>
-              수정
-            </CustomButton>
-            <CustomButton
-              sx={{backgroundColor:'#a82a1e'}}
-              variant="contained"
-              color="error"
-              size="small"
-              data-id={commentId}
-              onClick={handleDelete}
-              startIcon={<DeleteIcon />}>
-              삭제
-            </CustomButton>
-          </div>
+          {userId === loginUserId && (
+            <div className="buttonWrap">
+              <CustomButton
+                variant="contained"
+                color="info"
+                size="small"
+                startIcon={<CreateIcon />}
+                onClick={handleRevise}>
+                수정
+              </CustomButton>
+              <CustomButton
+                variant="contained"
+                color="error"
+                size="small"
+                data-id={commentId}
+                onClick={handleDelete}
+                startIcon={<DeleteIcon />}>
+                삭제
+              </CustomButton>
+            </div>
+          )}
         </ContentContainer>
       </ListContainer>
     </>

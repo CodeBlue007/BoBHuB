@@ -77,7 +77,7 @@ MenuCard.defaultProps = defaultProps;
 export default MenuCard;
 
 const Container = styled.div`
-  background-color: ${(props) => props.theme.colors.innerContainer};
+  background-color:${({theme})=>theme.colors.background};
   border-radius: 10px;
   width: 400px;
   height: 470px;

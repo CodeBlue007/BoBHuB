@@ -21,15 +21,15 @@ export type UserType = {
 
 const Users = () => {
   const [users, setUsers] = useState<UserType[]>([]);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const fetchUserData = async () => {
     const users: UserType[] = await get('/api/admin/users');
     setUsers([...users]);
   };
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
   return (
     <Div>
       <H2>유저 조회</H2>

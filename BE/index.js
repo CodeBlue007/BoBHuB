@@ -11,7 +11,7 @@ const io = SocketIO(server, {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
-    credentials: true
+    credentials: true,
   }
 }); 
 
@@ -73,7 +73,7 @@ io.on("connection", (socket) => {
     console.log("socket is disconnected");
   });
 
-  socket.on("nickName", (nickname) => socket["nickname"] = nickname);
+  socket.on("nickname", (nickname) => socket["nickname"] = nickname);
 
 });
 

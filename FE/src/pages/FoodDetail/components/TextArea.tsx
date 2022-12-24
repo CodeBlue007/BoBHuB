@@ -1,16 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import * as API from "../../../api/API";
-import { postCommentType } from "../types/Type";
+import {patchComment} from "../foodDetailApi";
 
 
 const TextContainer = styled.div`
     display : flex;
     flex-direction: column;
-
 `
-
 const Button = styled.button`
 background-color: crimson;
 width : 60px;
@@ -63,10 +60,6 @@ const TextArea = ({commentId,commentStar,content,canRevise,updateRevise,updateRe
     const handleChange = (e:React.ChangeEvent<HTMLTextAreaElement>) =>{
         setTextValue(e.target.value);
     }
-    const patchComment = async(comment:postCommentType) => {
-        const res = await API.patch(`/api/comments/${commentId}`,comment);
-        console.log(res);
-    }
 
     const reviseEnd = (e:React.MouseEvent<HTMLButtonElement>) => {
         if(textValue === ""){
@@ -82,7 +75,7 @@ const TextArea = ({commentId,commentStar,content,canRevise,updateRevise,updateRe
             content:textValue,
         }
 
-        patchComment(reviseComment);
+        patchComment(reviseComment, commentId);
         updateRevise(false);
         updateReadOnly(true);
     }

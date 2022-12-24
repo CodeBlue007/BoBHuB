@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { shopStateType } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
+import { getParties, postParty } from '../foodDetailApi';
 
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
@@ -15,7 +16,7 @@ const ContentContainer = styled(FlexContainer)`
 
 const MenuContainer = styled(FlexContainer)`
   width: inherit;
-  margin-top : 40px;
+  margin-top: 40px;
   align-items: flex-start;
   justify-content: space-between;
 `;
@@ -23,7 +24,7 @@ const MenuContainer = styled(FlexContainer)`
 const TitleContainer = styled(FlexContainer)`
   width: inherit;
   justify-content: space-between;
-  padding : 20px 0;
+  padding: 20px 0;
   border-bottom: 0.5px solid black;
   height: 15%;
 `;
@@ -44,8 +45,8 @@ const MenuCard = styled(Card)<menuCardProps>`
   padding: 20px;
   margin-left: 30px;
   font-size: 20px;
-  flex : 2;
-  p{
+  flex: 2;
+  p {
     margin-bottom: 20px;
   }
 `;
@@ -64,16 +65,32 @@ interface Contentype {
 
 const Content = ({ shop }: Contentype) => {
   const [isClicked, setClicked] = useState<boolean>(false);
-  const [people, setPeople] = useState<number>(2);
-  const [duration, setDuration] = useState<number>(15);
+  const [partyLimit, setpartyLimit] = useState<number>(2);
+  const [timeLimit, setTimeLimit] = useState<number>(15);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isClicked) {
       alert('이미 찜한 식당입니다.');
       return;
     }
-    setClicked(true);
-    alert('찜하기를 완료했습니다.');
+    const currentParties = await getParties();
+    const copyCurrent = [...currentParties];
+    console.log(copyCurrent);
+    const filteredByShopId = copyCurrent.filter((current) => current.shopId === shop.shopId);
+    if (filteredByShopId.length !== 0) {
+      alert('이미 모집중인 식당입니다.');
+      return;
+    }
+    const party = {
+      shopId: shop.shopId,
+      partyLimit,
+      timeLimit,
+    };
+    const message = await postParty(party);
+    if (message) {
+      alert('식당모집이 완료되었습니다.');
+      setClicked(true);
+    }
   };
 
   return (
@@ -96,17 +113,17 @@ const Content = ({ shop }: Contentype) => {
         <MenuCard size={'15px'} width={'20vw'}>
           <p>메뉴</p>
           <p>{shop.menu}</p>
-          <p>{shop.description} 추가테스트추가테스트
-          추가테스트추가테스트추가테스트추가테스트
-          추가테스트추가테스트추가테스트추가테스트
-          추가테스트추가테스트추가테스트추가테스트
-          추가테스트추가테스트</p>
+          <p>
+            {shop.description} 추가테스트추가테스트 추가테스트추가테스트추가테스트추가테스트
+            추가테스트추가테스트추가테스트추가테스트 추가테스트추가테스트추가테스트추가테스트
+            추가테스트추가테스트
+          </p>
           <p>주소: {shop.address}</p>
           <p>거리 : {shop.distance}</p>
         </MenuCard>
         <SelectContainer>
-          <SelectTags type={'People'} value={people} setValue={setPeople} />
-          <SelectTags type={'Duration'} value={duration} setValue={setDuration} />
+          <SelectTags type={'모집인원'} value={partyLimit} setValue={setpartyLimit} />
+          <SelectTags type={'유지시간'} value={timeLimit} setValue={setTimeLimit} />
         </SelectContainer>
       </MenuContainer>
     </ContentContainer>

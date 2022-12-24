@@ -15,7 +15,7 @@ export interface commentStateType extends postCommentType{
     createdAt : stringNull;
     updatedAt : stringNull;
     deletedAt : stringNull;
-    nickName : string;
+    nickname : string;
     profile : stringNull;
 }
 
@@ -44,6 +44,13 @@ export type menuStateType = {
     updatedAt : stringNull;
     deletedAt : stringNull;   
 }
+
+export type postPartyType = {
+    shopId: number;
+    timeLimit: number;
+    partyLimit: number;
+  };
+  
 
 export const initialShopState = {
     shopId: 0,

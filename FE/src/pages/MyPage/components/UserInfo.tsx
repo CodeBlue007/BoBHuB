@@ -16,7 +16,6 @@ import {
 } from '../../../util/validateRegister';
 import { validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
-import axios from 'axios';
 interface UserProps {
   userInfo: UserInfoType;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfoType>>;
@@ -106,17 +105,16 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
   };
 
   const nickDuplicationCheck = async () => {
-    const res = await API.get(`http://localhost:4000/msg`);
-    return res.data.message === '같은 닉네임이 있습니다.' ? true : false;
+    const res = await API.get(`api/users/nicknames/${inputChange}`);
+    return res.message === '같은 닉네임이 있습니다.' ? true : false;
   };
 
   const validInput = async (editSuccess: string) => {
     setUserInfo({ ...userInfo, [editSuccess]: inputChange });
-    setInputChange('');
-    console.log(userInfo);
-    const res = await axios.patch(`/api/users`, userInfo,{withCredentials:true});
+    const res = await API.patch(`/api/users`, userInfo);
     console.log(res);
     clickBtn_changeEditState(editSuccess);
+    setInputChange('');
   };
 
   const handleClickSuccess = async (e: React.MouseEvent<HTMLElement>, editSuccess: string) => {
@@ -132,15 +130,15 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
       if (!validateNickName(inputChange)) {
         alert('사용할 수 없는 닉네임입니다.');
         return;
-      } else if (await nickDuplicationCheck()) {
-        alert('이미 사용중인 닉네임입니다.');
-        return;
       } else {
-        validInput(editSuccess);
+        const nickExist = await nickDuplicationCheck();
+        if (nickExist) {
+          alert('이미 사용중인 닉네임입니다.');
+          return;
+        } else validInput(editSuccess);
       }
     } else if (editSuccess === 'phone') {
       if (!validatePhone(inputChange)) {
-        console.log(inputChange);
         alert('유효하지 않은 휴대폰 번호 형식입니다.');
         return;
       } else {
@@ -194,29 +192,32 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
               <TextField
                 value={inputChange}
                 onChange={handleUserInfoChange}
-                sx={{ height: '45px' }}
-                color="secondary"
+                sx={{ height: '45px', width: '315px' }}
                 size="small"
                 id="demo-helper-text-misaligned-no-helper"
-                label="Name"
                 error={!validateName(inputChange)}
                 helperText={
                   !validateName(inputChange)
-                    ? '이름은 한글 2~6글자이어야 합니다.'
+                    ? '한글 2~6글자이어야 합니다.'
                     : '사용할 수 있는 이름입니다.'
                 }
               />
             </Box>
             <Stack direction="row">
               <Button
-                sx={{ fontWeight: 'bold', margin: '15px 10px' ,backgroundColor:'#A82A1E',color:'white',border:'none'}}
+                sx={{
+                  fontWeight: 'bold',
+                  margin: '15px 10px',
+                  border: 'none',
+                }}
                 size="medium"
-                variant="outlined"
+                variant="contained"
+                color="error"
                 onClick={(e) => handleClickCancel(e, 'name')}>
                 취소
               </Button>
               <Button
-                sx={{ fontWeight: 'bold', margin: '15px 0px',backgroundColor:'#E59A59' }}
+                sx={{ fontWeight: 'bold', margin: '15px 0px' }}
                 size="medium"
                 variant="contained"
                 onClick={(e) => handleClickSuccess(e, 'name')}>
@@ -228,7 +229,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           <TableData>
             {userInfo.name}
             <UpdateIcon onClick={(e) => handleClickUpdate(e, 'name')}>
-              <CreateIcon sx={{ color: '#6a4a96' }} fontSize="small" />
+              <CreateIcon color="secondary" fontSize="small" />
             </UpdateIcon>
           </TableData>
         )}
@@ -236,7 +237,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
       <TableRow>
         <TableHeader>트랙 / 기수</TableHeader>
         <TableData>
-          {`${userInfo.track} ${userInfo.generation}기`}
+          {`${userInfo.track.toUpperCase()} ${userInfo.generation}기`}
           <WarningMessage>*최초 등록 후, 변경 불가합니다.</WarningMessage>
         </TableData>
       </TableRow>
@@ -247,15 +248,13 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
-                sx={{ height: '45px' }}
-                color="secondary"
+                sx={{ height: '45px', width: '315px' }}
                 size="small"
                 id="demo-helper-text-misaligned-no-helper"
-                label="Nickname"
                 error={!validateNickName(inputChange)}
                 helperText={
                   !validateNickName(inputChange)
-                    ? '닉네임은 한글·영문(대·소문자) 5~10글자이어야 합니다.'
+                    ? '한글·영문(대·소문자) 5~10글자이어야 합니다.'
                     : ''
                 }
               />
@@ -263,15 +262,14 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             <Stack direction="row">
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 10px' }}
-                color="secondary"
+                color="error"
                 size="medium"
-                variant="outlined"
+                variant="contained"
                 onClick={(e) => handleClickCancel(e, 'nickName')}>
                 취소
               </Button>
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 0' }}
-                color="secondary"
                 size="medium"
                 variant="contained"
                 onClick={(e) => handleClickSuccess(e, 'nickName')}>
@@ -281,9 +279,9 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           </>
         ) : (
           <TableData>
-            {userInfo.nickName}
+            {userInfo.nickname}
             <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nickName')}>
-              <CreateIcon sx={{ color: '#6a4a96' }} fontSize="small" />
+              <CreateIcon color="secondary" fontSize="small" />
             </UpdateIcon>
           </TableData>
         )}
@@ -295,11 +293,9 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
-                sx={{ height: '45px' }}
-                color="secondary"
+                sx={{ height: '45px', width: '315px' }}
                 size="small"
                 id="demo-helper-text-misaligned-no-helper"
-                label="Phone"
                 error={!validatePhone(inputChange)}
                 helperText={!validatePhone(inputChange) ? '유효한 휴대폰번호 형식이 아닙니다.' : ''}
               />
@@ -307,15 +303,14 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             <Stack direction="row">
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 10px' }}
-                color="secondary"
+                color="error"
                 size="medium"
-                variant="outlined"
+                variant="contained"
                 onClick={(e) => handleClickCancel(e, 'phone')}>
                 취소
               </Button>
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 0' }}
-                color="secondary"
                 size="medium"
                 variant="contained"
                 onClick={(e) => handleClickSuccess(e, 'phone')}>
@@ -327,7 +322,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           <TableData>
             {userInfo.phone}
             <UpdateIcon onClick={(e) => handleClickUpdate(e, 'phone')}>
-              <CreateIcon sx={{ color: '#6a4a96' }} fontSize="small" />
+              <CreateIcon color="secondary" fontSize="small" />
             </UpdateIcon>
           </TableData>
         )}
@@ -339,11 +334,9 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
-                sx={{ height: '45px' }}
-                color="secondary"
+                sx={{ height: '45px', width: '315px' }}
                 size="small"
                 id="demo-helper-text-misaligned-no-helper"
-                label="Email"
                 error={!validateEmail(inputChange)}
                 helperText={!validateEmail(inputChange) ? '유효한 이메일 형식이 아닙니다.' : ''}
               />
@@ -351,15 +344,14 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             <Stack direction="row">
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 10px' }}
-                color="secondary"
                 size="medium"
-                variant="outlined"
+                color="error"
+                variant="contained"
                 onClick={(e) => handleClickCancel(e, 'email')}>
                 취소
               </Button>
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 0' }}
-                color="secondary"
                 size="medium"
                 variant="contained"
                 onClick={(e) => handleClickSuccess(e, 'email')}>
@@ -371,7 +363,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           <TableData>
             {userInfo.email}
             <UpdateIcon onClick={(e) => handleClickUpdate(e, 'email')}>
-              <CreateIcon sx={{ color: '#6a4a96' }} fontSize="small" />
+              <CreateIcon color="secondary" fontSize="small" />
             </UpdateIcon>
           </TableData>
         )}
@@ -391,8 +383,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', marginLeft: '10px' }}>
               <TextField
-                sx={{ height: '45px' }}
-                color="secondary"
+                sx={{ height: '45px', width: '315px' }}
                 size="small"
                 id="outlined-password-input"
                 type="password"
@@ -401,7 +392,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
                 error={!validatePassword(pwUpdate.newPW)}
                 helperText={
                   !validatePassword(pwUpdate.newPW)
-                    ? '비밀번호는 8~20자리 영문·숫자 조합이어야 합니다.'
+                    ? '8~20자리 영문·숫자 조합이어야 합니다.'
                     : '새로운 비밀번호 입력란입니다.'
                 }
               />
@@ -409,7 +400,6 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <TextField
                 sx={{ height: '45px', margin: '20px 0 10px 10px', width: '315px' }}
-                color="secondary"
                 size="small"
                 id="outlined-password-input"
                 type="password"
@@ -425,15 +415,14 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
             <Stack direction="row">
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 10px' }}
-                color="secondary"
                 size="medium"
-                variant="outlined"
+                variant="contained"
+                color="error"
                 onClick={(e) => handleClickCancel(e, 'password')}>
                 취소
               </Button>
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 0' }}
-                color="secondary"
                 size="medium"
                 variant="contained"
                 onClick={(e) => handleClickSuccess(e, 'password')}>
@@ -445,7 +434,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           <TableData>
             ********
             <UpdateIcon onClick={(e) => handleClickUpdate(e, 'password')}>
-              <CreateIcon sx={{ color: '#712E1E' }} fontSize="small" />
+              <CreateIcon color="secondary" fontSize="small" />
             </UpdateIcon>
           </TableData>
         )}
@@ -458,8 +447,8 @@ export default UserInfo;
 
 export const Table = styled.table`
   border-collapse: collapse;
-  border-bottom: 1.5px solid #c9cacc;
-  border-top: 1.5px solid #c9cacc;
+  border-bottom: 1.5px solid ${(props) => props.theme.colors.lightGray};
+  border-top: 1.5px solid ${(props) => props.theme.colors.lightGray};
   border-left: none;
   border-right: none;
   width: 500px;
@@ -470,15 +459,15 @@ export const TableRow = styled.tr``;
 
 export const TableHeader = styled.th`
   padding: 30px;
-  border-top: 0.5px solid #c9cacc;
+  border-top: 0.5px solid ${(props) => props.theme.colors.lightGray};
   background-color: #fcf3eb;
   font-size: 14px;
 `;
 
 export const TableData = styled.td`
   padding: 30px;
-  border-top: 0.5px solid #c9cacc;
-  border-left: 1.5px solid #c9cacc;
+  border-top: 0.5px solid ${(props) => props.theme.colors.lightGray};
+  border-left: 1.5px solid ${(props) => props.theme.colors.lightGray};
 `;
 
 const UpdateIcon = styled.button`

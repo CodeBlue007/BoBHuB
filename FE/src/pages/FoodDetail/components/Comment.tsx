@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { TextField, Button, Typography, Rating } from '@mui/material';
 import React, { useState } from 'react';
-import { postCommentType } from '../types/Type';
-import * as API from "../../../api/API";
+import { postComment } from '../foodDetailApi';
 
 
 const CommentContainer = styled.form`
@@ -36,11 +35,6 @@ const Comment = ({updateCommentState, shopId, scrollRef} : commnetProps) => {
 
   const [content, setContent] = useState<string>("");
   const [starValue, setStarValue] = useState<number | null>(5);
-
-  const postComment = async(comment:postCommentType) => {
-    const res = API.post("/api/comments",comment);
-    console.log(res);
-  }
 
   const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setStarValue(newValue);
   const fieldChange = (e:React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);

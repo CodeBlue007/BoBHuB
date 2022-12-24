@@ -67,6 +67,5 @@
     "@types/styled-components": "^5.1.26",
     "json-server": "^0.17.1",
     "nodemon": "^2.0.20"
-  },
-  "proxy": "http://localhost:5000/"
+  }
 }
