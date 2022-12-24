@@ -8,7 +8,7 @@ class LoginController {
         return next(authError);
       }
       if (!user) {
-        return res.redirect(`${bobhubUrl}/?loginError=${info.message}`);
+        return res.redirect(`${bobhubUrl}/login?loginError=${info.message}`);
       }
       return req.login(user, (loginError) => {
         if (loginError) {
@@ -27,7 +27,7 @@ class LoginController {
       }
     });
     res.clearCookie("connect.sid");
-    res.redirect("/");
+    res.redirect(`${bobhubUrl}`);
   }
 }
 
