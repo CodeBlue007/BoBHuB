@@ -47,14 +47,14 @@ const BoxContainer = styled.div`
   background-color: ${(props) => props.theme.colors.container};
   border-radius: 4px;
 
-  height: 800px; //85vh;
+  height: 800px;
   padding: 0px 20px;
 
   margin-bottom: 80px;
 
   & input {
     font-size: 15px;
-    width: 540px; //28vw;
+    width: 540px;
   }
 
   & div {
@@ -90,10 +90,11 @@ const BoxContainer = styled.div`
 
   & button {
     margin: 20px auto;
-    width: 573px; //29.7vw;
+    width: 573px;
     height: 5vh;
     font-size: 20px;
     font-weight: 600;
+    letter-spacing: 1.5px;
     border: none;
   }
 
@@ -109,7 +110,7 @@ const BoxContainer = styled.div`
   & .backToLogin {
     font-size: 14px;
     margin-top: -5px;
-    margin-right: 413px; //21.5vw;
+    margin-right: 413px;
   }
 `;
 

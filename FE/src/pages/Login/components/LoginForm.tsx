@@ -8,7 +8,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import loginThumbnail from '../../../assets/talk.jpg';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
-import axios from 'axios';
+import logo from '../../../assets/BoBHuB_logo.png';
 
 const LoginFormContainer = styled.form`
   display: flex;
@@ -18,10 +18,9 @@ const LoginFormContainer = styled.form`
 
   margin: 15vh auto;
 
-  & h1 {
-    margin: 20px auto 30px auto;
-    font-size: 2rem;
-    font-weight: 700;
+  & img {
+    margin: 0px auto 10px auto;
+    width: 160px;
   }
 `;
 
@@ -37,12 +36,12 @@ const ImgContainer = styled.div`
   & h1 {
     margin: 20px auto;
     font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-weight: 1000;
+    letter-spacing: 1.5px;
   }
 
   & img {
-    width: 35vw;
+    width: 480px;
     border-radius: 2px;
     opacity: 80%;
   }
@@ -63,7 +62,7 @@ const BoxContainer = styled.div`
 
   & input {
     font-size: 15px;
-    width: 25vw;
+    width: 380px;
     height: 4vh;
   }
 
@@ -83,10 +82,11 @@ const BoxContainer = styled.div`
 
   & button {
     margin: 20px auto;
-    width: 26.7vw;
+    width: 413px;
     height: 5vh;
     font-size: 20px;
     font-weight: 600;
+    letter-spacing: 1.5px;
     border: none;
   }
 
@@ -102,7 +102,7 @@ const BoxContainer = styled.div`
   & .goToRegister {
     font-size: 14px;
     margin-top: -5px;
-    margin-right: 17.7vw;
+    margin-right: 243px;
   }
 `;
 
@@ -133,6 +133,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     onLoginSubmit(loginForm);
     const res = await API.post('/api/auth/login', loginForm);
+
     // form 초기화
     setLoginForm({
       email: '',
@@ -150,7 +151,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
       </ImgContainer>
 
       <BoxContainer>
-        <h1>[로고 들어갈 자리]</h1>
+        <img src={logo} alt="logo" />
         <TextField
           required
           name="email"

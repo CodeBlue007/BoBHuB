@@ -1,5 +1,4 @@
 import LoginForm from './LoginForm';
-import axios from 'axios';
 
 const LoginContent = () => {
   const onLoginSubmit = (loginForm: { email: string; password: string }) => {};
