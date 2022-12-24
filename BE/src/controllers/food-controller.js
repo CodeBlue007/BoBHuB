@@ -1,4 +1,5 @@
 const { foodService } = require("../services");
+const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class FoodController {
   async create(req, res, next) {
@@ -18,7 +19,9 @@ class FoodController {
   async getByShopId(req, res, next) {
     try {
       const shopId = parseInt(req.query.shopId);
-      console.log(shopId);
+      if (!shopId) {
+        throw new ErrorFactory(commonErrors.BAD_REQUEST, 400, "Query 입력값이 비어있습니다.");
+      }
       const foodList = await foodService.getByShopId(shopId);
       return res.status(200).json(foodList);
     } catch (e) {
@@ -41,7 +44,8 @@ class FoodController {
   async updateImage(req, res, next) {
     try {
       const newPicture = req.file ? req.file.location : null;
-      if (!newPicture) throw new Error("요청 오류, 이미지 없음");
+      if (!newPicture)
+        throw new ErrorFactory(commonErrors.BAD_REQUEST, 400, "요청 오류, 이미지 없음");
 
       const foodId = parseInt(req.params.foodId);
       const result = await foodService.updateImage(newPicture, foodId);
@@ -55,6 +59,13 @@ class FoodController {
   async deleteById(req, res, next) {
     try {
       const foodId = parseInt(req.params.foodId);
+      if (!foodId) {
+        throw new ErrorFactory(
+          commonErrors.BAD_REQUEST,
+          400,
+          "Parameter 입력값이 숫자가 아니거나 비어있습니다."
+        );
+      }
       const result = await foodService.deleteById(foodId);
       res.status(200).json(result);
     } catch (e) {
