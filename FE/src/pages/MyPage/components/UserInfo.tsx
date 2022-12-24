@@ -16,6 +16,8 @@ import {
 } from '../../../util/validateRegister';
 import { validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
+import axios from 'axios';
+
 interface UserProps {
   userInfo: UserInfoType;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfoType>>;
@@ -135,6 +137,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         return;
       } else {
         validInput(editSuccess);
+        console.log(userInfo);
       }
     } else if (editSuccess === 'nickName') {
       if (!validateNickName(inputChange)) {

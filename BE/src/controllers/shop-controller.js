@@ -1,4 +1,4 @@
-const { shopService } = require('../services');
+const { shopService } = require("../services");
 
 class ShopController {
   async create(req, res, next) {
@@ -64,7 +64,7 @@ class ShopController {
           address,
           description,
         },
-        shopId,
+        shopId
       );
 
       return res.status(200).json(result);
@@ -76,12 +76,12 @@ class ShopController {
   async updateImage(req, res, next) {
     try {
       const { menu, shopPicture } = req.files;
-      if (!(menu && shopPicture)) throw new Error('요청 오류, 이미지 없음');
+      if (!(menu && shopPicture)) throw new Error("요청 오류, 이미지 없음");
 
       const newImageDTO = {};
       newImageDTO.menu = menu ? menu[0].location : null;
       newImageDTO.shopPicture = shopPicture ? shopPicture[0].location : null;
-      console.log(newImageDTO);
+
       const shopId = parseInt(req.params.shopId);
 
       const result = await shopService.updateImage(newImageDTO, shopId);
