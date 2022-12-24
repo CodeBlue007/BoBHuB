@@ -20,9 +20,10 @@ import * as API from '../../../api/API';
 interface UserProps {
   userInfo: UserInfoType;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfoType>>;
+  isLoaded: React.MutableRefObject<boolean>;
 }
 
-const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
+const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
   const [userInfoEditing, setUserInfoEditing] = useState({
     isNameEditing: false,
     isNickEditing: false,
@@ -46,6 +47,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           isEmailEditing: false,
           isPWEditing: false,
         });
+        isLoaded.current = true;
         break;
       case 'nickName':
         setUserInfoEditing({
@@ -55,6 +57,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           isEmailEditing: false,
           isPWEditing: false,
         });
+        isLoaded.current = true;
         break;
       case 'phone':
         setUserInfoEditing({
@@ -64,6 +67,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           isEmailEditing: false,
           isPWEditing: false,
         });
+        isLoaded.current = true;
         break;
       case 'email':
         setUserInfoEditing({
@@ -73,6 +77,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           isEmailEditing: true,
           isPWEditing: false,
         });
+        isLoaded.current = true;
         break;
       case 'password':
         setUserInfoEditing({
@@ -82,6 +87,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
           isEmailEditing: false,
           isPWEditing: true,
         });
+        isLoaded.current = true;
         break;
     }
   };
@@ -112,8 +118,6 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
 
   const validInput = async (editSuccess: string) => {
     setUserInfo({ ...userInfo, [editSuccess]: inputChange });
-    const res = await API.patch(`/api/users`, userInfo);
-    console.log(res);
     clickBtn_changeEditState(editSuccess);
     setInputChange('');
   };
