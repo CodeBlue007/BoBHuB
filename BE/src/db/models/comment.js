@@ -14,9 +14,9 @@ class CommentModel {
       return buildRes("c", result);
     } catch {
       throw new ErrorFactory(
-        commonErrors.BAD_REQUEST,
-        400,
-        "이미 작성한 내역이 있는 식당이거나 Body의 요청 내용이 잘못되었습니다."
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
       );
     }
   }
