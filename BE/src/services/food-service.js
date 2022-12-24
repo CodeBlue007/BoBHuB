@@ -1,13 +1,28 @@
-const { foodModel } = require("../db/models");
+const { foodModel, shopModel } = require("../db/models");
 const { imageDeleter } = require("../middlewares");
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class FoodService {
   constructor(foodModel) {
     this.foodModel = foodModel;
+    this.shopModel = shopModel;
   }
 
   async create(foodDTO) {
+    // shopModel에서 shop 존재 여부 검증
+    const shop = await this.shopModel.getByShopId(foodDTO.shopId);
+    if (!shop) {
+      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
+    }
+    const food = await this.foodModel.getByName(foodDTO.name);
+    console.log(food);
+    if (food) {
+      throw new ErrorFactory(
+        commonErrors.BAD_REQUEST,
+        400,
+        "동일한 대표 메뉴가 존재합니다."
+      );
+    }
     const result = await this.foodModel.create(foodDTO);
     return result;
   }

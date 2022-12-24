@@ -14,9 +14,9 @@ class FoodModel {
       return buildRes("c", result);
     } catch {
       throw new ErrorFactory(
-        commonErrors.BAD_REQUEST,
-        400,
-        "동일한 대표 메뉴가 존재하거나 Body의 요청 내용으로 DB에서 처리할 수 없습니다."
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
       );
     }
   }
@@ -36,6 +36,7 @@ class FoodModel {
       );
     }
   }
+
   async getByShopId(shopId) {
     try {
       const whereArr = o.objToQueryArray({ shopId });
@@ -44,6 +45,23 @@ class FoodModel {
 
       const [food] = await pool.query(query);
       return food;
+    } catch {
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
+    }
+  }
+
+  async getByName(name) {
+    try {
+      const whereArr = o.objToQueryArray({ name });
+      const query = o.makeSelectQuery(undefined, whereArr);
+      console.log(query);
+
+      const [shop] = await pool.query(query);
+      return shop[0];
     } catch {
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
