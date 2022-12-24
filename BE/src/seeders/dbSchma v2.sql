@@ -10,8 +10,8 @@ CREATE TABLE IF NOT EXISTS `category` (
 );
 CREATE TABLE IF NOT EXISTS `shop` (
   `shopId` INTEGER NOT NULL auto_increment, 
-  `category` VARCHAR(45) , 
-  `name` VARCHAR(45) UNIQUE, 
+  `category` VARCHAR(45) NOT NULL , 
+  `name` VARCHAR(45) UNIQUE NOT NULL , 
   `distance` INTEGER, 
   `address` VARCHAR(45), 
   `menu` VARCHAR(110), 
