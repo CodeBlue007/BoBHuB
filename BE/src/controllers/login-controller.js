@@ -1,5 +1,5 @@
 const passport = require("passport");
-
+const bobhubUrl = process.env.BOB_HUB_URL;
 class LoginController {
   login(req, res, next) {
     passport.authenticate("local", (authError, user, info) => {
@@ -8,14 +8,14 @@ class LoginController {
         return next(authError);
       }
       if (!user) {
-        return res.redirect(`/?loginError=${info.message}`);
+        return res.redirect(`${bobhubUrl}/login?loginError=${info.message}`);
       }
       return req.login(user, (loginError) => {
         if (loginError) {
           console.error(loginError);
           return next(loginError);
         }
-        return res.redirect("/"); //세션쿠키를 브라우저로 보냄
+        return res.redirect(`${bobhubUrl}`); //세션쿠키를 브라우저로 보냄
       });
     })(req, res, next);
   }
@@ -27,7 +27,7 @@ class LoginController {
       }
     });
     res.clearCookie("connect.sid");
-    res.redirect("/");
+    res.redirect(`${bobhubUrl}`);
   }
 }
 

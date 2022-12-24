@@ -47,17 +47,16 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const dispatch = useDispatch<AppDispatch>();
 
-  const addMessage = (msg : string, currentRoom:string) => {
-    if(currentRoom !== roomName) return;
+  const addMessage = (msg: string, currentRoom: string) => {
+    if (currentRoom !== roomName) return;
     const message = `${userName} : ${msg}`;
-    dispatch(chatAction.updateRoom({roomName, payload:message}))
-  }
+    dispatch(chatAction.updateRoom({ roomName, payload: message }));
+  };
 
-  const enterRoom = () =>{
+  const enterRoom = () => {
     const message = `${userName}님이 방에 입장하셨습니다.`;
-    dispatch(chatAction.updateRoom({roomName, payload:message}))
-
-  }
+    dispatch(chatAction.updateRoom({ roomName, payload: message }));
+  };
 
   const sendMessage = (e: sendMessageType) => {
     e.preventDefault();
@@ -73,30 +72,28 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
     enterRoom();
     socket.on('welcome', (nick, getRoomName) => {
       const welcome = `${nick}님이 입장하셨습니다.`;
-      if(roomName === getRoomName){
-        dispatch(chatAction.updateRoom({roomName, payload:welcome}))
+      if (roomName === getRoomName) {
+        dispatch(chatAction.updateRoom({ roomName, payload: welcome }));
       }
     });
-  
-    socket.on("getMessage", (currentRoom, msg)=> { 
-      if(currentRoom !== roomName) return;
 
-      dispatch(chatAction.updateRoom({roomName, payload:msg}));
-    })
+    socket.on('getMessage', (currentRoom, msg) => {
+      if (currentRoom !== roomName) return;
+
+      dispatch(chatAction.updateRoom({ roomName, payload: msg }));
+    });
   }, []);
-
 
   useEffect(() => {
     scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
   }, [messages]);
- 
 
   return (
     <>
       <form onSubmit={sendMessage}>
         <Title>{roomName}</Title>
         <TextContainer ref={scrollRef}>
-          {messages?.map((message:string, idx:number) => (
+          {messages?.map((message: string, idx: number) => (
             <Text key={`${message}${idx}`}>{message}</Text>
           ))}
         </TextContainer>
@@ -105,7 +102,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
             hiddenLabel
             id="filled-basic"
             variant="filled"
-            size='small'
+            size="small"
             sx={{
               width: '200px',
               marginLeft: '10px',
@@ -118,9 +115,9 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
           />
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             size="small"
-            sx={{ backgroundColor: '#E59A59', height: '46px', width: '50px' }}
+            sx={{ height: '46px', width: '50px' }}
             onClick={sendMessage}>
             전송
           </Button>

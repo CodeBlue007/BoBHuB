@@ -43,12 +43,11 @@ class FoodController {
   }
   async updateImage(req, res, next) {
     try {
-      const newPicture = req.file ? req.file.location : null;
-      if (!newPicture)
-        throw new ErrorFactory(commonErrors.BAD_REQUEST, 400, "요청 오류, 이미지 없음");
+      const picture = req.file ? req.file.location : null;
+      if (!picture) throw new Error("요청 오류, 이미지 없음");
 
       const foodId = parseInt(req.params.foodId);
-      const result = await foodService.updateImage(newPicture, foodId);
+      const result = await foodService.updateImage(picture, foodId);
 
       return res.status(200).json(result);
     } catch (e) {

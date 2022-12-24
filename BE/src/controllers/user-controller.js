@@ -100,12 +100,11 @@ class UserController {
 
   async updateImage(req, res, next) {
     try {
-      const newProfile = req.file ? req.file.location : null;
-      if (!newProfile)
-        throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "요청 오류, 이미지 없음");
+      const profile = req.file ? req.file.location : null;
+      if (!profile) throw new Error("요청 오류, 이미지 없음");
 
       const userDTO = req.user;
-      const result = await userService.updateImage(newProfile, userDTO);
+      const result = await userService.updateImage(profile, userDTO);
 
       return res.status(200).json(result);
     } catch (e) {
