@@ -45,17 +45,16 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   const scrollRef = useRef<HTMLUListElement>(null);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
 
+  const enterRoom = () => {
+    const welcome = '방에 입장하셨습니다.';
+    setMessages((current) => [...current, welcome]);
+  };
 
-  const enterRoom = () =>{
-    const welcome = "방에 입장하셨습니다."
-    setMessages((current)=> [...current, welcome]);
-  }
-
-  const addMessage = (msg : string, currentRoom:string) => {
-    if(currentRoom !== roomName) return;
+  const addMessage = (msg: string, currentRoom: string) => {
+    if (currentRoom !== roomName) return;
     const message = `${userName} : ${msg}`;
-    setMessages((current) => [...current, message])
-  }
+    setMessages((current) => [...current, message]);
+  };
 
   const sendMessage = (e: sendMessageType) => {
     e.preventDefault();
@@ -68,26 +67,24 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   };
 
   useEffect(() => {
-
     enterRoom();
 
     socket.on('welcome', (nick, getRoomName) => {
       const welcome = `${nick}님이 입장하셨습니다.`;
-      if(roomName === getRoomName){
+      if (roomName === getRoomName) {
         setMessages((current) => [...current, welcome]);
       }
     });
-  
-    socket.on("getMessage", (currentRoom, msg)=> { 
-      if(currentRoom !== roomName) return;
+
+    socket.on('getMessage', (currentRoom, msg) => {
+      if (currentRoom !== roomName) return;
       setMessages((current) => [...current, msg]);
-    })
+    });
   }, []);
 
   useEffect(() => {
     scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
   }, [messages]);
- 
 
   return (
     <>
@@ -103,7 +100,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
             hiddenLabel
             id="filled-basic"
             variant="filled"
-            size='small'
+            size="small"
             sx={{
               width: '200px',
               marginLeft: '10px',
@@ -116,9 +113,9 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
           />
           <Button
             variant="contained"
-            color="secondary"
+            color="primary"
             size="small"
-            sx={{ backgroundColor: '#E59A59', height: '46px', width: '50px' }}
+            sx={{ height: '46px', width: '50px' }}
             onClick={sendMessage}>
             전송
           </Button>

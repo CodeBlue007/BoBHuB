@@ -7,6 +7,7 @@ import { loginUserData, userAction } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
 import { get } from '../api/API';
 import MyParty from './MyParty';
+import styled from 'styled-components';
 
 const NavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -33,7 +34,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor:'#E59A59'}}>
+    <AppBar position="static">
       <Toolbar>
         <Link to="/">
           <IconButton>

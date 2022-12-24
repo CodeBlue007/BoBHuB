@@ -17,7 +17,7 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-family:'Pretendard-Regular',Pretendard;
+	font-family:'Pretendard-Regular';
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
@@ -28,7 +28,7 @@ footer, header, hgroup, menu, nav, section {
 	display: block;
 }
 body {
-	font-family:Pretendard;
+	font-family:'Pretendard-Regular';
 	line-height: 1;
 }
 ol, ul {

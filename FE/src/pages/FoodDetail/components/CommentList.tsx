@@ -116,16 +116,14 @@ const CommentList = ({
           {userId === loginUserId && (
             <div className="buttonWrap">
               <CustomButton
-                sx={{ backgroundColor: '#888870' }}
                 variant="contained"
-                color="secondary"
+                color="info"
                 size="small"
                 startIcon={<CreateIcon />}
                 onClick={handleRevise}>
                 수정
               </CustomButton>
               <CustomButton
-                sx={{ backgroundColor: '#a82a1e' }}
                 variant="contained"
                 color="error"
                 size="small"

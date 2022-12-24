@@ -211,7 +211,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
           }
         />
 
-        <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>
+        <Button variant="contained" type="submit">
           로그인
         </Button>
         <div className="goToRegister">
