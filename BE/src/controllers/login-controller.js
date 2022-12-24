@@ -27,7 +27,7 @@ class LoginController {
       }
     });
     res.clearCookie("connect.sid");
-    res.redirect("/");
+    res.redirect(`${bobhubUrl}`);
   }
 }
 
