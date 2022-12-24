@@ -38,19 +38,18 @@ const Div = styled.div`
     opacity: 0.75;
     color: #000000;
     -webkit-font-smoothing: antialiased;
-    z-index: 999;
+    position: absolute;
+    top: -235px;
   }
 
   .slick-prev:before {
     position: absolute;
     left: 100px;
-    top: -20px;
   }
 
   .slick-next:before {
     position: absolute;
     right: 100px;
-    top: -20px;
   }
   .slick-slider {
     padding: 0 15px;
@@ -77,30 +76,30 @@ const Div = styled.div`
     transition: 0.3s;
     filter: blur (5px);
   }
-  .slide-active {
+  .slide-center {
     opacity: 1;
     transform: scale(1);
   }
 
-  .arrow {
-    font-size: 3em;
-    padding: 5px 15px;
-    border-radius: 10px;
-    width: 10px;
-    position: absolute;
-    top: 180px;
-    background-color: transparent;
-    color: white;
-  }
+  // .arrow {
+  //   font-size: 3em;
+  //   padding: 5px 15px;
+  //   border-radius: 10px;
+  //   width: 10px;
+  //   position: absolute;
+  //   top: 50px;
+  //   background-color: transparent;
+  //   color: white;
+  // }
 
-  .arrow-right {
-    right: 30px;
-  }
+  // .arrow-right {
+  //   right: 30px;
+  // }
 
-  .arrow-left {
-    left: -15px;
-    z-index: 999;
-  }
+  // .arrow-left {
+  //   left: -15px;
+  //   z-index: 999;
+  // }
 
   img {
     margin: auto auto 50px auto;
@@ -125,6 +124,7 @@ const TitleBox = styled.div`
   margin: 30px 30px 30px 30px;
   color: #424140;
   font-weight: bold;
+  text-align: center;
 `;
 
 // export function NextArrow() {
@@ -199,7 +199,7 @@ export default function SimpleSlider() {
           {parties.length === 0 && <div>활성화된 식당이 없습니다.</div>}
           {parties.map((party: Party, index: number) => (
             <NavLink to={`/foodDetail/${party.shopId}`}>
-              className={index === slideIndex ? 'slide slide-active' : 'slide'}
+              className={index === slideIndex ? 'slide slide-center' : 'slide'}
               key={`${party.shopId}`}
               <img src={party.shopPicture} alt="img" />
               <span>{party.name}</span>
