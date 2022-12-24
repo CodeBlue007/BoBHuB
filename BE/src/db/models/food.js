@@ -64,9 +64,9 @@ class FoodModel {
       return buildRes("u", result);
     } catch {
       throw new ErrorFactory(
-        commonErrors.DB_ERROR,
-        500,
-        "요청한 내용으로 DB에서 처리할 수 없습니다."
+        commonErrors.BAD_REQUEST,
+        400,
+        "동일한 대표 메뉴가 존재하거나 Body의 요청 내용으로 DB에서 처리할 수 없습니다."
       );
     }
   }
