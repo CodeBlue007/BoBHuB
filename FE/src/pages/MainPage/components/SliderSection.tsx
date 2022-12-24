@@ -102,11 +102,10 @@ const Div = styled.div`
   // }
 
   img {
-    margin: auto auto 50px auto;
+    margin: auto auto 10px auto;
     max-height: 200px;
     overflow: hidden;
     width: 100%;
-    z-index: -1;
   }
 
   span {
@@ -125,6 +124,14 @@ const TitleBox = styled.div`
   color: #424140;
   font-weight: bold;
   text-align: center;
+`;
+
+const Description = styled.div`
+  display: flex;
+  flex-direction: column;
+  span {
+    font-size: 20px;
+  }
 `;
 
 // export function NextArrow() {
@@ -202,9 +209,11 @@ export default function SimpleSlider() {
               className={index === slideIndex ? 'slide slide-center' : 'slide'}
               key={`${party.shopId}`}
               <img src={party.shopPicture} alt="img" />
-              <span>{party.name}</span>
-              <span>{party.avgStar}</span>
-              <span>{party.address}</span>
+              <Description>
+                <span>{party.name}</span>
+                <span>{party.avgStar}</span>
+                <span>{party.address}</span>
+              </Description>
               <Button variant="contained" sx={{ cursor: 'pointer' }}>
                 찜하기
               </Button>
