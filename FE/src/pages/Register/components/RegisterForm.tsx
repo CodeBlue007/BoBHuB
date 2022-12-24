@@ -30,7 +30,7 @@ const RegisterFormContainer = styled.form`
   justify-content: center;
   align-items: center;
 
-  margin: 2vh auto 3vh auto;
+  margin: 10px auto 0px auto;
 
   & img {
     margin: 50px auto 10px auto;

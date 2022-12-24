@@ -5,22 +5,22 @@ import { TextField, Button } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import KeyIcon from '@mui/icons-material/Key';
 import InputAdornment from '@mui/material/InputAdornment';
-import loginThumbnail from '../../../assets/talk.jpg';
+import loginThumbnail from '../../../assets/loginThumbnail.gif';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
 import logo from '../../../assets/BoBHuB_logo.png';
 
-const LoginFormContainer = styled.form`
+const ImgFormContainer = styled.form`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
-  margin: 15vh auto;
+  padding: 195px auto;
 
   & img {
-    margin: 0px auto 10px auto;
     width: 160px;
+    margin: 10px auto;
   }
 `;
 
@@ -28,10 +28,9 @@ const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-
-  margin-right: 100px;
-  padding: 0px 0px 10px 0px;
+  align-items: flex-start;
+  width: 50%;
+  background: '#fcf3eb';
 
   & h1 {
     margin: 20px auto;
@@ -41,13 +40,13 @@ const ImgContainer = styled.div`
   }
 
   & img {
-    width: 480px;
-    border-radius: 2px;
+    width: 100%;
+    height: 93.5vh;
     opacity: 80%;
   }
 `;
 
-const BoxContainer = styled.div`
+const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,10 +54,11 @@ const BoxContainer = styled.div`
   box-sizing: border-box;
 
   background-color: #fcf3eb;
-  border-radius: 4px;
+  border-radius: 10px;
 
-  height: 46vh;
-  padding: 0px 20px 0px 20px;
+  width: 30%;
+  height: 500px; //55vh; //93.5vh;
+  margin: 10% auto; //19.9vh auto;
 
   & input {
     font-size: 15px;
@@ -71,17 +71,17 @@ const BoxContainer = styled.div`
     margin: 10px auto;
   }
 
-  & #menu- > div > ul {
-    margin-top: 20px;
-  }
-
   & div div input {
     font-size: 18px;
-    color: #3a3b3c;
   }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
 
   & button {
-    margin: 20px auto;
+    margin: 25px auto 10px auto;
     width: 413px;
     height: 5vh;
     font-size: 20px;
@@ -101,8 +101,7 @@ const BoxContainer = styled.div`
 
   & .goToRegister {
     font-size: 14px;
-    margin-top: -5px;
-    margin-right: 243px;
+    margin-top: -10px;
   }
 `;
 
@@ -144,13 +143,13 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
   };
 
   return (
-    <LoginFormContainer onSubmit={handleLoginSubmit}>
-      <ImgContainer>
+    <ImgFormContainer onSubmit={handleLoginSubmit}>
+      {/* <ImgContainer>
         <h1>Welcome Back!</h1>
         <img src={loginThumbnail} alt="Bob-hub login thumbnail" />
-      </ImgContainer>
+      </ImgContainer> */}
 
-      <BoxContainer>
+      <FormContainer>
         <img src={logo} alt="logo" />
         <TextField
           required
@@ -210,16 +209,17 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               : ''
           }
         />
-
-        <Button variant="contained" type="submit">
-          로그인
-        </Button>
-        <div className="goToRegister">
-          아직 계정이 없나요? &nbsp;
-          <Link to="/register">회원가입</Link>
-        </div>
-      </BoxContainer>
-    </LoginFormContainer>
+        <ButtonContainer>
+          <Button variant="contained" type="submit">
+            로그인
+          </Button>
+          <div className="goToRegister">
+            아직 계정이 없나요? &nbsp;
+            <Link to="/register">회원가입</Link>
+          </div>
+        </ButtonContainer>
+      </FormContainer>
+    </ImgFormContainer>
   );
 };
 

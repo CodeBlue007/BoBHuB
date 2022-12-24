@@ -4,8 +4,10 @@ import { Row, Col } from 'antd';
 const Wrapper = styled.footer`
   display: flex;
   width: 99vw;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  height: 5vh;
+  /* height: 5vh; */
   margin: 0;
 `;
 
@@ -22,7 +24,7 @@ const Footer = () => {
           borderTop: '0.5px solid black',
           textAlign: 'center',
           fontSize: '0.8em',
-          marginTop: 'auto',
+          // marginTop: 'auto',
           boxSizing: 'border-box',
         }}>
         <Col>©SEJELMATRAMEN. ALL RIGHTS RESERVED</Col>
