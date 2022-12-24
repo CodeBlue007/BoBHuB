@@ -7,12 +7,19 @@ class PartyService {
     this.shopModel = shopModel;
   }
 
-  // 하나의 shopId당 하나의 partyId만 생성하는 로직이 필요함(미해결)
   async create(partyDTO) {
     // shopModel에서 shop 존재 여부 검증
     const shop = await this.shopModel.getByShopId(partyDTO.shopId);
     if (!shop) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
+    }
+    const checkExParty = await this.partyModel.get({userId: partyDTO.userId});
+    if (checkExParty.length !== 0) {
+      throw new ErrorFactory(
+        commonErrors.BAD_REQUEST,
+        400,
+        "해당 식당으로 만든 모임이 이미 존재합니다."
+      );
     }
     const result = await this.partyModel.create(partyDTO);
     return result;
