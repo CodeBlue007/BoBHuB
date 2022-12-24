@@ -1,5 +1,7 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("party");
+const buildRes = require("../../utils/build-response");
+const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class PartyModel {
   async create(partyDTO) {
@@ -9,9 +11,13 @@ class PartyModel {
       console.log(query);
 
       const [result] = await pool.query(query);
-      return result;
+      return buildRes("c", result);
     } catch (err) {
-      throw new Error(err);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
   async getAll() {
@@ -29,7 +35,11 @@ class PartyModel {
       const [parties] = await pool.query(query);
       return parties;
     } catch (err) {
-      throw new Error(err);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
@@ -43,7 +53,11 @@ class PartyModel {
       const [parties] = await pool.query(query);
       return parties;
     } catch (err) {
-      throw new Error(err);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
@@ -54,9 +68,13 @@ class PartyModel {
       const query = o.makeUpdateQuery(newDTO, oldDTO);
       console.log(query);
       const [result] = await pool.query(query);
-      return result;
+      return buildRes("u", result);
     } catch (err) {
-      throw new Error(err);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
@@ -67,9 +85,13 @@ class PartyModel {
       console.log(query);
 
       const [result] = await pool.query(query);
-      return result;
+      return buildRes("d", result);
     } catch (err) {
-      throw new Error(err);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 }
