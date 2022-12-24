@@ -1,5 +1,7 @@
 import { AppBar, IconButton, Toolbar, Typography, Stack, Button } from '@mui/material';
 import FastfoodIcon from '@mui/icons-material/Fastfood';
+import logo from '../assets/BoBHuB_logo.png';
+import title from '../assets/BoBHuB_text.png';
 import { Link } from 'react-router-dom';
 import { useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,6 +14,17 @@ import styled from 'styled-components';
 const BasicLink = styled(Link)`
   color: white;
   text-decoration: none;
+`;
+
+const Logo = styled.img`
+  width: 32px;
+  margin-top: 2px;
+  margin-right: 7px;
+`;
+
+const TitleLogo = styled.img`
+  width: 140px;
+  margin-top: 15px;
 `;
 
 const NavBar = () => {
@@ -38,15 +51,15 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#E59A59' }}>
+    <AppBar position="static">
       <Toolbar>
         <BasicLink to="/">
-          <IconButton>
-            <FastfoodIcon />
-          </IconButton>
+          <Logo src={logo} alt="BoBHuB logo" />
         </BasicLink>
         <Typography fontSize={30} component="div" sx={{ flexGrow: 1 }}>
-          <BasicLink to="/">Bobhub</BasicLink>
+          <BasicLink to="/">
+            <TitleLogo src={title} alt="BoBHuB titleLogo" />
+          </BasicLink>
         </Typography>
         <Stack direction="row" spacing={2}>
           <BasicLink to="/userGuide">
@@ -65,17 +78,17 @@ const NavBar = () => {
             <div></div>
           )}
           {isLogin ? (
-            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+            <BasicLink to="/">
               <Button onClick={logout} color="inherit">
                 로그아웃
               </Button>
-            </Link>
+            </BasicLink>
           ) : (
             <Fragment>
-              <BasicLink to="/login" style={{ color: 'white', textDecoration: 'none' }}>
+              <BasicLink to="/login">
                 <Button color="inherit">로그인</Button>
               </BasicLink>
-              <BasicLink to="/register" style={{ color: 'white', textDecoration: 'none' }}>
+              <BasicLink to="/register">
                 <Button color="inherit">회원가입</Button>
               </BasicLink>
             </Fragment>
