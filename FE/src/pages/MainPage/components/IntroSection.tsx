@@ -59,10 +59,7 @@ const IntroSection = () => {
           밥허브로 밥메이트 구해요~
         </div>
         <NavLink to="/foodList" className="navLink">
-          <Button
-            variant="contained"
-            style={{ zIndex: 1 }}
-            sx={{ backgroundColor: '#E59A59', width: '500px' }}>
+          <Button variant="contained" style={{ zIndex: 1 }} sx={{ width: '500px' }}>
             맛집 찾기
           </Button>
         </NavLink>

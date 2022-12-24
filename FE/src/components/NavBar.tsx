@@ -51,7 +51,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: '#E59A59' }}>
+    <AppBar position="static">
       <Toolbar>
         <BasicLink to="/">
           <Logo src={logo} alt="BoBHuB logo" />
