@@ -16,7 +16,6 @@ import {
 } from '../../../util/validateRegister';
 import { validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
-import axios from 'axios';
 
 interface UserProps {
   userInfo: UserInfoType;
@@ -113,7 +112,7 @@ const UserInfo = ({ userInfo, setUserInfo }: UserProps) => {
 
   const validInput = async (editSuccess: string) => {
     setUserInfo({ ...userInfo, [editSuccess]: inputChange });
-    const res = await axios.patch(`/api/users`, userInfo);
+    const res = await API.patch(`/api/users`, userInfo);
     console.log(res);
     clickBtn_changeEditState(editSuccess);
     setInputChange('');

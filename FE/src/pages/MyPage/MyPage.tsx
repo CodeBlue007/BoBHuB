@@ -5,6 +5,7 @@ import DeleteUser from './components/DeleteUser';
 import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import * as API from '../../api/API';
+import axios from 'axios';
 
 export type UserInfoType = {
   track: string;
@@ -51,7 +52,7 @@ const MyPage = () => {
     if (files === undefined) return;
     else {
       formData.append('profile', files);
-      const res = await API.post(`/api/users/image`, formData);
+      const res = await axios.post(`/api/users/image`, formData);
       setProfileImg(files);
     }
   };
