@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import UserInfo from './components/UserInfo';
 import NavBar from '../../components/NavBar';
 import DeleteUser from './components/DeleteUser';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Button from '@mui/material/Button';
 import * as API from '../../api/API';
+import axios from 'axios';
 
 export type UserInfoType = {
   track: string;
@@ -30,6 +31,8 @@ const MyPage = () => {
     role: '',
   });
 
+  const isLoaded = useRef<boolean>(false);
+
   // 사용자 정보 조회 api
   const getUserInfoAPI = async () => {
     const res = await API.get('/api/users');
@@ -43,6 +46,12 @@ const MyPage = () => {
       console.error(err);
     }
   }, []);
+  useEffect(() => {
+    if (isLoaded.current) {
+      const res = API.patch(`/api/users`, userInfo);
+      console.log(res);
+    }
+  }, [userInfo]);
 
   const updateProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const formData = new FormData();
@@ -51,7 +60,7 @@ const MyPage = () => {
     if (files === undefined) return;
     else {
       formData.append('profile', files);
-      const res = await API.post(`/api/users/image`, formData);
+      const res = await axios.post(`/api/users/image`, formData, { withCredentials: true });
       setProfileImg(files);
     }
   };
@@ -75,7 +84,7 @@ const MyPage = () => {
         </ImgContainer>
         <SubContainer>
           <SubTitle>회원정보</SubTitle>
-          <UserInfo setUserInfo={setUserInfo} userInfo={userInfo} />
+          <UserInfo setUserInfo={setUserInfo} userInfo={userInfo} isLoaded={isLoaded} />
           <DeleteTitle>계정탈퇴</DeleteTitle>
           <DeleteUser />
         </SubContainer>
