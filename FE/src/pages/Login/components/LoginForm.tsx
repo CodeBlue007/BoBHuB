@@ -133,7 +133,6 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     onLoginSubmit(loginForm);
     const res = await API.post('/api/auth/login', loginForm);
-
     // form 초기화
     setLoginForm({
       email: '',

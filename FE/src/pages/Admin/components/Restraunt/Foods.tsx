@@ -4,7 +4,7 @@ import FoodTable from './FoodTable';
 import { fetchFoodData } from '../../Api/foodApi';
 
 export type FoodType = {
-  shopId: string;
+  shopId: number;
   category: string;
   name: string;
   distance: number;
@@ -22,6 +22,7 @@ const Foods = () => {
   const setFoodsData = async () => {
     const data: FoodType[] = await fetchFoodData();
     setFoods([...data]);
+    console.log(data);
   };
 
   useEffect(() => {

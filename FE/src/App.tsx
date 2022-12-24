@@ -14,12 +14,12 @@ function App() {
     <Provider store={store}>
       <MuiThemeProvider theme={muitheme}>
         <ThemeProvider theme={theme}>
-          <SocketContext.Provider value={socket}>
-            <Router />
-            <ChatApp />
-            <GlobalStyle />
-            <GlobalFont />
-          </SocketContext.Provider>
+          {/* <SocketContext.Provider value={socket}> */}
+          <Router />
+          {/* <ChatApp /> */}
+          <GlobalStyle />
+          <GlobalFont />
+          {/* </SocketContext.Provider> */}
         </ThemeProvider>
       </MuiThemeProvider>
     </Provider>

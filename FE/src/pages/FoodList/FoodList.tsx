@@ -59,7 +59,7 @@ const FoodList = () => {
         cateValue = '중식';
         break;
       default:
-        cateValue='All'
+        cateValue = 'All';
         return;
     }
     if (cateValue === 'All') {
@@ -73,7 +73,7 @@ const FoodList = () => {
   // 식당전체조회 api
   const getFoodListAPI = async () => {
     const res = await API.get(`/api/shops`);
-    console.log(res)
+    console.log(res);
     setFoodList(res);
     setCategoryFoodList(res);
     setSearchList(res);
@@ -112,7 +112,7 @@ const FoodList = () => {
         </Box>
       </CategoryBox>
       <CardContainer>
-        {searchList.map((x, i) => {
+        {searchList?.map((x, i) => {
           const { name, category, description, food, avgStar, shopId } = x;
           return (
             <MenuCard
@@ -137,8 +137,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom:50px;
-  background-color:${({theme})=>theme.colors.container};
+  padding-bottom: 50px;
+  background-color: ${({ theme }) => theme.colors.container};
 `;
 
 const CategoryBox = styled.div`
@@ -147,7 +147,7 @@ const CategoryBox = styled.div`
 
 const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3,400px);
+  grid-template-columns: repeat(3, 400px);
   grid-column-gap: 18px;
   grid-row-gap: 32px;
 `;
