@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { Button } from '@mui/material';
 import Slider from 'react-slick';
@@ -7,6 +7,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
 import { NavLink } from 'react-router-dom';
+import { SocketContext } from '../../../socket/SocketContext';
 
 export interface Party {
   shopId: number;
@@ -18,7 +19,7 @@ export interface Party {
 
 const StyledSlider = styled(Slider)`
   border: 1px solid black;
-  height: 40vh;
+  height: 45vh;
 `;
 
 const Div = styled.div`
@@ -29,18 +30,28 @@ const Div = styled.div`
   width: 100%;
   place-items: center;
 
-  .slick-prev:before {
-    opaicty: 1;
-    color: black;
-    left: 0;
-  }
+  .slick-prev:before,
   .slick-next:before {
-    opacity: 1;
-    color: black;
+    font-family: 'slick';
+    font-size: 40px;
+    line-height: 1;
+    opacity: 0.75;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+    position: absolute;
+    top: -235px;
   }
 
+  .slick-prev:before {
+    position: absolute;
+    left: 100px;
+  }
+
+  .slick-next:before {
+    position: absolute;
+    right: 100px;
+  }
   .slick-slider {
-    overflow: hidden;
     padding: 0 15px;
   } //slider
 
@@ -55,7 +66,8 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
-    border : 1px solid black;
+    border: 1px solid black;
+    z-index: 1;
   } //item
 
   .slide {
@@ -64,30 +76,30 @@ const Div = styled.div`
     transition: 0.3s;
     filter: blur (5px);
   }
-  .slide-active {
+  .slide-center {
     opacity: 1;
     transform: scale(1);
   }
 
-  .arrow {
-    font-size: 3em;
-    padding: 5px 15px;
-    border-radius: 10px;
-    width: 10px;
-    /* position: absolute; */
-    top: 180px;
-    background-color: transparent;
-    color: white;
-  }
+  // .arrow {
+  //   font-size: 3em;
+  //   padding: 5px 15px;
+  //   border-radius: 10px;
+  //   width: 10px;
+  //   position: absolute;
+  //   top: 50px;
+  //   background-color: transparent;
+  //   color: white;
+  // }
 
-  .arrow-right {
-    right: 30px;
-  }
+  // .arrow-right {
+  //   right: 30px;
+  // }
 
-  .arrow-left {
-    left: -15px;
-    z-index: 10;
-  }
+  // .arrow-left {
+  //   left: -15px;
+  //   z-index: 999;
+  // }
 
   img {
     margin: auto auto 50px auto;
@@ -100,7 +112,7 @@ const Div = styled.div`
   span {
     /* position: absolute; */
     top: 150px;
-    color: white;
+    color: black;
     font-size: 2rem;
     font-weight: bold;
   }
@@ -112,23 +124,24 @@ const TitleBox = styled.div`
   margin: 30px 30px 30px 30px;
   color: #424140;
   font-weight: bold;
+  text-align: center;
 `;
 
-export function NextArrow() {
-  return (
-    <div className="arrow arrow-right">
-      <MdKeyboardArrowRight />
-    </div>
-  );
-}
+// export function NextArrow() {
+//   return (
+//     <div className="arrow arrow-right">
+//       <MdKeyboardArrowRight />
+//     </div>
+//   );
+// }
 
-export function PrevArrow() {
-  return (
-    <div className="arrow arrow-left">
-      <MdKeyboardArrowLeft />
-    </div>
-  );
-}
+// export function PrevArrow() {
+//   return (
+//     <div className="arrow arrow-left">
+//       <MdKeyboardArrowLeft />
+//     </div>
+//   );
+// }
 
 export default function SimpleSlider() {
   const settings = {
@@ -145,8 +158,8 @@ export default function SimpleSlider() {
     autoplaySpeed: 3000,
     pauseOnHover: true,
     draggable: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    // nextArrow: <NextArrow />,
+    // prevArrow: <PrevArrow />,
     beforeChange: (current: number, next: number) => setSlideIndex(next),
     responsive: [
       {
@@ -166,6 +179,7 @@ export default function SimpleSlider() {
 
   const [parties, setParties] = useState<Party[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
+  const socket = useContext(SocketContext);
 
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
@@ -184,14 +198,16 @@ export default function SimpleSlider() {
         <StyledSlider {...settings}>
           {parties.length === 0 && <div>활성화된 식당이 없습니다.</div>}
           {parties.map((party: Party, index: number) => (
-            <NavLink to={`/foodDetail:${party.shopId}`}>
-              className={index === slideIndex ? 'slide slide-active' : 'slide'}
+            <NavLink to={`/foodDetail/${party.shopId}`}>
+              className={index === slideIndex ? 'slide slide-center' : 'slide'}
               key={`${party.shopId}`}
               <img src={party.shopPicture} alt="img" />
               <span>{party.name}</span>
               <span>{party.avgStar}</span>
               <span>{party.address}</span>
-              <Button variant="contained">찜하기</Button>
+              <Button variant="contained" sx={{ cursor: 'pointer' }}>
+                찜하기
+              </Button>
             </NavLink>
           ))}
         </StyledSlider>

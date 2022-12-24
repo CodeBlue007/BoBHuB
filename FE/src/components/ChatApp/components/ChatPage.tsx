@@ -13,7 +13,7 @@ const ChatPage = ({ handleClick }: ChatPageProps) => {
   const [enterRoom, setEnterRoom] = useState<boolean>(false);
   const [targetRoom, setTargetRoom] = useState<string>('');
 
-  const moveRoom = (roomName : string) => {
+  const moveRoom = (roomName: string) => {
     setTargetRoom(roomName);
     setEnterRoom(true);
   };
@@ -24,7 +24,6 @@ const ChatPage = ({ handleClick }: ChatPageProps) => {
         sx={{
           width: '300px',
           height: '500px',
-          backgroundColor: '#888870',
           zIndex: 10,
           borderRadius: '15px',
         }}

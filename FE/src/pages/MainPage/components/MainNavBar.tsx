@@ -1,13 +1,13 @@
 import { AppBar, Toolbar, Typography, Stack, Button } from '@mui/material';
-import logo from '../assets/BoBHuB_logo.png';
-import title from '../assets/BoBHuB_textLogo.png';
+import logo from '../../../assets/BoBHuB_logo.png';
+import title from '../../../assets/BoBHuB_textLogo_main.png';
 import { Link } from 'react-router-dom';
 import { useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUserData, userAction } from '../store/userSlice';
-import type { AppDispatch, RootState } from '../store/store';
-import { get } from '../api/API';
-import MyParty from './MyParty';
+import { loginUserData, userAction } from '../../../store/userSlice';
+import type { AppDispatch, RootState } from '../../../store/store';
+import { get } from '../../../api/API';
+import MyParty from './../../../components/MyParty';
 import styled from 'styled-components';
 
 const BasicLink = styled(Link)`
@@ -26,7 +26,7 @@ const TitleLogo = styled.img`
   margin-top: 15px;
 `;
 
-const NavBar = () => {
+const MainNavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [myPartyList, setMyPartyList] = useState<[]>([]);
   const handleOpenToggle = () => setOpen(!open);
@@ -50,7 +50,7 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ boxShadow: 'none' }}>
+    <AppBar style={{ background: 'transparent', boxShadow: 'none' }}>
       <Toolbar>
         <BasicLink to="/">
           <Logo src={logo} alt="BoBHuB logo" />
@@ -99,4 +99,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default MainNavBar;

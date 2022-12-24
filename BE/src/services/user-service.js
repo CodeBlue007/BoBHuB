@@ -88,14 +88,14 @@ class UserService {
         newUserDTO.password = newPasswordHash;
       }
     }
-
+    if(phone){
     const isExUserPhone = await this.userModel.get({ phone: newUserDTO.phone });
     if (isExUserPhone[0]) {
       if (isExUserPhone[0].userId !== userDTO.userId) {
         throw new Forbidden("해당 전화번호로 가입한 내역이 존재하여 수정할 수 없습니다.");
       }
     }
-
+  }
     try {
       const userId = userDTO.userId;
       const result = await this.userModel.update(newUserDTO, { userId });

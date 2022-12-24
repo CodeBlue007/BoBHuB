@@ -1,14 +1,11 @@
 import styled from 'styled-components';
-import Avatar from '@mui/material/Avatar';
-import CreateIcon from '@mui/icons-material/Create';
 import UserInfo from './components/UserInfo';
 import NavBar from '../../components/NavBar';
 import DeleteUser from './components/DeleteUser';
 import { useState, useEffect, useRef } from 'react';
+import Button from '@mui/material/Button';
 import * as API from '../../api/API';
 import axios from 'axios';
-import React from 'react';
-import edit from '../../assets/edit.png';
 
 export type UserInfoType = {
   track: string;
@@ -16,31 +13,30 @@ export type UserInfoType = {
   name: string;
   email: string;
   phone: string;
-  nickName: string;
-  userId: number;
+  nickname: string;
   profile: string;
   role: string;
 };
 
 const MyPage = () => {
+  const [profileimg, setProfileImg] = useState<File>();
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     track: '',
     generation: 0,
     name: '',
     email: '',
     phone: '',
-    nickName: '',
-    userId: 0,
+    nickname: '',
     profile: '',
     role: '',
   });
+
+  const isLoaded = useRef<boolean>(false);
 
   // 사용자 정보 조회 api
   const getUserInfoAPI = async () => {
     const res = await API.get('/api/users');
     setUserInfo(res);
-    // console.log(res);
-    // setUserInfo(res);
   };
 
   useEffect(() => {
@@ -51,7 +47,24 @@ const MyPage = () => {
     }
   }, []);
 
-  const handleUpdateProfile = () => {};
+  useEffect(() => {
+    if (isLoaded.current) {
+      const res = API.patch(`/api/users`, userInfo);
+      console.log(res);
+    }
+  }, [userInfo]);
+
+  const updateProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formData = new FormData();
+    const files = (e.target.files as FileList)[0];
+
+    if (files === undefined) return;
+    else {
+      formData.append('profile', files);
+      const res = await axios.post(`/api/users/image`, formData, { withCredentials: true });
+      setProfileImg(files);
+    }
+  };
 
   return (
     <Container>
@@ -62,16 +75,17 @@ const MyPage = () => {
       <UserUpdate>
         <ImgContainer>
           <ImgCircle alt="Profile Image" src={userInfo.profile} />
-          <FileUpload type="file" accept="image/jpg,image/jpeg,image/png" multiple />
+          <FileUpload
+            onChange={updateProfileImg}
+            type="file"
+            accept="image/jpg,image/jpeg,image/png"
+          />
           <UserName>{userInfo.name}</UserName>
-          {/* <EditProfile onClick={handleUpdateProfile}>
-                        <CreateIcon sx={{ color: 'white', backgroundColor: '#6a4a96', borderRadius: '5px' }} fontSize='small' />
-                    </EditProfile> */}
           <UserRole>{userInfo.role === 'admin' ? '관리자' : '레이서'}</UserRole>
         </ImgContainer>
         <SubContainer>
           <SubTitle>회원정보</SubTitle>
-          <UserInfo setUserInfo={setUserInfo} userInfo={userInfo} />
+          <UserInfo setUserInfo={setUserInfo} userInfo={userInfo} isLoaded={isLoaded} />
           <DeleteTitle>계정탈퇴</DeleteTitle>
           <DeleteUser />
         </SubContainer>
@@ -90,7 +104,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff9f2;
+  background-color: ${({ theme }) => theme.colors.background};
 `;
 
 const SubContainer = styled.div`
@@ -108,7 +122,7 @@ const Title = styled.h1`
   font-weight: bold;
   font-size: 32px;
   margin: 50px 0px;
-  color: #303030;
+  color: ${({ theme }) => theme.font.color.darkGray};
   margin-left: 210px;
 `;
 
@@ -150,19 +164,13 @@ const UserRole = styled.div`
   margin-top: 11px;
 `;
 
-// const EditProfile = styled.div`
-//     position:absolute;
-//     top:105px;
-//     right:48px;
-// `
-
 const ImgCircle = styled.img`
   margin-top: 50px;
   width: 75px;
   height: 75px;
   border-radius: 50px;
+  border: 1px solid black;
 `;
 const FileUpload = styled.input`
-  width: 75px;
   margin-top: 10px;
 `;

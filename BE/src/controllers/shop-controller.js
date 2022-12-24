@@ -81,7 +81,7 @@ class ShopController {
       const newImageDTO = {};
       newImageDTO.menu = menu ? menu[0].location : null;
       newImageDTO.shopPicture = shopPicture ? shopPicture[0].location : null;
-      console.log(newImageDTO);
+
       const shopId = parseInt(req.params.shopId);
 
       const result = await shopService.updateImage(newImageDTO, shopId);

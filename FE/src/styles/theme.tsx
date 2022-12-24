@@ -1,5 +1,7 @@
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
+import { makeStyles, Theme, createStyles } from '@mui/material/styles';
 
+//style-component themeProvider
 const fontSizes = {
   title: 16,
   subTitle: 14,
@@ -22,6 +24,7 @@ const colors = {
 const font = {
   color: {
     balck: '#1E1F21',
+    darkGray: '#303030',
     white: '#ffffff',
   },
   size: {
@@ -29,10 +32,29 @@ const font = {
     containerTitle: '18px',
   },
 };
-const theme = {
+
+export const theme = {
   fontSizes,
   colors,
   font,
 };
 
-export default theme;
+//mui themeprovider - 전체테마 정의
+export const muitheme = createTheme({
+  palette: {
+    primary: {
+      main: '#E59A59', //main
+      contrastText: '#ffffff',
+    },
+    secondary: {
+      main: '#712E1E', //icon
+    },
+    error: {
+      main: '#A82A1E', //cancel, delete
+    },
+    info: {
+      main: '#888870', //etc
+      contrastText: '#ffffff',
+    },
+  },
+});

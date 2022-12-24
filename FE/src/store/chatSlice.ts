@@ -5,7 +5,7 @@ type ChatType = {
 }
 
 const initialState:ChatType = {
-    chats : {}
+    chats : {},
 };
 
 export const chatSlice = createSlice({
@@ -26,3 +26,6 @@ export const chatSlice = createSlice({
         }
     }
 })
+
+export const chatAction = chatSlice.actions;
+

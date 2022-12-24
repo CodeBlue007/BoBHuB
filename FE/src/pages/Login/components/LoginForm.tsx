@@ -133,7 +133,6 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     onLoginSubmit(loginForm);
     const res = await API.post('/api/auth/login', loginForm);
-
     // form 초기화
     setLoginForm({
       email: '',
@@ -211,7 +210,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
           }
         />
 
-        <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>
+        <Button variant="contained" type="submit">
           로그인
         </Button>
         <div className="goToRegister">

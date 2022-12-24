@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
+import Popover from '@mui/material/Popover';
 
 interface MyPartyProps {
   open: boolean;
@@ -8,21 +9,24 @@ interface MyPartyProps {
 
 const MyParty = ({ open, handleClose }: MyPartyProps) => {
   return (
-    <Container>
+    <Container open={open}>
       <Div>
-        <Flex>
-          <h4>찜 목록</h4>
+        <Bar>
+          <H3>찜 목록</H3>
           <Button onClick={handleClose}>
             <Close />
           </Button>
-        </Flex>
+        </Bar>
       </Div>
       <Div>
-        <div>
-          <p>식당이름</p>
-        </div>
-        <div>남은시간 30:00</div>
-        <div>참여한 인원 1/4</div>
+        <Flex>
+          <Img src="" alt="img" />
+          <Description>
+            <Name>식당이름</Name>
+            <Time>30:00</Time>
+            <Paragraph>참여한 인원 1/4</Paragraph>
+          </Description>
+        </Flex>
       </Div>
     </Container>
   );
@@ -30,18 +34,22 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
 
 export default MyParty;
 
-const Container = styled.div`
+const Container = styled.div<{ open: boolean }>`
   color: black;
   font-size: 14px;
   width: 450px;
-  height: 600px;
   background-color: white;
   position: absolute;
   top: 100%;
   right: 100px;
   border-radius: 4px;
   z-index: 999;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+    rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  height: ${({ open }) => (open ? '600px' : 0)};
+  opacity: ${({ open }) => (open ? 1 : 0)};
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
 `;
 
 const Div = styled.div`
@@ -54,8 +62,11 @@ const Flex = styled.div`
   display: flex;
   box-sizing: border-box;
   padding: 5px 10px 5px 10px;
-  justify-content: space-between;
   align-items: center;
+`;
+
+const Bar = styled(Flex)`
+  justify-content: space-between;
 `;
 
 const Button = styled.button`
@@ -69,4 +80,35 @@ const Close = styled(CloseIcon)`
   &:hover {
     color: black;
   }
+`;
+
+const Img = styled.img`
+  width: 70px;
+  height: 70px;
+  padding: 5px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
+const Description = styled.div`
+  margin-left: 30px;
+`;
+
+const Paragraph = styled.p`
+  + p {
+    margin-top: 10px;
+  }
+`;
+
+const Name = styled(Paragraph)`
+  font-size: 24px;
+  font-weight: bold;
+`;
+
+const Time = styled(Paragraph)`
+  color: red;
+  font-size: 10px;
+`;
+
+const H3 = styled.h3`
+  font-size: 28px;
+  font-weight: bolder;
 `;
