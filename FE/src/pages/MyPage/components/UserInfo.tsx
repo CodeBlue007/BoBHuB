@@ -122,9 +122,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
   };
 
   const validInput = async (editSuccess: string) => {
-    setUserInfo((state) => {
-      return { ...state, [editSuccess]: inputChange };
-    });
+    setUserInfo({ ...userInfo, [editSuccess]: inputChange });
     clickBtn_changeEditState(editSuccess);
     setInputChange('');
   };
