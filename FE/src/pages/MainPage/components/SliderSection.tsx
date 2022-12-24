@@ -19,7 +19,7 @@ export interface Party {
 
 const StyledSlider = styled(Slider)`
   border: 1px solid black;
-  height: 40vh;
+  height: 45vh;
 `;
 
 const Div = styled.div`
@@ -30,18 +30,29 @@ const Div = styled.div`
   width: 100%;
   place-items: center;
 
-  .slick-prev:before {
-    opacity: 1;
-    color: black;
-    left: 0;
-  }
+  .slick-prev:before,
   .slick-next:before {
-    opacity: 1;
-    color: black;
+    font-family: 'slick';
+    font-size: 40px;
+    line-height: 1;
+    opacity: 0.75;
+    color: #000000;
+    -webkit-font-smoothing: antialiased;
+    z-index: 999;
   }
 
+  .slick-prev:before {
+    position: absolute;
+    left: 100px;
+    top: -20px;
+  }
+
+  .slick-next:before {
+    position: absolute;
+    right: 100px;
+    top: -20px;
+  }
   .slick-slider {
-    overflow: hidden;
     padding: 0 15px;
   } //slider
 
@@ -57,6 +68,7 @@ const Div = styled.div`
     height: 350px;
     text-align: center;
     border: 1px solid black;
+    z-index: 1;
   } //item
 
   .slide {
@@ -75,7 +87,7 @@ const Div = styled.div`
     padding: 5px 15px;
     border-radius: 10px;
     width: 10px;
-    /* position: absolute; */
+    position: absolute;
     top: 180px;
     background-color: transparent;
     color: white;
@@ -87,7 +99,7 @@ const Div = styled.div`
 
   .arrow-left {
     left: -15px;
-    z-index: 10;
+    z-index: 999;
   }
 
   img {
@@ -115,21 +127,21 @@ const TitleBox = styled.div`
   font-weight: bold;
 `;
 
-export function NextArrow() {
-  return (
-    <div className="arrow arrow-right">
-      <MdKeyboardArrowRight />
-    </div>
-  );
-}
+// export function NextArrow() {
+//   return (
+//     <div className="arrow arrow-right">
+//       <MdKeyboardArrowRight />
+//     </div>
+//   );
+// }
 
-export function PrevArrow() {
-  return (
-    <div className="arrow arrow-left">
-      <MdKeyboardArrowLeft />
-    </div>
-  );
-}
+// export function PrevArrow() {
+//   return (
+//     <div className="arrow arrow-left">
+//       <MdKeyboardArrowLeft />
+//     </div>
+//   );
+// }
 
 export default function SimpleSlider() {
   const settings = {
@@ -146,8 +158,8 @@ export default function SimpleSlider() {
     autoplaySpeed: 3000,
     pauseOnHover: true,
     draggable: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    // nextArrow: <NextArrow />,
+    // prevArrow: <PrevArrow />,
     beforeChange: (current: number, next: number) => setSlideIndex(next),
     responsive: [
       {
