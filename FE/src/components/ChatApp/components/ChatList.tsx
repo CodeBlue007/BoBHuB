@@ -23,6 +23,7 @@ const ChatList = ({moveRoom} : ChatListProps) => {
   const [roomArray, setRoomArray] = useState<string[]>([]);
   const socket = useContext(SocketContext);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
+  const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
   const dispatch = useDispatch<AppDispatch>();
 
 
@@ -46,7 +47,7 @@ const ChatList = ({moveRoom} : ChatListProps) => {
     // 실제 room 연결시 변화감지
 
     // socket.emit("findRooms");
-    // socket.on("getRooms", (rooms)=> {
+    // socket.on("getRoomList", (rooms)=> {
     //   console.log("get rooms");
     //   setRoomArray(rooms);
     // })
@@ -57,7 +58,7 @@ const ChatList = ({moveRoom} : ChatListProps) => {
     <>
       <Title>Chat Lists</Title>
       <ul>
-        {roomArray.length === 0 ? (
+        {!isLogin ? (
           <List>"채팅방이 없습니다"</List>
         ) : (
           roomArray.map((roomName, idx) => (
