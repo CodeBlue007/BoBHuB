@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, IconButton } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import KeyIcon from '@mui/icons-material/Key';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
 import loginThumbnail from '../../../assets/loginThumbnail.gif';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
@@ -56,8 +58,8 @@ const FormContainer = styled.div`
   background-color: #fcf3eb;
   border-radius: 10px;
 
-  width: 30%;
-  height: 500px; //55vh; //93.5vh;
+  width: 500px;
+  height: 500px;
   margin: 10% auto; //19.9vh auto;
 
   & input {
@@ -73,6 +75,12 @@ const FormContainer = styled.div`
 
   & div div input {
     font-size: 18px;
+  }
+
+  & div div div button {
+    padding: 0;
+    margin-left: -24px;
+    margin-right: 0;
   }
 `;
 
@@ -131,15 +139,33 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     e.preventDefault();
 
     onLoginSubmit(loginForm);
-    const res = await API.post('/api/auth/login', loginForm);
 
-    // form 초기화
-    setLoginForm({
-      email: '',
-      password: '',
-    });
+    // 이메일 존재 여부 검사
+    const resEmail = await API.get(`api/users/emails/${email}`);
+    if (resEmail.message.substr(0, 1) === '사') {
+      alert('존재하지 않는 계정입니다.');
+      return;
+    } else {
+      // 비밀번호 일치 여부 검사
 
-    navigate('/', { replace: true });
+      const resForm = await API.post('/api/auth/login', loginForm);
+
+      // form 초기화
+      setLoginForm({
+        email: '',
+        password: '',
+      });
+
+      navigate('/', { replace: true });
+    }
+  };
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
   };
 
   return (
@@ -162,6 +188,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -182,13 +209,24 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
         <TextField
           required
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           name="password"
           variant="standard"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <KeyIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </InputAdornment>
             ),
           }}
