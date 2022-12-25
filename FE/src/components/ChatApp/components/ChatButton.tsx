@@ -9,10 +9,10 @@ const CustomedButton = styled(Button)`
 `;
 
 interface ChatButtonProps {
-  handleClick: () => void;
+  handleDisplay: () => void;
 }
 
-const ChatButton = ({ handleClick }: ChatButtonProps) => {
+const ChatButton = ({ handleDisplay }: ChatButtonProps) => {
   return (
     <CustomedButton
       color='secondary'
@@ -20,7 +20,7 @@ const ChatButton = ({ handleClick }: ChatButtonProps) => {
       sx={{
         borderRadius: '50%',
       }}
-      onClick={handleClick}>
+      onClick={handleDisplay}>
       <AddReactionOutlinedIcon />
     </CustomedButton>
   );
