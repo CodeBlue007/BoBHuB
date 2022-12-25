@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type Roomname = string;
+
 type ChatType = {
-    chats : {[key : string] : string[]}
+    chats : {[key : Roomname] : string[]}
 }
 
 const initialState:ChatType = {

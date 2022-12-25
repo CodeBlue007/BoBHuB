@@ -51,7 +51,7 @@ const ChatList = ({moveRoom} : ChatListProps) => {
     //   setRoomArray(rooms);
     // })
     // 실제 room이 만들어진걸 확인함.
-  }, [])
+  }, [userName])
 
   return (
     <>

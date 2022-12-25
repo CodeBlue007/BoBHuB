@@ -4,11 +4,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
-import { commentStateType } from '../types/Type';
+import { CommentState } from '../types/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import { deleteComment } from '../foodDetailApi';
 import type { RootState } from '../../../store/store';
 import { useSelector } from 'react-redux';
+import React from 'react';
 
 const ListContainer = styled(FlexContainer)`
   height: 150px;
@@ -52,7 +53,7 @@ const CustomButton = styled(Button)`
 `;
 
 interface CommentList {
-  commentProp: commentStateType;
+  commentProp: CommentState;
   updateCommentState: () => void;
 }
 
@@ -75,8 +76,7 @@ const CommentList = ({
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const commentId = Number(e.currentTarget.dataset.id);
+  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, commentId:number) => {
     deleteComment(commentId);
     updateCommentState();
   };
@@ -127,8 +127,7 @@ const CommentList = ({
                 variant="contained"
                 color="error"
                 size="small"
-                data-id={commentId}
-                onClick={handleDelete}
+                onClick={(e) => handleDelete(e,commentId)}
                 startIcon={<DeleteIcon />}>
                 삭제
               </CustomButton>
@@ -140,4 +139,4 @@ const CommentList = ({
   );
 };
 
-export default CommentList;
+export default React.memo(CommentList);

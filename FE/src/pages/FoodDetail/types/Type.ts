@@ -1,51 +1,51 @@
 
-type stringNull = string|null;
-type numberNull = number|null;
+type NullableString = string|null;
+type NullableNum = number|null;
 
 
-export interface postCommentType{
+export interface PostComment{
     shopId?: number;
     content: string;
-    star: numberNull;
+    star: NullableNum;
 }
 
-export interface commentStateType extends postCommentType{
+export interface CommentState extends PostComment{
     userId : number;
     commentId: number;
-    createdAt : stringNull;
-    updatedAt : stringNull;
-    deletedAt : stringNull;
+    createdAt : NullableString;
+    updatedAt : NullableString;
+    deletedAt : NullableString;
     nickname : string;
-    profile : stringNull;
+    profile : NullableString;
 }
 
-export type shopStateType = {
+export type ShopState = {
     "shopId" : number;
     "category" : string;
     "name" : string;
     "distance" : number;
     "address": string;
-    "menu": stringNull;
-    "shopPicture": stringNull;
+    "menu": NullableString;
+    "shopPicture": NullableString;
     "like" : number;
     "description" : string;
-    "createdAt" : stringNull;
-    "updatedAt" : stringNull;
-    "deletedAt" : stringNull;   
+    "createdAt" : NullableString;
+    "updatedAt" : NullableString;
+    "deletedAt" : NullableString;   
 }
 
-export type menuStateType = {
+export type MenuState = {
     foodId : number;
     shopId : number;
-    picture : string|null;
+    picture : NullableString;
     name : string;
     price : number;
-    createdAt : stringNull;
-    updatedAt : stringNull;
-    deletedAt : stringNull;   
+    createdAt : NullableString;
+    updatedAt : NullableString;
+    deletedAt : NullableString;   
 }
 
-export type postPartyType = {
+export type PostParty = {
     shopId: number;
     timeLimit: number;
     partyLimit: number;
