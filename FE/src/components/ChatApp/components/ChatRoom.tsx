@@ -70,16 +70,8 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
 
   useEffect(() => {
     enterRoom();
-    socket.on('welcome', (nick, getRoomName) => {
-      const welcome = `${nick}님이 입장하셨습니다.`;
-      if (roomName === getRoomName) {
-        dispatch(chatAction.updateRoom({ roomName, payload: welcome }));
-      }
-    });
-
-    socket.on('getMessage', (currentRoom, msg) => {
-      if (currentRoom !== roomName) return;
-
+    
+    socket.on('getMessage', (msg) => {
       dispatch(chatAction.updateRoom({ roomName, payload: msg }));
     });
   }, []);
