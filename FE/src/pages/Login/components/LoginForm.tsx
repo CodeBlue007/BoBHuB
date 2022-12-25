@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, IconButton } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import KeyIcon from '@mui/icons-material/Key';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
-import loginThumbnail from '../../../assets/talk.jpg';
+import loginThumbnail from '../../../assets/loginThumbnail.gif';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
-import axios from 'axios';
+import logo from '../../../assets/BoBHuB_logo.png';
 
-const LoginFormContainer = styled.form`
+const ImgFormContainer = styled.form`
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
-  margin: 15vh auto;
+  padding: 195px auto;
 
-  & h1 {
-    margin: 20px auto 30px auto;
-    font-size: 2rem;
-    font-weight: 700;
+  & img {
+    width: 160px;
+    margin: 10px auto;
   }
 `;
 
@@ -29,26 +30,25 @@ const ImgContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-
-  margin-right: 100px;
-  padding: 0px 0px 10px 0px;
+  align-items: flex-start;
+  width: 50%;
+  background: '#fcf3eb';
 
   & h1 {
     margin: 20px auto;
     font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: 2px;
+    font-weight: 1000;
+    letter-spacing: 1.5px;
   }
 
   & img {
-    width: 35vw;
-    border-radius: 2px;
+    width: 100%;
+    height: 93.5vh;
     opacity: 80%;
   }
 `;
 
-const BoxContainer = styled.div`
+const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,14 +56,15 @@ const BoxContainer = styled.div`
   box-sizing: border-box;
 
   background-color: #fcf3eb;
-  border-radius: 4px;
+  border-radius: 10px;
 
-  height: 46vh;
-  padding: 0px 20px 0px 20px;
+  width: 500px;
+  height: 500px;
+  margin: 10% auto; //19.9vh auto;
 
   & input {
     font-size: 15px;
-    width: 25vw;
+    width: 380px;
     height: 4vh;
   }
 
@@ -72,21 +73,28 @@ const BoxContainer = styled.div`
     margin: 10px auto;
   }
 
-  & #menu- > div > ul {
-    margin-top: 20px;
-  }
-
   & div div input {
     font-size: 18px;
-    color: #3a3b3c;
   }
 
+  & div div div button {
+    padding: 0;
+    margin-left: -24px;
+    margin-right: 0;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
   & button {
-    margin: 20px auto;
-    width: 26.7vw;
+    margin: 25px auto 10px auto;
+    width: 413px;
     height: 5vh;
     font-size: 20px;
     font-weight: 600;
+    letter-spacing: 1.5px;
     border: none;
   }
 
@@ -101,8 +109,7 @@ const BoxContainer = styled.div`
 
   & .goToRegister {
     font-size: 14px;
-    margin-top: -5px;
-    margin-right: 17.7vw;
+    margin-top: -10px;
   }
 `;
 
@@ -132,25 +139,44 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     e.preventDefault();
 
     onLoginSubmit(loginForm);
-    const res = await API.post('/api/auth/login', loginForm);
-    // form 초기화
-    setLoginForm({
-      email: '',
-      password: '',
-    });
 
-    navigate('/', { replace: true });
+    // 이메일 존재 여부 검사
+    const resEmail = await API.get(`api/users/emails/${email}`);
+    if (resEmail.message.substr(0, 1) === '사') {
+      alert('존재하지 않는 계정입니다.');
+      return;
+    } else {
+      // 비밀번호 일치 여부 검사
+
+      const resForm = await API.post('/api/auth/login', loginForm);
+
+      // form 초기화
+      setLoginForm({
+        email: '',
+        password: '',
+      });
+
+      navigate('/', { replace: true });
+    }
+  };
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
   };
 
   return (
-    <LoginFormContainer onSubmit={handleLoginSubmit}>
-      <ImgContainer>
+    <ImgFormContainer onSubmit={handleLoginSubmit}>
+      {/* <ImgContainer>
         <h1>Welcome Back!</h1>
         <img src={loginThumbnail} alt="Bob-hub login thumbnail" />
-      </ImgContainer>
+      </ImgContainer> */}
 
-      <BoxContainer>
-        <h1>[로고 들어갈 자리]</h1>
+      <FormContainer>
+        <img src={logo} alt="logo" />
         <TextField
           required
           name="email"
@@ -162,6 +188,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -182,13 +209,24 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
         <TextField
           required
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           name="password"
           variant="standard"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <KeyIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </InputAdornment>
             ),
           }}
@@ -209,16 +247,17 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               : ''
           }
         />
-
-        <Button variant="contained" type="submit">
-          로그인
-        </Button>
-        <div className="goToRegister">
-          아직 계정이 없나요? &nbsp;
-          <Link to="/register">회원가입</Link>
-        </div>
-      </BoxContainer>
-    </LoginFormContainer>
+        <ButtonContainer>
+          <Button variant="contained" type="submit">
+            로그인
+          </Button>
+          <div className="goToRegister">
+            아직 계정이 없나요? &nbsp;
+            <Link to="/register">회원가입</Link>
+          </div>
+        </ButtonContainer>
+      </FormContainer>
+    </ImgFormContainer>
   );
 };
 
