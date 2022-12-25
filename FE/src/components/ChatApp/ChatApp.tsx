@@ -1,7 +1,8 @@
 import ChatButton from './components/ChatButton';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ChatPage from './components/ChatPage';
 import styled from 'styled-components';
+import { SocketContext } from '../../socket/SocketContext';
 
 const ChatContainer = styled.section`
   position: fixed;
@@ -13,16 +14,15 @@ const ChatContainer = styled.section`
 const ChatApp = () => {
   const [isClicked, setClicked] = useState<Boolean>(false);
 
-  const handleClick = () => {
+  const handleDisplay = () => {
     setClicked((current) => !current);
   };
-
   return (
     <ChatContainer>
       {isClicked ? (
-        <ChatPage handleClick={handleClick} />
+        <ChatPage handleDisplay={handleDisplay} />
       ) : (
-        <ChatButton handleClick={handleClick} />
+        <ChatButton handleDisplay={handleDisplay} />
       )}
     </ChatContainer>
   );
