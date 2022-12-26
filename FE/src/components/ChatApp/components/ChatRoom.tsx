@@ -70,7 +70,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
 
   useEffect(() => {
     enterRoom();
-    
+
     socket.on('getMessage', (msg) => {
       dispatch(chatAction.updateRoom({ roomName, payload: msg }));
     });

@@ -76,7 +76,7 @@ const CommentList = ({
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
 
-  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, commentId:number) => {
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, commentId: number) => {
     await deleteComment(commentId);
     updateCommentState();
   };
@@ -127,7 +127,7 @@ const CommentList = ({
                 variant="contained"
                 color="error"
                 size="small"
-                onClick={(e) => handleDelete(e,commentId)}
+                onClick={(e) => handleDelete(e, commentId)}
                 startIcon={<DeleteIcon />}>
                 삭제
               </CustomButton>
