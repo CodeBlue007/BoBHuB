@@ -8,6 +8,7 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
 import { NavLink } from 'react-router-dom';
 import { SocketContext } from '../../../socket/SocketContext';
+import zIndex from '@mui/material/styles/zIndex';
 
 export interface Party {
   shopId: number;
@@ -22,10 +23,19 @@ const StyledSlider = styled(Slider)`
   height: 45vh;
 `;
 
+const LabelContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 45vh;
+  border: 1px solid black;
+  box-sizing: border-box;
+`;
+
 const Div = styled.div`
   height: 100%;
   background-color: #fffaf5;
-  border: 1px solid black;
   box-sizing: border-box;
   width: 100%;
   place-items: center;
@@ -46,11 +56,10 @@ const Div = styled.div`
     position: absolute;
     left: 100px;
   }
-
   .slick-next:before {
     position: absolute;
     right: 100px;
-  }
+  } // arrow
   .slick-slider {
     padding: 0 15px;
   } //slider
@@ -62,12 +71,12 @@ const Div = styled.div`
   } //parent
 
   .slick-slide {
-    /* background-color: white; */
+    background-color: white;
     border-radius: 15px;
     height: 350px;
     text-align: center;
-    border: 1px solid black;
     z-index: 1;
+    border: 1px  solid black;
   } //item
 
   .slide {
@@ -133,6 +142,10 @@ const Description = styled.div`
     font-size: 20px;
   }
 `;
+
+const ItemContainer = styled.div`
+  z-index: 100;
+`
 
 // export function NextArrow() {
 //   return (
@@ -202,24 +215,31 @@ export default function SimpleSlider() {
     <Div>
       <TitleBox>오늘 뭐 먹지?</TitleBox>
       <div>
-        <StyledSlider {...settings}>
-          {parties.length === 0 && <div>활성화된 식당이 없습니다.</div>}
-          {parties.map((party: Party, index: number) => (
-            <NavLink to={`/foodDetail/${party.shopId}`}>
-              className={index === slideIndex ? 'slide slide-center' : 'slide'}
-              key={`${party.shopId}`}
-              <img src={party.shopPicture} alt="img" />
-              <Description>
-                <span>{party.name}</span>
-                <span>{party.avgStar}</span>
-                <span>{party.address}</span>
-              </Description>
-              <Button variant="contained" sx={{ cursor: 'pointer' }}>
-                찜하기
-              </Button>
-            </NavLink>
-          ))}
-        </StyledSlider>
+        {parties.length === 0 ? (
+          <LabelContainer>
+            <div>활성화된 식당이 없습니다.</div>
+          </LabelContainer>
+        ) : (
+          <StyledSlider {...settings}>
+            {parties.map((party: Party, index: number) => (
+              <NavLink to={`/foodDetail/${party.shopId}`}>
+                <ItemContainer
+                  className={index === slideIndex ? 'slide slide-center' : 'slide'}
+                  key={`${party.shopId}`}>
+                  <img src={party.shopPicture} alt="img" />
+                  <Description>
+                    <span>{party.name}</span>
+                    <span>{party.avgStar}</span>
+                    <span>{party.address}</span>
+                  </Description>
+                  <Button variant="contained" sx={{ cursor: "pointer", zIndex:100}} >
+                    찜하기
+                  </Button>
+                </ItemContainer>
+              </NavLink>
+            ))}
+          </StyledSlider>
+        )}
       </div>
     </Div>
   );

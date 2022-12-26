@@ -7,11 +7,11 @@ import type { AppDispatch, RootState } from '../../../store/store';
 import { chatAction } from '../../../store/chatSlice';
 
 
-const None = styled.li`
+const BasicList = styled.li`
   font-size: 15px;
   ${TextCss}
 `;
-const List = styled(None)`
+const CursorList = styled(BasicList)`
   cursor: pointer;
 `;
 
@@ -59,12 +59,12 @@ const ChatList = ({moveRoom} : ChatListProps) => {
       <Title>Chat Lists</Title>
       <ul>
         {!isLogin ? (
-          <List>"채팅방이 없습니다"</List>
+          <BasicList>"채팅방이 없습니다"</BasicList>
         ) : (
           roomArray.map((roomName, idx) => (
-            <List onClick={handleMove} key={`${roomName}${idx}`}>
+            <CursorList onClick={handleMove} key={`${roomName}${idx}`}>
               {roomName}
-            </List>
+            </CursorList>
           ))
         )}
       </ul>

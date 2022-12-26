@@ -43,7 +43,8 @@ module.exports = (io, socket) => {
     const leaveRoom = (roomName) =>{
         socket.leave(roomName);
         const message = `${socket.nickname}님이 방을 나가셨습니다.`
-        socket.to(roomName).emit("getMessage", message)
+        socket.to(roomName).emit("getMessage", message);
+        check();
     }
 
     socket.on("getRoomList", getRooms);
