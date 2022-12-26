@@ -9,13 +9,13 @@ class PartyService {
 
   async create(partyDTO) {
     // shopModel에서 shop 존재 여부 검증
-    const shop = await this.shopModel.getByShopId(partyDTO.shopId);
-    if (!shop) {
+    const existingShop = await this.shopModel.getByShopId(partyDTO.shopId);
+    if (!existingShop) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
     }
     const userPartyList = await this.partyModel.get({ userId: partyDTO.userId });
-    const isFirstParty = userPartyList.filter((p) => p.shopId == partyDTO.shopId);
-    if (isFirstParty.length !== 0) {
+    const uniqueParty = userPartyList.filter((p) => p.shopId == partyDTO.shopId);
+    if (uniqueParty.length !== 0) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -40,13 +40,13 @@ class PartyService {
   }
 
   async update(newPartyDTO, partyId) {
-    const parties = await this.partyModel.get({ partyId });
-    if (parties.length === 0) {
+    const existingParty = await this.partyModel.get({ partyId });
+    if (existingParty.length === 0) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 모임이 없습니다.");
     }
     const { userId } = newPartyDTO;
-    const isByAuth = parties[0].userId === userId;
-    if (!isByAuth)
+    const auth = existingParty[0].userId === userId;
+    if (!auth)
       throw new ErrorFactory(
         commonErrors.FORBIDDEN,
         403,
@@ -58,12 +58,12 @@ class PartyService {
   }
 
   async deleteById(userId, partyId) {
-    const parties = await this.partyModel.get({ partyId });
-    if (parties.length === 0) {
+    const existingParty = await this.partyModel.get({ partyId });
+    if (existingParty.length === 0) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 모임이 없습니다.");
     }
-    const isByAuth = parties[0].userId === userId;
-    if (!isByAuth)
+    const auth = existingParty[0].userId === userId;
+    if (!auth)
       throw new ErrorFactory(
         commonErrors.FORBIDDEN,
         403,

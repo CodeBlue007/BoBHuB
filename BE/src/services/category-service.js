@@ -7,8 +7,8 @@ class CategoryService {
   }
 
   async create(categoryDTO) {
-    const checkCategory = await this.categoryModel.getById(categoryDTO.category);
-    if (checkCategory.length !== 0) {
+    const existingCategory = await this.categoryModel.getById(categoryDTO.category);
+    if (existingCategory.length !== 0) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -25,16 +25,16 @@ class CategoryService {
   }
 
   async update(newCategory, category) {
-    const checkExCategory = await this.categoryModel.getById(category);
-    if (checkExCategory.length === 0) {
+    const existingCategory = await this.categoryModel.getById(category);
+    if (existingCategory.length === 0) {
       throw new ErrorFactory(
         commonErrors.NOT_FOUND,
         404,
         "수정할 카테고리가 존재하지 않습니다."
       );
     }
-    const checkNewCategory = await this.categoryModel.getById(newCategory);
-    if (checkNewCategory.length !== 0) {
+    const existingNewCategory = await this.categoryModel.getById(newCategory);
+    if (existingNewCategory.length !== 0) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -46,8 +46,8 @@ class CategoryService {
   }
 
   async deleteById(category) {
-    const checkExCategory = await this.categoryModel.getById(category);
-    if (checkExCategory.length === 0) {
+    const existingCategory = await this.categoryModel.getById(category);
+    if (existingCategory.length === 0) {
       throw new ErrorFactory(
         commonErrors.NOT_FOUND,
         404,
