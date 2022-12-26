@@ -5,6 +5,9 @@ import type { FoodType } from '../pages/Admin/components/Restraunt/Foods';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { delete as del } from '../api/API';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { UserType } from '../pages/Admin/components/User/components/Users';
 
 interface MyPartyProps {
   open: boolean;
@@ -21,6 +24,8 @@ const MyParty = ({
   activeShopList,
   fetchPartyList,
 }: MyPartyProps) => {
+  const user = useSelector((state: RootState) => state.userReducer.currentUser);
+
   const clickDeleteButton = async (id: number) => {
     const res = await del(`/api/parties/${id}`);
     console.log(res);
@@ -63,13 +68,17 @@ const MyParty = ({
                   참여한 인원 {party.likedNum}/{party.partylimit}
                 </Paragraph>
               </Description>
-              <DeleteButton
-                size="small"
-                color="error"
-                variant="outlined"
-                onClick={() => clickDeleteButton(party.partyId)}>
-                모집 종료
-              </DeleteButton>
+              {user.userId === party.userId ? (
+                <DeleteButton
+                  size="small"
+                  color="error"
+                  variant="outlined"
+                  onClick={() => clickDeleteButton(party.partyId)}>
+                  모집 종료
+                </DeleteButton>
+              ) : (
+                <DeleteButton>참여 취소</DeleteButton>
+              )}
             </List>
           );
         })}
