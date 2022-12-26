@@ -1,6 +1,6 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("user");
-const buildRes = require("../../utils/build-response");
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class UserModel {
@@ -8,7 +8,7 @@ class UserModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(userDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
@@ -25,7 +25,7 @@ class UserModel {
     try {
       const whereArr = o.objToQueryArray(userDTO);
       const query = o.makeSelectQuery({ columnArr: filterArr, whereArr });
-      console.log(query);
+      logger.info(query);
 
       const [user] = await pool.query(query);
 
@@ -42,7 +42,7 @@ class UserModel {
   async getAll() {
     try {
       const query = o.makeSelectQuery({});
-      console.log(query);
+      logger.info(query);
 
       const [users] = await pool.query(query);
       return users;
@@ -60,9 +60,8 @@ class UserModel {
       const newDTO = o.objToQueryArray(newUserDTO);
       const oldDTO = o.objToQueryArray(userDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
-      console.log(result);
       return buildRes("u", result);
     } catch {
       throw new ErrorFactory(
@@ -77,7 +76,7 @@ class UserModel {
     try {
       const where = o.objToQueryArray({ userId });
       const query = o.makeDeleteQuery(where);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);

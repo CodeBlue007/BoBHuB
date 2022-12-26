@@ -2,7 +2,7 @@ const { pool } = require("../mysql-pool");
 const buildQuery = require("../../utils/build-query");
 const tr = new buildQuery("track");
 const o = new buildQuery("generation");
-const buildRes = require("../../utils/build-response");
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class GenerationModel {
@@ -18,7 +18,7 @@ class GenerationModel {
 
       const { keyArr, valArr } = o.objToKeyValueArray(eliceDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
       await conn.beginTransaction();
 
@@ -44,7 +44,7 @@ class GenerationModel {
     try {
       const whereArr = o.objToQueryArray({ eliceId });
       const query = o.makeSelectQuery({ whereArr });
-      console.log(query);
+      logger.info(query);
 
       const [generationName] = await pool.query(query);
       return generationName;
@@ -60,7 +60,7 @@ class GenerationModel {
   async getAll() {
     try {
       const query = o.makeSelectQuery({});
-      console.log(query);
+      logger.info(query);
 
       const [elices] = await pool.query(query);
       return elices;
@@ -78,7 +78,7 @@ class GenerationModel {
       const newDTO = o.objToQueryArray(newGenerationDTO);
       const oldDTO = o.objToQueryArray(generationDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
     } catch {
@@ -94,7 +94,7 @@ class GenerationModel {
     try {
       const whereArr = o.objToQueryArray({ eliceId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);

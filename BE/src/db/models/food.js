@@ -1,6 +1,6 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("food");
-const buildRes = require("../../utils/build-response");
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class FoodModel {
@@ -8,7 +8,7 @@ class FoodModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(foodDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
@@ -24,7 +24,7 @@ class FoodModel {
     try {
       const whereArr = o.objToQueryArray({ foodId });
       const query = o.makeSelectQuery({ whereArr });
-      console.log(query);
+      logger.info(query);
 
       const [food] = await pool.query(query);
       return food[0];
@@ -41,7 +41,7 @@ class FoodModel {
     try {
       const whereArr = o.objToQueryArray({ shopId });
       const query = o.makeSelectQuery({ whereArr });
-      console.log(query);
+      logger.info(query);
 
       const [food] = await pool.query(query);
       return food;
@@ -58,7 +58,7 @@ class FoodModel {
     try {
       const whereArr = o.objToQueryArray({ name });
       const query = o.makeSelectQuery({ whereArr });
-      console.log(query);
+      logger.info(query);
 
       const [shop] = await pool.query(query);
       return shop[0];
@@ -77,7 +77,7 @@ class FoodModel {
       const oldDTO = o.objToQueryArray(foodDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
 
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
     } catch {
@@ -93,7 +93,7 @@ class FoodModel {
     try {
       const whereArr = o.objToQueryArray({ foodId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
