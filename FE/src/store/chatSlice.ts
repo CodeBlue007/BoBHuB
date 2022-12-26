@@ -1,9 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { NullableString, NullableNum } from '../pages/FoodDetail/util/Type';
 
 type Roomname = string;
 
+export type MessageInfo = {
+  message: string;
+  userId: NullableNum;
+  userName: NullableString;
+};
+
 type ChatType = {
-  chats: { [key: Roomname]: string[] };
+  chats: { [key: Roomname]: MessageInfo[] };
 };
 
 const initialState: ChatType = {
@@ -22,9 +29,6 @@ export const chatSlice = createSlice({
     updateRoom: (state, action) => {
       const { roomName, payload } = action.payload;
       state.chats[roomName].push(payload);
-    },
-    check: (state) => {
-      return { ...state };
     },
   },
 });
