@@ -1,5 +1,5 @@
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
-module.exports = (method, result) => {
+exports.buildRes = (method, result) => {
   let res = {};
   switch (method) {
     case "c":
