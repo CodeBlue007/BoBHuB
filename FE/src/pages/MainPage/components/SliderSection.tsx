@@ -11,8 +11,7 @@ import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
 
 const StyledSlider = styled(Slider)`
-  border: 1px solid black;
-  height: 45vh;
+  height: 110%;
   position: relative;
   .slick-prev::before,
   .slick-next::before {
@@ -36,7 +35,6 @@ const LabelContainer = styled.div`
   width: 100vw;
   height: 45vh;
   position: relative;
-  border: 1px solid black;
   box-sizing: border-box;
 `;
 
@@ -66,7 +64,7 @@ const DivPre = styled.div`
 `;
 
 const Div = styled.div`
-  height: 100%;
+  // height: 100%;
   background-color: #fffaf5;
   box-sizing: border-box;
   width: 100%;
@@ -82,9 +80,8 @@ const Div = styled.div`
   } //parent
 
   .slick-slide {
-    background-color: white;
     border-radius: 15px;
-    height: 350px;
+    height: 90%;
     text-align: center;
     position: relative;
   } //item
@@ -101,17 +98,17 @@ const Div = styled.div`
   }
 
   img {
-    margin: auto auto 10px auto;
-    max-height: 200px;
+    margin: 0 auto 10px auto;
+    height: 290px;
     overflow: hidden;
     width: 100%;
+    border-radius: 10px;
   }
 
   span {
-    /* position: absolute; */
     top: 150px;
     color: black;
-    font-size: 2rem;
+    /* font-size: 2rem; */
     font-weight: bold;
     margin-bottom: 5px;
   }
@@ -220,7 +217,8 @@ export default function SimpleSlider() {
     <Div>
       {userInfo ? (
         <TitleBox>
-          밥메이트들이 <span>{userInfo.name}</span>님을 기다리고 있어요!
+          밥메이트들이 <span style={{ color: '#E59A59' }}>{userInfo.name}</span>님을 기다리고
+          있어요!
         </TitleBox>
       ) : (
         <div className="login_msg">로그인 후 이용해주세요!</div>

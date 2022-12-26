@@ -12,7 +12,8 @@ class PartyModel {
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -34,7 +35,8 @@ class PartyModel {
 
       const [parties] = await pool.query(query);
       return parties;
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -51,7 +53,8 @@ class PartyModel {
 
       const [parties] = await pool.query(query);
       return parties;
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -68,7 +71,8 @@ class PartyModel {
       logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -85,7 +89,8 @@ class PartyModel {
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,

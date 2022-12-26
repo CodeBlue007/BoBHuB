@@ -27,9 +27,9 @@ class GenerationModel {
       await conn.commit();
 
       return buildRes("c", result2);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       await conn.rollback();
-      // 잘 되는지?
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -48,7 +48,8 @@ class GenerationModel {
 
       const [generationName] = await pool.query(query);
       return generationName;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -64,7 +65,8 @@ class GenerationModel {
 
       const [elices] = await pool.query(query);
       return elices;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -81,7 +83,8 @@ class GenerationModel {
       logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -98,7 +101,8 @@ class GenerationModel {
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,

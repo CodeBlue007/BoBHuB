@@ -12,7 +12,8 @@ class UserModel {
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -30,7 +31,8 @@ class UserModel {
       const [user] = await pool.query(query);
 
       return user;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -46,7 +48,8 @@ class UserModel {
 
       const [users] = await pool.query(query);
       return users;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -63,7 +66,8 @@ class UserModel {
       logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -80,7 +84,8 @@ class UserModel {
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,

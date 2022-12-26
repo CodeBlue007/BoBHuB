@@ -12,7 +12,8 @@ class TrackModel {
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -29,7 +30,8 @@ class TrackModel {
 
       const [trackName] = await pool.query(query);
       return trackName;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -45,7 +47,8 @@ class TrackModel {
 
       const [tracks] = await pool.query(query);
       return tracks;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -63,7 +66,8 @@ class TrackModel {
 
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -80,7 +84,8 @@ class TrackModel {
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
