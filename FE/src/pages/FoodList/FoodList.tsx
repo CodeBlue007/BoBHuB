@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import * as API from '../../api/API';
 
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
@@ -34,6 +36,8 @@ const FoodList = () => {
     },
   ]); //검색데이터
   const [value, setValue] = useState('one');
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * 9;
 
   const handleChange = (event: React.SyntheticEvent, categoryNum: string) => {
     setValue(categoryNum);
@@ -73,10 +77,14 @@ const FoodList = () => {
   // 식당전체조회 api
   const getFoodListAPI = async () => {
     const res = await API.get(`/api/shops`);
-    console.log(res);
     setFoodList(res);
     setCategoryFoodList(res);
     setSearchList(res);
+  };
+
+  const handlePageUpdate = (e: React.ChangeEvent<unknown>, newPage: number) => {
+    setPage(newPage);
+    console.log(newPage);
   };
 
   useEffect(() => {
@@ -112,7 +120,7 @@ const FoodList = () => {
         </Box>
       </CategoryBox>
       <CardContainer>
-        {searchList?.map((x, i) => {
+        {searchList?.slice(offset, offset + 9).map((x, i) => {
           const { name, category, description, food, avgStar, shopId } = x;
           return (
             <MenuCard
@@ -127,6 +135,18 @@ const FoodList = () => {
           );
         })}
       </CardContainer>
+      <Stack spacing={2}>
+        <Pagination
+          sx={{ paddingTop: '50px' }}
+          color="primary"
+          count={5}
+          page={page}
+          shape="rounded"
+          showFirstButton
+          showLastButton
+          onChange={handlePageUpdate}
+        />
+      </Stack>
     </Container>
   );
 };
