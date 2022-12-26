@@ -1,7 +1,5 @@
-
-type NullableString = string|null;
-type NullableNum = number|null;
-
+export type NullableString = string|null;
+export type NullableNum = number|null;
 
 export interface PostComment{
     shopId?: number;
@@ -66,3 +64,7 @@ export const initialShopState = {
     updatedAt: '',
     deletedAt : '',
 }
+
+
+
+

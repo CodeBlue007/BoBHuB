@@ -13,7 +13,7 @@ const errCheck = (err: unknown) => {
   let message;
   if (err instanceof Error) message = err.message;
   else message = String(err);
-  console.log(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${message}`);
+  console.error(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${message}`);
 };
 
 const get = async (url = '') => {
