@@ -43,7 +43,7 @@ class GenerationModel {
   async getById(eliceId) {
     try {
       const whereArr = o.objToQueryArray({ eliceId });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [generationName] = await pool.query(query);
@@ -59,7 +59,7 @@ class GenerationModel {
 
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
+      const query = o.makeSelectQuery({});
       console.log(query);
 
       const [elices] = await pool.query(query);

@@ -24,7 +24,7 @@ class TrackModel {
   async getById(track) {
     try {
       const whereArr = o.objToQueryArray({ track });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [trackName] = await pool.query(query);
@@ -40,7 +40,7 @@ class TrackModel {
 
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
+      const query = o.makeSelectQuery({});
       console.log(query);
 
       const [tracks] = await pool.query(query);

@@ -23,7 +23,7 @@ class FoodModel {
   async getById(foodId) {
     try {
       const whereArr = o.objToQueryArray({ foodId });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [food] = await pool.query(query);
@@ -40,7 +40,7 @@ class FoodModel {
   async getByShopId(shopId) {
     try {
       const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [food] = await pool.query(query);
@@ -57,7 +57,7 @@ class FoodModel {
   async getByName(name) {
     try {
       const whereArr = o.objToQueryArray({ name });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [shop] = await pool.query(query);

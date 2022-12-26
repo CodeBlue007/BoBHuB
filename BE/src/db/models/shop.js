@@ -67,7 +67,7 @@ class ShopModel {
   async getByShopId(shopId) {
     try {
       const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [shop] = await pool.query(query);
@@ -84,7 +84,7 @@ class ShopModel {
   async getByShopName(name) {
     try {
       const whereArr = o.objToQueryArray({ name });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [shop] = await pool.query(query);
