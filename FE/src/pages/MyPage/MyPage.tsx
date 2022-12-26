@@ -4,8 +4,10 @@ import NavBar from '../../components/NavBar';
 import DeleteUser from './components/DeleteUser';
 import { useState, useEffect, useRef } from 'react';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import * as API from '../../api/API';
 import axios from 'axios';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 export type UserInfoType = {
   track: string;
@@ -77,11 +79,15 @@ const MyPage = () => {
       <UserUpdate>
         <ImgContainer>
           <ImgCircle alt="Profile Image" src={userInfo.profile} />
-          <FileUpload
-            onChange={updateProfileImg}
-            type="file"
-            accept="image/jpg,image/jpeg,image/png"
-          />
+          <IconButton component="label">
+            <AccountBoxIcon />
+            <input
+              onChange={updateProfileImg}
+              type="file"
+              accept="image/jpg,image/jpeg,image/png"
+              hidden
+            />
+          </IconButton>
           <UserName>{userInfo.name}</UserName>
           <UserRole>{userInfo.role === 'admin' ? '관리자' : '레이서'}</UserRole>
         </ImgContainer>
