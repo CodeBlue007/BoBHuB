@@ -26,7 +26,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 3;
-  color: white;
+  color: '#1E1F21';
   padding: 10px;
 
   & > article {

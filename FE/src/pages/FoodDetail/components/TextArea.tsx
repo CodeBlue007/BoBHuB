@@ -40,7 +40,7 @@ resize: none;
 
 &:disabled {
   font-weight: bold;
-  color: black;
+  color: '#1E1F21';
   border: none;
 }
 `;

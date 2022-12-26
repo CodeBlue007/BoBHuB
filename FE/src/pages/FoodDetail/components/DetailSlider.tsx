@@ -24,10 +24,10 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover{
-    color : gold;
+    color : #E59A59;
   }
   .slick-next:hover{
-    color : gold;
+    color : #E59A59;
   }
 `;
 
@@ -38,7 +38,7 @@ const Div = styled.div`
   z-index: 99;
   text-align: right;
   font-size : 100px;
-  color : black;
+  color : '#1E1F21';
   right : 16px;
   line-height: 40px;
 `;
@@ -50,7 +50,7 @@ const DivPre = styled.div`
   z-index: 99;
   text-align: left;
   font-size : 100px;
-  color : black;
+  color : '#1E1F21';
   line-height: 40px;
   left : -55px;
 `;
