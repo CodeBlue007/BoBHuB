@@ -12,8 +12,8 @@ class UserService {
     const { password, phone } = userDTO;
     const hashedPassword = await bcrypt.hash(password, 10);
     userDTO.password = hashedPassword;
-    const isExUserPhone = await this.userModel.get({ phone });
-    if (isExUserPhone.length !== 0) {
+    const exsitingUserPhone = await this.userModel.get({ phone });
+    if (exsitingUserPhone.length !== 0) {
       throw new ErrorFactory(
         commonErrors.FORBIDDEN,
         403,
@@ -28,14 +28,14 @@ class UserService {
     const checkPoint = Object.keys(userDTO)[0];
     const CHECKPOINT = { nickname: "닉네임", email: "이메일" };
     if (userDTO.nickname === ":nickname") {
-      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "입력된 닉네임이 없습니다.");
+      throw new ErrorFactory(commonErrors.BAD_REQUEST, 400, "입력된 닉네임이 없습니다.");
     }
     if (userDTO.email === ":email") {
-      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "입력된 이메일이 없습니다.");
+      throw new ErrorFactory(commonErrors.BAD_REQUEST, 400, "입력된 이메일이 없습니다.");
     }
-    const user = await this.userModel.get(userDTO);
+    const existingUser = await this.userModel.get(userDTO);
     let result = {};
-    if (user.length == 0) result.message = `사용가능한 ${CHECKPOINT[checkPoint]}입니다.`;
+    if (existingUser.length == 0) result.message = `사용가능한 ${CHECKPOINT[checkPoint]}입니다.`;
     else result.message = `같은 ${CHECKPOINT[checkPoint]}이 있습니다.`;
     return result;
   }
@@ -86,13 +86,13 @@ class UserService {
       }
     }
     if (phone) {
-      const isExUserPhone = await this.userModel.get({ phone: newUserDTO.phone });
-      if (isExUserPhone[0]) {
-        if (isExUserPhone[0].userId !== userDTO.userId) {
+      const existingUserPhone = await this.userModel.get({ phone: newUserDTO.phone });
+      if (existingUserPhone[0]) {
+        if (existingUserPhone[0].userId !== userDTO.userId) {
           throw new ErrorFactory(
             commonErrors.FORBIDDEN,
             403,
-            "해당 전화번호로 가입한 내역이 존재하여 수정할 수 없습니다."
+            "해당 전화번호로 가입한 다른 유저의 내역이 존재하여 수정할 수 없습니다."
           );
         }
       }

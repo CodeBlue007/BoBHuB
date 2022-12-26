@@ -18,12 +18,12 @@ class EliceService {
   }
 
   async updateTrack(newTrack, track) {
-    const checkExTrack = await this.trackModel.getById(track);
-    if (checkExTrack.length === 0) {
+    const existingTrack = await this.trackModel.getById(track);
+    if (existingTrack.length === 0) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 트랙이 없습니다.");
     }
-    const checkNewTrack = await this.trackModel.getById(newTrack);
-    if (checkNewTrack.length !== 0) {
+    const existingNewTrack = await this.trackModel.getById(newTrack);
+    if (existingNewTrack.length !== 0) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -35,18 +35,18 @@ class EliceService {
   }
 
   async updateGeneration(newDTO, eliceId) {
-    const checkElice = await this.generationModel.getById(eliceId);
-    if (checkElice.length === 0) {
+    const existingElice = await this.generationModel.getById(eliceId);
+    if (existingElice.length === 0) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "elice-id가 존재하지 않습니다.");
     }
-    if (checkElice[0].track !== newDTO.track) {
+    if (existingElice[0].track !== newDTO.track) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
         "해당 elice-id의 트랙과 작성한 트랙이 일치하지 않습니다."
       );
     }
-    if (checkElice[0].generation === newDTO.generation) {
+    if (existingElice[0].generation === newDTO.generation) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -58,8 +58,8 @@ class EliceService {
   }
 
   async deleteTrack(track) {
-    const checkExTrack = await this.trackModel.getById(track);
-    if (checkExTrack.length === 0) {
+    const existingTrack = await this.trackModel.getById(track);
+    if (existingTrack.length === 0) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 트랙이 없습니다.");
     }
     const result = await this.trackModel.deleteById(track);
@@ -67,8 +67,8 @@ class EliceService {
   }
 
   async deleteGeneration(eliceId) {
-    const checkElice = await this.generationModel.getById(eliceId);
-    if (checkElice.length === 0) {
+    const existingElice = await this.generationModel.getById(eliceId);
+    if (existingElice.length === 0) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "elice-id가 존재하지 않습니다.");
     }
     const result = await this.generationModel.deleteById(eliceId);
