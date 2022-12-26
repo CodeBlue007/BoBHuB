@@ -9,12 +9,14 @@ const server = http.createServer(app);
 
 const io = SocketIO(server, socketSetting); 
 
-const socketEvents = require("./src/socket/socketEvents");
+const chatEvents = require("./src/socket/chatEvents");
+const sliderEvents = require("./src/socket/sliderEvents");
 
 const onConnection = (socket) =>{
   socket["nickname"] = "Anon";
   console.log("소켓서버와 연결되었습니다.");
-  socketEvents(io,socket);
+  chatEvents(io,socket);
+  sliderEvents(io,socket);
 }
 
 
