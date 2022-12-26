@@ -59,9 +59,12 @@ const NavBar = () => {
     dispatch(logoutUser());
   };
 
-  const handleLikedParty = async () => {
-    handleOpenToggle();
+  const fetchPartyList = async () => {
     const myPartyList: Party[] = await get('/api/parties/likedParty');
+    if (!myPartyList) {
+      setMyPartyList([]);
+      setActiveShopList([]);
+    }
     const activeShopList: FoodType[] = await Promise.all(
       myPartyList.map((party) => {
         return get(`/api/shops/${party.shopId}`);
@@ -69,6 +72,11 @@ const NavBar = () => {
     );
     setMyPartyList([...myPartyList]);
     setActiveShopList([...activeShopList]);
+  };
+
+  const handleLikedParty = () => {
+    handleOpenToggle();
+    fetchPartyList();
   };
 
   return (
@@ -125,6 +133,7 @@ const NavBar = () => {
           myPartyList={myPartyList}
           handleClose={handleOpenToggle}
           open={open}
+          fetchPartyList={fetchPartyList}
         />
       </Toolbar>
     </AppBar>

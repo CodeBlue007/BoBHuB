@@ -1,45 +1,75 @@
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import type { Party } from './NavBar';
-import { get } from '../api/API';
 import type { FoodType } from '../pages/Admin/components/Restraunt/Foods';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
+import { delete as del } from '../api/API';
 
 interface MyPartyProps {
   open: boolean;
   handleClose: () => void;
   myPartyList: Party[];
   activeShopList: FoodType[];
+  fetchPartyList: () => void;
 }
 
-const MyParty = ({ open, handleClose, myPartyList, activeShopList }: MyPartyProps) => {
+const MyParty = ({
+  open,
+  handleClose,
+  myPartyList,
+  activeShopList,
+  fetchPartyList,
+}: MyPartyProps) => {
+  const clickDeleteButton = async (id: number) => {
+    const res = await del(`/api/parties/${id}`);
+    console.log(res);
+    fetchPartyList();
+  };
+
   return (
     <Container open={open}>
       <Div>
         <Bar>
           <H3>찜 목록</H3>
-          <Button onClick={handleClose}>
+          <CloseButton onClick={handleClose}>
             <Close />
-          </Button>
+          </CloseButton>
         </Bar>
       </Div>
       <ListWrapper>
+        {myPartyList.length === 0 && <List>참여중인 모임이 없습니다.</List>}
         {myPartyList.map((party, index) => {
+          // UTC 기준 시간 > 한국시간으로 변경
           const date = new Date(party.createdAt);
           const offset = new Date(party.createdAt).getTimezoneOffset() * 60000;
           const dateOffset = new Date(date.getTime() - offset);
-          const limit = new Date(dateOffset.setMinutes(dateOffset.getMinutes() + party.timeLimit));
+          const limit = new Date(
+            dateOffset.setMinutes(dateOffset.getMinutes() + party.timeLimit),
+          ).toLocaleTimeString('default', { hour: '2-digit', minute: '2-digit' });
           return (
             <List key={party.partyId}>
-              <ImgWrapper>
-                <Img src={activeShopList[index].shopPicture} alt="img" />
-              </ImgWrapper>
+              <BasicLink to={`/foodlist/${party.shopId}`}>
+                <ImgWrapper>
+                  <Img src={activeShopList[index].shopPicture} alt="img" />
+                </ImgWrapper>
+              </BasicLink>
               <Description>
-                <Name>{activeShopList[index].name}</Name>
-                <Time>모집 종료 시간: {`${limit.getHours()}:${limit.getMinutes()} `}</Time>
+                <BasicLink to={`/foodlist/${party.shopId}`}>
+                  <Name>{activeShopList[index].name}</Name>
+                </BasicLink>
+                <Time>모집 종료 시간: {limit}</Time>
                 <Paragraph>
                   참여한 인원 {party.likedNum}/{party.partylimit}
                 </Paragraph>
               </Description>
+              <DeleteButton
+                size="small"
+                color="error"
+                variant="outlined"
+                onClick={() => clickDeleteButton(party.partyId)}>
+                모집 종료
+              </DeleteButton>
             </List>
           );
         })}
@@ -53,7 +83,7 @@ export default MyParty;
 const Container = styled.div<{ open: boolean }>`
   color: black;
   font-size: 14px;
-  width: 350px;
+  width: 400px;
   background-color: white;
   position: absolute;
   top: 100%;
@@ -85,7 +115,7 @@ const Bar = styled(Flex)`
   justify-content: space-between;
 `;
 
-const Button = styled.button`
+const CloseButton = styled.button`
   border: none;
   cursor: pointer;
   background-color: transparent;
@@ -98,6 +128,11 @@ const Close = styled(CloseIcon)`
   }
 `;
 
+const DeleteButton = styled(Button)`
+  position: relative;
+  right: 0;
+`;
+
 const ListWrapper = styled(Div)`
   max-height: 400px;
   overflow-y: auto;
@@ -105,6 +140,7 @@ const ListWrapper = styled(Div)`
 
 const List = styled(Flex)`
   width: 100%;
+  justify-content: space-between;
 `;
 
 const Img = styled.img`
@@ -118,7 +154,7 @@ const ImgWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 const Description = styled.div`
-  margin-left: 30px;
+  /* margin-left: 10px; */
 `;
 
 const Paragraph = styled.p`
@@ -130,6 +166,7 @@ const Paragraph = styled.p`
 const Name = styled(Paragraph)`
   font-size: 24px;
   font-weight: bold;
+  margin-bottom: 10px;
 `;
 
 const Time = styled(Paragraph)`
@@ -140,4 +177,9 @@ const Time = styled(Paragraph)`
 const H3 = styled.h3`
   font-size: 28px;
   font-weight: bolder;
+`;
+
+const BasicLink = styled(Link)`
+  text-decoration: none;
+  color: black;
 `;
