@@ -24,10 +24,10 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover{
-    color : gold;
+    color : #E59A59;
   }
   .slick-next:hover{
-    color : gold;
+    color : #E59A59;
 `;
 
 const LabelContainer = styled.div`
@@ -48,7 +48,7 @@ const DivNext = styled.div`
   z-index: 99;
   text-align: right;
   font-size: 100px;
-  color: black;
+  color: #712e1e;
   right: 100px;
   top: 120px;
   line-height: 40px;
@@ -63,7 +63,7 @@ const DivPre = styled.div`
   z-index: 99;
   text-align: left;
   font-size: 100px;
-  color: black;
+  color: #712e1e;
   line-height: 40px;
 `;
 
