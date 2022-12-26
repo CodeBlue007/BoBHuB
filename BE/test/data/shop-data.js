@@ -6,7 +6,7 @@ exports.베이커리 = [
     address: "서울 성동구 아차산로17길 48 지하1층 RB111호",
     menu: "",
     shopPicture: "",
-    discription: "유명 빵집! 포장해서 지하 1층에서 먹을 수 있고 라운지에서 드셔도 돼요!",
+    description: "유명 빵집! 포장해서 지하 1층에서 먹을 수 있고 라운지에서 드셔도 돼요!",
   },
   {
     category: "베이커리",
@@ -15,7 +15,7 @@ exports.베이커리 = [
     address: "서울 성동구 아차산로17길 48 1층 R113호",
     menu: "",
     shopPicture: "",
-    discription: "수제 버거 집인데 분위기 좋아요~ ",
+    description: "수제 버거 집인데 분위기 좋아요~ ",
   },
   {
     category: "베이커리",
@@ -24,7 +24,7 @@ exports.베이커리 = [
     address: "서울 광진구 능동로13길 115 1층",
     menu: "",
     shopPicture: "",
-    discription: "가게에서 먹을 수 있고 양이 많아요~",
+    description: "가게에서 먹을 수 있고 양이 많아요~",
   },
   {
     category: "베이커리",
@@ -33,7 +33,7 @@ exports.베이커리 = [
     address: "서울 성동구 광나루로6길 35 성수동 우림 이비즈센터",
     menu: "",
     shopPicture: "",
-    discription: "이삭은 이삭이다!",
+    description: "이삭은 이삭이다!",
   },
   {
     category: "베이커리",
@@ -42,6 +42,6 @@ exports.베이커리 = [
     address: "서울 성동구 아차산로17길 48 성수 SKV1 1층 R123호",
     menu: "",
     shopPicture: "",
-    discription: "샌드위치에 고기(meet)들어가는 컨셉!",
+    description: "샌드위치에 고기(meet)들어가는 컨셉!",
   },
 ];
