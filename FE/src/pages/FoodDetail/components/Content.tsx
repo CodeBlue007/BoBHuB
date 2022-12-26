@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
 import { useState } from 'react';
-import { ShopState } from '../types/Type';
+import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
 import { getParties, postParty } from '../foodDetailApi';
@@ -106,7 +106,7 @@ const Content = ({ shop }: Contentype) => {
             backgroundColor: '#E59A59',
             fontSize: '10px',
             marginRight: '30px',
-          }}>{`찜하기 ❤`}</LikeButton>
+          }}>{`모임생성 ❤`}</LikeButton>
       </TitleContainer>
 
       <MenuContainer>

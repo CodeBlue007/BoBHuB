@@ -1,5 +1,5 @@
 import * as API from '../../api/API';
-import { PostComment,PostParty} from './types/Type';
+import { PostComment,PostParty} from './util/Type';
 
 const baseURL =``;
 
@@ -10,8 +10,14 @@ export const getShop = async (shopId:number) =>  await API.get(`/api/shops/${sho
 export const getMenu = async (shopId:number) => await API.get(`/api/food?shopId=${shopId}`);
 
 export const postComment = async(comment:PostComment) => {
-    const res = API.post("/api/comments",comment);
-    console.log(res);
+    try{
+        const res = await API.post("/api/comments",comment);
+        if(!res) throw new Error("이미 댓글을 작성하셨습니다.")
+        return res;
+    }
+    catch(err){
+        alert(err);
+    }
 }
 
 export const patchComment = async(comment:PostComment, commentId :number) => {

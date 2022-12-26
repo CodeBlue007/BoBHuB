@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
-import { CommentState } from '../types/Type';
+import { CommentState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import { deleteComment } from '../foodDetailApi';
 import type { RootState } from '../../../store/store';
@@ -76,8 +76,8 @@ const CommentList = ({
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, commentId:number) => {
-    deleteComment(commentId);
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, commentId:number) => {
+    await deleteComment(commentId);
     updateCommentState();
   };
 

@@ -4,7 +4,7 @@ import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import { CommentState, ShopState, MenuState, initialShopState } from './types/Type';
+import { CommentState, ShopState, MenuState, initialShopState } from './util/Type';
 import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
 import DetailSlider from './components/DetailSlider';
@@ -40,7 +40,7 @@ const FoodDetail = () => {
   }, []);
 
   const fetchCommentState = async (shopId:number) => {
-    const commentState = await getComment(shopId)
+    const commentState = await getComment(shopId);
     console.log(commentState);
     setCommentState(commentState);
   };
