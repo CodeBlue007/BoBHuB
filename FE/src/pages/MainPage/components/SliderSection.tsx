@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -9,6 +9,9 @@ import { get } from '../../../api/API';
 import { Party } from '../Type';
 import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { SocketContext, socket } from './../../../socket/SocketContext';
 
 const StyledSlider = styled(Slider)`
   height: 110%;
@@ -190,6 +193,8 @@ export default function SimpleSlider() {
 
   const [slideIndex, setSlideIndex] = useState(0);
 
+  const socket = useContext(SocketContext);
+  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
     console.log(data);
@@ -212,6 +217,16 @@ export default function SimpleSlider() {
       console.error(err);
     }
   }, []);
+  const clickHandler = (shopId: number) => {
+    console.log('shopId :', shopId);
+    console.log('userId :', userId);
+    socket.emit('update', shopId, userId);
+  };
+
+  // socket.on('event', () => {
+  //   data = event
+  //   setParties(data)
+  // })
 
   return (
     <Div>
