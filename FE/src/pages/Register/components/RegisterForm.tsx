@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TextField, Button, MenuItem } from '@mui/material';
+import { TextField, Button, MenuItem, IconButton } from '@mui/material';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import MailLockOutlinedIcon from '@mui/icons-material/MailLockOutlined';
 import KeyIcon from '@mui/icons-material/Key';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import LaptopMacOutlinedIcon from '@mui/icons-material/LaptopMacOutlined';
 import NumbersOutlinedIcon from '@mui/icons-material/NumbersOutlined';
@@ -165,6 +167,14 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     navigate('/login', { replace: true });
   };
 
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <RegisterFormContainer onSubmit={handleRegSubmit}>
       <img src={logo} alt="logo" />
@@ -287,8 +297,8 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
 
         <TextField
           required
-          // type={showPassword ? 'text' : 'password'}
-          type="password"
+          type={showPassword ? 'text' : 'password'}
+          // type="password"
           name="password"
           variant="standard"
           InputProps={{
@@ -297,19 +307,17 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
                 <KeyIcon />
               </InputAdornment>
             ),
-
-            // endAdornment: (
-            //   <InputAdornment position="end">
-            //     <IconButton
-            //       aria-label="toggle password visibility"
-            //       onClick={handleClickShowPassword}
-            //       onMouseDown={handleMouseDownPassword}
-            //       edge="end"
-            //     >
-            //     {showPassword ? <VisibilityOff /> : <Visibility />}
-            //     </IconButton>
-            //   </InputAdornment>
-            // )
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
           }}
           sx={{
             input: {
@@ -331,13 +339,25 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
 
         <TextField
           required
-          type="password"
+          // type="password"
+          type={showPassword ? 'text' : 'password'}
           name="passwordCheck"
           variant="standard"
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <KeyIcon />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle passwordCheck visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
               </InputAdornment>
             ),
           }}

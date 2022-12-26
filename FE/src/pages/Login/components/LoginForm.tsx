@@ -164,8 +164,8 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
   };
 
   return (
