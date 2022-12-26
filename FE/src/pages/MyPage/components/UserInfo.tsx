@@ -49,7 +49,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         });
         isLoaded.current = true;
         break;
-      case 'nickName':
+      case 'nickname':
         setUserInfoEditing({
           isNameEditing: false,
           isNickEditing: true,
@@ -97,7 +97,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       case 'name':
         setUserInfoEditing({ ...userInfoEditing, isNameEditing: false });
         break;
-      case 'nickName':
+      case 'nickname':
         setUserInfoEditing({ ...userInfoEditing, isNickEditing: false });
         break;
       case 'phone':
@@ -113,13 +113,12 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
 
   const nickDuplicationCheck = async () => {
     const res = await API.get(`api/users/nicknames/${inputChange}`);
-    console.log(res);
-    return res.message === "사용가능한 닉네임입니다." ? true : false;
+    return res.message === '사용가능한 닉네임입니다.' ? true : false;
   };
 
   const emailDuplicationCheck = async () => {
     const res = await API.get(`api/users/emails/${inputChange}`);
-    return res.message === "사용가능한 이메일입니다." ? true : false;
+    return res.message === '사용가능한 이메일입니다.' ? true : false;
   };
 
   const validInput = async (editSuccess: string) => {
@@ -137,7 +136,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         validInput(editSuccess);
         console.log(userInfo);
       }
-    } else if (editSuccess === 'nickName') {
+    } else if (editSuccess === 'nickname') {
       if (!validateNickName(inputChange)) {
         alert('사용할 수 없는 닉네임입니다.');
         return;
@@ -146,8 +145,8 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         if (!nickExist) {
           alert('이미 사용중인 닉네임입니다.');
           return;
-        } 
-        validInput(editSuccess); 
+        }
+        validInput(editSuccess);
       }
     } else if (editSuccess === 'phone') {
       if (!validatePhone(inputChange)) {
@@ -159,6 +158,8 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
     } else if (editSuccess === 'email') {
       if (!validateEmail(inputChange)) {
         alert('유효하지 않은 이메일 형식입니다.');
+        return;
+      } else {
         const nickExist = await emailDuplicationCheck();
         if (!nickExist) {
           alert('이미 사용중인 이메일입니다.');
@@ -166,23 +167,33 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         } else {
           validInput(editSuccess);
         }
-      } 
+      }
     } else if (editSuccess === 'password') {
-      if (!validatePassword(pwUpdate.newPW)) {
+      if (inputChange === '') {
+        alert('현재 비밀번호를 입력해주세요.');
+        return;
+      } else if (!validatePassword(pwUpdate.newPW)) {
         alert('올바른 비밀번호 형식이 아닙니다.');
         return;
       } else if (!validatePWCheck(pwUpdate.newPW, pwUpdate.newPWCheck)) {
         alert('비밀번호가 일치하지 않습니다.');
         return;
       } else {
-        //setUSerInfo(pw,newpw)
-        //회원정보 수정 api 요청(기존비번,새비번)
-        //if->올바른 비번:
-        // clickBtn_changeEditState(editSuccess);
+        setUserInfo({ ...userInfo, password: inputChange, newPassword: pwUpdate.newPW });
+        try {
+          const res = await API.patch(`/api/users`, userInfo);
+          console.log(res);
+          if (!res) {
+            throw new Error('error');
+          }
+        } catch (err) {
+          alert('기존 비밀번호가 일치하지 않습니다.');
+          return;
+         }
         // setInputChange('');
-        // setPWUpdate({newPW:'',newPWCheck:''});
-        //else-> 틀릴시, alert, return
-        //setuserinfo(pw='',newpw='')
+        // setPWUpdate({ newPW: '', newPWCheck: '' });
+        // setUserInfo({ ...userInfo, password: '', newPassword: '' });
+        // clickBtn_changeEditState(editSuccess);
       }
     }
   };
@@ -281,14 +292,14 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 color="error"
                 size="medium"
                 variant="contained"
-                onClick={(e) => handleClickCancel(e, 'nickName')}>
+                onClick={(e) => handleClickCancel(e, 'nickname')}>
                 취소
               </Button>
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 0' }}
                 size="medium"
                 variant="contained"
-                onClick={(e) => handleClickSuccess(e, 'nickName')}>
+                onClick={(e) => handleClickSuccess(e, 'nickname')}>
                 완료
               </Button>
             </Stack>
@@ -296,7 +307,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         ) : (
           <TableData>
             {userInfo.nickname}
-            <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nickName')}>
+            <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nickname')}>
               <CreateIcon color="secondary" fontSize="small" />
             </UpdateIcon>
           </TableData>
@@ -392,6 +403,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
               <TextField
                 sx={{ margin: '0 0 20px 10px', height: '45px', width: '315px' }}
                 size="small"
+                type="password"
                 id="outlined-helperText"
                 helperText="현재 비밀번호를 입력해주세요."
                 onChange={handleUserInfoChange}

@@ -16,6 +16,8 @@ export type UserInfoType = {
   nickname: string;
   profile: string;
   role: string;
+  password: string;
+  newPassword: string;
 };
 
 const MyPage = () => {
@@ -29,6 +31,8 @@ const MyPage = () => {
     nickname: '',
     profile: '',
     role: '',
+    password: '',
+    newPassword: '',
   });
 
   const isLoaded = useRef<boolean>(false);
@@ -46,7 +50,6 @@ const MyPage = () => {
   useEffect(() => {
     if (isLoaded.current) {
       const res = API.patch(`/api/users`, userInfo);
-      console.log(res);
     }
   }, [userInfo]);
 
