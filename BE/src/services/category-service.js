@@ -1,6 +1,5 @@
 const { categoryModel } = require("../db/models");
-const buildRes = require("../utils/build-response");
-const { BadRequest, NotFound } = require("../utils/error-factory");
+const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class CategoryService {
   constructor(categoryModel) {
@@ -8,12 +7,16 @@ class CategoryService {
   }
 
   async create(categoryDTO) {
-    try {
-      const result = await this.categoryModel.create(categoryDTO);
-      return buildRes("c", result);
-    } catch {
-      throw new BadRequest("같은 이름의 카테고리가 이미 존재합니다.");
+    const existingCategory = await this.categoryModel.getById(categoryDTO.category);
+    if (existingCategory.length !== 0) {
+      throw new ErrorFactory(
+        commonErrors.BAD_REQUEST,
+        400,
+        "같은 이름의 카테고리가 이미 존재합니다."
+      );
     }
+    const result = await this.categoryModel.create(categoryDTO);
+    return result;
   }
 
   async getAll() {
@@ -22,30 +25,37 @@ class CategoryService {
   }
 
   async update(newCategory, category) {
-    const exCategory = await this.categoryModel.getById(category);
-    if (exCategory.length === 0) {
-      throw new NotFound("존재하는 카테고리가 없습니다.");
+    const existingCategory = await this.categoryModel.getById(category);
+    if (existingCategory.length === 0) {
+      throw new ErrorFactory(
+        commonErrors.NOT_FOUND,
+        404,
+        "수정할 카테고리가 존재하지 않습니다."
+      );
     }
-
-    if (newCategory === category) {
-      throw new BadRequest("수정할 카테고리와 기존 카테고리의 이름이 동일합니다.");
+    const existingNewCategory = await this.categoryModel.getById(newCategory);
+    if (existingNewCategory.length !== 0) {
+      throw new ErrorFactory(
+        commonErrors.BAD_REQUEST,
+        400,
+        "같은 이름의 카테고리가 이미 존재합니다."
+      );
     }
-
-    try {
-      const result = await this.categoryModel.update({ category: newCategory }, { category });
-      return buildRes("u", result);
-    } catch {
-      throw new BadRequest("수정할 이름의 카테고리가 이미 존재합니다.");
-    }
+    const result = await this.categoryModel.update({ category: newCategory }, { category });
+    return result;
   }
 
   async deleteById(category) {
-    try {
-      const result = await this.categoryModel.deleteById(category);
-      return buildRes("d", result);
-    } catch {
-      throw new NotFound("존재하는 카테고리가 없습니다.");
+    const existingCategory = await this.categoryModel.getById(category);
+    if (existingCategory.length === 0) {
+      throw new ErrorFactory(
+        commonErrors.NOT_FOUND,
+        404,
+        "수정할 카테고리가 존재하지 않습니다."
+      );
     }
+    const result = await this.categoryModel.deleteById(category);
+    return result;
   }
 }
 

@@ -1,4 +1,5 @@
 const { generateRandomCode, mailSender } = require("../utils");
+const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class UtilService {
   async sendCode(needVerifyEmail) {
@@ -16,7 +17,7 @@ class UtilService {
       mailSender.sendGmail(info);
       return { code };
     } catch {
-      throw new Error("메일 전송에 오류가 있습니다.");
+      throw new ErrorFactory(commonErrors.DB_ERROR, 500, "메일 전송에 오류가 있습니다.");
     }
   }
 }

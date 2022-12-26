@@ -3,10 +3,13 @@ import styled from 'styled-components';
 import Button from '@mui/material/Button';
 import React from 'react';
 import * as API from '../../../api/API';
+import { useNavigate } from 'react-router';
 
 const DeleteUser = () => {
+  const navigate = useNavigate();
   const deleteUserAPI = async () => {
     await API.delete(`/api/users`);
+    navigate('/', { replace: true });
   };
 
   const handleUserDelete = (e: React.MouseEvent<HTMLElement>) => {
@@ -14,7 +17,6 @@ const DeleteUser = () => {
     try {
       deleteUserAPI();
       alert('계정 탈퇴되었습니다.');
-      //window.location.href = '/';
     } catch (err) {
       console.error(err);
     }

@@ -2,10 +2,9 @@ import styled, { css } from 'styled-components';
 
 export const TextCss = css`
   width: inherit;
-  color: white;
   text-align: center;
   padding: 25px 0px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid black;
 `;
 
 export const Title = styled.div`

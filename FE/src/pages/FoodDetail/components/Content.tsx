@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
 import { useState } from 'react';
-import { shopStateType } from '../types/Type';
+import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
 import { getParties, postParty } from '../foodDetailApi';
@@ -34,12 +34,12 @@ const Title = styled.div`
   margin-left: 50px;
 `;
 
-type menuCardProps = {
+type MenuCardProps = {
   width: string;
   size: string;
 };
 
-const MenuCard = styled(Card)<menuCardProps>`
+const MenuCard = styled(Card)<MenuCardProps>`
   width: ${(props) => props.width};
   font-size: ${(props) => props.size};
   padding: 20px;
@@ -60,7 +60,7 @@ const LikeButton = styled(Button)`
 `;
 
 interface Contentype {
-  shop: shopStateType;
+  shop: ShopState;
 }
 
 const Content = ({ shop }: Contentype) => {
@@ -106,7 +106,7 @@ const Content = ({ shop }: Contentype) => {
             backgroundColor: '#E59A59',
             fontSize: '10px',
             marginRight: '30px',
-          }}>{`찜하기 ❤`}</LikeButton>
+          }}>{`모임생성 ❤`}</LikeButton>
       </TitleContainer>
 
       <MenuContainer>

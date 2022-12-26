@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import {patchComment} from "../foodDetailApi";
+import { NullableNum } from "../util/Type";
 
 
 const TextContainer = styled.div`
@@ -46,7 +47,7 @@ resize: none;
 
 interface TextAreaProps{
     commentId : number;
-    commentStar : null|number;
+    commentStar : NullableNum;
     content: string;
     canRevise : boolean;
     updateRevise : (x:boolean) => void;
@@ -61,7 +62,7 @@ const TextArea = ({commentId,commentStar,content,canRevise,updateRevise,updateRe
         setTextValue(e.target.value);
     }
 
-    const reviseEnd = (e:React.MouseEvent<HTMLButtonElement>) => {
+    const reviseEnd = async (e:React.MouseEvent<HTMLButtonElement>) => {
         if(textValue === ""){
             alert("댓글을 입력해주세요");
             return;
@@ -75,7 +76,7 @@ const TextArea = ({commentId,commentStar,content,canRevise,updateRevise,updateRe
             content:textValue,
         }
 
-        patchComment(reviseComment, commentId);
+        await patchComment(reviseComment, commentId);
         updateRevise(false);
         updateReadOnly(true);
     }

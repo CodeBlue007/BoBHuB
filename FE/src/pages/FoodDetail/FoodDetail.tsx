@@ -4,7 +4,7 @@ import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import { commentStateType, shopStateType, menuStateType, initialShopState } from './types/Type';
+import { CommentState, ShopState, MenuState, initialShopState } from './util/Type';
 import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
 import DetailSlider from './components/DetailSlider';
@@ -27,9 +27,9 @@ const CommentContainer = styled(FlexContainer)`
 
 
 const FoodDetail = () => {
-  const [shopState, setShopState] = useState<shopStateType>(initialShopState);
-  const [commentState, setCommentState] = useState<commentStateType[]>([]);
-  const [menuState, setMenuState] = useState<menuStateType[]>([]);
+  const [shopState, setShopState] = useState<ShopState>(initialShopState);
+  const [commentState, setCommentState] = useState<CommentState[]>([]);
+  const [menuState, setMenuState] = useState<MenuState[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [update, setUpdated] = useState<boolean>(false);
   const scrollRef = useRef<HTMLElement>(null);
@@ -40,7 +40,7 @@ const FoodDetail = () => {
   }, []);
 
   const fetchCommentState = async (shopId:number) => {
-    const commentState = await getComment(shopId)
+    const commentState = await getComment(shopId);
     console.log(commentState);
     setCommentState(commentState);
   };
