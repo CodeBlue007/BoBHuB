@@ -40,11 +40,7 @@ const MyPage = () => {
   };
 
   useEffect(() => {
-    try {
-      getUserInfoAPI();
-    } catch (err) {
-      console.error(err);
-    }
+    getUserInfoAPI();
   }, []);
 
   useEffect(() => {
@@ -63,6 +59,7 @@ const MyPage = () => {
       formData.append('profile', files);
       const res = await axios.post(`/api/users/image`, formData, { withCredentials: true });
       setProfileImg(files);
+      getUserInfoAPI();
     }
   };
 
