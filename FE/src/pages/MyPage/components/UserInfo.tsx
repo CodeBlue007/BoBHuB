@@ -16,6 +16,7 @@ import {
 } from '../../../util/validateRegister';
 import { validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
+import { response } from 'express';
 
 interface UserProps {
   userInfo: UserInfoType;
@@ -178,21 +179,23 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         alert('비밀번호가 일치하지 않습니다.');
         return;
       } else {
-        setUserInfo({ ...userInfo, password: inputChange, newPassword: pwUpdate.newPW });
+        // setUserInfo({ ...userInfo, password: inputChange, newPassword: pwUpdate.newPW });
         try {
-          const res = await API.patch(`/api/users`, userInfo);
-          console.log(res);
+          const res = await API.patch(`/api/users`, {
+            password: inputChange,
+            newPassword: pwUpdate.newPW,
+          });
           if (!res) {
-            throw new Error('error');
+            throw new Error('기존 비밀번호가 일치하지 않습니다.');
           }
         } catch (err) {
-          alert('기존 비밀번호가 일치하지 않습니다.');
+          alert(err);
           return;
-         }
-        // setInputChange('');
-        // setPWUpdate({ newPW: '', newPWCheck: '' });
-        // setUserInfo({ ...userInfo, password: '', newPassword: '' });
-        // clickBtn_changeEditState(editSuccess);
+        }
+        setInputChange('');
+        setPWUpdate({ newPW: '', newPWCheck: '' });
+        setUserInfo({ ...userInfo, password: '', newPassword: '' });
+        clickBtn_changeEditState(editSuccess);
       }
     }
   };
