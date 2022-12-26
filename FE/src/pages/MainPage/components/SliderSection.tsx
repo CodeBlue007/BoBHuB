@@ -1,25 +1,30 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
-import { NavLink } from 'react-router-dom';
-import { SocketContext } from '../../../socket/SocketContext';
-
-export interface Party {
-  shopId: number;
-  name: string;
-  shopPicture: string;
-  address: string;
-  avgStar: number;
-}
+import { Party } from '../Type';
+import SliderItem from './SliderItem';
 
 const StyledSlider = styled(Slider)`
   border: 1px solid black;
   height: 45vh;
+  position: relative;
+  .slick-prev::before,
+  .slick-next::before {
+    opacity: 0;
+  }
+  .slick-slide div {
+    cursor: pointer;
+  }
+  .slick-prev:hover {
+    color: #e59a59;
+  }
+  .slick-next:hover {
+    color: #e59a59;
+  }
 `;
 
 const LabelContainer = styled.div`
@@ -28,8 +33,34 @@ const LabelContainer = styled.div`
   align-items: center;
   width: 100vw;
   height: 45vh;
+  position: relative;
   border: 1px solid black;
   box-sizing: border-box;
+`;
+
+const DivNext = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  text-align: right;
+  font-size: 100px;
+  color: #712e1e;
+  right: 100px;
+  top: 120px;
+  line-height: 40px;
+`;
+
+const DivPre = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 120px;
+  left: 40px;
+  z-index: 99;
+  text-align: left;
+  font-size: 100px;
+  color: #712e1e;
+  line-height: 40px;
 `;
 
 const Div = styled.div`
@@ -39,26 +70,6 @@ const Div = styled.div`
   width: 100%;
   place-items: center;
 
-  .slick-prev:before,
-  .slick-next:before {
-    font-family: 'slick';
-    font-size: 40px;
-    line-height: 1;
-    opacity: 0.75;
-    color: #000000;
-    -webkit-font-smoothing: antialiased;
-    position: absolute;
-    top: -235px;
-  }
-
-  .slick-prev:before {
-    position: absolute;
-    left: 100px;
-  }
-  .slick-next:before {
-    position: absolute;
-    right: 100px;
-  } // arrow
   .slick-slider {
     padding: 0 15px;
   } //slider
@@ -81,31 +92,11 @@ const Div = styled.div`
     transform: scale(0.7);
     transition: 0.3s;
     filter: blur (5px);
-  } 
+  }
   .slide-center {
     opacity: 1;
     transform: scale(1);
   }
-
-  // .arrow {
-  //   font-size: 3em;
-  //   padding: 5px 15px;
-  //   border-radius: 10px;
-  //   width: 10px;
-  //   position: absolute;
-  //   top: 50px;
-  //   background-color: transparent;
-  //   color: white;
-  // }
-
-  // .arrow-right {
-  //   right: 30px;
-  // }
-
-  // .arrow-left {
-  //   left: -15px;
-  //   z-index: 999;
-  // }
 
   img {
     margin: auto auto 10px auto;
@@ -120,6 +111,7 @@ const Div = styled.div`
     color: black;
     font-size: 2rem;
     font-weight: bold;
+    margin-bottom: 5px;
   }
 `;
 
@@ -131,33 +123,6 @@ const TitleBox = styled.div`
   font-weight: bold;
   text-align: center;
 `;
-
-const Description = styled.div`
-  display: flex;
-  flex-direction: column;
-  span {
-    font-size: 20px;
-  }
-`;
-
-const ItemContainer = styled.div`
-`
-
-// export function NextArrow() {
-//   return (
-//     <div className="arrow arrow-right">
-//       <MdKeyboardArrowRight />
-//     </div>
-//   );
-// }
-
-// export function PrevArrow() {
-//   return (
-//     <div className="arrow arrow-left">
-//       <MdKeyboardArrowLeft />
-//     </div>
-//   );
-// }
 
 export default function SimpleSlider() {
   const settings = {
@@ -174,8 +139,16 @@ export default function SimpleSlider() {
     autoplaySpeed: 3000,
     pauseOnHover: true,
     draggable: true,
-    // nextArrow: <NextArrow />,
-    // prevArrow: <PrevArrow />,
+    nextArrow: (
+      <DivNext>
+        <MdKeyboardArrowRight />
+      </DivNext>
+    ),
+    prevArrow: (
+      <DivPre>
+        <MdKeyboardArrowLeft />
+      </DivPre>
+    ),
     beforeChange: (current: number, next: number) => setSlideIndex(next),
     responsive: [
       {
@@ -195,17 +168,12 @@ export default function SimpleSlider() {
 
   const [parties, setParties] = useState<Party[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
-  const socket = useContext(SocketContext);
 
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
     console.log(data);
     setParties([...data]);
   };
-
-  const handleClick = () => {
-    console.log("hi");
-  }
 
   useEffect(() => {
     setPartiesData();
@@ -221,23 +189,8 @@ export default function SimpleSlider() {
           </LabelContainer>
         ) : (
           <StyledSlider {...settings}>
-            {parties.map((party: Party, index: number) => (
-              <NavLink to={`/foodList/${party.shopId}`}>
-                <ItemContainer
-                  className={index === slideIndex ? 'slide slide-center' : 'slide'}
-                  key={`${party.shopId}`}>
-                  <img src={party.shopPicture} alt="img" />
-                  <Description>
-                    <span>{party.name}</span>
-                    <span>{party.avgStar}</span>
-                    <span>{party.address}</span>
-                  </Description>
-                  <Button variant="contained" sx={{ cursor: "pointer", zIndex:100}}
-                  onClick={handleClick} >
-                    찜하기
-                  </Button>
-                </ItemContainer>
-              </NavLink>
+            {parties.map((party, index) => (
+              <SliderItem index={index} slideIndex={slideIndex} party={party} key={party.shopId} />
             ))}
           </StyledSlider>
         )}
