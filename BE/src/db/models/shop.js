@@ -11,7 +11,8 @@ class ShopModel {
 
       const [countData] = await pool.query(query);
       return countData[0];
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -26,7 +27,8 @@ class ShopModel {
       logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -54,7 +56,8 @@ class ShopModel {
       const [shops] = await pool.query(query);
 
       return shops;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -71,7 +74,8 @@ class ShopModel {
 
       const [shop] = await pool.query(query);
       return shop[0];
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -88,7 +92,8 @@ class ShopModel {
 
       const [shop] = await pool.query(query);
       return shop[0];
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -106,7 +111,8 @@ class ShopModel {
 
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -123,7 +129,8 @@ class ShopModel {
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
