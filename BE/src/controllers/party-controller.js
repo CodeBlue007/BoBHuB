@@ -39,7 +39,6 @@ class PartyController {
   async getById(req, res, next) {
     try {
       const partyId = parseInt(req.params.partyId);
-      console.log(partyId);
       const [party] = await partyService.get({ partyId });
       return res.status(200).json(party);
     } catch (e) {
