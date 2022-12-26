@@ -23,11 +23,12 @@ const StyledSlider = styled(Slider)`
   .slick-slide div {
     cursor: pointer;
   }
-  .slick-prev:hover{
-    color : #E59A59;
+  .slick-prev:hover {
+    color: #e59a59;
   }
-  .slick-next:hover{
-    color : #E59A59;
+  .slick-next:hover {
+    color: #e59a59;
+  }
 `;
 
 const LabelContainer = styled.div`
