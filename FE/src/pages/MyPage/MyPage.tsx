@@ -48,9 +48,11 @@ const MyPage = () => {
   }, []);
 
   useEffect(() => {
-    if (isLoaded.current) {
-      const res = API.patch(`/api/users`, userInfo);
-    }
+    (async () => {
+      if (isLoaded.current) {
+        const res = await API.patch(`/api/users`, userInfo);
+      }
+    })();
   }, [userInfo]);
 
   const updateProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
