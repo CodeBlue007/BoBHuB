@@ -115,6 +115,16 @@ const Div = styled.div`
     font-weight: bold;
     margin-bottom: 5px;
   }
+
+  .login_msg {
+    height: 30px;
+    font-size: 2em;
+    margin: 30px 30px 30px 30px;
+    color: #424140;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 4px;
+  }
 `;
 
 const TitleBox = styled.div`
@@ -208,9 +218,14 @@ export default function SimpleSlider() {
 
   return (
     <Div>
-      <TitleBox>
-        밥메이트들이 <span>{userInfo.name}</span>님을 기다리고 있어요!
-      </TitleBox>
+      {userInfo ? (
+        <TitleBox>
+          밥메이트들이 <span>{userInfo.name}</span>님을 기다리고 있어요!
+        </TitleBox>
+      ) : (
+        <div className="login_msg">로그인 후 이용해주세요!</div>
+      )}
+
       <div>
         {parties.length === 0 ? (
           <LabelContainer>
