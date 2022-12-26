@@ -10,10 +10,25 @@ import { NavLink } from 'react-router-dom';
 import { SocketContext } from '../../../socket/SocketContext';
 import { Party } from '../Type';
 import { getHourmin } from '../../../util/getDate';
+import { AiFillStar } from 'react-icons/ai';
 
 const StyledSlider = styled(Slider)`
   border: 1px solid black;
   height: 45vh;
+  position: relative;
+  .slick-prev::before,
+  .slick-next::before {
+    opacity: 0;
+  }
+  .slick-slide div {
+    cursor: pointer;
+  }
+  .slick-prev:hover {
+    color: #e59a59;
+  }
+  .slick-next:hover {
+    color: #e59a59;
+  }
 `;
 
 const LabelContainer = styled.div`
@@ -22,8 +37,35 @@ const LabelContainer = styled.div`
   align-items: center;
   width: 100vw;
   height: 45vh;
+  position: relative;
   border: 1px solid black;
   box-sizing: border-box;
+`;
+
+const DivNext = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  z-index: 99;
+  text-align: right;
+  font-size: 100px;
+  color: #712e1e;
+  right: 100px;
+  top: 120px;
+  line-height: 40px;
+`;
+
+const DivPre = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 120px;
+  left: 40px;
+  z-index: 99;
+  text-align: left;
+  font-size: 100px;
+  color: #712e1e;
+  line-height: 40px;
 `;
 
 const Div = styled.div`
@@ -33,26 +75,6 @@ const Div = styled.div`
   width: 100%;
   place-items: center;
 
-  .slick-prev:before,
-  .slick-next:before {
-    font-family: 'slick';
-    font-size: 40px;
-    line-height: 1;
-    opacity: 0.75;
-    color: #000000;
-    -webkit-font-smoothing: antialiased;
-    position: absolute;
-    top: -235px;
-  }
-
-  .slick-prev:before {
-    position: absolute;
-    left: 100px;
-  }
-  .slick-next:before {
-    position: absolute;
-    right: 100px;
-  } // arrow
   .slick-slider {
     padding: 0 15px;
   } //slider
@@ -75,31 +97,11 @@ const Div = styled.div`
     transform: scale(0.7);
     transition: 0.3s;
     filter: blur (5px);
-  } 
+  }
   .slide-center {
     opacity: 1;
     transform: scale(1);
   }
-
-  // .arrow {
-  //   font-size: 3em;
-  //   padding: 5px 15px;
-  //   border-radius: 10px;
-  //   width: 10px;
-  //   position: absolute;
-  //   top: 50px;
-  //   background-color: transparent;
-  //   color: white;
-  // }
-
-  // .arrow-right {
-  //   right: 30px;
-  // }
-
-  // .arrow-left {
-  //   left: -15px;
-  //   z-index: 999;
-  // }
 
   img {
     margin: auto auto 10px auto;
@@ -114,6 +116,7 @@ const Div = styled.div`
     color: black;
     font-size: 2rem;
     font-weight: bold;
+    margin-bottom: 5px;
   }
 `;
 
@@ -134,24 +137,7 @@ const Description = styled.div`
   }
 `;
 
-const ItemContainer = styled.div`
-`
-
-// export function NextArrow() {
-//   return (
-//     <div className="arrow arrow-right">
-//       <MdKeyboardArrowRight />
-//     </div>
-//   );
-// }
-
-// export function PrevArrow() {
-//   return (
-//     <div className="arrow arrow-left">
-//       <MdKeyboardArrowLeft />
-//     </div>
-//   );
-// }
+const ItemContainer = styled.div``;
 
 export default function SimpleSlider() {
   const settings = {
@@ -168,8 +154,16 @@ export default function SimpleSlider() {
     autoplaySpeed: 3000,
     pauseOnHover: true,
     draggable: true,
-    // nextArrow: <NextArrow />,
-    // prevArrow: <PrevArrow />,
+    nextArrow: (
+      <DivNext>
+        <MdKeyboardArrowRight />
+      </DivNext>
+    ),
+    prevArrow: (
+      <DivPre>
+        <MdKeyboardArrowLeft />
+      </DivPre>
+    ),
     beforeChange: (current: number, next: number) => setSlideIndex(next),
     responsive: [
       {
@@ -198,8 +192,8 @@ export default function SimpleSlider() {
   };
 
   const handleClick = () => {
-    console.log("hi");
-  }
+    console.log('hi');
+  };
 
   useEffect(() => {
     setPartiesData();
@@ -216,27 +210,36 @@ export default function SimpleSlider() {
         ) : (
           <StyledSlider {...settings}>
             {parties.map((party, index) => {
-
               const [hour, minute] = getHourmin(party.createdAt, party.timeLimit);
 
-              return(
+              return (
                 <ItemContainer
                   className={index === slideIndex ? 'slide slide-center' : 'slide'}
                   key={party.shopId}>
                   <NavLink to={`/foodList/${party.shopId}`}>
-                  <img src={party.shopPicture} alt="shopImg" />
+                    <img src={party.shopPicture} alt="shopImg" />
                   </NavLink>
                   <Description>
                     <span>{party.name}</span>
-                    <span>{party.likedNum}/{party.partylimit}</span>
+                    <span>
+                      {party.likedNum}/{party.partylimit}
+                    </span>
                     <span>마감 : {`~${hour}:${minute}`}</span>
-                    <span>{party.avgStar}</span>
+                    <span style={{ alignItems: 'center' }}>
+                      <span>
+                        <AiFillStar size="19" color="#faaf00" />
+                      </span>
+                      <span>{Number(party.avgStar).toFixed(1)}</span>
+                    </span>
                   </Description>
-                  <Button variant="contained" sx={{ cursor: "pointer", zIndex:100}}
-                  onClick={handleClick} >
-                    찜하기
+                  <Button
+                    variant="contained"
+                    sx={{ cursor: 'pointer', zIndex: 100 }}
+                    onClick={handleClick}>
+                    참여하기
                   </Button>
-                </ItemContainer>)
+                </ItemContainer>
+              );
             })}
           </StyledSlider>
         )}

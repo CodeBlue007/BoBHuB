@@ -7,9 +7,23 @@ import 'slick-carousel/slick/slick-theme.css';
 import heart from './assets/Heart.gif';
 import hamburger from './assets/Hamburger.gif';
 import chat from './assets/Chat.gif';
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 const StyledSlider = styled(Slider)`
   height: 73vh;
+
+  .slick-prev::before,
+  .slick-next::before {
+    opacity: 0;
+  }
+  .slick-slide div {
+    cursor: pointer;
+  }
+  .slick-prev:hover{
+    color : #E59A59;
+  }
+  .slick-next:hover{
+    color : #E59A59;
 `;
 
 const Div = styled.div`
@@ -30,28 +44,6 @@ const Div = styled.div`
     justify-content: center;
   }
 
-  .slick-prev:before,
-  .slick-next:before {
-    font-family: 'slick';
-    font-size: 40px;
-    line-height: 1;
-    opacity: 0.75;
-    color: #000000;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .slick-prev:before {
-    position: absolute;
-    left: 400px;
-    top: -20px;
-  }
-
-  .slick-next:before {
-    position: absolute;
-    right: 400px;
-    top: -20px;
-  }
-
   .slick-slide {
     border-radius: 15px;
     height: 350px;
@@ -68,6 +60,32 @@ const Div = styled.div`
   }
 `;
 
+const DivNext = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  z-index: 99;
+  text-align: right;
+  font-size: 100px;
+  color: #712e1e;
+  right: 100px;
+  top: 120px;
+  line-height: 40px;
+`;
+
+const DivPre = styled.div`
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 120px;
+  left: 40px;
+  z-index: 99;
+  text-align: left;
+  font-size: 100px;
+  color: #712e1e;
+  line-height: 40px;
+`;
+
 const UserGuide = () => {
   const settings = {
     dots: true,
@@ -77,6 +95,16 @@ const UserGuide = () => {
     slidesToScroll: 1,
     centerMode: true,
     centerPadding: '0px',
+    nextArrow: (
+      <DivNext>
+        <MdKeyboardArrowRight />
+      </DivNext>
+    ),
+    prevArrow: (
+      <DivPre>
+        <MdKeyboardArrowLeft />
+      </DivPre>
+    ),
   };
 
   return (
