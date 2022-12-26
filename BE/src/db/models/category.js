@@ -24,7 +24,7 @@ class CategoryModel {
   async getById(category) {
     try {
       const whereArr = o.objToQueryArray({ category });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [categoryName] = await pool.query(query);
@@ -40,7 +40,7 @@ class CategoryModel {
 
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
+      const query = o.makeSelectQuery({});
       console.log(query);
 
       const [categories] = await pool.query(query);

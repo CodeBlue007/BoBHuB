@@ -30,11 +30,15 @@ class BuildQueryString {
     return `${query} ORDER BY 1 LIMIT ${limit} OFFSET ${offSet}`;
   }
 
-  makeSelectQuery(columnArr = ["*"], whereArr = null) {
-    const column = columnArr.join(", ");
-    const where = whereArr ? "where " + whereArr.join(" and ") : "";
+  makeSelectQuery({ columnArr, whereArr }) {
+    const columns =
+      columnArr !== undefined && Array.isArray(columnArr) ? columnArr.join(", ") : "*";
+    const wheres =
+      whereArr !== undefined && Array.isArray(whereArr)
+        ? `where ${whereArr.join(" and ")}`
+        : "";
 
-    return `select ${column} from ${this.table} ${where}`;
+    return `select ${columns} from ${this.table} ${wheres}`;
   }
 
   makeInsertQuery(columnArr, valuesArr) {
