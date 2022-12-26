@@ -42,7 +42,6 @@ const DivNext = styled.div`
   width: 30px;
   height: 30px;
   position: absolute;
-  z-index: 99;
   text-align: right;
   font-size: 100px;
   color: #712e1e;
@@ -125,9 +124,6 @@ const TitleBox = styled.div`
   text-align: center;
 `;
 
-
-
-
 export default function SimpleSlider() {
   const settings = {
     dots: false,
@@ -193,9 +189,9 @@ export default function SimpleSlider() {
           </LabelContainer>
         ) : (
           <StyledSlider {...settings}>
-            {parties.map((party, index) => 
-              <SliderItem index={index} slideIndex={slideIndex} party={party} key={party.shopId}/>
-            )}
+            {parties.map((party, index) => (
+              <SliderItem index={index} slideIndex={slideIndex} party={party} key={party.shopId} />
+            ))}
           </StyledSlider>
         )}
       </div>
