@@ -22,24 +22,26 @@ const Description = styled.div`
   border-radius: 10px;
   height: 100px;
   .name {
-    font-size: 20px;
+    font-size: 25px;
   }
   .avgStar {
-    font-size: 15px;
+    font-size: 18px;
   }
   .party_info {
     align-self: center;
     text-align: left;
     font-size: 12px;
+    display: flex;
+    flex-direction: row;
   }
   .likedNum {
     color: blue;
-    font-size: 14px;
+    font-size: 17px;
     margin: 10px 20px 5px 0;
   }
   .time {
     color: red;
-    font-size: 14px;
+    font-size: 17px;
   }
 `;
 
@@ -75,16 +77,18 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
           <span style={{ marginLeft: '3px' }}>
             <AiFillStar size="19" color="#faaf00" />
           </span>
-          <span className="avgStar">{Number(party.avgStar).toFixed(1)}</span>
+          <span className="avgStar" style={{ marginTop: '3px' }}>
+            {Number(party.avgStar).toFixed(1)}
+          </span>
         </div>
         <div className="party_info">
           <span>
             <div className="likedNum">
-              모집 현황 : {party.likedNum}/{party.partylimit}
+              모집 현황 : {party.likedNum} 명/총 {party.partylimit} 명
             </div>
             <div className="time">모집 종료 시간: {`${hour}시 ${minute}분`}</div>
           </span>
-          <span>
+          <span style={{ margin: '3px 0 0 30px' }}>
             <HeartButton like={like} onClick={handleLike} />
           </span>
         </div>

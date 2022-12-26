@@ -13,7 +13,9 @@ const HeartContainer = styled.div`
 
 const HeartButton = ({ like, onClick }: LikeProps) => {
   return (
-    <HeartContainer onClick={onClick}>{like ? <FcLike /> : <FcLikePlaceholder />}</HeartContainer>
+    <HeartContainer onClick={onClick}>
+      {like ? <FcLike size={50} /> : <FcLikePlaceholder size={50} />}
+    </HeartContainer>
   );
 };
 
