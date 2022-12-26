@@ -17,12 +17,14 @@ const Intro = styled.div`
     font-size: 5em;
     font-weight: bold;
     color: white;
+    letter-spacing: 3px;
   }
   .sub {
-    margin-bottom: 200px;
+    margin-bottom: 150px;
     font-size: 3em;
     font-weight: bold;
     color: white;
+    letter-spacing: 3px;
   }
 `;
 
