@@ -9,10 +9,22 @@ export const loginUserData = createAsyncThunk(
       const data = await res.data;
       return data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue('not login');
     }
   },
 );
+
+export const logoutUser = createAsyncThunk('user/logoutUser', async (_, { rejectWithValue }) => {
+  try {
+    const data = await axios.get('/api/auth/logout');
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+    return rejectWithValue('fali!');
+  }
+});
+
 const initialState = {
   currentUser: {
     userId: 0,
@@ -35,12 +47,7 @@ const initialState = {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.isLogin = false;
-      state.currentUser = { ...initialState.currentUser };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loginUserData.fulfilled, (state, action) => {
       state.isLogin = true;
@@ -49,8 +56,15 @@ export const userSlice = createSlice({
     builder.addCase(loginUserData.rejected, (state, action) => {
       state.isLogin = false;
     });
+    builder.addCase(logoutUser.fulfilled, (state, action) => {
+      state.currentUser = { ...initialState.currentUser };
+      state.isLogin = false;
+    });
+    builder.addCase(logoutUser.rejected, (state, action) => {
+      state = state;
+    });
   },
 });
 
 export default userSlice;
-export const userAction = userSlice.actions;
+// export const userAction = userSlice.actions;
