@@ -1,16 +1,12 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Button } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
-import { NavLink } from 'react-router-dom';
-import { SocketContext } from '../../../socket/SocketContext';
 import { Party } from '../Type';
-import { getHourmin } from '../../../util/getDate';
-import { AiFillStar } from 'react-icons/ai';
+import SliderItem from './SliderItem';
 
 const StyledSlider = styled(Slider)`
   border: 1px solid black;
@@ -129,15 +125,8 @@ const TitleBox = styled.div`
   text-align: center;
 `;
 
-const Description = styled.div`
-  display: flex;
-  flex-direction: column;
-  span {
-    font-size: 20px;
-  }
-`;
 
-const ItemContainer = styled.div``;
+
 
 export default function SimpleSlider() {
   const settings = {
@@ -183,16 +172,11 @@ export default function SimpleSlider() {
 
   const [parties, setParties] = useState<Party[]>([]);
   const [slideIndex, setSlideIndex] = useState(0);
-  const socket = useContext(SocketContext);
 
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
     console.log(data);
     setParties([...data]);
-  };
-
-  const handleClick = () => {
-    console.log('hi');
   };
 
   useEffect(() => {
@@ -209,38 +193,9 @@ export default function SimpleSlider() {
           </LabelContainer>
         ) : (
           <StyledSlider {...settings}>
-            {parties.map((party, index) => {
-              const [hour, minute] = getHourmin(party.createdAt, party.timeLimit);
-
-              return (
-                <ItemContainer
-                  className={index === slideIndex ? 'slide slide-center' : 'slide'}
-                  key={party.shopId}>
-                  <NavLink to={`/foodList/${party.shopId}`}>
-                    <img src={party.shopPicture} alt="shopImg" />
-                  </NavLink>
-                  <Description>
-                    <span>{party.name}</span>
-                    <span>
-                      {party.likedNum}/{party.partylimit}
-                    </span>
-                    <span>마감 : {`~${hour}:${minute}`}</span>
-                    <span style={{ alignItems: 'center' }}>
-                      <span>
-                        <AiFillStar size="19" color="#faaf00" />
-                      </span>
-                      <span>{Number(party.avgStar).toFixed(1)}</span>
-                    </span>
-                  </Description>
-                  <Button
-                    variant="contained"
-                    sx={{ cursor: 'pointer', zIndex: 100 }}
-                    onClick={handleClick}>
-                    참여하기
-                  </Button>
-                </ItemContainer>
-              );
-            })}
+            {parties.map((party, index) => 
+              <SliderItem index={index} slideIndex={slideIndex} party={party} key={party.shopId}/>
+            )}
           </StyledSlider>
         )}
       </div>
