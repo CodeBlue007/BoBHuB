@@ -9,7 +9,7 @@ export interface Party{
     createdAt : string;
     deletedAt : NullableString;
     isComplete : number;
-    likedNum : 0;
+    likedNum : number;
     menu : UndefinedString;
     name : string;
     partyId : number;
