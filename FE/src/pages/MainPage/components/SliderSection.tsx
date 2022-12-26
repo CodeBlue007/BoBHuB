@@ -8,7 +8,6 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
 import { NavLink } from 'react-router-dom';
 import { SocketContext } from '../../../socket/SocketContext';
-import zIndex from '@mui/material/styles/zIndex';
 
 export interface Party {
   shopId: number;
@@ -67,7 +66,6 @@ const Div = styled.div`
   .slick-list {
     margin-right: -15px;
     margin-left: -15px;
-    pointer-events: none;
   } //parent
 
   .slick-slide {
@@ -75,8 +73,7 @@ const Div = styled.div`
     border-radius: 15px;
     height: 350px;
     text-align: center;
-    z-index: 1;
-    border: 1px  solid black;
+    position: relative;
   } //item
 
   .slide {
@@ -84,7 +81,7 @@ const Div = styled.div`
     transform: scale(0.7);
     transition: 0.3s;
     filter: blur (5px);
-  }
+  } 
   .slide-center {
     opacity: 1;
     transform: scale(1);
@@ -144,7 +141,6 @@ const Description = styled.div`
 `;
 
 const ItemContainer = styled.div`
-  z-index: 100;
 `
 
 // export function NextArrow() {
@@ -207,6 +203,10 @@ export default function SimpleSlider() {
     setParties([...data]);
   };
 
+  const handleClick = () => {
+    console.log("hi");
+  }
+
   useEffect(() => {
     setPartiesData();
   }, []);
@@ -222,7 +222,7 @@ export default function SimpleSlider() {
         ) : (
           <StyledSlider {...settings}>
             {parties.map((party: Party, index: number) => (
-              <NavLink to={`/foodDetail/${party.shopId}`}>
+              <NavLink to={`/foodList/${party.shopId}`}>
                 <ItemContainer
                   className={index === slideIndex ? 'slide slide-center' : 'slide'}
                   key={`${party.shopId}`}>
@@ -232,7 +232,8 @@ export default function SimpleSlider() {
                     <span>{party.avgStar}</span>
                     <span>{party.address}</span>
                   </Description>
-                  <Button variant="contained" sx={{ cursor: "pointer", zIndex:100}} >
+                  <Button variant="contained" sx={{ cursor: "pointer", zIndex:100}}
+                  onClick={handleClick} >
                     찜하기
                   </Button>
                 </ItemContainer>
