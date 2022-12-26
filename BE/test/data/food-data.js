@@ -101,3 +101,103 @@ exports.샌드위밋 = [
   ];
 
 //분식 Snack
+exports.신의한국수 = [
+    {
+      shopId: "",
+      picture: "",
+      name: "야채김밥",
+      price: 3000,
+    },
+    {
+      shopId: "",
+      picture: "",
+      name: "오뎅우동",
+      price: 8000,
+    },
+    {
+      shopId: "",
+      picture: "",
+      name: "잔치국수",
+      price: 6000,
+    },
+  ];
+  exports.오마뎅 = [
+    {
+      shopId: "",
+      picture: "",
+      name: "물어묵",
+      price: 2000,
+    },
+    {
+      shopId: "",
+      picture: "",
+      name: "떡볶이",
+      price: 4500,
+    },
+    {
+      shopId: "",
+      picture: "",
+      name: "구어바",
+      price: 2200,
+    },
+  ];
+  exports.신전떡볶이 = [
+    {
+      shopId: "",
+      picture: "",
+      name: "치즈떡볶이",
+      price: 5500,
+    },
+    {
+      shopId: "",
+      picture: "",
+      name: "떡볶이",
+      price: 3500,
+    },
+    {
+      shopId: "",
+      picture: "",
+      name: "만두튀김(5개)",
+      price: 1700,
+    },
+  ];
+  exports.북촌손만두 = [
+    {
+      shopId: "",
+      picture: "",
+      name: "북촌튀김만두",
+      price: 6500,
+    },
+    {
+      shopId: "",
+      picture: "",
+      name: "북촌피냉면",
+      price: 8500,
+    },
+    {
+      shopId: "",
+      picture: "",
+      name: "북촌만둣국",
+      price: 8500,
+    },
+  ];
+  exports.이레분식 = [
+      {
+        shopId: "",
+        picture: "",
+        name: "왕돈가스",
+        price: 8500,
+      },
+      {
+        shopId: "",
+        picture: "",
+        name: "치즈돈가스",
+        price: 8000,
+      },
+      {
+        shopId: "",
+        picture: "",
+        name: "제육덮밥",
+        price: 7000,
+      },
+    ];
