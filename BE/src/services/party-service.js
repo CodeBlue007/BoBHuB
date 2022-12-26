@@ -13,8 +13,9 @@ class PartyService {
     if (!shop) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
     }
-    const checkExParty = await this.partyModel.get({userId: partyDTO.userId});
-    if (checkExParty.length !== 0) {
+    const userPartyList = await this.partyModel.get({ userId: partyDTO.userId });
+    const isFirstParty = userPartyList.filter((p) => p.shopId == partyDTO.shopId);
+    if (isFirstParty.length !== 0) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,

@@ -13,8 +13,9 @@ class CommentService {
     if (!shop) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
     }
-    const checkExComment = await this.commentModel.getByUserId(commentDTO.userId);
-    if (checkExComment.length !== 0) {
+    const userCommentList = await this.commentModel.getByUserId(commentDTO.userId);
+    const isFirstComment = userCommentList.filter((c) => c.shopId == commentDTO.shopId);
+    if (isFirstComment.length !== 0) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
