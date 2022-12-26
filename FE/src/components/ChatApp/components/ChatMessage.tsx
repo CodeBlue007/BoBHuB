@@ -21,7 +21,7 @@ const TextBlock = styled.span`
   font-size: 15px;
   padding: 8px;
   margin: 5px;
-  border-radius: 20px;
+  border-radius: 12px;
   max-width: 172px;
   word-break: break-all;
 `;
