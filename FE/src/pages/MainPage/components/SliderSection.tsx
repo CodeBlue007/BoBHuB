@@ -11,7 +11,6 @@ import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
 
 const StyledSlider = styled(Slider)`
-  border: 1px solid black;
   height: 110%;
   position: relative;
   .slick-prev::before,
@@ -36,7 +35,6 @@ const LabelContainer = styled.div`
   width: 100vw;
   height: 45vh;
   position: relative;
-  border: 1px solid black;
   box-sizing: border-box;
 `;
 
@@ -101,7 +99,7 @@ const Div = styled.div`
 
   img {
     margin: 0 auto 10px auto;
-    height: 300px;
+    height: 290px;
     overflow: hidden;
     width: 100%;
     border-radius: 10px;
