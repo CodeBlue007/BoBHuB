@@ -134,7 +134,6 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         return;
       } else {
         validInput(editSuccess);
-        console.log(userInfo);
       }
     } else if (editSuccess === 'nickname') {
       if (!validateNickName(inputChange)) {
