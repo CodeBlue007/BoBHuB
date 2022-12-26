@@ -12,7 +12,8 @@ class CommentModel {
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -27,7 +28,8 @@ class CommentModel {
       logger.info(query);
       const [comments] = await pool.query(query);
       return comments;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -46,7 +48,8 @@ class CommentModel {
 
       const [comments] = await pool.query(query, [shopId]);
       return comments;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -63,7 +66,8 @@ class CommentModel {
 
       const [comment] = await pool.query(query);
       return comment;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -80,7 +84,8 @@ class CommentModel {
 
       const [comment] = await pool.query(query);
       return comment;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -98,7 +103,8 @@ class CommentModel {
       logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -115,7 +121,8 @@ class CommentModel {
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
