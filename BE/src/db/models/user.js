@@ -24,7 +24,7 @@ class UserModel {
   async get(userDTO, filterArr) {
     try {
       const whereArr = o.objToQueryArray(userDTO);
-      const query = o.makeSelectQuery(filterArr, whereArr);
+      const query = o.makeSelectQuery({ columnArr: filterArr, whereArr });
       console.log(query);
 
       const [user] = await pool.query(query);
@@ -41,7 +41,7 @@ class UserModel {
 
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
+      const query = o.makeSelectQuery({});
       console.log(query);
 
       const [users] = await pool.query(query);

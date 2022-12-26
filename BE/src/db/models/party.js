@@ -22,7 +22,7 @@ class PartyModel {
   }
   async getAll() {
     try {
-      let query = o.makeSelectQuery();
+      let query = o.makeSelectQuery({});
       query += ` join(select name, shopPicture, menu, address ,shopId
         from shop) as s
         on s.shopId = party.shopId
@@ -47,7 +47,7 @@ class PartyModel {
     try {
       console.log(partyDTO);
       const whereArr = o.objToQueryArray(partyDTO);
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [parties] = await pool.query(query);

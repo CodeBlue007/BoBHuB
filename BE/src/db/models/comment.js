@@ -23,7 +23,7 @@ class CommentModel {
 
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
+      const query = o.makeSelectQuery({});
       console.log(query);
       const [comments] = await pool.query(query);
       return comments;
@@ -58,7 +58,7 @@ class CommentModel {
   async getByCommentId(commentId) {
     try {
       const whereArr = o.objToQueryArray({ commentId });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [comment] = await pool.query(query);
@@ -75,7 +75,7 @@ class CommentModel {
   async getByUserId(userId) {
     try {
       const whereArr = o.objToQueryArray({ userId });
-      const query = o.makeSelectQuery(undefined, whereArr);
+      const query = o.makeSelectQuery({ whereArr });
       console.log(query);
 
       const [comment] = await pool.query(query);
