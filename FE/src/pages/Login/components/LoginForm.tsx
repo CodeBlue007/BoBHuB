@@ -12,7 +12,7 @@ import { validateEmail, validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
 import logo from '../../../assets/BoBHuB_logo.png';
 
-const ImgFormContainer = styled.form`
+const LoginImgFormContainer = styled.form`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -26,7 +26,7 @@ const ImgFormContainer = styled.form`
   }
 `;
 
-const ImgContainer = styled.div`
+const LoginImgContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,7 +48,7 @@ const ImgContainer = styled.div`
   }
 `;
 
-const FormContainer = styled.div`
+const LoginFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -84,7 +84,7 @@ const FormContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
+const LoginButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -160,7 +160,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     }
   };
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -169,13 +169,13 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
   };
 
   return (
-    <ImgFormContainer onSubmit={handleLoginSubmit}>
-      {/* <ImgContainer>
+    <LoginImgFormContainer onSubmit={handleLoginSubmit}>
+      {/* <LoginImgContainer>
         <h1>Welcome Back!</h1>
         <img src={loginThumbnail} alt="Bob-hub login thumbnail" />
-      </ImgContainer> */}
+      </LoginImgContainer> */}
 
-      <FormContainer>
+      <LoginFormContainer>
         <img src={logo} alt="logo" />
         <TextField
           required
@@ -196,13 +196,13 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               },
             },
           }}
-          placeholder="이메일을 입력해주세요."
+          placeholder="이메일"
           value={email}
           onChange={onTextFieldChange}
           error={!validateEmail(loginForm.email) && loginForm.email !== ''}
           helperText={
             !validateEmail(loginForm.email) && loginForm.email !== ''
-              ? '이메일 형식이 올바르지 않습니다.'
+              ? '올바르지 않은 이메일 형식입니다.'
               : ''
           }
         />
@@ -237,17 +237,17 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               },
             },
           }}
-          placeholder="비밀번호를 입력해주세요."
+          placeholder="비밀번호"
           value={password}
           onChange={onTextFieldChange}
           error={!validatePassword(loginForm.password) && loginForm.password !== ''}
           helperText={
             !validatePassword(loginForm.password) && loginForm.password !== ''
-              ? '비밀번호는 8~20자리 영문·숫자 조합이어야 합니다.'
+              ? '비밀번호는 4~20자 사이입니다.'
               : ''
           }
         />
-        <ButtonContainer>
+        <LoginButtonContainer>
           <Button variant="contained" type="submit">
             로그인
           </Button>
@@ -255,9 +255,9 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
             아직 계정이 없나요? &nbsp;
             <Link to="/register">회원가입</Link>
           </div>
-        </ButtonContainer>
-      </FormContainer>
-    </ImgFormContainer>
+        </LoginButtonContainer>
+      </LoginFormContainer>
+    </LoginImgFormContainer>
   );
 };
 

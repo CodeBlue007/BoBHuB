@@ -26,7 +26,7 @@ import {
 import * as API from '../../../api/API';
 import logo from '../../../assets/BoBHuB_logo.png';
 
-const RegisterFormContainer = styled.form`
+const RegisterImgFormContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -40,7 +40,7 @@ const RegisterFormContainer = styled.form`
   }
 `;
 
-const BoxContainer = styled.div`
+const RegisterFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,7 +50,7 @@ const BoxContainer = styled.div`
   border-radius: 4px;
 
   height: 800px;
-  padding: 0px 20px;
+  padding: 5px 20px;
 
   margin-bottom: 80px;
 
@@ -60,7 +60,11 @@ const BoxContainer = styled.div`
   }
 
   & div {
-    margin: 10px 0px;
+    margin: 10px 0;
+  }
+
+  & div p {
+    margin: -7px 0;
   }
 
   /* & #standard-select-track-label {
@@ -72,9 +76,9 @@ const BoxContainer = styled.div`
     border-radius: 4px;
   } */
 
-  & #menu- > div > ul {
+  /* & #menu- > div > ul {
     margin-top: 20px;
-  }
+  } */
 
   & div div div {
     margin-right: 10px;
@@ -89,6 +93,46 @@ const BoxContainer = styled.div`
     font-size: 18px;
     color: #3a3b3c;
   }
+
+  & .pw input,
+  .pwCheck input {
+    width: 516px;
+  }
+
+  & div div div button {
+    padding: 0;
+    margin-right: -8px;
+    width: 25px;
+    height: 25px;
+  }
+
+  & .NicknameCheckBtn {
+    height: 30px;
+    border-width: 0.5px;
+    margin-left: 500px;
+    margin-top: -51px;
+  }
+
+  & .EmailSendBtn {
+    height: 30px;
+    border-width: 0.5px;
+    margin-left: 500px;
+    margin-top: -51px;
+  }
+
+  & .PhoneCheckBtn {
+    height: 30px;
+    border-width: 0.5px;
+    margin-left: 500px;
+    margin-top: -51px;
+  }
+`;
+
+const RegisterButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   & button {
     margin: 20px auto;
@@ -112,7 +156,7 @@ const BoxContainer = styled.div`
   & .backToLogin {
     font-size: 14px;
     margin-top: -5px;
-    margin-right: 413px;
+    margin-right: 0;
   }
 `;
 
@@ -167,18 +211,25 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     navigate('/login', { replace: true });
   };
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordCheck, setShowPasswordCheck] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPasswordCheck = () => setShowPasswordCheck((show) => !show);
 
   const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
 
+  const handleNicknameClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // console.log(e.target.nextElementSibling);
+    // const resEmail = await API.get(`/api/user/nicknames/${regForm.nickname}`);
+  };
+
   return (
-    <RegisterFormContainer onSubmit={handleRegSubmit}>
+    <RegisterImgFormContainer onSubmit={handleRegSubmit}>
       <img src={logo} alt="logo" />
-      <BoxContainer>
+      <RegisterFormContainer>
         <TextField
           name="name"
           variant="standard"
@@ -196,44 +247,53 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="이름을 입력해주세요 (한글 2~6글자)."
+          placeholder="이름"
           value={name}
           onChange={onTextFieldChange}
           error={!validateName(regForm.name) && regForm.name !== ''}
           helperText={
             !validateName(regForm.name) && regForm.name !== ''
-              ? '이름은 한글 2~6글자이어야 합니다.'
+              ? '이름은 한글 2~6자 사이여야 합니다.'
               : ''
           }
         />
 
-        <TextField
-          name="nickname"
-          variant="standard"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <BadgeOutlinedIcon />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            input: {
-              '&::placeholder': {
-                opacity: 0.8,
+        <div>
+          <TextField
+            name="nickname"
+            variant="standard"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <BadgeOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              input: {
+                '&::placeholder': {
+                  opacity: 0.8,
+                },
               },
-            },
-          }}
-          placeholder="닉네임을 입력해주세요 (한글·영문(대·소문자) 5~10글자)."
-          value={nickname}
-          onChange={onTextFieldChange}
-          error={!validateNickName(regForm.nickname) && regForm.nickname !== ''}
-          helperText={
-            !validateNickName(regForm.nickname) && regForm.nickname !== ''
-              ? '닉네임은 한글·영문(대·소문자) 5~10글자이어야 합니다.'
-              : ''
-          }
-        />
+            }}
+            placeholder="닉네임(중복 불가)"
+            value={nickname}
+            onChange={onTextFieldChange}
+            error={!validateNickName(regForm.nickname) && regForm.nickname !== ''}
+            helperText={
+              !validateNickName(regForm.nickname) && regForm.nickname !== ''
+                ? '닉네임은 한글·영문(대·소문자) 5~10자 사이여야 합니다.'
+                : ''
+            }
+          />
+          <Button
+            className="NicknameCheckBtn"
+            variant="contained"
+            size="small"
+            onClick={handleNicknameClick}>
+            중복 확인
+          </Button>
+        </div>
 
         <TextField
           required
@@ -254,7 +314,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="이메일을 입력해주세요."
+          placeholder="이메일"
           value={email}
           onChange={onTextFieldChange}
           error={!validateEmail(regForm.email) && regForm.email !== ''}
@@ -264,6 +324,9 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               : ''
           }
         />
+        <Button className="EmailSendBtn" variant="contained" size="small">
+          인증
+        </Button>
 
         <TextField
           required
@@ -284,7 +347,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="발송된 이메일에 기재된 인증번호를 입력해주세요."
+          placeholder="인증번호"
           value={confirmNum}
           onChange={onTextFieldChange}
           error={!validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''}
@@ -296,9 +359,9 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         />
 
         <TextField
+          className="pw"
           required
           type={showPassword ? 'text' : 'password'}
-          // type="password"
           name="password"
           variant="standard"
           InputProps={{
@@ -326,21 +389,21 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="비밀번호를 입력해주세요 (8~20자리 영문·숫자 조합)."
+          placeholder="비밀번호"
           value={password}
           onChange={onTextFieldChange}
           error={!validatePassword(regForm.password) && regForm.password !== ''}
           helperText={
             !validatePassword(regForm.password) && regForm.password !== ''
-              ? '비밀번호는 8~20자리 영문·숫자 조합이어야 합니다.'
+              ? '비밀번호는 4~20자 영문·숫자 조합이어야 합니다.'
               : ''
           }
         />
 
         <TextField
+          className="pwCheck"
           required
-          // type="password"
-          type={showPassword ? 'text' : 'password'}
+          type={showPasswordCheck ? 'text' : 'password'}
           name="passwordCheck"
           variant="standard"
           InputProps={{
@@ -353,10 +416,10 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               <InputAdornment position="end">
                 <IconButton
                   aria-label="toggle passwordCheck visibility"
-                  onClick={handleClickShowPassword}
+                  onClick={handleClickShowPasswordCheck}
                   onMouseDown={handleMouseDownPassword}
                   edge="end">
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPasswordCheck ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               </InputAdornment>
             ),
@@ -368,7 +431,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="비밀번호를 다시 입력해주세요."
+          placeholder="비밀번호 확인"
           value={passwordCheck}
           onChange={onTextFieldChange}
           error={
@@ -401,7 +464,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="휴대폰번호를 입력해주세요 (' - ' 포함)."
+          placeholder="휴대폰번호(중복 불가)"
           value={phone}
           onChange={onTextFieldChange}
           error={!validatePhone(regForm.phone) && regForm.phone !== ''}
@@ -411,6 +474,9 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               : ''
           }
         />
+        <Button className="PhoneCheckBtn" variant="contained" size="small">
+          중복 확인
+        </Button>
 
         <TextField
           type="text"
@@ -430,7 +496,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="소속된 엘리스 트랙명을 입력해주세요 (AI, IoT, SW)."
+          placeholder="엘리스 트랙명(AI, IoT, SW)."
           value={track}
           onChange={onTextFieldChange}
           error={!validateTrack(regForm.track) && regForm.track !== ''}
@@ -457,7 +523,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="소속 트랙의 기수(숫자)를 입력해주세요."
+          placeholder="엘리스 기수(숫자만)"
           value={generation}
           onChange={onTextFieldChange}
           error={
@@ -465,7 +531,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           }
           helperText={
             !validateGeneration(regForm.track, regForm.generation) && regForm.generation !== ''
-              ? '현재 활성화된 기수가 아닙니다.'
+              ? '현재 활동 중인 기수가 아닙니다.'
               : ''
           }
         />
@@ -483,16 +549,18 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           ))}
         </TextField> */}
 
-        <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>
-          회원가입
-        </Button>
+        <RegisterButtonContainer>
+          <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>
+            회원가입
+          </Button>
 
-        <div className="backToLogin">
-          이미 계정이 있나요? &nbsp;
-          <Link to="/login">로그인</Link>
-        </div>
-      </BoxContainer>
-    </RegisterFormContainer>
+          <div className="backToLogin">
+            이미 계정이 있나요? &nbsp;
+            <Link to="/login">로그인</Link>
+          </div>
+        </RegisterButtonContainer>
+      </RegisterFormContainer>
+    </RegisterImgFormContainer>
   );
 };
 
