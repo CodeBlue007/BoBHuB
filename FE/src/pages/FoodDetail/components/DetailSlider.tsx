@@ -4,12 +4,11 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
-
 const SliderContainer = styled.div`
   width: 800px;
   height: 450px;
   position: relative;
-  margin : 20px;
+  margin: 20px;
 `;
 
 const StyledSlider = styled(Slider)`
@@ -23,11 +22,11 @@ const StyledSlider = styled(Slider)`
   .slick-slide div {
     cursor: pointer;
   }
-  .slick-prev:hover{
-    color : gold;
+  .slick-prev:hover {
+    color: #e59a59;
   }
-  .slick-next:hover{
-    color : gold;
+  .slick-next:hover {
+    color: #e59a59;
   }
 `;
 
@@ -37,9 +36,9 @@ const Div = styled.div`
   position: absolute;
   z-index: 99;
   text-align: right;
-  font-size : 100px;
-  color : black;
-  right : 16px;
+  font-size: 100px;
+  color: '#1E1F21';
+  right: 16px;
   line-height: 40px;
 `;
 
@@ -49,22 +48,19 @@ const DivPre = styled.div`
   position: absolute;
   z-index: 99;
   text-align: left;
-  font-size : 100px;
-  color : black;
+  font-size: 100px;
+  color: '#1E1F21';
   line-height: 40px;
-  left : -55px;
+  left: -55px;
 `;
 
+type stringNull = string | null;
 
-
-type stringNull = string|null
-
-interface DetailSliderProps{
-  imageArr : stringNull[];
+interface DetailSliderProps {
+  imageArr: stringNull[];
 }
 
-const DetailSlider = ({imageArr} : DetailSliderProps) => {
-
+const DetailSlider = ({ imageArr }: DetailSliderProps) => {
   const settings = {
     dots: false,
     infinite: true,
@@ -76,26 +72,27 @@ const DetailSlider = ({imageArr} : DetailSliderProps) => {
     arrows: true,
     nextArrow: (
       <Div>
-        <MdKeyboardArrowRight/>
+        <MdKeyboardArrowRight />
       </Div>
     ),
     prevArrow: (
       <DivPre>
-        <MdKeyboardArrowLeft/>
+        <MdKeyboardArrowLeft />
       </DivPre>
     ),
   };
 
-  const newImageArr = imageArr.map(x => {
-    if(x===null) return undefined;
+  const newImageArr = imageArr.map((x) => {
+    if (x === null) return undefined;
     return x;
-  })
-
+  });
 
   return (
     <SliderContainer>
-      <StyledSlider{...settings}>
-        {newImageArr.map((imgUrl) => <img alt="shopImage" src={imgUrl} key={imgUrl}/>)}
+      <StyledSlider {...settings}>
+        {newImageArr.map((imgUrl) => (
+          <img alt="shopImage" src={imgUrl} key={imgUrl} />
+        ))}
       </StyledSlider>
     </SliderContainer>
   );

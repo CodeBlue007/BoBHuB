@@ -1,6 +1,6 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("party");
-const buildRes = require("../../utils/build-response");
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class PartyModel {
@@ -8,7 +8,7 @@ class PartyModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(partyDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
@@ -22,7 +22,7 @@ class PartyModel {
   }
   async getAll() {
     try {
-      let query = o.makeSelectQuery();
+      let query = o.makeSelectQuery({});
       query += ` join(select name, shopPicture, menu, address ,shopId
         from shop) as s
         on s.shopId = party.shopId
@@ -30,7 +30,7 @@ class PartyModel {
           , AVG(star) AS avgStar
        FROM comment
       GROUP BY shopId) c on c.Id1 = party.shopId`;
-      console.log(query);
+      logger.info(query);
 
       const [parties] = await pool.query(query);
       return parties;
@@ -45,10 +45,9 @@ class PartyModel {
 
   async get(partyDTO) {
     try {
-      console.log(partyDTO);
       const whereArr = o.objToQueryArray(partyDTO);
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
       const [parties] = await pool.query(query);
       return parties;
@@ -66,7 +65,7 @@ class PartyModel {
       const newDTO = o.objToQueryArray(newPartyDTO);
       const oldDTO = o.objToQueryArray(partyDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
     } catch (err) {
@@ -82,7 +81,7 @@ class PartyModel {
     try {
       const whereArr = o.objToQueryArray({ partyId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);

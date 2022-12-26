@@ -21,7 +21,7 @@ const TextContainer = styled.ul`
   height: 300px;
   margin: 20px auto;
   border-radius: 10px;
-  box-shadow: inset 0 0 10px;
+  box-shadow: inset 0 0 3px;
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
@@ -70,7 +70,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
 
   useEffect(() => {
     enterRoom();
-    
+
     socket.on('getMessage', (msg) => {
       dispatch(chatAction.updateRoom({ roomName, payload: msg }));
     });

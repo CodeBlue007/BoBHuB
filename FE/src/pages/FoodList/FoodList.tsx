@@ -39,9 +39,10 @@ const FoodList = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * 9;
 
-  const handleChange = (event: React.SyntheticEvent, categoryNum: string) => {
+  const handleCategoryChange = (event: React.SyntheticEvent, categoryNum: string) => {
     setValue(categoryNum);
-
+    setPage(1);
+    
     let cateValue = '';
     switch (categoryNum) {
       case 'one':
@@ -106,7 +107,7 @@ const FoodList = () => {
         <Box sx={{ width: '100%' }}>
           <Tabs
             value={value}
-            onChange={handleChange}
+            onChange={handleCategoryChange}
             textColor="secondary"
             indicatorColor="secondary"
             aria-label="secondary tabs example">

@@ -19,7 +19,9 @@ const NotFound = () => {
     <NotFoundContainer>
       <Header>Page Not Found 404</Header>
       <Button variant="outlined" color="error">
-        <Link to="/" style={{ textDecoration: "none" }}>Main으로 돌아가기</Link>
+        <Link to="/" style={{ textDecoration: 'none' }}>
+          Main으로 돌아가기
+        </Link>
       </Button>
     </NotFoundContainer>
   );

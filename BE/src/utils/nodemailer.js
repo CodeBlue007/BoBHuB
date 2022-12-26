@@ -4,7 +4,7 @@ const authMailId = process.env.MAIL_ID;
 const authMailPassword = process.env.MAIL_PASSWORD;
 const mailSender = {
   sendGmail: function (param) {
-    var transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       service: "gmail",
       port: 587,
       host: "smtp.gmail.com",
@@ -16,7 +16,7 @@ const mailSender = {
       },
     });
 
-    var mailOptions = {
+    const mailOptions = {
       from: authMailId,
       to: param.email,
       subject: param.subject,

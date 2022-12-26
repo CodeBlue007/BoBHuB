@@ -1,6 +1,6 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("comment");
-const buildRes = require("../../utils/build-response");
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class CommentModel {
@@ -8,7 +8,7 @@ class CommentModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(commentDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
@@ -23,8 +23,8 @@ class CommentModel {
 
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
-      console.log(query);
+      const query = o.makeSelectQuery({});
+      logger.info(query);
       const [comments] = await pool.query(query);
       return comments;
     } catch {
@@ -42,7 +42,7 @@ class CommentModel {
         , nickname, profile
      FROM user ) u on u.userId = comment.userId  where shopId = ?`;
 
-      console.log(query);
+      logger.info(query);
 
       const [comments] = await pool.query(query, [shopId]);
       return comments;
@@ -58,8 +58,8 @@ class CommentModel {
   async getByCommentId(commentId) {
     try {
       const whereArr = o.objToQueryArray({ commentId });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
       const [comment] = await pool.query(query);
       return comment;
@@ -75,8 +75,8 @@ class CommentModel {
   async getByUserId(userId) {
     try {
       const whereArr = o.objToQueryArray({ userId });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
       const [comment] = await pool.query(query);
       return comment;
@@ -95,7 +95,7 @@ class CommentModel {
       const oldDTO = o.objToQueryArray(commentDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
 
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
     } catch {
@@ -111,7 +111,7 @@ class CommentModel {
     try {
       const whereArr = o.objToQueryArray({ commentId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);

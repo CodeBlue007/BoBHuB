@@ -4,8 +4,10 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { fetchParties } from '../api/fetchParties';
+import { fetchParties } from '../api/api';
+import { get } from '../../../api/API';
 import { Party } from '../Type';
+import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
 
 const StyledSlider = styled(Slider)`
@@ -42,7 +44,6 @@ const DivNext = styled.div`
   width: 30px;
   height: 30px;
   position: absolute;
-  z-index: 99;
   text-align: right;
   font-size: 100px;
   color: #712e1e;
@@ -56,7 +57,7 @@ const DivPre = styled.div`
   height: 30px;
   position: absolute;
   top: 120px;
-  left: 40px;
+  left: 25px;
   z-index: 99;
   text-align: left;
   font-size: 100px;
@@ -114,6 +115,16 @@ const Div = styled.div`
     font-weight: bold;
     margin-bottom: 5px;
   }
+
+  .login_msg {
+    height: 30px;
+    font-size: 2em;
+    margin: 30px 30px 30px 30px;
+    color: #424140;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 4px;
+  }
 `;
 
 const TitleBox = styled.div`
@@ -123,10 +134,8 @@ const TitleBox = styled.div`
   color: #424140;
   font-weight: bold;
   text-align: center;
+  letter-spacing: 4px;
 `;
-
-
-
 
 export default function SimpleSlider() {
   const settings = {
@@ -171,6 +180,17 @@ export default function SimpleSlider() {
   };
 
   const [parties, setParties] = useState<Party[]>([]);
+  const [userInfo, setUserInfo] = useState<UserInfoType>({
+    track: '',
+    generation: 0,
+    name: '',
+    email: '',
+    phone: '',
+    nickname: '',
+    profile: '',
+    role: '',
+  });
+
   const [slideIndex, setSlideIndex] = useState(0);
 
   const setPartiesData = async () => {
@@ -183,9 +203,29 @@ export default function SimpleSlider() {
     setPartiesData();
   }, []);
 
+  const getUserInfoAPI = async () => {
+    const res = await get('/api/users');
+    setUserInfo(res);
+  };
+
+  useEffect(() => {
+    try {
+      getUserInfoAPI();
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+
   return (
     <Div>
-      <TitleBox>오늘 뭐 먹지?</TitleBox>
+      {userInfo ? (
+        <TitleBox>
+          밥메이트들이 <span>{userInfo.name}</span>님을 기다리고 있어요!
+        </TitleBox>
+      ) : (
+        <div className="login_msg">로그인 후 이용해주세요!</div>
+      )}
+
       <div>
         {parties.length === 0 ? (
           <LabelContainer>
@@ -193,9 +233,9 @@ export default function SimpleSlider() {
           </LabelContainer>
         ) : (
           <StyledSlider {...settings}>
-            {parties.map((party, index) => 
-              <SliderItem index={index} slideIndex={slideIndex} party={party} key={party.shopId}/>
-            )}
+            {parties.map((party, index) => (
+              <SliderItem index={index} slideIndex={slideIndex} party={party} key={party.shopId} />
+            ))}
           </StyledSlider>
         )}
       </div>

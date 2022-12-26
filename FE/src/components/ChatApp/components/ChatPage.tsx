@@ -15,20 +15,18 @@ const ChatPage = ({ handleDisplay }: ChatPageProps) => {
   const [targetRoom, setTargetRoom] = useState<string>('');
   const socket = useContext(SocketContext);
 
-
   const moveRoom = (roomName: string) => {
     setTargetRoom(roomName);
     setEnterRoom(true);
   };
 
-  const handleRoom = ()=>{
-    if(targetRoom){
-      socket.emit("leaveRoom", targetRoom);
+  const handleRoom = () => {
+    if (targetRoom) {
+      socket.emit('leaveRoom', targetRoom);
     }
 
     handleDisplay();
-  }
-
+  };
 
   return (
     <>

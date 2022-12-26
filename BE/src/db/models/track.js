@@ -1,6 +1,6 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("track");
-const buildRes = require("../../utils/build-response");
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class TrackModel {
@@ -8,9 +8,9 @@ class TrackModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(eliceDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
-      const [result] = await pool.query(query, console.log(query));
+      const [result] = await pool.query(query);
       return buildRes("c", result);
     } catch {
       throw new ErrorFactory(
@@ -24,8 +24,8 @@ class TrackModel {
   async getById(track) {
     try {
       const whereArr = o.objToQueryArray({ track });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
       const [trackName] = await pool.query(query);
       return trackName;
@@ -40,8 +40,8 @@ class TrackModel {
 
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
-      console.log(query);
+      const query = o.makeSelectQuery({});
+      logger.info(query);
 
       const [tracks] = await pool.query(query);
       return tracks;
@@ -59,7 +59,7 @@ class TrackModel {
       const newDTO = o.objToQueryArray(newTrackDTO);
       const oldDTO = o.objToQueryArray(trackDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("u", result);
@@ -76,7 +76,7 @@ class TrackModel {
     try {
       const whereArr = o.objToQueryArray({ track });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);

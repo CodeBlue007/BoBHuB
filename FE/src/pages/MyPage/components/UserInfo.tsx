@@ -113,13 +113,18 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
 
   const nickDuplicationCheck = async () => {
     const res = await API.get(`api/users/nicknames/${inputChange}`);
-    return res.message === '같은 닉네임이 있습니다.' ? true : false;
+    console.log(res);
+    return res.message === "사용가능한 닉네임입니다." ? true : false;
+  };
+
+  const emailDuplicationCheck = async () => {
+    const res = await API.get(`api/users/emails/${inputChange}`);
+    return res.message === "사용가능한 이메일입니다." ? true : false;
   };
 
   const validInput = async (editSuccess: string) => {
     setUserInfo({ ...userInfo, [editSuccess]: inputChange });
     clickBtn_changeEditState(editSuccess);
-    setInputChange('');
   };
 
   const handleClickSuccess = async (e: React.MouseEvent<HTMLElement>, editSuccess: string) => {
@@ -138,10 +143,11 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         return;
       } else {
         const nickExist = await nickDuplicationCheck();
-        if (nickExist) {
+        if (!nickExist) {
           alert('이미 사용중인 닉네임입니다.');
           return;
-        } else validInput(editSuccess);
+        } 
+        validInput(editSuccess); 
       }
     } else if (editSuccess === 'phone') {
       if (!validatePhone(inputChange)) {
@@ -153,10 +159,14 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
     } else if (editSuccess === 'email') {
       if (!validateEmail(inputChange)) {
         alert('유효하지 않은 이메일 형식입니다.');
-        return;
-      } else {
-        validInput(editSuccess);
-      }
+        const nickExist = await emailDuplicationCheck();
+        if (!nickExist) {
+          alert('이미 사용중인 이메일입니다.');
+          return;
+        } else {
+          validInput(editSuccess);
+        }
+      } 
     } else if (editSuccess === 'password') {
       if (!validatePassword(pwUpdate.newPW)) {
         alert('올바른 비밀번호 형식이 아닙니다.');
@@ -179,8 +189,8 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
 
   const handleClickCancel = (e: React.MouseEvent<HTMLElement>, editCancel: string) => {
     e.preventDefault();
-    clickBtn_changeEditState(editCancel);
     setInputChange('');
+    clickBtn_changeEditState(editCancel);
     if (editCancel === 'password') setPWUpdate({ newPW: '', newPWCheck: '' });
   };
 

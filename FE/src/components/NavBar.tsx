@@ -84,7 +84,7 @@ const NavBar = () => {
       sx={{
         bgcolor: location.pathname !== '/' ? theme.colors.main : 'transparent',
         boxShadow: 'none',
-        position: location.pathname !== '/' ? 'static' : '',
+        position: location.pathname !== '/' ? 'static' : 'absolute',
       }}>
       <Toolbar>
         <BasicLink to="/">

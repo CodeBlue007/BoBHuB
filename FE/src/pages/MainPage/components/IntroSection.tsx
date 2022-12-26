@@ -11,17 +11,20 @@ const Intro = styled.div`
   top: 205px;
   right: 200px;
   text-align: right;
+
   .main {
     margin: 20px 0px 30px 0px;
-    font-size: 4em;
+    font-size: 5em;
     font-weight: bold;
     color: white;
+    letter-spacing: 3px;
   }
   .sub {
-    margin-bottom: 200px;
-    font-size: 2em;
+    margin-bottom: 150px;
+    font-size: 3em;
     font-weight: bold;
     color: white;
+    letter-spacing: 3px;
   }
 `;
 
@@ -59,7 +62,7 @@ const IntroSection = () => {
           밥허브로 밥메이트 구해요~
         </div>
         <NavLink to="/foodList" className="navLink">
-          <Button variant="contained" style={{ zIndex: 1 }} sx={{ width: '500px' }}>
+          <Button variant="contained" style={{ zIndex: 1 }} sx={{ width: '300px' }}>
             맛집 찾기
           </Button>
         </NavLink>
