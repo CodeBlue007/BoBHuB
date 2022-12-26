@@ -33,7 +33,6 @@ const MyPage = () => {
 
   const isLoaded = useRef<boolean>(false);
 
-  // 사용자 정보 조회 api
   const getUserInfoAPI = async () => {
     const res = await API.get('/api/users');
     setUserInfo(res);

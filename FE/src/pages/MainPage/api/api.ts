@@ -8,3 +8,12 @@ export const fetchParties = async () => {
     console.log(error);
   }
 };
+
+export const getUserInfoAPI = async () => {
+  try {
+    const res = await get('/api/users');
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

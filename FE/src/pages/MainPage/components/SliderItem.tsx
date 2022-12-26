@@ -38,9 +38,9 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
       <Description>
         <span style={{ fontSize: '15px' }}>{party.name}</span>
         <span style={{ fontSize: '15px' }}>
-          {party.likedNum}/{party.partylimit}
+          모집 현황 : {party.likedNum}/{party.partylimit}
         </span>
-        <span style={{ fontSize: '15px' }}>마감 : {`~${hour}:${minute}`}</span>
+        <span style={{ fontSize: '15px' }}>마감 시간 : {`${hour}시 ${minute}분`}</span>
         <span style={{ alignItems: 'center' }}>
           <span>
             <AiFillStar size="19" color="#faaf00" />
