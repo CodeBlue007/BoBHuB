@@ -2,7 +2,7 @@ const { generateRandomCode, mailSender } = require("../utils");
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class UtilService {
-  async sendCode(needVerifyEmail) {
+  async sendCode(unverifiedEmail) {
     try {
       const code = await generateRandomCode();
       const subject = `밥허브 메일 검증 코드 입니다.`;
@@ -10,7 +10,7 @@ class UtilService {
       인증 코드 : ${code} 
       -----------------------------`;
       const info = {
-        email: needVerifyEmail,
+        email: unverifiedEmail,
         subject,
         text,
       };
