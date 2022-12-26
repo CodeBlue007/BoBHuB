@@ -12,9 +12,6 @@ const ItemContainer = styled.div``;
 const Description = styled.div`
   display: flex;
   flex-direction: column;
-  span {
-    font-size: 15px;
-  }
 `;
 
 interface SliderItemProps {
@@ -39,16 +36,16 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
         <img src={party.shopPicture} alt="shopImg" />
       </NavLink>
       <Description>
-        <span>{party.name}</span>
-        <span>
+        <span style={{ fontSize: '15px' }}>{party.name}</span>
+        <span style={{ fontSize: '15px' }}>
           {party.likedNum}/{party.partylimit}
         </span>
-        <span>마감 : {`~${hour}:${minute}`}</span>
+        <span style={{ fontSize: '15px' }}>마감 : {`~${hour}:${minute}`}</span>
         <span style={{ alignItems: 'center' }}>
           <span>
             <AiFillStar size="19" color="#faaf00" />
           </span>
-          <span>{Number(party.avgStar).toFixed(1)}</span>
+          <span style={{ fontSize: '15px' }}>{Number(party.avgStar).toFixed(1)}</span>
         </span>
       </Description>
       <Button variant="contained" sx={{ cursor: 'pointer', zIndex: 100 }} onClick={handleClick}>
