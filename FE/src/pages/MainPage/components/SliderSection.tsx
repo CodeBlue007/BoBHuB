@@ -75,7 +75,7 @@ const Div = styled.div`
     transform: scale(0.7);
     transition: 0.3s;
     filter: blur (5px);
-  } 
+  }
   .slide-center {
     opacity: 1;
     transform: scale(1);
@@ -134,8 +134,7 @@ const Description = styled.div`
   }
 `;
 
-const ItemContainer = styled.div`
-`
+const ItemContainer = styled.div``;
 
 // export function NextArrow() {
 //   return (
@@ -198,8 +197,8 @@ export default function SimpleSlider() {
   };
 
   const handleClick = () => {
-    console.log("hi");
-  }
+    console.log('hi');
+  };
 
   useEffect(() => {
     setPartiesData();
@@ -216,27 +215,31 @@ export default function SimpleSlider() {
         ) : (
           <StyledSlider {...settings}>
             {parties.map((party, index) => {
-
               const [hour, minute] = getHourmin(party.createdAt, party.timeLimit);
 
-              return(
+              return (
                 <ItemContainer
                   className={index === slideIndex ? 'slide slide-center' : 'slide'}
                   key={party.shopId}>
                   <NavLink to={`/foodList/${party.shopId}`}>
-                  <img src={party.shopPicture} alt="shopImg" />
+                    <img src={party.shopPicture} alt="shopImg" />
                   </NavLink>
                   <Description>
                     <span>{party.name}</span>
-                    <span>{party.likedNum}/{party.partylimit}</span>
+                    <span>
+                      {party.likedNum}/{party.partylimit}
+                    </span>
                     <span>마감 : {`~${hour}:${minute}`}</span>
                     <span>{party.avgStar}</span>
                   </Description>
-                  <Button variant="contained" sx={{ cursor: "pointer", zIndex:100}}
-                  onClick={handleClick} >
-                    찜하기
+                  <Button
+                    variant="contained"
+                    sx={{ cursor: 'pointer', zIndex: 100 }}
+                    onClick={handleClick}>
+                    참여하기
                   </Button>
-                </ItemContainer>)
+                </ItemContainer>
+              );
             })}
           </StyledSlider>
         )}
