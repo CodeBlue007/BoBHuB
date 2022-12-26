@@ -1,6 +1,6 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("party");
-const buildRes = require("../../utils/build-response");
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class PartyModel {
@@ -8,11 +8,12 @@ class PartyModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(partyDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -30,11 +31,12 @@ class PartyModel {
           , AVG(star) AS avgStar
        FROM comment
       GROUP BY shopId) c on c.Id1 = party.shopId`;
-      console.log(query);
+      logger.info(query);
 
       const [parties] = await pool.query(query);
       return parties;
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -45,14 +47,14 @@ class PartyModel {
 
   async get(partyDTO) {
     try {
-      console.log(partyDTO);
       const whereArr = o.objToQueryArray(partyDTO);
       const query = o.makeSelectQuery({ whereArr });
-      console.log(query);
+      logger.info(query);
 
       const [parties] = await pool.query(query);
       return parties;
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -66,10 +68,11 @@ class PartyModel {
       const newDTO = o.objToQueryArray(newPartyDTO);
       const oldDTO = o.objToQueryArray(partyDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -82,11 +85,12 @@ class PartyModel {
     try {
       const whereArr = o.objToQueryArray({ partyId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
