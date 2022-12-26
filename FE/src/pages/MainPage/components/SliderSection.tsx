@@ -109,7 +109,7 @@ const Div = styled.div`
     /* position: absolute; */
     top: 150px;
     color: black;
-    font-size: 2rem;
+    /* font-size: 2rem; */
     font-weight: bold;
     margin-bottom: 5px;
   }
