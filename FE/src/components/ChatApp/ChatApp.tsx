@@ -8,20 +8,22 @@ const ChatContainer = styled.section`
   position: fixed;
   bottom: 30px;
   right: 30px;
-  z-Index:10;
+  z-index: 10;
 `;
 
-
 const ChatApp = () => {
+  const [isClicked, setClicked] = useState<Boolean>(false);
 
-    const [isClicked, setClicked] = useState<Boolean>(false);
-
-    const handleDisplay = () => {
-      setClicked((current) => !current);
-    }
+  const handleDisplay = () => {
+    setClicked((current) => !current);
+  };
   return (
     <ChatContainer>
-      {isClicked? <ChatPage handleDisplay={handleDisplay}/> : <ChatButton handleDisplay={handleDisplay}/>}
+      {isClicked ? (
+        <ChatPage handleDisplay={handleDisplay} />
+      ) : (
+        <ChatButton handleDisplay={handleDisplay} />
+      )}
     </ChatContainer>
   );
 };
