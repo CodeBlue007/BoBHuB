@@ -10,6 +10,7 @@ import { get } from '../api/API';
 import MyParty from './MyParty';
 import styled from 'styled-components';
 import { theme } from './../styles/theme';
+import type { FoodType } from '../pages/Admin/components/Restraunt/Foods';
 
 const BasicLink = styled(Link)`
   color: white;
@@ -27,9 +28,23 @@ const TitleLogo = styled.img`
   margin-top: 15px;
 `;
 
+export interface Party {
+  partyId: number;
+  shopId: number;
+  userId: number;
+  partylimit: number;
+  timeLimit: number;
+  likedNum: number;
+  isComplete: number;
+  createdAt: string;
+  updatedAt: null;
+  deletedAt: null;
+}
+
 const NavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [myPartyList, setMyPartyList] = useState<[]>([]);
+  const [myPartyList, setMyPartyList] = useState<Party[]>([]);
+  const [activeShopList, setActiveShopList] = useState<FoodType[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
   const location = useLocation();
@@ -46,9 +61,14 @@ const NavBar = () => {
 
   const handleLikedParty = async () => {
     handleOpenToggle();
-    const myPartyList = await get('/api/parties/likedParty');
-    // setMyPartyList([...myPartyList]);
-    console.log(myPartyList);
+    const myPartyList: Party[] = await get('/api/parties/likedParty');
+    const activeShopList: FoodType[] = await Promise.all(
+      myPartyList.map((party) => {
+        return get(`/api/shops/${party.shopId}`);
+      }),
+    );
+    setMyPartyList([...myPartyList]);
+    setActiveShopList([...activeShopList]);
   };
 
   return (
@@ -100,7 +120,12 @@ const NavBar = () => {
             </Fragment>
           )}
         </Stack>
-        <MyParty handleClose={handleOpenToggle} open={open} />
+        <MyParty
+          activeShopList={activeShopList}
+          myPartyList={myPartyList}
+          handleClose={handleOpenToggle}
+          open={open}
+        />
       </Toolbar>
     </AppBar>
   );

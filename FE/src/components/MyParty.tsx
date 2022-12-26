@@ -1,12 +1,17 @@
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
+import type { Party } from './NavBar';
+import { get } from '../api/API';
+import type { FoodType } from '../pages/Admin/components/Restraunt/Foods';
 
 interface MyPartyProps {
   open: boolean;
   handleClose: () => void;
+  myPartyList: Party[];
+  activeShopList: FoodType[];
 }
 
-const MyParty = ({ open, handleClose }: MyPartyProps) => {
+const MyParty = ({ open, handleClose, myPartyList, activeShopList }: MyPartyProps) => {
   return (
     <Container open={open}>
       <Div>
@@ -18,16 +23,26 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
         </Bar>
       </Div>
       <ListWrapper>
-        <List>
-          <ImgWrapper>
-            <Img src="" alt="img" />
-          </ImgWrapper>
-          <Description>
-            <Name>식당이름</Name>
-            <Time>30:00</Time>
-            <Paragraph>참여한 인원 1/4</Paragraph>
-          </Description>
-        </List>
+        {myPartyList.map((party, index) => {
+          const date = new Date(party.createdAt);
+          const offset = new Date(party.createdAt).getTimezoneOffset() * 60000;
+          const dateOffset = new Date(date.getTime() - offset);
+          const limit = new Date(dateOffset.setMinutes(dateOffset.getMinutes() + party.timeLimit));
+          return (
+            <List key={party.partyId}>
+              <ImgWrapper>
+                <Img src={activeShopList[index].shopPicture} alt="img" />
+              </ImgWrapper>
+              <Description>
+                <Name>{activeShopList[index].name}</Name>
+                <Time>모집 종료 시간: {`${limit.getHours()}:${limit.getMinutes()} `}</Time>
+                <Paragraph>
+                  참여한 인원 {party.likedNum}/{party.partylimit}
+                </Paragraph>
+              </Description>
+            </List>
+          );
+        })}
       </ListWrapper>
     </Container>
   );
