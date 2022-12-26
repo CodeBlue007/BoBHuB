@@ -8,14 +8,8 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 import { fetchParties } from '../api/fetchParties';
 import { NavLink } from 'react-router-dom';
 import { SocketContext } from '../../../socket/SocketContext';
-
-export interface Party {
-  shopId: number;
-  name: string;
-  shopPicture: string;
-  address: string;
-  avgStar: number;
-}
+import { Party } from '../Type';
+import { getHourmin } from '../../../util/getDate';
 
 const StyledSlider = styled(Slider)`
   border: 1px solid black;
@@ -221,24 +215,29 @@ export default function SimpleSlider() {
           </LabelContainer>
         ) : (
           <StyledSlider {...settings}>
-            {parties.map((party: Party, index: number) => (
-              <NavLink to={`/foodList/${party.shopId}`}>
+            {parties.map((party, index) => {
+
+              const [hour, minute] = getHourmin(party.createdAt, party.timeLimit);
+
+              return(
                 <ItemContainer
                   className={index === slideIndex ? 'slide slide-center' : 'slide'}
-                  key={`${party.shopId}`}>
-                  <img src={party.shopPicture} alt="img" />
+                  key={party.shopId}>
+                  <NavLink to={`/foodList/${party.shopId}`}>
+                  <img src={party.shopPicture} alt="shopImg" />
+                  </NavLink>
                   <Description>
                     <span>{party.name}</span>
+                    <span>{party.likedNum}/{party.partylimit}</span>
+                    <span>마감 : {`~${hour}:${minute}`}</span>
                     <span>{party.avgStar}</span>
-                    <span>{party.address}</span>
                   </Description>
                   <Button variant="contained" sx={{ cursor: "pointer", zIndex:100}}
                   onClick={handleClick} >
                     찜하기
                   </Button>
-                </ItemContainer>
-              </NavLink>
-            ))}
+                </ItemContainer>)
+            })}
           </StyledSlider>
         )}
       </div>
