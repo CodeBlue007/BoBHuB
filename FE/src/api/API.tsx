@@ -1,12 +1,9 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const instance = axios.create();
 
 instance.defaults.withCredentials = true;
+instance.defaults.headers['Content-Type'] = 'application/json';
 
 const errCheck = (err: unknown) => {
   let message;
@@ -33,8 +30,14 @@ const del = async (url = '') => {
   }
 };
 
-const post = async (url = '', post: {}) => {
+const post = async (url = '', post: {}, config: 'imgPost' | null = null) => {
   try {
+    if (config === 'imgPost') {
+      const result = await instance.post(url, post, {
+        headers: { 'Content-Type': `multipart/form-data` },
+      });
+      return result.data;
+    }
     const result = await instance.post(url, post);
     console.log(result);
     return result.data;
