@@ -63,10 +63,6 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
     setLike(!like);
   };
 
-  const handleClick = () => {
-    console.log('hi');
-  };
-
   return (
     <ItemContainer
       className={index === slideIndex ? 'slide slide-center' : 'slide'}
@@ -86,9 +82,9 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
         <div className="party_info">
           <span>
             <div className="likedNum">
-              모집 현황 : {party.likedNum} 명/총 {party.partylimit} 명
+              모집 현황 : {party.likedNum} 명 / 총 {party.partylimit} 명
             </div>
-            <div className="time">모집 종료 시간: {`${hour}시 ${minute}분`}</div>
+            <div className="time">모집 종료 시간 : {`${hour}시 ${minute}분`}</div>
           </span>
           <span style={{ margin: '3px 0 0 30px' }}>
             <HeartButton like={like} onClick={handleLike} />
