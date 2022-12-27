@@ -20,7 +20,7 @@ const Intro = styled.div`
     letter-spacing: 3px;
   }
   .sub {
-    margin-bottom: 150px;
+    margin-bottom: 100px;
     font-size: 3em;
     font-weight: bold;
     color: white;
@@ -45,15 +45,35 @@ const Container = styled.div`
   }
   .navLink {
     text-decoration: none;
+    position: absolute;
+    right: 2vw;
+    top: 230px;
   }
   .scroll {
-    -webkit-animation: bounce 0.8s infinite linear;
     position: absolute;
     right: 50%;
     display: flex;
     flex-direction: column;
     color: hsla(0, 0%, 100%, 0.733);
     text-align: center;
+    animation: bounce 0.5s infinite linear;
+    @keyframes bounce {
+      0% {
+        bottom: 0;
+      }
+
+      50% {
+        bottom: 10px;
+      }
+
+      70% {
+        bottom: 25px;
+      }
+
+      100% {
+        bottom: 0;
+      }
+    }
     img {
       width: 3vw;
     }
@@ -75,8 +95,17 @@ const IntroSection = () => {
           밥허브로 밥메이트 구해요~
         </div>
         <NavLink to="/foodList" className="navLink">
-          <Button variant="contained" style={{ zIndex: 1 }} sx={{ width: '300px' }}>
-            맛집 찾기
+          <Button
+            style={{ zIndex: 1 }}
+            sx={{
+              width: '350px',
+              border: '5px solid white',
+              color: 'white',
+              fontWeight: 'bold',
+              letterSpacing: '2px',
+              fontSize: '1.5em',
+            }}>
+            맛집 찾으러 가기 →
           </Button>
         </NavLink>
       </Intro>
