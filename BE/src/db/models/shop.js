@@ -4,9 +4,9 @@ const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class ShopModel {
-  async count(req, res, next) {
+  async count() {
     try {
-      const query = o.makeCountQuery();
+      const query = o.makeCountQuery({});
       logger.info(query);
 
       const [countData] = await pool.query(query);
