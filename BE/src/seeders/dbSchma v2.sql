@@ -25,12 +25,13 @@ CREATE TABLE IF NOT EXISTS `shop` (
 CREATE TABLE IF NOT EXISTS `food` (
   `foodId` INTEGER NOT NULL auto_increment, 
   `shopId` INTEGER NOT NULL, 
-  `name` VARCHAR(45) UNIQUE, 
+  `name` VARCHAR(45), 
   `picture` VARCHAR(110), 
   `price` INTEGER, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
+  UNIQUE  `food_shopId_name_unique` (`shopId`, `name`), 
   PRIMARY KEY (`foodId`, `shopId`), 
   FOREIGN KEY (`shopId`) REFERENCES `shop` (`shopId`) ON DELETE CASCADE ON UPDATE CASCADE
 );
