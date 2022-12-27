@@ -186,6 +186,8 @@ export default function SimpleSlider() {
     nickname: '',
     profile: '',
     role: '',
+    password: '',
+    newPassword: '',
   });
 
   const [slideIndex, setSlideIndex] = useState(0);

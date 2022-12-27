@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import * as API from '../../api/API';
 import axios from 'axios';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 export type UserInfoType = {
   track: string;
@@ -78,8 +78,8 @@ const MyPage = () => {
       <UserUpdate>
         <ImgContainer>
           <ImgCircle alt="Profile Image" src={userInfo.profile} />
-          <IconButton component="label">
-            <AccountBoxIcon />
+          <IconButton sx={{ position: 'absolute', top: '95px', right: '35px' }} component="label">
+            <AddAPhotoIcon color="secondary" />
             <input
               onChange={updateProfileImg}
               type="file"
@@ -111,13 +111,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: #f7f4f0;
 `;
 
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 750px;
+  width: 720px;
   padding: 50px;
   margin-top: 10px;
   border-radius: 10px;
@@ -128,9 +128,8 @@ const SubContainer = styled.div`
 const Title = styled.h1`
   font-weight: bold;
   font-size: 32px;
-  margin: 50px 0px;
+  margin: 70px 0 50px 210px;
   color: ${({ theme }) => theme.font.color.darkGray};
-  margin-left: 210px;
 `;
 
 const SubTitle = styled.h3`
@@ -162,7 +161,7 @@ const UserUpdate = styled.div`
 
 const UserName = styled.h3`
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 50px;
 `;
 
 const UserRole = styled.div`
@@ -176,7 +175,6 @@ const ImgCircle = styled.img`
   width: 75px;
   height: 75px;
   border-radius: 50px;
-  border: 1px solid black;
 `;
 const FileUpload = styled.input`
   margin-top: 10px;

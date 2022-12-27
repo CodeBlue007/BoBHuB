@@ -16,7 +16,6 @@ import {
 } from '../../../util/validateRegister';
 import { validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
-import { response } from 'express';
 
 interface UserProps {
   userInfo: UserInfoType;
@@ -216,7 +215,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>이름</TableHeader>
         {userInfoEditing.isNameEditing ? (
-          <>
+          <ClickedTd>
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 value={inputChange}
@@ -253,7 +252,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             {userInfo.name}
@@ -273,7 +272,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>닉네임</TableHeader>
         {userInfoEditing.isNickEditing ? (
-          <>
+          <ClickedTd>
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
@@ -305,7 +304,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             {userInfo.nickname}
@@ -318,7 +317,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>휴대폰 번호</TableHeader>
         {userInfoEditing.isPhoneEditing ? (
-          <>
+          <ClickedTd>
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
@@ -346,7 +345,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             {userInfo.phone}
@@ -359,7 +358,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>이메일</TableHeader>
         {userInfoEditing.isEmailEditing ? (
-          <>
+          <ClickedTd>
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
@@ -387,7 +386,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             {userInfo.email}
@@ -400,7 +399,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>비밀번호</TableHeader>
         {userInfoEditing.isPWEditing ? (
-          <>
+          <ClickedTd>
             <Box>
               <TextField
                 sx={{ margin: '0 0 20px 10px', height: '45px', width: '315px' }}
@@ -459,7 +458,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             ********
@@ -481,21 +480,28 @@ export const Table = styled.table`
   border-top: 1.5px solid ${(props) => props.theme.colors.lightGray};
   border-left: none;
   border-right: none;
-  width: 500px;
+  width: 100%;
   margin-bottom: 50px;
 `;
 
 export const TableRow = styled.tr``;
 
 export const TableHeader = styled.th`
-  padding: 30px;
+  padding: 25px;
+  width: 120px;
   border-top: 0.5px solid ${(props) => props.theme.colors.lightGray};
-  background-color: #fcf3eb;
+  background-color: ${(props) => props.theme.colors.container};
   font-size: 14px;
 `;
 
 export const TableData = styled.td`
-  padding: 30px;
+  padding: 25px;
+  border-top: 0.5px solid ${(props) => props.theme.colors.lightGray};
+  border-left: 1.5px solid ${(props) => props.theme.colors.lightGray};
+`;
+
+export const ClickedTd = styled.td`
+  padding: 15px;
   border-top: 0.5px solid ${(props) => props.theme.colors.lightGray};
   border-left: 1.5px solid ${(props) => props.theme.colors.lightGray};
 `;
