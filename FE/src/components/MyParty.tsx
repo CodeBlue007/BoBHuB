@@ -69,7 +69,7 @@ const MyParty = ({
                   </BasicLink>
                   <Time>모집 종료 시간: {limit}</Time>
                   <Paragraph>
-                    참여한 인원 {party.likedNum}/{party.partylimit}
+                    모집 현황 {party.likedNum}/{party.partylimit}
                   </Paragraph>
                 </Description>
               </NoPadFlex>
