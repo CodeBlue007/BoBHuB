@@ -193,7 +193,8 @@ exports.중식 = [
     address: "20757891",
     menu: "",
     shopPicture: "",
-    description: "주말에는 웨이팅이 짱~긴 맛집이지만, 평일에 가면 널널한 중국식 만두 맛도리집!",
+    description:
+      "주말에는 웨이팅이 짱~긴 맛집이지만, 평일에 가면 널널한 중국식 만두 맛도리집!",
   },
 ];
 exports.일식 = [
@@ -222,7 +223,8 @@ exports.일식 = [
     address: "1024511106",
     menu: "",
     shopPicture: "",
-    description: "건대역 바로 앞 성수낙낙 매니저가 추천하는 찐 맛집. 점심엔 식사, 저녁에는 이자카야!",
+    description:
+      "건대역 바로 앞 성수낙낙 매니저가 추천하는 찐 맛집. 점심엔 식사, 저녁에는 이자카야!",
   },
 ];
 exports.아시안 = [
@@ -233,6 +235,63 @@ exports.아시안 = [
     address: "1795002373",
     menu: "",
     shopPicture: "",
-    description: "아시안 푸드 전문점, 향신료를 줄이고 동남아 음식을 뉴욕식으로 재해석했습니다.",
-  }
+    description:
+      "아시안 푸드 전문점, 향신료를 줄이고 동남아 음식을 뉴욕식으로 재해석했습니다.",
+  },
+];
+exports.카페 = [
+  {
+    category: "카페",
+    name: "투썸플레이스",
+    distance: 3,
+    address: "1399635238",
+    menu: "",
+    shopPicture: "",
+    description: "성수낙낙에 있는 투썸플레이스입니다.",
+  },
+  {
+    category: "카페",
+    name: "스타벅스",
+    distance: 5,
+    address: "1436742203",
+    menu: "",
+    shopPicture: "",
+    description: "성수낙낙에 있는 스타벅스입니다.",
+  },
+  {
+    category: "카페",
+    name: "컴포즈커피",
+    distance: 5,
+    address: "1731623142",
+    menu: "",
+    shopPicture: "",
+    description: "가성비 갑, 컴포즈커피!",
+  },
+  {
+    category: "카페",
+    name: "홍콩다방",
+    distance: 5,
+    address: "1074041352",
+    menu: "",
+    shopPicture: "",
+    description: "홍콩식 밀크티와 에그와플 전문점, 홍콩다방!",
+  },
+  {
+    category: "카페",
+    name: "까치화방",
+    distance: 5,
+    address: "1115306852",
+    menu: "",
+    shopPicture: "",
+    description: "까치화방 시그니처 음료와 맛있는 케익들을 즐겨보세요!",
+  },
+  {
+    category: "카페",
+    name: "꼬메노",
+    distance: 10,
+    address: "20322289",
+    menu: "",
+    shopPicture: "",
+    description: "매니저의 최애 카페! 착한가격, 잔잔한 재즈와 하와이의 감성! + 알콜류도 팝니다~",
+  },
 ];

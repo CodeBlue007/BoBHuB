@@ -381,7 +381,8 @@ exports.미각 = [
     name: "탕수육",
     price: 15000,
   },
-];exports.화양식당 = [
+];
+exports.화양식당 = [
   {
     shopId: "",
     picture: "",
@@ -400,7 +401,8 @@ exports.미각 = [
     name: "칠리새우REGULAR",
     price: 20000,
   },
-];exports.빠오쯔푸 = [
+];
+exports.빠오쯔푸 = [
   {
     shopId: "",
     picture: "",
@@ -498,5 +500,125 @@ exports.반포식스 = [
     picture: "",
     name: "쉬림프 팟타이",
     price: 12000,
+  },
+];
+exports.투썸플레이스 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "아메리카노",
+    price: 4500,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "콜드브루",
+    price: 4900,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "카페라떼",
+    price: 5000,
+  },
+];
+exports.스타벅스 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "카페 아메리카노",
+    price: 4500,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "돌체 콜드브루",
+    price: 5800,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "부드러운 생크림 카스텔라",
+    price: 4500,
+  },
+];
+exports.컴포즈커피 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "아메리카노",
+    price: 1500,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "카페라떼",
+    price: 2700,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "사과 생크림 와플",
+    price: 2500,
+  },
+];
+exports.홍콩다방 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "동링차",
+    price: 5500,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "홍콩행밀크티",
+    price: 5000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "동윤영",
+    price: 5500,
+  },
+];
+exports.까치화방 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "까치크림모카",
+    price: 6500,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "까치설화",
+    price: 6200,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "까치라떼",
+    price: 5400,
+  },
+];
+exports.꼬메노 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "샤커레또",
+    price: 5000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "카페라떼",
+    price: 4500,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "퐁당오쇼콜라",
+    price: 6500,
   },
 ];
