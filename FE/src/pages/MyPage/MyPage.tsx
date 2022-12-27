@@ -4,8 +4,10 @@ import NavBar from '../../components/NavBar';
 import DeleteUser from './components/DeleteUser';
 import { useState, useEffect, useRef } from 'react';
 import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import * as API from '../../api/API';
 import axios from 'axios';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 export type UserInfoType = {
   track: string;
@@ -16,6 +18,8 @@ export type UserInfoType = {
   nickname: string;
   profile: string;
   role: string;
+  password: string;
+  newPassword: string;
 };
 
 const MyPage = () => {
@@ -29,6 +33,8 @@ const MyPage = () => {
     nickname: '',
     profile: '',
     role: '',
+    password: '',
+    newPassword: '',
   });
 
   const isLoaded = useRef<boolean>(false);
@@ -43,10 +49,11 @@ const MyPage = () => {
   }, []);
 
   useEffect(() => {
-    if (isLoaded.current) {
-      const res = API.patch(`/api/users`, userInfo);
-      console.log(res);
-    }
+    (async () => {
+      if (isLoaded.current) {
+        const res = await API.patch(`/api/users`, userInfo);
+      }
+    })();
   }, [userInfo]);
 
   const updateProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,11 +78,15 @@ const MyPage = () => {
       <UserUpdate>
         <ImgContainer>
           <ImgCircle alt="Profile Image" src={userInfo.profile} />
-          <FileUpload
-            onChange={updateProfileImg}
-            type="file"
-            accept="image/jpg,image/jpeg,image/png"
-          />
+          <IconButton sx={{ position: 'absolute', top: '95px', right: '35px' }} component="label">
+            <AddAPhotoIcon color="secondary" />
+            <input
+              onChange={updateProfileImg}
+              type="file"
+              accept="image/jpg,image/jpeg,image/png"
+              hidden
+            />
+          </IconButton>
           <UserName>{userInfo.name}</UserName>
           <UserRole>{userInfo.role === 'admin' ? '관리자' : '레이서'}</UserRole>
         </ImgContainer>
@@ -100,13 +111,13 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.background};
+  background-color: #f7f4f0;
 `;
 
 const SubContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 750px;
+  width: 720px;
   padding: 50px;
   margin-top: 10px;
   border-radius: 10px;
@@ -117,9 +128,8 @@ const SubContainer = styled.div`
 const Title = styled.h1`
   font-weight: bold;
   font-size: 32px;
-  margin: 50px 0px;
-  color: ${({ theme }) => theme.font.color.darkGray};
-  margin-left: 210px;
+  margin: 70px 0 50px 210px;
+  color: ${({ theme }) => theme.font.color.subTitle};
 `;
 
 const SubTitle = styled.h3`
@@ -151,7 +161,7 @@ const UserUpdate = styled.div`
 
 const UserName = styled.h3`
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 50px;
 `;
 
 const UserRole = styled.div`
@@ -165,7 +175,6 @@ const ImgCircle = styled.img`
   width: 75px;
   height: 75px;
   border-radius: 50px;
-  border: 1px solid black;
 `;
 const FileUpload = styled.input`
   margin-top: 10px;

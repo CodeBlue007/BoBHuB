@@ -59,7 +59,7 @@ const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopLi
         {Number(avgStar) ? (
           <>
             <StarRateIcon
-              sx={{ bottom: '20px', right: '88px', position: 'absolute', color: '#f50c43' }}
+              sx={{ bottom: '23px', right: '86px', position: 'absolute', color: '#faaf00' }}
             />
             <StarAvg>{Number(avgStar).toFixed(1)}</StarAvg>
             <StarTotal>/5</StarTotal>
@@ -77,7 +77,7 @@ MenuCard.defaultProps = defaultProps;
 export default MenuCard;
 
 const Container = styled.div`
-  background-color:${({theme})=>theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background};
   border-radius: 10px;
   width: 400px;
   height: 470px;
@@ -96,7 +96,7 @@ const CardTitle = styled.h5`
   line-height: 26px;
   color: ${(props) => props.theme.font.color.balck};
   margin-top: 25px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 const CardCategory = styled.span`
@@ -108,9 +108,9 @@ const CardCategory = styled.span`
 const CardImage = styled.div``;
 
 const CardDescription = styled.p`
-  color: #5e5f61;
+  color: ${(props) => props.theme.font.color.description};
   font-size: ${(props) => props.theme.font.size.normal};
-  margin: 16px 0;
+  margin: 12px 0;
   line-height: 20px;
 `;
 
@@ -143,6 +143,8 @@ const StarAvg = styled.span`
 const StarTotal = styled.span`
   position: absolute;
   bottom: 25px;
-  color: #727273;
+  color: ${(props) => props.theme.font.color.description};
   right: 44px;
+  font-weight: bold;
+  font-size: 16px;
 `;

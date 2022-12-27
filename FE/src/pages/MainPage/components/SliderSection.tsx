@@ -24,10 +24,10 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover {
-    color: #e59a59;
+    color: ${(props) => props.theme.colors.main};
   }
   .slick-next:hover {
-    color: #e59a59;
+    color: ${(props) => props.theme.colors.main};
   }
 `;
 
@@ -47,7 +47,7 @@ const DivNext = styled.div`
   position: absolute;
   text-align: right;
   font-size: 100px;
-  color: #712e1e;
+  color: ${(props) => props.theme.colors.emphasis};
   right: 100px;
   top: 120px;
   line-height: 40px;
@@ -62,13 +62,13 @@ const DivPre = styled.div`
   z-index: 99;
   text-align: left;
   font-size: 100px;
-  color: #712e1e;
+  color: ${(props) => props.theme.colors.emphasis};
   line-height: 40px;
 `;
 
 const Div = styled.div`
   // height: 100%;
-  background-color: #fffaf5;
+  background-color: ${(props) => props.theme.colors.background};
   box-sizing: border-box;
   width: 100%;
   place-items: center;
@@ -120,7 +120,7 @@ const Div = styled.div`
     height: 30px;
     font-size: 2em;
     margin: 30px 30px 30px 30px;
-    color: #424140;
+    color: ${({ theme }) => theme.font.color.description};
     font-weight: bold;
     text-align: center;
     letter-spacing: 4px;
@@ -131,7 +131,7 @@ const TitleBox = styled.div`
   height: 30px;
   font-size: 2em;
   margin: 30px 30px 30px 30px;
-  color: #424140;
+  color: ${({ theme }) => theme.font.color.description};
   font-weight: bold;
   text-align: center;
   letter-spacing: 4px;
@@ -189,6 +189,8 @@ export default function SimpleSlider() {
     nickname: '',
     profile: '',
     role: '',
+    password: '',
+    newPassword: '',
   });
 
   const [slideIndex, setSlideIndex] = useState(0);
