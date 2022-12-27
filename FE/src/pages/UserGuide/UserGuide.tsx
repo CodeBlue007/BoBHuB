@@ -20,10 +20,10 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover{
-    color : #E59A59;
+    color : ${({ theme }) => theme.colors.main};
   }
   .slick-next:hover{
-    color : #E59A59;
+    color : ${({ theme }) => theme.colors.main};
 `;
 
 const Div = styled.div`
@@ -67,7 +67,7 @@ const DivNext = styled.div`
   z-index: 99;
   text-align: right;
   font-size: 100px;
-  color: #712e1e;
+  color: ${({ theme }) => theme.colors.emphasis};
   right: 100px;
   top: 120px;
   line-height: 40px;
@@ -82,7 +82,7 @@ const DivPre = styled.div`
   z-index: 99;
   text-align: left;
   font-size: 100px;
-  color: #712e1e;
+  color: ${({ theme }) => theme.colors.emphasis};
   line-height: 40px;
 `;
 
