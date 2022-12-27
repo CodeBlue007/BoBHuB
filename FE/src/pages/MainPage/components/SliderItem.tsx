@@ -8,6 +8,7 @@ import HeartButton from './HeartIcon';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import { getLimitTime } from './../../../util/getLimitTime';
 
 const ItemContainer = styled.div`
   background-color: white;
@@ -70,6 +71,8 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
     socket.emit('joinParty', partyId, userId, setPartiesData);
   };
 
+  const limit = getLimitTime(party.createdAt, party.timeLimit);
+
   return (
     <ItemContainer
       className={index === slideIndex ? 'slide slide-center' : 'slide'}
@@ -88,7 +91,7 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
             <div className="likedNum">
               모집 현황 : {party.likedNum} 명 / 총 {party.partylimit} 명
             </div>
-            <div className="time">모집 종료 시간 : {`${hour}시 ${minute}분`}</div>
+            <div className="time">모집 종료 시간: {limit}</div>
           </span>
           <span style={{ margin: '0 0 0 50px' }}>
             <HeartButton like={like} onClick={() => handleLike(party.partyId)} />
