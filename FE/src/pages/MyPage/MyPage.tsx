@@ -129,7 +129,7 @@ const Title = styled.h1`
   font-weight: bold;
   font-size: 32px;
   margin: 70px 0 50px 210px;
-  color: ${({ theme }) => theme.font.color.darkGray};
+  color: ${({ theme }) => theme.font.color.subTitle};
 `;
 
 const SubTitle = styled.h3`

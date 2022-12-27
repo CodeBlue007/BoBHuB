@@ -21,8 +21,8 @@ const TextWrapper = styled.div`
 
 const TextBlock = styled.span`
   display: inline-block;
-  background-color: #e59a59;
-  color: #1e1f21;
+  background-color:${({theme})=>theme.colors.main};
+  color: ${({theme})=>theme.font.color.black};
   font-size: 15px;
   padding: 8px;
   margin: 5px;

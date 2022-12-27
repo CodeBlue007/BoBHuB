@@ -480,7 +480,7 @@ export const Table = styled.table`
   border-top: 1.5px solid ${(props) => props.theme.colors.lightGray};
   border-left: none;
   border-right: none;
-  width: 100%;
+  width: 700px;
   margin-bottom: 50px;
 `;
 
