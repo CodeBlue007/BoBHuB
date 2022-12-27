@@ -50,13 +50,30 @@ const Container = styled.div`
     top: 230px;
   }
   .scroll {
-    -webkit-animation: bounce 0.8s infinite linear;
     position: absolute;
     right: 50%;
     display: flex;
     flex-direction: column;
     color: hsla(0, 0%, 100%, 0.733);
     text-align: center;
+    animation: bounce 0.5s infinite linear;
+    @keyframes bounce {
+      0% {
+        bottom: 0;
+      }
+
+      50% {
+        bottom: 10px;
+      }
+
+      70% {
+        bottom: 25px;
+      }
+
+      100% {
+        bottom: 0;
+      }
+    }
     img {
       width: 3vw;
     }
