@@ -57,20 +57,22 @@ const MyParty = ({
           const limit = getLimitTime(party.createdAt, party.timeLimit);
           return (
             <List key={party.partyId}>
-              <BasicLink to={`/foodlist/${party.shopId}`}>
-                <ImgWrapper>
-                  <Img src={activeShopList[index].shopPicture} alt="img" />
-                </ImgWrapper>
-              </BasicLink>
-              <Description>
+              <NoPadFlex>
                 <BasicLink to={`/foodlist/${party.shopId}`}>
-                  <Name>{activeShopList[index].name}</Name>
+                  <ImgWrapper>
+                    <Img src={activeShopList[index].shopPicture} alt="img" />
+                  </ImgWrapper>
                 </BasicLink>
-                <Time>모집 종료 시간: {limit}</Time>
-                <Paragraph>
-                  참여한 인원 {party.likedNum}/{party.partylimit}
-                </Paragraph>
-              </Description>
+                <Description>
+                  <BasicLink to={`/foodlist/${party.shopId}`}>
+                    <Name>{activeShopList[index].name}</Name>
+                  </BasicLink>
+                  <Time>모집 종료 시간: {limit}</Time>
+                  <Paragraph>
+                    참여한 인원 {party.likedNum}/{party.partylimit}
+                  </Paragraph>
+                </Description>
+              </NoPadFlex>
               {user.userId === party.userId ? (
                 <DeleteButton
                   size="small"
@@ -125,6 +127,10 @@ const Flex = styled.div`
   align-items: center;
 `;
 
+const NoPadFlex = styled(Flex)`
+  padding: 0;
+`;
+
 const Bar = styled(Flex)`
   justify-content: space-between;
 `;
@@ -168,7 +174,7 @@ const ImgWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 const Description = styled.div`
-  /* margin-left: 10px; */
+  margin-left: 10px;
 `;
 
 const Paragraph = styled.p`
