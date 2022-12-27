@@ -8,6 +8,7 @@ import { delete as del } from '../api/API';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { UserType } from '../pages/Admin/components/User/components/Users';
+import { getLimitTime } from '../util/getLimitTime';
 
 interface MyPartyProps {
   open: boolean;
@@ -46,12 +47,7 @@ const MyParty = ({
         {myPartyList.length === 0 && <List>참여중인 모임이 없습니다.</List>}
         {myPartyList.map((party, index) => {
           // UTC 기준 시간 > 한국시간으로 변경
-          const date = new Date(party.createdAt);
-          const offset = new Date(party.createdAt).getTimezoneOffset() * 60000;
-          const dateOffset = new Date(date.getTime() - offset);
-          const limit = new Date(
-            dateOffset.setMinutes(dateOffset.getMinutes() + party.timeLimit),
-          ).toLocaleTimeString('default', { hour: '2-digit', minute: '2-digit' });
+          const limit = getLimitTime(party.createdAt, party.timeLimit);
           return (
             <List key={party.partyId}>
               <BasicLink to={`/foodlist/${party.shopId}`}>

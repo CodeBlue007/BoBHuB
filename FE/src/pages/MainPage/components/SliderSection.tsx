@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { fetchParties } from '../api/api';
+import { fetchParties } from './../api/api';
 import { get } from '../../../api/API';
 import { Party } from '../Type';
 import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { SocketContext, socket } from './../../../socket/SocketContext';
 
 const StyledSlider = styled(Slider)`
-  border: 1px solid black;
   height: 110%;
   position: relative;
   .slick-prev::before,
@@ -36,7 +38,6 @@ const LabelContainer = styled.div`
   width: 100vw;
   height: 45vh;
   position: relative;
-  border: 1px solid black;
   box-sizing: border-box;
 `;
 
@@ -101,7 +102,7 @@ const Div = styled.div`
 
   img {
     margin: 0 auto 10px auto;
-    height: 300px;
+    height: 290px;
     overflow: hidden;
     width: 100%;
     border-radius: 10px;
@@ -192,6 +193,8 @@ export default function SimpleSlider() {
 
   const [slideIndex, setSlideIndex] = useState(0);
 
+  const socket = useContext(SocketContext);
+  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
     console.log(data);
@@ -214,6 +217,16 @@ export default function SimpleSlider() {
       console.error(err);
     }
   }, []);
+  const clickHandler = (shopId: number) => {
+    console.log('shopId :', shopId);
+    console.log('userId :', userId);
+    socket.emit('update', shopId, userId);
+  };
+
+  // socket.on('event', () => {
+  //   data = event
+  //   setParties(data)
+  // })
 
   return (
     <Div>

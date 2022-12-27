@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { AiFillStar } from 'react-icons/ai';
+import { TiStar } from 'react-icons/ti';
 import { getHourmin } from '../../../util/getDate';
 import { Party } from '../Type';
 import { SocketContext } from '../../../socket/SocketContext';
@@ -10,7 +10,7 @@ import HeartButton from './HeartIcon';
 const ItemContainer = styled.div`
   background-color: #e59a59;
   padding: 30px;
-  margin: 8px 20px 10px 20px;
+  margin: 10px 20px 10px 20px;
   border-radius: 10px;
   height: 400px;
 `;
@@ -21,13 +21,16 @@ const Description = styled.div`
   background-color: white;
   border-radius: 10px;
   height: 100px;
+  padding-top: 10px;
   .name {
-    font-size: 25px;
+    font-size: 30px;
+    margin-right: 30px;
   }
   .avgStar {
     font-size: 18px;
   }
   .party_info {
+    padding-top: 7px;
     align-self: center;
     text-align: left;
     font-size: 12px;
@@ -35,12 +38,12 @@ const Description = styled.div`
     flex-direction: row;
   }
   .likedNum {
-    color: blue;
+    color: #2485ed;
     font-size: 17px;
     margin: 10px 20px 5px 0;
   }
   .time {
-    color: red;
+    color: #ed4c24;
     font-size: 17px;
   }
 `;
@@ -74,12 +77,11 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
       <Description>
         <div>
           <span className="name">{party.name}</span>
-          <span style={{ marginLeft: '3px' }}>
-            <AiFillStar size="19" color="#faaf00" />
+
+          <span style={{ marginTop: '10px' }}>
+            <TiStar size="25" color="#faaf00" />
           </span>
-          <span className="avgStar" style={{ marginTop: '3px' }}>
-            {Number(party.avgStar).toFixed(1)}
-          </span>
+          <span className="avgStar">{Number(party.avgStar).toFixed(1)}</span>
         </div>
         <div className="party_info">
           <span>
