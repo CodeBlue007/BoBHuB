@@ -19,10 +19,8 @@ const InputContainer = styled.div`
 
 const TextContainer = styled.div`
   background-color: whitesmoke;
-  width: 250px;
-  height: 300px;
-  margin: 20px auto;
-  border-radius: 10px;
+  width: inherit;
+  height: 330px;
   padding: 10px 10px 10px 0;
 
   overflow: auto;
@@ -30,8 +28,15 @@ const TextContainer = styled.div`
     display: none;
   }
   .labelName {
-    font-size: 15px;
+    font-size: 10px;
   }
+`;
+
+const Container = styled.div`
+  background-color: whitesmoke;
+  height: 420px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 `;
 
 interface ChatRoomProps {
@@ -90,36 +95,38 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
     <>
       <form onSubmit={sendMessage}>
         <Title>{roomName}</Title>
-        <TextContainer ref={scrollRef}>
-          {messages?.map((messageInfo: MessageInfo, idx: number) => (
-            <ChatMessage messageInfo={messageInfo} key={`${messageInfo.message}${idx}`} />
-          ))}
-        </TextContainer>
-        <InputContainer>
-          <TextField
-            hiddenLabel
-            id="filled-basic"
-            variant="filled"
-            size="small"
-            sx={{
-              width: '200px',
-              marginLeft: '10px',
-              '& .MuiInputBase-root': {
-                height: 49,
-              },
-            }}
-            value={content}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            sx={{ height: '46px', width: '50px' }}
-            onClick={sendMessage}>
-            전송
-          </Button>
-        </InputContainer>
+        <Container>
+          <TextContainer ref={scrollRef}>
+            {messages?.map((messageInfo: MessageInfo, idx: number) => (
+              <ChatMessage messageInfo={messageInfo} key={`${messageInfo.message}${idx}`} />
+            ))}
+          </TextContainer>
+          <InputContainer>
+            <TextField
+              hiddenLabel
+              id="filled-basic"
+              variant="filled"
+              size="small"
+              sx={{
+                width: '200px',
+                marginLeft: '10px',
+                '& .MuiInputBase-root': {
+                  height: 49,
+                },
+              }}
+              value={content}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              sx={{ height: '46px', width: '50px' }}
+              onClick={sendMessage}>
+              전송
+            </Button>
+          </InputContainer>
+        </Container>
       </form>
     </>
   );

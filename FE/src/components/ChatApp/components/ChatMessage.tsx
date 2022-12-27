@@ -14,6 +14,11 @@ const TextRight = styled(TextLeft)`
   justify-content: flex-end;
 `;
 
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const TextBlock = styled.span`
   display: inline-block;
   background-color: #e59a59;
@@ -37,17 +42,21 @@ const ChatMessage = ({ messageInfo: { userId, userName, message } }: ChatMessage
     <>
       {userId !== currentUserId ? (
         <TextLeft>
-          {userId !== 0 && userId !== currentUserId && (
-            <span className="labelName">{userName} : </span>
-          )}
-          {<TextBlock>{message}</TextBlock>}
+          <TextWrapper>
+            {userId !== 0 && userId !== currentUserId && (
+              <span className="labelName">{userName}</span>
+            )}
+            {<TextBlock>{message}</TextBlock>}
+          </TextWrapper>
         </TextLeft>
       ) : (
         <TextRight>
-          {userId !== 0 && userId !== currentUserId && (
-            <span className="labelName">{userName} : </span>
-          )}
-          {<TextBlock>{message}</TextBlock>}
+          <TextWrapper>
+            {userId !== 0 && userId !== currentUserId && (
+              <span className="labelName">{userName}</span>
+            )}
+            {<TextBlock>{message}</TextBlock>}
+          </TextWrapper>
         </TextRight>
       )}
     </>

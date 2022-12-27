@@ -34,13 +34,13 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
   const nickname = useRef<TextFieldProps>();
   const auth = useRef<TextFieldProps>();
 
-  const updateUserData = (body: { nickName: string; role: string }) => {
+  const updateUserData = (body: { nickname: string; role: string }) => {
     return patch(`/api/admin/users/${user.userId}`, body);
   };
 
   const clickUpdateBtn = async () => {
     const body = {
-      nickName: nickname.current?.value as string,
+      nickname: nickname.current?.value as string,
       role: auth.current?.value as string,
     };
     await updateUserData(body);
@@ -62,7 +62,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
       </Div>
       <Div>
         <label htmlFor="nickname">닉네임</label>
-        <TextField id="nickname" type="text" defaultValue={user.nickName} inputRef={nickname} />
+        <TextField id="nickname" type="text" defaultValue={user.nickname} inputRef={nickname} />
       </Div>
       <Div>
         <label htmlFor="auth">권한</label>
