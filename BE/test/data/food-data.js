@@ -201,6 +201,26 @@ exports.이레분식 = [
     price: 7000,
   },
 ];
+exports.아찌떡볶이 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "친구세트",
+    price: 12000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "아찌떡볶이",
+    price: 4000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "수제튀김",
+    price: 4000,
+  },
+];
 //한식 Korean
 exports.보승회관 = [
   {
@@ -360,5 +380,123 @@ exports.미각 = [
     picture: "",
     name: "탕수육",
     price: 15000,
+  },
+];exports.화양식당 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "등심탕수육REGULAR",
+    price: 20000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "유린기REGULAR",
+    price: 20000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "칠리새우REGULAR",
+    price: 20000,
+  },
+];exports.빠오쯔푸 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "부추지짐",
+    price: 8000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "고기빠오즈",
+    price: 8000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "훈둔면",
+    price: 8000,
+  },
+];
+exports.송강제면소 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "오뎅우동",
+    price: 9000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "가케우동",
+    price: 8000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "자루소바",
+    price: 15000,
+  },
+];
+exports.오코노미식당하나 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "돼지오징어타마 오코노미야키",
+    price: 11500,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "야키소바",
+    price: 10500,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "돼지타마 오코노미야키",
+    price: 10500,
+  },
+];
+exports.서울낙업 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "생연어모듬사시미",
+    price: 25000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "오반자이 스테이크동",
+    price: 15000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "차돌박이 참깨나베",
+    price: 18000,
+  },
+];
+exports.반포식스 = [
+  {
+    shopId: "",
+    picture: "",
+    name: "반포식스 쌀국수",
+    price: 10000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "나시고랭",
+    price: 12000,
+  },
+  {
+    shopId: "",
+    picture: "",
+    name: "쉬림프 팟타이",
+    price: 12000,
   },
 ];

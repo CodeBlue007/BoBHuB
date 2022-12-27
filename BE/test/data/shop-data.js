@@ -92,6 +92,15 @@ exports.분식 = [
     shopPicture: "",
     description: "돈가스와 덮밥이 주 메뉴이며 간단한 국수류도 판매합니다~",
   },
+  {
+    category: "분식",
+    name: "아찌떡볶이",
+    distance: 10,
+    address: "1060846170",
+    menu: "",
+    shopPicture: "",
+    description: "쌀떡파였는데, 밀떡에 눈을 뜨게함... 유퀴즈에 나와 난리난리!",
+  },
 ];
 exports.한식 = [
   {
@@ -166,6 +175,64 @@ exports.중식 = [
     address: "38275416",
     menu: "",
     shopPicture: "",
-    description: "배달시키면 10분안에 올 것 같은, 찐 동네 중국집!",
+    description: "배달시키면 10분안에 올 것 같은, 동네 중국집!",
   },
+  {
+    category: "중식",
+    name: "화양식당",
+    distance: 5,
+    address: "968030473",
+    menu: "",
+    shopPicture: "",
+    description: "중식st 주점이지만 식사하러 가는곳, 유린기&새우요리가 맛있습니다!",
+  },
+  {
+    category: "중식",
+    name: "빠오쯔푸",
+    distance: 5,
+    address: "20757891",
+    menu: "",
+    shopPicture: "",
+    description: "주말에는 웨이팅이 짱~긴 맛집이지만, 평일에 가면 널널한 중국식 만두 맛도리집!",
+  },
+];
+exports.일식 = [
+  {
+    category: "일식",
+    name: "송강제면소",
+    distance: 5,
+    address: "1077831801",
+    menu: "",
+    shopPicture: "",
+    description: "성수동 우동, 소바 맛집",
+  },
+  {
+    category: "일식",
+    name: "오코노미식당하나",
+    distance: 7,
+    address: "1788087862",
+    menu: "",
+    shopPicture: "",
+    description: "일본인 사장님이 혼자 운영하시는 본토의 맛",
+  },
+  {
+    category: "일식",
+    name: "서울낙업",
+    distance: 15,
+    address: "1024511106",
+    menu: "",
+    shopPicture: "",
+    description: "건대역 바로 앞 성수낙낙 매니저가 추천하는 찐 맛집. 점심엔 식사, 저녁에는 이자카야!",
+  },
+];
+exports.아시안 = [
+  {
+    category: "아시안",
+    name: "반포식스",
+    distance: 5,
+    address: "1795002373",
+    menu: "",
+    shopPicture: "",
+    description: "아시안 푸드 전문점, 향신료를 줄이고 동남아 음식을 뉴욕식으로 재해석했습니다.",
+  }
 ];

@@ -57,24 +57,6 @@ class FoodModel {
     }
   }
 
-  async getByName(name) {
-    try {
-      const whereArr = o.objToQueryArray({ name });
-      const query = o.makeSelectQuery({ whereArr });
-      logger.info(query);
-
-      const [shop] = await pool.query(query);
-      return shop[0];
-    } catch (e) {
-      logger.error(e);
-      throw new ErrorFactory(
-        commonErrors.DB_ERROR,
-        500,
-        "요청한 내용으로 DB에서 처리할 수 없습니다."
-      );
-    }
-  }
-
   async update(newFoodDTO, foodDTO) {
     try {
       const newDTO = o.objToQueryArray(newFoodDTO);

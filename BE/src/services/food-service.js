@@ -14,12 +14,13 @@ class FoodService {
     if (!existingShop) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
     }
-    const existingFood = await this.foodModel.getByName(foodDTO.name);
-    if (existingFood) {
+    const existingFood = await this.foodModel.getByShopId(foodDTO.shopId);
+    const uniqueFoodNameByShopId = existingFood.filter((f) => f.name == foodDTO.name);
+    if (uniqueFoodNameByShopId.length !== 0) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
-        "동일한 대표 메뉴가 존재합니다."
+        "해당 식당에 동일한 대표 메뉴가 존재합니다."
       );
     }
     const result = await this.foodModel.create(foodDTO);
@@ -30,11 +31,20 @@ class FoodService {
     const food = await this.foodModel.getByShopId(shopId);
     return food;
   }
-  // 오류?
+
   async update(newFoodDTO, foodId) {
     const existingFood = await this.foodModel.getById(foodId);
     if (!existingFood) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 대표메뉴가 없습니다.");
+    }
+    const existingNewFood = await this.foodModel.getByShopId(existingFood.shopId);
+    const uniqueFoodNameByShopId = existingNewFood.filter((f) => f.name == newFoodDTO.name);
+    if (uniqueFoodNameByShopId.length !== 0) {
+      throw new ErrorFactory(
+        commonErrors.BAD_REQUEST,
+        400,
+        "해당 식당에 동일한 대표 메뉴가 존재합니다."
+      );
     }
     const result = await this.foodModel.update(newFoodDTO, { foodId });
     return result;
