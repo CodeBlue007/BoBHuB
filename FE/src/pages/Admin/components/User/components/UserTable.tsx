@@ -54,7 +54,7 @@ const UserTable = ({ users, fetchUserData }: UserTableProps) => {
                   {user.name}
                 </TableCell>
                 <TableCell align="center">{user.email}</TableCell>
-                <TableCell align="center">{user.nickName}</TableCell>
+                <TableCell align="center">{user.nickname}</TableCell>
                 <TableCell align="center">{user.role}</TableCell>
                 <TableCell align="center">
                   <Button variant="outlined" onClick={() => handleOpen(user)}>
