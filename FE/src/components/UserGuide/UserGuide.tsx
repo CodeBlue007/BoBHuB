@@ -1,5 +1,3 @@
-import NavBar from '../../components/NavBar';
-import Footer from '../../components/Footer';
 import Slider from 'react-slick';
 import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
@@ -10,8 +8,6 @@ import chat from './assets/Chat.gif';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 const StyledSlider = styled(Slider)`
-  height: 73vh;
-
   .slick-prev::before,
   .slick-next::before {
     opacity: 0;
@@ -29,7 +25,6 @@ const StyledSlider = styled(Slider)`
 const Div = styled.div`
   margin-top: 100px;
   height: 100%;
-  min-width: 1000px;
   place-items: center;
 
   .slick-slider {
@@ -50,13 +45,15 @@ const Div = styled.div`
     text-align: center;
   }
 
-  img {
-    margin-left: 50px;
-  }
-
   span {
     font-size: 1.5em;
     font-weight: bold;
+  }
+
+  img {
+    margin: none;
+    width: 400px;
+    margin-left: 50px;
   }
 `;
 
@@ -64,12 +61,12 @@ const DivNext = styled.div`
   width: 30px;
   height: 30px;
   position: absolute;
+  top: 100px;
+  right: 100px;
   z-index: 99;
   text-align: right;
   font-size: 100px;
   color: ${({ theme }) => theme.colors.emphasis};
-  right: 100px;
-  top: 120px;
   line-height: 40px;
 `;
 
@@ -77,7 +74,7 @@ const DivPre = styled.div`
   width: 30px;
   height: 30px;
   position: absolute;
-  top: 120px;
+  top: 100px;
   left: 40px;
   z-index: 99;
   text-align: left;
@@ -108,24 +105,22 @@ const UserGuide = () => {
 
   return (
     <div>
-      <NavBar />
       <Div>
         <StyledSlider {...settings}>
           <div>
-            <img src={heart} alt="Heart" style={{ height: '400px' }} />
+            <img src={heart} alt="Heart" />
             <span>원하는 식당에 찜하기 버튼을 누르세요!</span>
           </div>
           <div>
-            <img src={chat} alt="Chat" style={{ height: '400px' }} />
+            <img src={chat} alt="Chat" />
             <span>채팅방이 생성되면 밥메이트들과 약속을 정해봐요!</span>
           </div>
           <div>
-            <img src={hamburger} alt="Hamburger" style={{ height: '400px' }} />
+            <img src={hamburger} alt="Hamburger" />
             <span>밥메이트들과 맛있는 식사하세요~</span>
           </div>
         </StyledSlider>
       </Div>
-      <Footer />
     </div>
   );
 };
