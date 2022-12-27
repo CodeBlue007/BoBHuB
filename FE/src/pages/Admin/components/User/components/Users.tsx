@@ -8,7 +8,7 @@ export type UserType = {
   generation: number;
   track: string;
   name: string;
-  nickName: string;
+  nickname: string;
   email: string;
   phone: string;
   profile: any;
