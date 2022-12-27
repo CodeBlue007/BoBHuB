@@ -27,6 +27,7 @@ const Description = styled.div`
   }
   .avgStar {
     font-size: 27px;
+    margin-left: 5px;
   }
   .party_info {
     padding-top: 7px;
