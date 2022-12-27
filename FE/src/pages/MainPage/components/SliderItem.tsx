@@ -8,7 +8,7 @@ import { SocketContext } from '../../../socket/SocketContext';
 import HeartButton from './HeartIcon';
 
 const ItemContainer = styled.div`
-  background-color: #e59a59;
+  background-color: ${(props) => props.theme.colors.main};
   padding: 30px;
   margin: 10px 20px 10px 20px;
   border-radius: 10px;

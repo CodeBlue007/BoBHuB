@@ -16,7 +16,7 @@ const ListContainer = styled(FlexContainer)`
   box-shadow: 2px 2px 2px gray;
   width: 50vw;
   border-radius: 10px;
-  background-color: #ffd5af;
+  background-color: ${({ theme }) => theme.colors.sub};
   position: relative;
   margin: 15px;
 `;
@@ -26,7 +26,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 3;
-  color: '#1E1F21';
+  color: ${({ theme }) => theme.font.color.black};
   padding: 10px;
 
   & > article {

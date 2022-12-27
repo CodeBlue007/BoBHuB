@@ -463,7 +463,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           ))}
         </TextField> */}
 
-        <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>
+        <Button variant="contained" type="submit">
           회원가입
         </Button>
 

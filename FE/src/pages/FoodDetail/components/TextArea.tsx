@@ -22,7 +22,7 @@ const Button = styled.button`
 const CommentArea = styled.textarea`
   margin-top: 10px;
   padding: 10px;
-  background-color: #fcf3eb;
+  background-color: ${({ theme }) => theme.colors.container};
   border-radius: 10px;
   color: darygray;
   border: none;
@@ -38,7 +38,7 @@ const CommentArea = styled.textarea`
 
   &:disabled {
     font-weight: bold;
-    color: '#1E1F21';
+    color: ${({ theme }) => theme.font.color.balck};
     border: none;
   }
 `;

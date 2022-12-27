@@ -103,7 +103,6 @@ const Content = ({ shop }: Contentype) => {
           variant="contained"
           onClick={handleClick}
           sx={{
-            backgroundColor: '#E59A59',
             fontSize: '10px',
             marginRight: '30px',
           }}>{`모임생성 ❤`}</LikeButton>
