@@ -30,6 +30,13 @@ const del = async (url = '') => {
   }
 };
 
+/**
+ *
+ * @param url : url주소 ex) /api/shops
+ * @param post : body
+ * @param config : default = null, 이미지 보낼때만 "imgPost" 설정 > 'Content-Type': 'multipart/form-data' 설정
+ * @returns : res.data 반환
+ */
 const post = async (url = '', post: {}, config: 'imgPost' | null = null) => {
   try {
     if (config === 'imgPost') {
