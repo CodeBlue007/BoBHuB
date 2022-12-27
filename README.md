@@ -27,8 +27,6 @@
 | <img src="/uploads/627758d2a672de3e205d4ccb24bf891a/Node.js.png" width="50" height="50">| <img src="/uploads/32e5943a9b89f59faadef8063a2f3d2c/1_XP-mZOrIqX7OsFInN2ngRQ.webp" width="120" height="50">  | <img src="/uploads/1f928bfea52f0e5a6b7c7b81bbdeb217/MySQL-Logo.wine.svg" width="50" height="50">  | <img src="/uploads/36d63903265a4b13715b6935d090110a/image_4_.png" width="120" height="50">
 
 
-
-
 ## 2. 서비스 주요 기능 설명
 
 #### 2.1 주요기능
@@ -56,7 +54,6 @@
 ## 3. 서비스 구성도
   - 서비스 구조도 그림 (사용한 기술 스택)
   - 와이어프레임 링크 (예상 웹 화면 UI) e.g) figma 사용
-  - API 명세를 문서화한 링크
   - API : https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 
 ## 4. 프로젝트 팀원 역할 분담
@@ -67,8 +64,8 @@
 | 김찬수 | 프론트엔드 개발 |
 | 윤동주 | 프론트엔드 개발 |
 | 장은영 | 프론트엔드 개발 |
-| 김동준 | 벡앤드 개발 |
-| 안상준 | 벡앤드 개발 |
+| 김동준 | 백엔드 개발 |
+| 안상준 | 백엔드 개발 |
 
 **멤버별 responsibility**
 
@@ -92,7 +89,7 @@
   ```
 
 ## 6. 버전
-  - 프로젝트의 버전 기입 (예: 1.0.0)
+  - 1.0.0
 
 ## 7. FAQ
   - 자주 받는 질문 정리
