@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { getHourmin } from '../../../util/getDate';
@@ -6,6 +6,8 @@ import { Party } from '../Type';
 import { SocketContext } from '../../../socket/SocketContext';
 import HeartButton from './HeartIcon';
 import StarRateIcon from '@mui/icons-material/StarRate';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 const ItemContainer = styled.div`
   background-color: white;
@@ -52,15 +54,20 @@ interface SliderItemProps {
   party: Party;
   index: number;
   slideIndex: number;
+  setPartiesData: () => void;
 }
 
-const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
+const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProps) => {
   const socket = useContext(SocketContext);
   const [hour, minute] = getHourmin(party.createdAt, party.timeLimit);
   const [like, setLike] = useState(false);
+  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
 
-  const handleLike = () => {
+  const handleLike = (partyId: number) => {
     setLike(!like);
+    console.log('partyId :', partyId);
+    console.log('userId :', userId);
+    socket.emit('joinParty', partyId, userId, setPartiesData);
   };
 
   return (
@@ -84,7 +91,7 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
             <div className="time">모집 종료 시간 : {`${hour}시 ${minute}분`}</div>
           </span>
           <span style={{ margin: '0 0 0 50px' }}>
-            <HeartButton like={like} onClick={handleLike} />
+            <HeartButton like={like} onClick={() => handleLike(party.partyId)} />
           </span>
         </div>
       </Description>

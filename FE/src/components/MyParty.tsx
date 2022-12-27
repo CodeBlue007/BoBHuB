@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
 import { UserType } from '../pages/Admin/components/User/components/Users';
 import { getLimitTime } from '../util/getLimitTime';
+import { SocketContext } from '../socket/SocketContext';
+import { useContext } from 'react';
 
 interface MyPartyProps {
   open: boolean;
@@ -26,6 +28,11 @@ const MyParty = ({
   fetchPartyList,
 }: MyPartyProps) => {
   const user = useSelector((state: RootState) => state.userReducer.currentUser);
+  const socket = useContext(SocketContext);
+
+  const clickLeaveButton = (partyId: number) => {
+    socket.emit('leaveParty', partyId, user.userId, fetchPartyList);
+  };
 
   const clickDeleteButton = async (id: number) => {
     const res = await del(`/api/parties/${id}`);
@@ -73,7 +80,9 @@ const MyParty = ({
                   모집 종료
                 </DeleteButton>
               ) : (
-                <DeleteButton>참여 취소</DeleteButton>
+                <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
+                  참여 취소
+                </DeleteButton>
               )}
             </List>
           );

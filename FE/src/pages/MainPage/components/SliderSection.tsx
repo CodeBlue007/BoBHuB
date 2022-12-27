@@ -205,6 +205,9 @@ export default function SimpleSlider() {
 
   useEffect(() => {
     setPartiesData();
+    socket.on('event', (msg) => {
+      console.log(msg);
+    });
   }, []);
 
   const getUserInfoAPI = async () => {
@@ -219,11 +222,6 @@ export default function SimpleSlider() {
       console.error(err);
     }
   }, []);
-  const clickHandler = (shopId: number) => {
-    console.log('shopId :', shopId);
-    console.log('userId :', userId);
-    socket.emit('update', shopId, userId);
-  };
 
   // socket.on('event', () => {
   //   data = event
@@ -249,7 +247,13 @@ export default function SimpleSlider() {
         ) : (
           <StyledSlider {...settings}>
             {parties.map((party, index) => (
-              <SliderItem index={index} slideIndex={slideIndex} party={party} key={party.shopId} />
+              <SliderItem
+                setPartiesData={setPartiesData}
+                index={index}
+                slideIndex={slideIndex}
+                party={party}
+                key={party.shopId}
+              />
             ))}
           </StyledSlider>
         )}
