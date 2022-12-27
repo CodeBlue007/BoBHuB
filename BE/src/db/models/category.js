@@ -12,7 +12,8 @@ class CategoryModel {
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -29,7 +30,8 @@ class CategoryModel {
 
       const [categoryName] = await pool.query(query);
       return categoryName;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -45,7 +47,8 @@ class CategoryModel {
 
       const [categories] = await pool.query(query);
       return categories;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -62,7 +65,8 @@ class CategoryModel {
       logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -78,7 +82,8 @@ class CategoryModel {
       logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,

@@ -5,6 +5,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import ChatRoom from './ChatRoom';
 import ChatList from './ChatList';
 import { SocketContext } from '../../../socket/SocketContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 interface ChatPageProps {
   handleDisplay: () => void;
@@ -46,8 +48,7 @@ const ChatPage = ({ handleDisplay }: ChatPageProps) => {
             top: 0,
             right: 0,
           }}
-          onClick={handleRoom}
-          data-roomName={targetRoom}>
+          onClick={handleRoom}>
           <ClearIcon fontSize="inherit" />
         </IconButton>
         {enterRoom ? <ChatRoom roomName={targetRoom} /> : <ChatList moveRoom={moveRoom} />}

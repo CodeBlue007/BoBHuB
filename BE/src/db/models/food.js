@@ -12,7 +12,8 @@ class FoodModel {
 
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -28,7 +29,8 @@ class FoodModel {
 
       const [food] = await pool.query(query);
       return food[0];
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -45,7 +47,8 @@ class FoodModel {
 
       const [food] = await pool.query(query);
       return food;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -62,7 +65,8 @@ class FoodModel {
 
       const [shop] = await pool.query(query);
       return shop[0];
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -80,7 +84,8 @@ class FoodModel {
       logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -97,7 +102,8 @@ class FoodModel {
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,

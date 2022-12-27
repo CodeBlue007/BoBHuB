@@ -1,16 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { fetchParties } from '../api/fetchParties';
+import { fetchParties } from './../api/api';
+import { get } from '../../../api/API';
 import { Party } from '../Type';
+import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { SocketContext, socket } from './../../../socket/SocketContext';
 
 const StyledSlider = styled(Slider)`
-  border: 1px solid black;
-  height: 45vh;
+  height: 110%;
   position: relative;
   .slick-prev::before,
   .slick-next::before {
@@ -20,10 +24,10 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover {
-    color: #e59a59;
+    color: ${(props) => props.theme.colors.main};
   }
   .slick-next:hover {
-    color: #e59a59;
+    color: ${(props) => props.theme.colors.main};
   }
 `;
 
@@ -34,7 +38,6 @@ const LabelContainer = styled.div`
   width: 100vw;
   height: 45vh;
   position: relative;
-  border: 1px solid black;
   box-sizing: border-box;
 `;
 
@@ -44,7 +47,7 @@ const DivNext = styled.div`
   position: absolute;
   text-align: right;
   font-size: 100px;
-  color: #712e1e;
+  color: ${(props) => props.theme.colors.emphasis};
   right: 100px;
   top: 120px;
   line-height: 40px;
@@ -55,17 +58,17 @@ const DivPre = styled.div`
   height: 30px;
   position: absolute;
   top: 120px;
-  left: 40px;
+  left: 25px;
   z-index: 99;
   text-align: left;
   font-size: 100px;
-  color: #712e1e;
+  color: ${(props) => props.theme.colors.emphasis};
   line-height: 40px;
 `;
 
 const Div = styled.div`
-  height: 100%;
-  background-color: #fffaf5;
+  // height: 100%;
+  background-color: ${(props) => props.theme.colors.background};
   box-sizing: border-box;
   width: 100%;
   place-items: center;
@@ -80,9 +83,8 @@ const Div = styled.div`
   } //parent
 
   .slick-slide {
-    background-color: white;
     border-radius: 15px;
-    height: 350px;
+    height: 90%;
     text-align: center;
     position: relative;
   } //item
@@ -99,19 +101,29 @@ const Div = styled.div`
   }
 
   img {
-    margin: auto auto 10px auto;
-    max-height: 200px;
+    margin: 0 auto 10px auto;
+    height: 290px;
     overflow: hidden;
     width: 100%;
+    border-radius: 10px;
   }
 
   span {
-    /* position: absolute; */
     top: 150px;
     color: black;
-    font-size: 2rem;
+    /* font-size: 2rem; */
     font-weight: bold;
     margin-bottom: 5px;
+  }
+
+  .login_msg {
+    height: 30px;
+    font-size: 2em;
+    margin: 30px 30px 30px 30px;
+    color: ${({ theme }) => theme.font.color.description};
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 4px;
   }
 `;
 
@@ -119,9 +131,10 @@ const TitleBox = styled.div`
   height: 30px;
   font-size: 2em;
   margin: 30px 30px 30px 30px;
-  color: #424140;
+  color: ${({ theme }) => theme.font.color.description};
   font-weight: bold;
   text-align: center;
+  letter-spacing: 4px;
 `;
 
 export default function SimpleSlider() {
@@ -167,8 +180,23 @@ export default function SimpleSlider() {
   };
 
   const [parties, setParties] = useState<Party[]>([]);
+  const [userInfo, setUserInfo] = useState<UserInfoType>({
+    track: '',
+    generation: 0,
+    name: '',
+    email: '',
+    phone: '',
+    nickname: '',
+    profile: '',
+    role: '',
+    password: '',
+    newPassword: '',
+  });
+
   const [slideIndex, setSlideIndex] = useState(0);
 
+  const socket = useContext(SocketContext);
+  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const setPartiesData = async () => {
     const data: Party[] = await fetchParties();
     console.log(data);
@@ -179,9 +207,40 @@ export default function SimpleSlider() {
     setPartiesData();
   }, []);
 
+  const getUserInfoAPI = async () => {
+    const res = await get('/api/users');
+    setUserInfo(res);
+  };
+
+  useEffect(() => {
+    try {
+      getUserInfoAPI();
+    } catch (err) {
+      console.error(err);
+    }
+  }, []);
+  const clickHandler = (shopId: number) => {
+    console.log('shopId :', shopId);
+    console.log('userId :', userId);
+    socket.emit('update', shopId, userId);
+  };
+
+  // socket.on('event', () => {
+  //   data = event
+  //   setParties(data)
+  // })
+
   return (
     <Div>
-      <TitleBox>오늘 뭐 먹지?</TitleBox>
+      {userInfo ? (
+        <TitleBox>
+          밥메이트들이 <span style={{ color: '#E59A59' }}>{userInfo.name}</span>님을 기다리고
+          있어요!
+        </TitleBox>
+      ) : (
+        <div className="login_msg">로그인 후 이용해주세요!</div>
+      )}
+
       <div>
         {parties.length === 0 ? (
           <LabelContainer>

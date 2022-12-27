@@ -32,7 +32,7 @@ const LoginImgContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   width: 50%;
-  background: '#fcf3eb';
+  background: ${(props) => props.theme.colors.container};
 
   & h1 {
     margin: 20px auto;
@@ -55,7 +55,7 @@ const LoginFormContainer = styled.div`
   align-items: center;
   box-sizing: border-box;
 
-  background-color: #fcf3eb;
+  background-color: ${(props) => props.theme.colors.container};
   border-radius: 10px;
 
   width: 500px;

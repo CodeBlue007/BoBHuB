@@ -49,7 +49,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         });
         isLoaded.current = true;
         break;
-      case 'nickName':
+      case 'nickname':
         setUserInfoEditing({
           isNameEditing: false,
           isNickEditing: true,
@@ -97,7 +97,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       case 'name':
         setUserInfoEditing({ ...userInfoEditing, isNameEditing: false });
         break;
-      case 'nickName':
+      case 'nickname':
         setUserInfoEditing({ ...userInfoEditing, isNickEditing: false });
         break;
       case 'phone':
@@ -113,13 +113,12 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
 
   const nickDuplicationCheck = async () => {
     const res = await API.get(`api/users/nicknames/${inputChange}`);
-    console.log(res);
-    return res.message === "사용가능한 닉네임입니다." ? true : false;
+    return res.message === '사용가능한 닉네임입니다.' ? true : false;
   };
 
   const emailDuplicationCheck = async () => {
     const res = await API.get(`api/users/emails/${inputChange}`);
-    return res.message === "사용가능한 이메일입니다." ? true : false;
+    return res.message === '사용가능한 이메일입니다.' ? true : false;
   };
 
   const validInput = async (editSuccess: string) => {
@@ -135,9 +134,8 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         return;
       } else {
         validInput(editSuccess);
-        console.log(userInfo);
       }
-    } else if (editSuccess === 'nickName') {
+    } else if (editSuccess === 'nickname') {
       if (!validateNickName(inputChange)) {
         alert('사용할 수 없는 닉네임입니다.');
         return;
@@ -146,8 +144,8 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         if (!nickExist) {
           alert('이미 사용중인 닉네임입니다.');
           return;
-        } 
-        validInput(editSuccess); 
+        }
+        validInput(editSuccess);
       }
     } else if (editSuccess === 'phone') {
       if (!validatePhone(inputChange)) {
@@ -159,6 +157,8 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
     } else if (editSuccess === 'email') {
       if (!validateEmail(inputChange)) {
         alert('유효하지 않은 이메일 형식입니다.');
+        return;
+      } else {
         const nickExist = await emailDuplicationCheck();
         if (!nickExist) {
           alert('이미 사용중인 이메일입니다.');
@@ -166,23 +166,35 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         } else {
           validInput(editSuccess);
         }
-      } 
+      }
     } else if (editSuccess === 'password') {
-      if (!validatePassword(pwUpdate.newPW)) {
+      if (inputChange === '') {
+        alert('현재 비밀번호를 입력해주세요.');
+        return;
+      } else if (!validatePassword(pwUpdate.newPW)) {
         alert('올바른 비밀번호 형식이 아닙니다.');
         return;
       } else if (!validatePWCheck(pwUpdate.newPW, pwUpdate.newPWCheck)) {
         alert('비밀번호가 일치하지 않습니다.');
         return;
       } else {
-        //setUSerInfo(pw,newpw)
-        //회원정보 수정 api 요청(기존비번,새비번)
-        //if->올바른 비번:
-        // clickBtn_changeEditState(editSuccess);
-        // setInputChange('');
-        // setPWUpdate({newPW:'',newPWCheck:''});
-        //else-> 틀릴시, alert, return
-        //setuserinfo(pw='',newpw='')
+        // setUserInfo({ ...userInfo, password: inputChange, newPassword: pwUpdate.newPW });
+        try {
+          const res = await API.patch(`/api/users`, {
+            password: inputChange,
+            newPassword: pwUpdate.newPW,
+          });
+          if (!res) {
+            throw new Error('기존 비밀번호가 일치하지 않습니다.');
+          }
+        } catch (err) {
+          alert(err);
+          return;
+        }
+        setInputChange('');
+        setPWUpdate({ newPW: '', newPWCheck: '' });
+        setUserInfo({ ...userInfo, password: '', newPassword: '' });
+        clickBtn_changeEditState(editSuccess);
       }
     }
   };
@@ -203,7 +215,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>이름</TableHeader>
         {userInfoEditing.isNameEditing ? (
-          <>
+          <ClickedTd>
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 value={inputChange}
@@ -240,7 +252,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             {userInfo.name}
@@ -260,7 +272,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>닉네임</TableHeader>
         {userInfoEditing.isNickEditing ? (
-          <>
+          <ClickedTd>
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
@@ -281,22 +293,22 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 color="error"
                 size="medium"
                 variant="contained"
-                onClick={(e) => handleClickCancel(e, 'nickName')}>
+                onClick={(e) => handleClickCancel(e, 'nickname')}>
                 취소
               </Button>
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 0' }}
                 size="medium"
                 variant="contained"
-                onClick={(e) => handleClickSuccess(e, 'nickName')}>
+                onClick={(e) => handleClickSuccess(e, 'nickname')}>
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             {userInfo.nickname}
-            <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nickName')}>
+            <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nickname')}>
               <CreateIcon color="secondary" fontSize="small" />
             </UpdateIcon>
           </TableData>
@@ -305,7 +317,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>휴대폰 번호</TableHeader>
         {userInfoEditing.isPhoneEditing ? (
-          <>
+          <ClickedTd>
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
@@ -333,7 +345,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             {userInfo.phone}
@@ -346,7 +358,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>이메일</TableHeader>
         {userInfoEditing.isEmailEditing ? (
-          <>
+          <ClickedTd>
             <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
               <TextField
                 onChange={handleUserInfoChange}
@@ -374,7 +386,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             {userInfo.email}
@@ -387,11 +399,12 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       <TableRow>
         <TableHeader>비밀번호</TableHeader>
         {userInfoEditing.isPWEditing ? (
-          <>
+          <ClickedTd>
             <Box>
               <TextField
                 sx={{ margin: '0 0 20px 10px', height: '45px', width: '315px' }}
                 size="small"
+                type="password"
                 id="outlined-helperText"
                 helperText="현재 비밀번호를 입력해주세요."
                 onChange={handleUserInfoChange}
@@ -445,7 +458,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 완료
               </Button>
             </Stack>
-          </>
+          </ClickedTd>
         ) : (
           <TableData>
             ********
@@ -467,21 +480,28 @@ export const Table = styled.table`
   border-top: 1.5px solid ${(props) => props.theme.colors.lightGray};
   border-left: none;
   border-right: none;
-  width: 500px;
+  width: 700px;
   margin-bottom: 50px;
 `;
 
 export const TableRow = styled.tr``;
 
 export const TableHeader = styled.th`
-  padding: 30px;
+  padding: 25px;
+  width: 120px;
   border-top: 0.5px solid ${(props) => props.theme.colors.lightGray};
-  background-color: #fcf3eb;
+  background-color: ${(props) => props.theme.colors.container};
   font-size: 14px;
 `;
 
 export const TableData = styled.td`
-  padding: 30px;
+  padding: 25px;
+  border-top: 0.5px solid ${(props) => props.theme.colors.lightGray};
+  border-left: 1.5px solid ${(props) => props.theme.colors.lightGray};
+`;
+
+export const ClickedTd = styled.td`
+  padding: 15px;
   border-top: 0.5px solid ${(props) => props.theme.colors.lightGray};
   border-left: 1.5px solid ${(props) => props.theme.colors.lightGray};
 `;

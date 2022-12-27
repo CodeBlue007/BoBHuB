@@ -23,10 +23,10 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover {
-    color: #e59a59;
+    color: ${({theme})=>theme.colors.main};
   }
   .slick-next:hover {
-    color: #e59a59;
+    color: ${({theme})=>theme.colors.main};
   }
 `;
 
@@ -37,7 +37,7 @@ const Div = styled.div`
   z-index: 99;
   text-align: right;
   font-size: 100px;
-  color: '#1E1F21';
+  color: ${({theme})=>theme.font.color.balck};
   right: 16px;
   line-height: 40px;
 `;
@@ -49,7 +49,7 @@ const DivPre = styled.div`
   z-index: 99;
   text-align: left;
   font-size: 100px;
-  color: '#1E1F21';
+  color: ${({theme})=>theme.font.color.balck};;
   line-height: 40px;
   left: -55px;
 `;

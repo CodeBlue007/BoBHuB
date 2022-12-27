@@ -38,11 +38,12 @@ const FoodList = () => {
   const [value, setValue] = useState('one');
   const [page, setPage] = useState(1);
   const offset = (page - 1) * 9;
+  const totalPage = Math.ceil(searchList.length / 9);
 
   const handleCategoryChange = (event: React.SyntheticEvent, categoryNum: string) => {
     setValue(categoryNum);
     setPage(1);
-    
+
     let cateValue = '';
     switch (categoryNum) {
       case 'one':
@@ -140,7 +141,7 @@ const FoodList = () => {
         <Pagination
           sx={{ paddingTop: '50px' }}
           color="primary"
-          count={5}
+          count={totalPage}
           page={page}
           shape="rounded"
           showFirstButton

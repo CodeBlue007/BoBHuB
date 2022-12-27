@@ -1,12 +1,14 @@
-const { getPublicRooms} = require("./socketUtil.js");
+const { getPublicRooms } = require("./socketUtil.js");
 
 module.exports = (io, socket) => {
 
     const check = () => {
-        console.log("Sid", io.sockets.adapter.sids);
-        console.log("Rooms", io.sockets.adapter.rooms);
+        // console.log("Sid", io.sockets.adapter.sids);
+        // console.log("Rooms", io.sockets.adapter.rooms);
+        // console.log("socket", socket);
+        console.log("io.sockets", io.sockets.adapter["roomName"]);
     }
-      
+
     const getRooms = () => {
         io.sockets.emit("getRooms", getPublicRooms(io));
     }
@@ -15,18 +17,18 @@ module.exports = (io, socket) => {
         const welcome = `${socket.nickname}님이 방에 입장하셨습니다.`;
         socket.join(roomName);
         moveRoom(roomName);
-        socket.to(roomName).emit("getMessage", welcome);
+        const messageInfo = { userId: 0, userName: '', message: welcome, }
+        socket.to(roomName).emit("getMessage", messageInfo);
         check();
     }
 
-    const sendMessage = (msg, roomName, callback) => {
-        const message = `${socket.nickname} : ${msg}`
-        socket.to(roomName).emit("getMessage", message);
-        callback(msg,roomName);
+    const sendMessage = (messageInfo, roomName, addMessage) => {
+        socket.to(roomName).emit("getMessage", messageInfo);
+        addMessage(messageInfo);
     }
 
     const disconnect = () => {
-        socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
+        // socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
         console.log("socket is disconnecting");
         io.sockets.emit("roomChange", getPublicRooms(io));
     }
@@ -37,13 +39,15 @@ module.exports = (io, socket) => {
     }
 
     const setNickName = (nickname) => {
+        if (!nickname) return;
         socket["nickname"] = nickname;
     }
-    
-    const leaveRoom = (roomName) =>{
+
+    const leaveRoom = (roomName) => {
         socket.leave(roomName);
         const message = `${socket.nickname}님이 방을 나가셨습니다.`
-        socket.to(roomName).emit("getMessage", message);
+        const messageInfo = { userId: 0, userName: '', message }
+        socket.to(roomName).emit("getMessage", messageInfo);
         check();
     }
 

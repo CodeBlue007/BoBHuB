@@ -21,4 +21,20 @@ const getPublicRooms = (io) => {
     return publicRooms;
 }
 
-module.exports= {socketSetting, getPublicRooms}
+const filterMapBySids = (key, map) => {
+    const sidArray = Array.from(map.get(key));
+    console.log(sidArray);
+    map.delete(key);
+    sidArray.forEach((sid) => {
+        for (const [key, value] of map) {
+            if (value.includes(sid)) {
+                const filterValue = value.filter(x => x !== sid);
+                map.set(key, filterValue);
+            }
+        }
+    })
+    console.log(map);
+}
+
+
+module.exports = { socketSetting, getPublicRooms, filterMapBySids }
