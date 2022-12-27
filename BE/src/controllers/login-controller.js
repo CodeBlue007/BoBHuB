@@ -8,6 +8,7 @@ class LoginController {
         return next(authError);
       }
       if (!user) {
+        pino.info(info.message);
         return res.redirect(`${bobhubUrl}/login?loginError=${info.message}`);
       }
       return req.login(user, (loginError) => {
