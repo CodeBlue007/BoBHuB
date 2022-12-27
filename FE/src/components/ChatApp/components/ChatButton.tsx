@@ -15,7 +15,7 @@ interface ChatButtonProps {
 const ChatButton = ({ handleDisplay }: ChatButtonProps) => {
   return (
     <CustomedButton
-      color='secondary'
+      color="secondary"
       variant="contained"
       sx={{
         borderRadius: '50%',

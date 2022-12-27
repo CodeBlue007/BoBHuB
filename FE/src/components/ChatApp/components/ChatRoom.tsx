@@ -6,6 +6,8 @@ import { SocketContext } from '../../../socket/SocketContext';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../store/store';
 import { chatAction } from '../../../store/chatSlice';
+import { MessageInfo } from '../../../store/chatSlice';
+import ChatMessage from './ChatMessage';
 
 const InputContainer = styled.div`
   display: flex;
@@ -15,22 +17,26 @@ const InputContainer = styled.div`
   left: 10px;
 `;
 
-const TextContainer = styled.ul`
+const TextContainer = styled.div`
   background-color: whitesmoke;
-  width: 250px;
-  height: 300px;
-  margin: 20px auto;
-  border-radius: 10px;
-  box-shadow: inset 0 0 3px;
+  width: inherit;
+  height: 330px;
+  padding: 10px 10px 10px 0;
+
   overflow: auto;
   &::-webkit-scrollbar {
     display: none;
   }
+  .labelName {
+    font-size: 10px;
+  }
 `;
 
-const Text = styled.li`
-  font-size: 15px;
-  padding: 10px;
+const Container = styled.div`
+  background-color: whitesmoke;
+  height: 420px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 `;
 
 interface ChatRoomProps {
@@ -40,22 +46,25 @@ interface ChatRoomProps {
 type sendMessageType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
 
 const ChatRoom = ({ roomName }: ChatRoomProps) => {
-  const messages = useSelector<RootState>((state) => state.chatReducer.chats[roomName]) as string[];
+  const messages = useSelector<RootState>(
+    (state) => state.chatReducer.chats[roomName],
+  ) as MessageInfo[];
   const [content, setContent] = useState<string>('');
   const socket = useContext(SocketContext);
-  const scrollRef = useRef<HTMLUListElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
+  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const dispatch = useDispatch<AppDispatch>();
+  // const chats = useSelector<RootState>((state) => state.chatReducer.chats[roomName]);
 
-  const addMessage = (msg: string, currentRoom: string) => {
-    if (currentRoom !== roomName) return;
-    const message = `${userName} : ${msg}`;
-    dispatch(chatAction.updateRoom({ roomName, payload: message }));
+  const addMessage = (messageInfo: MessageInfo) => {
+    dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
   };
 
   const enterRoom = () => {
-    const message = `${userName}님이 방에 입장하셨습니다.`;
-    dispatch(chatAction.updateRoom({ roomName, payload: message }));
+    const message = `방에 입장하셨습니다.`;
+    const messageInfo = { userId: 0, userName: '', message };
+    dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
   };
 
   const sendMessage = (e: sendMessageType) => {
@@ -64,56 +73,60 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
       alert('메세지를 입력해주세요');
       return;
     }
-    socket.emit('sendMessage', content, roomName, addMessage);
+    const messageInfo = { userId, userName, message: content };
+    socket.emit('sendMessage', messageInfo, roomName, addMessage);
     setContent('');
   };
 
   useEffect(() => {
     enterRoom();
 
-    socket.on('getMessage', (msg) => {
-      dispatch(chatAction.updateRoom({ roomName, payload: msg }));
+    socket.on('getMessage', (messageInfo) => {
+      dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
     });
   }, []);
 
   useEffect(() => {
     scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
+    // console.log(chats);
   }, [messages]);
 
   return (
     <>
       <form onSubmit={sendMessage}>
         <Title>{roomName}</Title>
-        <TextContainer ref={scrollRef}>
-          {messages?.map((message: string, idx: number) => (
-            <Text key={`${message}${idx}`}>{message}</Text>
-          ))}
-        </TextContainer>
-        <InputContainer>
-          <TextField
-            hiddenLabel
-            id="filled-basic"
-            variant="filled"
-            size="small"
-            sx={{
-              width: '200px',
-              marginLeft: '10px',
-              '& .MuiInputBase-root': {
-                height: 49,
-              },
-            }}
-            value={content}
-            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            size="small"
-            sx={{ height: '46px', width: '50px' }}
-            onClick={sendMessage}>
-            전송
-          </Button>
-        </InputContainer>
+        <Container>
+          <TextContainer ref={scrollRef}>
+            {messages?.map((messageInfo: MessageInfo, idx: number) => (
+              <ChatMessage messageInfo={messageInfo} key={`${messageInfo.message}${idx}`} />
+            ))}
+          </TextContainer>
+          <InputContainer>
+            <TextField
+              hiddenLabel
+              id="filled-basic"
+              variant="filled"
+              size="small"
+              sx={{
+                width: '200px',
+                marginLeft: '10px',
+                '& .MuiInputBase-root': {
+                  height: 49,
+                },
+              }}
+              value={content}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              size="small"
+              sx={{ height: '46px', width: '50px' }}
+              onClick={sendMessage}>
+              전송
+            </Button>
+          </InputContainer>
+        </Container>
       </form>
     </>
   );
