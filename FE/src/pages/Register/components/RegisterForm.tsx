@@ -221,9 +221,31 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     e.preventDefault();
   };
 
-  const handleNicknameClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // console.log(e.target.nextElementSibling);
-    // const resEmail = await API.get(`/api/user/nicknames/${regForm.nickname}`);
+  const handleNicknameClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const textField = (e.target as HTMLButtonElement).previousSibling;
+    const div = textField?.childNodes[0];
+    const input = div?.childNodes[1];
+    const inputNickname = (input as HTMLInputElement).value;
+    const resNickname = await API.get(`/api/users/nicknames/${inputNickname}`);
+    if (resNickname.message.substr(0, 1) === '같') {
+      alert('이미 존재하는 닉네임입니다.');
+      return;
+    }
+    alert('사용 가능한 닉네임입니다.');
+  };
+
+  const handleEmailClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const textField = (e.target as HTMLButtonElement).previousSibling;
+    const div = textField?.childNodes[0];
+    const input = div?.childNodes[1];
+    const inputEmail = (input as HTMLInputElement).value;
+    const resEmail = await API.get(`/api/users/emails/${inputEmail}`);
+    if (resEmail.message.substr(0, 1) === '같') {
+      alert('이미 가입된 이메일입니다.');
+      return;
+    }
+    alert('사용 가능한 이메일입니다.');
+    // 이메일 인증
   };
 
   return (
@@ -240,6 +262,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -258,7 +281,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           }
         />
 
-        <div>
+        <div className="nickNameInputBtnContainer">
           <TextField
             name="nickname"
             variant="standard"
@@ -269,6 +292,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
                 </InputAdornment>
               ),
             }}
+            inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
             sx={{
               input: {
                 '&::placeholder': {
@@ -295,38 +319,45 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           </Button>
         </div>
 
-        <TextField
-          required
-          type="text"
-          name="email"
-          variant="standard"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <MailOutlineIcon />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            input: {
-              '&::placeholder': {
-                opacity: 0.8,
+        <div className="emailInputBtnContainer">
+          <TextField
+            required
+            type="text"
+            name="email"
+            variant="standard"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MailOutlineIcon />
+                </InputAdornment>
+              ),
+            }}
+            inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
+            sx={{
+              input: {
+                '&::placeholder': {
+                  opacity: 0.8,
+                },
               },
-            },
-          }}
-          placeholder="이메일"
-          value={email}
-          onChange={onTextFieldChange}
-          error={!validateEmail(regForm.email) && regForm.email !== ''}
-          helperText={
-            !validateEmail(regForm.email) && regForm.email !== ''
-              ? '유효한 이메일 형식이 아닙니다.'
-              : ''
-          }
-        />
-        <Button className="EmailSendBtn" variant="contained" size="small">
-          인증
-        </Button>
+            }}
+            placeholder="이메일"
+            value={email}
+            onChange={onTextFieldChange}
+            error={!validateEmail(regForm.email) && regForm.email !== ''}
+            helperText={
+              !validateEmail(regForm.email) && regForm.email !== ''
+                ? '유효한 이메일 형식이 아닙니다.'
+                : ''
+            }
+          />
+          <Button
+            className="EmailSendBtn"
+            variant="contained"
+            size="small"
+            onClick={handleEmailClick}>
+            인증
+          </Button>
+        </div>
 
         <TextField
           required
@@ -340,6 +371,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -382,6 +414,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -424,6 +457,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -457,6 +491,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -489,6 +524,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -516,6 +552,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
