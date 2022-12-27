@@ -49,7 +49,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         });
         isLoaded.current = true;
         break;
-      case 'nickName':
+      case 'nickname':
         setUserInfoEditing({
           isNameEditing: false,
           isNickEditing: true,
@@ -97,7 +97,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       case 'name':
         setUserInfoEditing({ ...userInfoEditing, isNameEditing: false });
         break;
-      case 'nickName':
+      case 'nickname':
         setUserInfoEditing({ ...userInfoEditing, isNickEditing: false });
         break;
       case 'phone':
@@ -137,7 +137,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         validInput(editSuccess);
         console.log(userInfo);
       }
-    } else if (editSuccess === 'nickName') {
+    } else if (editSuccess === 'nickname') {
       if (!validateNickName(inputChange)) {
         alert('사용할 수 없는 닉네임입니다.');
         return;
@@ -281,14 +281,14 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 color="error"
                 size="medium"
                 variant="contained"
-                onClick={(e) => handleClickCancel(e, 'nickName')}>
+                onClick={(e) => handleClickCancel(e, 'nickname')}>
                 취소
               </Button>
               <Button
                 sx={{ fontWeight: 'bold', margin: '15px 0' }}
                 size="medium"
                 variant="contained"
-                onClick={(e) => handleClickSuccess(e, 'nickName')}>
+                onClick={(e) => handleClickSuccess(e, 'nickname')}>
                 완료
               </Button>
             </Stack>
@@ -296,7 +296,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         ) : (
           <TableData>
             {userInfo.nickname}
-            <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nickName')}>
+            <UpdateIcon onClick={(e) => handleClickUpdate(e, 'nickname')}>
               <CreateIcon color="secondary" fontSize="small" />
             </UpdateIcon>
           </TableData>
