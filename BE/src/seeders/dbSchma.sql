@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `completedParty` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (`completedPartyId`,`partyId`), 
-  FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`),
+  FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`)
 );
 
 DELIMITER $$
