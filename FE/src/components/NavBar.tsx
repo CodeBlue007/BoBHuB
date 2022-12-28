@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, Stack, Button } from '@mui/material';
 import logo from '../assets/BoBHuB_logo.png';
 import title from '../assets/BoBHuB_textLogo.png';
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect, Fragment, useState } from 'react';
+import { useEffect, Fragment, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserData, logoutUser } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
@@ -16,6 +16,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import UserGuide from './UserGuide/UserGuide';
+import { SocketContext } from '../socket/SocketContext';
 
 const ModalStyle = {
   position: 'absolute' as 'absolute',
@@ -66,11 +67,15 @@ const NavBar = () => {
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
   const location = useLocation();
   const [modal, setModal] = useState(false);
+  const socket = useContext(SocketContext);
   const handleOpen = () => setModal(true);
   const handleClose = () => setModal(false);
 
   useEffect(() => {
     dispatch(loginUserData());
+    socket.on('joinSuccess', (msg) => {
+      console.log(msg);
+    });
   }, []);
 
   const handleOpenToggle = () => setOpen(!open);
@@ -80,7 +85,10 @@ const NavBar = () => {
   };
 
   const fetchPartyList = async () => {
-    const myPartyList: Party[] = await get('/api/parties/likedParty');
+    const myPartyList: Party[] = await get('/api/parties/my-party');
+    console.log(myPartyList);
+    const testlist = await get('/api/parties/my-party');
+    console.log(testlist);
     if (!myPartyList) {
       setMyPartyList([]);
       setActiveShopList([]);

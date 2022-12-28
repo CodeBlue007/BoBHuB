@@ -31,7 +31,7 @@ const MyParty = ({
   const socket = useContext(SocketContext);
 
   const clickLeaveButton = (partyId: number) => {
-    socket.emit('leaveParty', partyId, user.userId, fetchPartyList);
+    socket.emit('leaveParty', partyId, user.userId);
   };
 
   const clickDeleteButton = async (id: number) => {

@@ -68,7 +68,7 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
     setLike(!like);
     console.log('partyId :', partyId);
     console.log('userId :', userId);
-    socket.emit('joinParty', partyId, userId, setPartiesData);
+    socket.emit('joinParty', partyId, userId);
   };
 
   const limit = getLimitTime(party.createdAt, party.timeLimit);
