@@ -129,15 +129,15 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     // }
 
     // pw validation
-    if (!validatePassword(loginForm.password)) {
-      alert('비밀번호 형식이 올바르지 않습니다.');
-      // form 초기화
-      setLoginForm({
-        email: '',
-        password: '',
-      });
-      return;
-    }
+    // if (!validatePassword(loginForm.password)) {
+    //   alert('비밀번호 형식이 올바르지 않습니다.');
+    //   // form 초기화
+    //   setLoginForm({
+    //     email: '',
+    //     password: '',
+    //   });
+    //   return;
+    // }
 
     // 이메일 존재 여부 검사
     const resEmail = await API.get(`api/users/emails/${email}`);
