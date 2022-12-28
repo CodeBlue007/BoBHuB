@@ -21,7 +21,7 @@ const defaultProps: ShopListProps = {
   category: '한식',
   description: '식당설명란입니다.',
   avgStar: 4.5,
-  food: [],
+  food: [{ name: '메뉴', picture: 'url' }],
   shopId: 11,
 };
 
@@ -38,12 +38,11 @@ const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopLi
         <CardCategory>{category}</CardCategory>
       </CardTitle>
       <CardImage>
-        <img
-          width="330px"
-          height="200px"
-          src="https://png.pngtree.com/background/20211216/original/pngtree-dining-room-at-night-picture-image_1531627.jpg"
-          alt="restaurant"
-        />
+        {food ? (
+          <img width="330px" height="200px" src={food[0].picture} alt="restaurant" />
+        ) : (
+          <NoneFoodImage>등록된 사진이 없습니다.</NoneFoodImage>
+        )}
       </CardImage>
       <CardDescription>{`" ${description} "`}</CardDescription>
       <MenuList>
@@ -147,4 +146,13 @@ const StarTotal = styled.span`
   right: 44px;
   font-weight: bold;
   font-size: 16px;
+`;
+
+const NoneFoodImage = styled.div`
+  width: 330px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }) => theme.colors.innerContainer};
 `;
