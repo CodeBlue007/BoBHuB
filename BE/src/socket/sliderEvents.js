@@ -39,7 +39,6 @@ module.exports = (io, socket) => {
 
         // 채팅방이 생성 되었으면 모임을 지웁니다.
         await pickService.deleteCompletedParty(partyId);
-        await pickService.deleteCompletedParty(partyId);
       } else {
         // if 일치하지 않는다면(좋아요만 반영됨)
         socket.emit("joinSuccess", result, "좋아요반영됨끝");
