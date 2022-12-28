@@ -1,4 +1,4 @@
-const { partyService, pickService } = require("../services");
+const { partyService } = require("../services");
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class PartyController {
@@ -58,7 +58,7 @@ class PartyController {
   async getLikedParty(req, res, next) {
     try {
       const { userId } = req.user;
-      const likedParty = await pickService.getLikedParty({ userId });
+      const likedParty = await partyService.getLikedParty({ userId });
       return res.status(200).json(likedParty);
     } catch (e) {
       next(e);

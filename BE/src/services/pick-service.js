@@ -17,13 +17,6 @@ class PickService {
 
     return result;
   }
-
-  async getLikedParty(pickDTO) {
-    const picks = await this.pickModel.get(pickDTO);
-    const likedParty = picks.map(({ partyId }) => partyId);
-
-    return likedParty;
-  }
 }
 
 const pickService = new PickService(pickModel);
