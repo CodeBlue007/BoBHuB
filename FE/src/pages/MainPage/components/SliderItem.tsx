@@ -70,6 +70,7 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
       setIsJoined(true);
     } else {
       setIsJoined(false);
+      setLike(false);
     }
   }, [myPartyList]);
 
