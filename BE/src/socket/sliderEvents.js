@@ -2,8 +2,6 @@ const { pickService } = require("../services");
 
 module.exports = (io, socket) => {
   const joinParty = async (userId, partyId) => {
-    console.log(partyId);
-    console.log(userId);
     //--------------------------여기 안에다가 유저 파티에 넣어주시면 됩니당
     const result = await pickService.joinParty(userId, partyId);
     //----------------------------------------------
@@ -11,8 +9,6 @@ module.exports = (io, socket) => {
   };
 
   const leaveParty = async (userId, partyId) => {
-    console.log(partyId);
-    console.log(userId);
     ///----------------------여기는 유저 파티에서 빼주시면 됩니다
     const result = await pickService.leaveParty(userId, partyId);
     //----------------------------------------------------
