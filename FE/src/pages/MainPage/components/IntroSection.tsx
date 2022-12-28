@@ -83,7 +83,7 @@ const Container = styled.div`
 const IntroSection = () => {
   return (
     <Container>
-      <video autoPlay={true} muted={true} style={{ width: '100%', height: '100%' }} loop>
+      <video autoPlay={true} muted={true} style={{ height: '100vh' }} loop>
         <source src={'video/teamLunch.mp4'} type="video/mp4" />
       </video>
 
