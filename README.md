@@ -6,26 +6,22 @@
 
 ## 1. 서비스 소개
 #### 1.1 기술스택
-- FE
+**FE**
 
-| React | Typescript | Redux
-|---- | ---- | ---- |
-| <img src="/uploads/d5d263f104e52410a439dfc2a2e4f6fb/다운로드.png" width="50" height="50"> | <img src="/uploads/9f323b1303c0bc4e747a31a395a094fa/Typescript_logo_2020.svg.png" width="50" height="50">| <img src="/uploads/1c2e54af5d362296e4944b120387c114/redux-logo.png" width="50" height="50"> | 
-
-| Socket.io | Styled Components | React-router | Material UI 
-| ---- | ---- | ----| ---- | 
-| <img src="/uploads/36d63903265a4b13715b6935d090110a/image_4_.png" width="120" height="50">  | <img src="/uploads/169bc288781726dd3bcb504ed4c8dc6d/styled-components-1.svg" width="50" height="50">  | <img src="/uploads/705a179ed09f10c14e60372db36f1cd5/twitterimage.jpg" width="50" height="50">  | <img src="/uploads/e87545bc13927b9f3c52ad220c033cec/logo_raw.svg" width="50" height="50"> |
-
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"> <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=styled-components&logoColor=white">
+ <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white"> 
 - 코드관리를 용이하게 하기 위해 TS사용
-- 채팅서비스 구현 : Socket.io 사용해 실시간 통신 구현
 - 전역상태관리 : Redux를 통해 유저 로그인 정보와 채팅로그 관리.
 
-- 1.2 BE
+**BE**
 
-| Node.js | express.js | MySQL | Socket.io
-|---- | ---- | ---- | ---- |
-| <img src="/uploads/627758d2a672de3e205d4ccb24bf891a/Node.js.png" width="50" height="50">| <img src="/uploads/32e5943a9b89f59faadef8063a2f3d2c/1_XP-mZOrIqX7OsFInN2ngRQ.webp" width="120" height="50">  | <img src="/uploads/1f928bfea52f0e5a6b7c7b81bbdeb217/MySQL-Logo.wine.svg" width="50" height="50">  | <img src="/uploads/36d63903265a4b13715b6935d090110a/image_4_.png" width="120" height="50">
+<img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+- 상준님 mysql사용 의도 설명만 넣으면 따로 특이사항은 없는듯요?
 
+**공통**
+
+<img src="https://img.shields.io/badge/socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white"> <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+- 채팅서비스 구현 : Socket.io 사용해 실시간 통신 구현
 
 ## 2. 서비스 주요 기능 설명
 
