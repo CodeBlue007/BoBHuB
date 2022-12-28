@@ -6,15 +6,13 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 const SliderContainer = styled.div`
   width: 800px;
-  height: 450px;
+  height: 550px;
   position: relative;
-  margin: 20px;
+  margin: 60px;
 `;
 
 const StyledSlider = styled(Slider)`
   height: 450px;
-  width: 100%;
-  border: 1px solid black;
   position: relative;
   .slick-prev::before,
   .slick-next::before {
@@ -38,13 +36,11 @@ const Div = styled.div`
   height: 30px;
   position: absolute;
   z-index: 99;
-  text-align: right;
   font-size: 100px;
-  color: ${({ theme }) => theme.font.color.balck};
-  right: 16px;
-  color: ${({ theme }) => theme.font.color.balck};
-  right: 0;
-  line-height: 40px;
+  color: ${({ theme }) => theme.font.color.black};
+  right: -30px;
+  color: ${({ theme }) => theme.font.color.black};
+  top: 200px;
 `;
 
 const DivPre = styled.div`
@@ -52,18 +48,17 @@ const DivPre = styled.div`
   height: 30px;
   position: absolute;
   z-index: 99;
-  text-align: left;
   font-size: 100px;
-  color: ${({ theme }) => theme.font.color.balck};
-  color: ${({ theme }) => theme.font.color.balck};
-  line-height: 40px;
-  left: -70px;
+  color: ${({ theme }) => theme.font.color.black};
+  top: 200px;
+  left: -100px;
 `;
 
 const Img = styled.img`
-  margin: 0 auto;
+  width: inherit;
+  height: inherit;
   max-width: 800px;
-  max-height: 430px;
+  max-height: 550px;
 `;
 
 const ImgContainer = styled.div`
