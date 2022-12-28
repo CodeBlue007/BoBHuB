@@ -211,6 +211,14 @@ export default function SimpleSlider() {
     socket.on('joinFail', (msg) => {
       alert(msg);
     });
+
+    socket.on('joinSuccess', (msg) => {
+      alert(msg);
+    });
+
+    socket.on('roomCreated', (msg) => {
+      alert(msg);
+    });
   }, []);
 
   const getUserInfoAPI = async () => {

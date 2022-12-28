@@ -1,7 +1,7 @@
 const { partyModel, shopModel, pickModel } = require("../db/models");
 const { myCacheCheckperiod } = require("../utils");
-const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 const myCache = myCacheCheckperiod();
+const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class PartyService {
   constructor(partyModel) {
@@ -26,18 +26,23 @@ class PartyService {
       );
     }
     const result = await this.partyModel.create(partyDTO);
-    myCache.del("parties");
+    myCache.set("reParties", true);
 
     return result;
   }
 
   async getAll() {
     const partiesCache = myCache.get("parties");
-    if (partiesCache) return JSON.parse(partiesCache);
-    else {
+    const flag = myCache.get("reParties");
+    if (flag || !partiesCache) {
       const parties = await this.partyModel.getAll();
+
       myCache.set("parties", JSON.stringify(parties));
+      myCache.set("reParties", false);
+
       return parties;
+    } else {
+      return JSON.parse(partiesCache);
     }
   }
 
@@ -51,13 +56,16 @@ class PartyService {
 
   async getLikedParty(pickDTO) {
     const partiesCache = myCache.get("parties");
+    const flag = myCache.get("reParties");
 
     let parties;
-    if (partiesCache) {
-      parties = JSON.parse(partiesCache);
-    } else {
+    if (flag || !partiesCache) {
       parties = await this.partyModel.getAll();
+
       myCache.set("parties", JSON.stringify(parties));
+      myCache.set("reParties", false);
+    } else {
+      parties = JSON.parse(partiesCache);
     }
 
     const picks = await this.pickModel.get(pickDTO);
@@ -81,7 +89,7 @@ class PartyService {
       );
 
     const result = await this.partyModel.update(newPartyDTO, { partyId });
-    myCache.del("parties");
+    myCache.set("reParties", true);
     return result;
   }
 
@@ -98,11 +106,11 @@ class PartyService {
         "다른 유저의 모임에 대한 권한이 없습니다."
       );
     const result = await this.partyModel.deleteById(partyId);
-    myCache.del("parties");
+    myCache.set("reParties", true);
     return result;
   }
 }
 
 const partyService = new PartyService(partyModel, shopModel, pickModel);
 
-module.exports = { partyService };
+module.exports = { partyService, myCache };

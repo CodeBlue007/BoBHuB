@@ -28,7 +28,7 @@ const getPublicRooms = (io) => {
 // 방제목 : 식당이름1 식당이름2 이런식으로 (중복있으면)
 
 
-const filterMapBySids = (key, map) => {
+const filterMapBySidArr = (key, map) => {
     const sidArray = Array.from(map.get(key));
     console.log(sidArray);
     map.delete(key);
@@ -40,8 +40,12 @@ const filterMapBySids = (key, map) => {
             }
         }
     })
-    console.log(map);
+}
+
+const filterMapBySid = (key, socketId, map) => {
+    const filteredSids = map.get(key).filter(sid => sid !== socketId);
+    map.set(key, filteredSids);
 }
 
 
-module.exports = { socketSetting, getPublicRooms, filterMapBySids }
+module.exports = { socketSetting, getPublicRooms, filterMapBySidArr, filterMapBySid }

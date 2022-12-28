@@ -25,8 +25,10 @@ const StyledSlider = styled(Slider)`
   }
   .slick-prev:hover {
     color: ${({ theme }) => theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
   }
   .slick-next:hover {
+    color: ${({ theme }) => theme.colors.main};
     color: ${({ theme }) => theme.colors.main};
   }
 `;
@@ -40,6 +42,8 @@ const Div = styled.div`
   font-size: 100px;
   color: ${({ theme }) => theme.font.color.balck};
   right: 16px;
+  color: ${({ theme }) => theme.font.color.balck};
+  right: 0;
   line-height: 40px;
 `;
 
@@ -51,8 +55,15 @@ const DivPre = styled.div`
   text-align: left;
   font-size: 100px;
   color: ${({ theme }) => theme.font.color.balck};
+  color: ${({ theme }) => theme.font.color.balck};
   line-height: 40px;
-  left: -55px;
+  left: -70px;
+`;
+
+const Img = styled.img`
+  margin: 0 auto;
+  max-width: 800px;
+  max-height: 430px;
 `;
 
 const ImgContainer = styled.div`
@@ -98,7 +109,7 @@ const DetailSlider = ({ imageArr }: DetailSliderProps) => {
       <StyledSlider {...settings}>
         {newImageArr.map((imgUrl) => (
           <ImgContainer>
-            <img alt="shopImage" src={imgUrl} key={imgUrl} className="images" />
+            <Img alt="shopImage" src={imgUrl} key={imgUrl} className="images" />
           </ImgContainer>
         ))}
       </StyledSlider>

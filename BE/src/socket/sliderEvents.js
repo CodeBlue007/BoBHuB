@@ -1,5 +1,5 @@
 const { pickService } = require("../services");
-const { filterMapBySids } = require("./socketUtil");
+const { filterMapBySidArr, filterMapBySid } = require("./socketUtil");
 
 module.exports = (io, socket) => {
 
@@ -28,23 +28,29 @@ module.exports = (io, socket) => {
       const sidArray = SocketMap.get(key);
       sidArray.forEach((sid) => {
         io.in(sid).socketsJoin(key);
-        socket.to(key).emit("joinSuccess", "채팅방이 생성되었습니다. 지금 확인해보세요");
+        socket.to(key).emit("roomCreated", "채팅방이 생성되었습니다. 지금 확인해보세요");
       });
-      filterMapBySids(key, SocketMap);
+      filterMapBySidArr(key, SocketMap);
 
       // if 일치하지 않는다면(좋아요만 반영됨)
-      // socket.emit("이벤트", "좋아요반영됨");
+      socket.emit("joinSuccess", "좋아요반영됨");
+      // 프론트 UI 업데이트
       check();
-      // io.sockets.emit("joinSuccess", result);
     };
 
     const leaveParty = async (partyId, userId, shopName) => {
       console.log(partyId);
       console.log(userId);
-      ///----------------------여기는 유저 파티에서 빼주시면 됩니다
-      const result = await pickService.leaveParty(userId, partyId);
+      const SocketMap = io.sockets.adapter["SocketIdMap"];
+      const key = `${shopName}/${partyId}`;
+      filterMapBySid(key, socket.id, SocketMap);
+
+      check();
+      socket.emit("leaveSuccess", "찜목록제거")
+
+      ///----------------------여기는 유저 파티에서 빼주시면 됩니다(DB update)
+      //const result = await pickService.leaveParty(userId, partyId);
       //----------------------------------------------------
-      io.sockets.emit("leaveSuccess", result);
     };
 
     socket.on("joinParty", joinParty);
