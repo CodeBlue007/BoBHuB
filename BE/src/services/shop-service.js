@@ -39,9 +39,16 @@ class ShopService {
     if (!existingShop) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
     }
-    const existingShopName = await this.shopModel.getByShopName(newShopDTO.name);
-    if (existingShopName) {
-      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "동일한 이름의 식당이 존재합니다.");
+    const { name } = newShopDTO;
+    if (name) {
+      const existingShopName = await this.shopModel.getByShopName(name);
+      if (existingShopName) {
+        throw new ErrorFactory(
+          commonErrors.NOT_FOUND,
+          404,
+          "동일한 이름의 식당이 존재합니다."
+        );
+      }
     }
     const result = await this.shopModel.update(newShopDTO, { shopId });
     return result;

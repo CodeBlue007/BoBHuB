@@ -8,12 +8,18 @@ import {
   Button,
   ButtonGroup,
 } from '@mui/material';
-import { postFoodData, updateFoodData, deleteFoodData } from '../../Api/foodApi';
+import {
+  deleteFoodData,
+  postFoodData,
+  fetchFoodData,
+  updateFoodData,
+  updateImg,
+} from '../../Api/foodApi';
 import { style } from './FoodModal';
 import { useRef, useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
 import type { FoodType } from './Foods';
-import { fetchCategoryList } from '../../Api/categoryApi';
+import { patch, post, get, delete as deleteApi } from '../../../../api/API';
 
 interface FoodAddFormProps {
   handleClose: () => void;
@@ -28,22 +34,22 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
   const address = useRef<TextFieldProps>();
   const description = useRef<TextFieldProps>();
   const category = useRef<TextFieldProps>();
-  const shopImage = useRef<HTMLInputElement>(null);
-  const [uploadPhoto, setUploadPhoto] = useState<Blob[]>([]);
-  const [preViewImgURL, setPreViewImgURL] = useState<string[]>([]);
-  const [preViewImgIndex, setPreViewImgIndex] = useState(0);
+  const [shopImg, setShopImg] = useState<Blob[]>([]);
+  const [shopImgURL, setShopImgURL] = useState<string>('');
+  const [menuImg, setMenuImg] = useState<Blob[]>([]);
+  const [menuImgURL, setMenuImgURL] = useState<string>('');
   const [categoryList, setCategoryList] = useState<[]>([]);
 
   useEffect(() => {
     (async () => {
-      const categories = await fetchCategoryList();
+      const categories = await get('/api/categories');
       setCategoryList(categories);
     })();
+    if (btnState === 'UPDATE') {
+      setShopImgURL(food.shopPicture);
+      setMenuImgURL(food.menu);
+    }
   }, []);
-
-  useEffect(() => {
-    setPreViewImgIndex(0);
-  }, [uploadPhoto]);
 
   const setFormData = () => {
     const formData = new FormData();
@@ -52,15 +58,34 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
     formData.append('address', address.current?.value as string);
     formData.append('description', description.current?.value as string);
     formData.append('category', '한식');
-    uploadPhoto.forEach((img) => {
+    if (btnState === 'ADD') {
+      shopImg.forEach((img) => {
+        formData.append('shopPicture', img);
+      });
+      menuImg.forEach((img) => {
+        formData.append('menu', img);
+      });
+    }
+    return formData;
+  };
+  const setImgFormData = () => {
+    const formData = new FormData();
+    shopImg.forEach((img) => {
       formData.append('shopPicture', img);
+    });
+    menuImg.forEach((img) => {
+      formData.append('menu', img);
     });
     return formData;
   };
 
   const clickUpdateBtn = async (id: number) => {
     const formData = setFormData();
+    const imgFormData = setImgFormData();
     await updateFoodData(id, formData);
+    if (shopImg.length > 0 || menuImg.length > 0) {
+      await updateImg(id, imgFormData);
+    }
     setFoodsData();
     handleClose();
   };
@@ -75,20 +100,28 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
     const body = setFormData();
     await postFoodData(body);
     setFoodsData();
+    URL.revokeObjectURL(shopImgURL);
+    URL.revokeObjectURL(menuImgURL);
     handleClose();
   };
 
-  const changeImgInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+  const changeShopImgInput = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files as FileList);
-    const URL = files.reduce((acc: string[], cur) => {
-      acc.push(window.URL.createObjectURL(cur));
-      return acc;
-    }, []);
-    setPreViewImgURL(URL);
-    setUploadPhoto(files);
-    console.log(URL);
+    const shopImgURL = URL.createObjectURL(files[0]);
+    setShopImgURL(shopImgURL);
+    setShopImg(files);
+    console.log(shopImgURL);
     console.log(files);
   };
+  const changeMenuImgInput = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files as FileList);
+    const menuImgURL = URL.createObjectURL(files[0]);
+    setMenuImgURL(menuImgURL);
+    setMenuImg(files);
+    console.log(menuImgURL);
+    console.log(files);
+  };
+
   return (
     <Box sx={style}>
       <form encType="multipart/form-data" action="">
@@ -146,31 +179,21 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
             <Div>
               <Button variant="contained" component="label">
                 식당 사진 업로드
-                <input
-                  ref={shopImage}
-                  type="file"
-                  hidden
-                  onChange={changeImgInputHandler}
-                  multiple
-                />
+                <input type="file" hidden onChange={changeShopImgInput} />
+              </Button>
+              <Button variant="contained" component="label" sx={{ marginTop: '10px' }}>
+                메뉴 사진 업로드
+                <input type="file" hidden onChange={changeMenuImgInput} />
               </Button>
             </Div>
           </FormSection>
           <SideSection>
             <ImgWrapper>
-              <Img src={preViewImgURL[preViewImgIndex]} alt="img" />
+              <Img src={shopImgURL} alt="img" />
             </ImgWrapper>
-            <button
-              onClick={() => {
-                setPreViewImgIndex((index) => {
-                  if (preViewImgURL.length - 1 > index) {
-                    return index + 1;
-                  }
-                  return 0;
-                });
-              }}>
-              다음사진
-            </button>
+            <ImgWrapper>
+              <Img src={menuImgURL} alt="img" />
+            </ImgWrapper>
           </SideSection>
         </Flex>
         <Div>
@@ -209,14 +232,15 @@ const Flex = styled.div`
 `;
 
 const ImgWrapper = styled.div`
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  margin: 10px;
 `;
 
 const Img = styled.img`
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
 `;
 
 const FormSection = styled.div`

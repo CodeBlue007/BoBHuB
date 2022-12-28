@@ -6,4 +6,5 @@ module.exports = {
   ...require("./pino"),
   ...require("./nodemailer"),
   ...require("./generate-random-code"),
+  ...require("./node-cache"),
 };

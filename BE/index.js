@@ -17,8 +17,7 @@ const onConnection = (socket) => {
   console.log("소켓서버와 연결되었습니다.");
   chatEvents(io, socket);
   sliderEvents(io, socket);
-}
-
+};
 
 io.on("connection", onConnection);
 

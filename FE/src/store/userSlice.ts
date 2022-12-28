@@ -1,27 +1,30 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { get } from '../api/API';
 
 export const loginUserData = createAsyncThunk(
   'user/loginUserData',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios('/api/users', { withCredentials: true });
-      const data = await res.data;
-      return data;
+      const res = await get('/api/users');
+      if (!res) {
+        throw new Error('유저 정보를 불러오는데 실패했습니다.');
+      }
+      return res;
     } catch (error) {
-      console.log(error);
-      return rejectWithValue('not login');
+      return rejectWithValue(error);
     }
   },
 );
 
 export const logoutUser = createAsyncThunk('user/logoutUser', async (_, { rejectWithValue }) => {
   try {
-    const data = await axios.get('/api/auth/logout');
-    console.log(data);
+    const res = await get('/api/auth/logout');
+    if (!res) {
+      throw new Error('로그아웃에 실패 했습니다.');
+    }
   } catch (error) {
-    console.log(error);
-    return rejectWithValue('fali!');
+    return rejectWithValue(error);
   }
 });
 

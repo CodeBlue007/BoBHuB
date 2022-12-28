@@ -3,8 +3,10 @@ const { getPublicRooms } = require("./socketUtil.js");
 module.exports = (io, socket) => {
 
     const check = () => {
-        console.log("Sid", io.sockets.adapter.sids);
-        console.log("Rooms", io.sockets.adapter.rooms);
+        // console.log("Sid", io.sockets.adapter.sids);
+        // console.log("Rooms", io.sockets.adapter.rooms);
+        // console.log("socket", socket);
+        console.log("io.sockets", io.sockets.adapter["roomName"]);
     }
 
     const getRooms = () => {

@@ -6,10 +6,9 @@ interface UserModalProps {
   handleClose: () => void;
   open: boolean;
   user: UserType;
-  fetchUserData: () => void;
 }
 
-const UserModal = ({ open, handleClose, user, fetchUserData }: UserModalProps) => {
+const UserModal = ({ open, handleClose, user }: UserModalProps) => {
   return (
     <div>
       <Modal
@@ -17,7 +16,7 @@ const UserModal = ({ open, handleClose, user, fetchUserData }: UserModalProps) =
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description">
-        <UserDetailForm handleClose={handleClose} fetchUserData={fetchUserData} user={user} />
+        <UserDetailForm handleClose={handleClose} user={user} />
       </Modal>
     </div>
   );

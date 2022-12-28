@@ -18,6 +18,7 @@ const {
   partyRouter,
   adminRouter,
   utilRouter,
+  pickRouter,
 } = require("./routers");
 const { errorLogger, errorHandler, isLoggedIn, isAdmin } = require("./middlewares");
 const app = express();
@@ -35,6 +36,7 @@ console.log(setData);
 setData();
 
 app.use(express.urlencoded({ extended: false }));
+app.use("/api/picks", pickRouter);
 app.use("/api/auth", loginRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/shops", shopRouter);
