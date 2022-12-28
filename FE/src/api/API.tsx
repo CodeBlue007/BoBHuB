@@ -1,12 +1,9 @@
 import axios from 'axios';
 
-const instance = axios.create({
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const instance = axios.create();
 
 instance.defaults.withCredentials = true;
+instance.defaults.headers['Content-Type'] = 'application/json';
 
 const errCheck = (err: unknown) => {
   let message;
@@ -33,8 +30,21 @@ const del = async (url = '') => {
   }
 };
 
-const post = async (url = '', post: {}) => {
+/**
+ *
+ * @param url : url주소 ex) /api/shops
+ * @param post : body
+ * @param config : default = null, 이미지 보낼때만 "imgPost" 설정 > 'Content-Type': 'multipart/form-data' 설정
+ * @returns : res.data 반환
+ */
+const post = async (url = '', post: {}, config: 'imgPost' | null = null) => {
   try {
+    if (config === 'imgPost') {
+      const result = await instance.post(url, post, {
+        headers: { 'Content-Type': `multipart/form-data` },
+      });
+      return result.data;
+    }
     const result = await instance.post(url, post);
     console.log(result);
     return result.data;

@@ -1,36 +1,39 @@
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import type { Party } from './NavBar';
-import type { FoodType } from '../pages/Admin/components/Restraunt/Foods';
+import type { Party } from '../pages/MainPage/Type';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { delete as del } from '../api/API';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
-import { UserType } from '../pages/Admin/components/User/components/Users';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store/store';
 import { getLimitTime } from '../util/getLimitTime';
+import { SocketContext } from '../socket/SocketContext';
+import { useContext, useEffect } from 'react';
+import { getMyPartyList } from './../store/partySlice';
 
 interface MyPartyProps {
   open: boolean;
   handleClose: () => void;
-  myPartyList: Party[];
-  activeShopList: FoodType[];
-  fetchPartyList: () => void;
 }
 
-const MyParty = ({
-  open,
-  handleClose,
-  myPartyList,
-  activeShopList,
-  fetchPartyList,
-}: MyPartyProps) => {
+const MyParty = ({ open, handleClose }: MyPartyProps) => {
   const user = useSelector((state: RootState) => state.userReducer.currentUser);
+  const socket = useContext(SocketContext);
+  const dispatch = useDispatch<AppDispatch>();
+  const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
+
+  useEffect(() => {
+    socket.on('leaveSuccess', () => dispatch(getMyPartyList()));
+  }, []);
+
+  const clickLeaveButton = (partyId: number) => {
+    socket.emit('leaveParty', user.userId, partyId);
+  };
 
   const clickDeleteButton = async (id: number) => {
     const res = await del(`/api/parties/${id}`);
     console.log(res);
-    fetchPartyList();
+    dispatch(getMyPartyList());
   };
 
   return (
@@ -50,20 +53,22 @@ const MyParty = ({
           const limit = getLimitTime(party.createdAt, party.timeLimit);
           return (
             <List key={party.partyId}>
-              <BasicLink to={`/foodlist/${party.shopId}`}>
-                <ImgWrapper>
-                  <Img src={activeShopList[index].shopPicture} alt="img" />
-                </ImgWrapper>
-              </BasicLink>
-              <Description>
+              <NoPadFlex>
                 <BasicLink to={`/foodlist/${party.shopId}`}>
-                  <Name>{activeShopList[index].name}</Name>
+                  <ImgWrapper>
+                    <Img src={party.shopPicture} alt="img" />
+                  </ImgWrapper>
                 </BasicLink>
-                <Time>모집 종료 시간: {limit}</Time>
-                <Paragraph>
-                  참여한 인원 {party.likedNum}/{party.partylimit}
-                </Paragraph>
-              </Description>
+                <Description>
+                  <BasicLink to={`/foodlist/${party.shopId}`}>
+                    <Name>{party.name}</Name>
+                  </BasicLink>
+                  <Time>모집 종료 시간: {limit}</Time>
+                  <Paragraph>
+                    모집 현황 {party.likedNum}/{party.partyLimit}
+                  </Paragraph>
+                </Description>
+              </NoPadFlex>
               {user.userId === party.userId ? (
                 <DeleteButton
                   size="small"
@@ -73,7 +78,9 @@ const MyParty = ({
                   모집 종료
                 </DeleteButton>
               ) : (
-                <DeleteButton>참여 취소</DeleteButton>
+                <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
+                  참여 취소
+                </DeleteButton>
               )}
             </List>
           );
@@ -114,6 +121,10 @@ const Flex = styled.div`
   box-sizing: border-box;
   padding: 5px 10px 5px 10px;
   align-items: center;
+`;
+
+const NoPadFlex = styled(Flex)`
+  padding: 0;
 `;
 
 const Bar = styled(Flex)`
@@ -159,7 +170,7 @@ const ImgWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 const Description = styled.div`
-  /* margin-left: 10px; */
+  margin-left: 10px;
 `;
 
 const Paragraph = styled.p`

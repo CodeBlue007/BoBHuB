@@ -14,7 +14,7 @@ class GenerationModel {
       const trackValArr = [track];
       let trackQuery = tr.makeInsertQuery(trackKeyArr, trackValArr);
       trackQuery = trackQuery.slice(0, 6) + " ignore" + trackQuery.slice(6);
-      console.log(trackQuery);
+      logger.info(trackQuery);
 
       const { keyArr, valArr } = o.objToKeyValueArray(eliceDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
@@ -22,8 +22,9 @@ class GenerationModel {
 
       await conn.beginTransaction();
 
-      await pool.query(trackQuery);
-      const [result2] = await pool.query(query);
+      await conn.query(trackQuery);
+      const [result2] = await conn.query(query);
+
       await conn.commit();
 
       return buildRes("c", result2);

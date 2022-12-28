@@ -1,7 +1,9 @@
 import UserTable from './UserTable';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import { get } from '../../../../../api/API';
+import { useDispatch } from 'react-redux';
+import { getUsersData } from './../../../../../store/adminUsersSlice';
+import { AppDispatch } from '../../../../../store/store';
 
 export type UserType = {
   userId: number;
@@ -20,20 +22,15 @@ export type UserType = {
 };
 
 const Users = () => {
-  const [users, setUsers] = useState<UserType[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    fetchUserData();
+    dispatch(getUsersData());
   }, []);
-
-  const fetchUserData = async () => {
-    const users: UserType[] = await get('/api/admin/users');
-    setUsers([...users]);
-  };
 
   return (
     <Div>
       <H2>유저 조회</H2>
-      <UserTable fetchUserData={fetchUserData} users={users} />
+      <UserTable />
     </Div>
   );
 };

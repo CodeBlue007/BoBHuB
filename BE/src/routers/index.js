@@ -9,4 +9,5 @@ module.exports = {
   ...require("./food-router"),
   ...require("./admin-router"),
   ...require("./util-router"),
+  ...require("./pick-router"),
 };

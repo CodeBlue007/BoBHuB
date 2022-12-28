@@ -10,15 +10,15 @@ const server = http.createServer(app);
 const io = SocketIO(server, socketSetting);
 
 const chatEvents = require("./src/socket/chatEvents");
-// const sliderEvents = require("./src/socket/sliderEvents");
+const sliderEvents = require("./src/socket/sliderEvents");
 
 const onConnection = (socket) => {
   socket["nickname"] = "Anon";
+  io.sockets.adapter["SocketIdMap"] = new Map();
   console.log("소켓서버와 연결되었습니다.");
   chatEvents(io, socket);
-  // sliderEvents(io, socket);
-}
-
+  sliderEvents(io, socket);
+};
 
 io.on("connection", onConnection);
 

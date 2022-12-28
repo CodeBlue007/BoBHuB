@@ -11,10 +11,10 @@ import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { SocketContext, socket } from './../../../socket/SocketContext';
+import { SocketContext } from './../../../socket/SocketContext';
 
 const StyledSlider = styled(Slider)`
-  height: 110%;
+  height: 100%;
   position: relative;
   .slick-prev::before,
   .slick-next::before {
@@ -194,7 +194,6 @@ export default function SimpleSlider() {
   });
 
   const [slideIndex, setSlideIndex] = useState(0);
-
   const socket = useContext(SocketContext);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const setPartiesData = async () => {
@@ -205,6 +204,15 @@ export default function SimpleSlider() {
 
   useEffect(() => {
     setPartiesData();
+    socket.on('event', (msg) => {
+      console.log(msg);
+    });
+    socket.on('joinFail', (msg) => {
+      console.log(msg);
+    });
+    socket.on('roomCreated', (msg) => {
+      console.log(msg);
+    });
   }, []);
 
   const getUserInfoAPI = async () => {
@@ -219,16 +227,6 @@ export default function SimpleSlider() {
       console.error(err);
     }
   }, []);
-  const clickHandler = (shopId: number) => {
-    console.log('shopId :', shopId);
-    console.log('userId :', userId);
-    socket.emit('update', shopId, userId);
-  };
-
-  // socket.on('event', () => {
-  //   data = event
-  //   setParties(data)
-  // })
 
   return (
     <Div>
@@ -249,7 +247,13 @@ export default function SimpleSlider() {
         ) : (
           <StyledSlider {...settings}>
             {parties.map((party, index) => (
-              <SliderItem index={index} slideIndex={slideIndex} party={party} key={party.shopId} />
+              <SliderItem
+                setPartiesData={setPartiesData}
+                index={index}
+                slideIndex={slideIndex}
+                party={party}
+                key={party.shopId}
+              />
             ))}
           </StyledSlider>
         )}

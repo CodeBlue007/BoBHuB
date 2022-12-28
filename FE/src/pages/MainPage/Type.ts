@@ -13,7 +13,7 @@ export interface Party {
   menu: UndefinedString;
   name: string;
   partyId: number;
-  partylimit: number;
+  partyLimit: number;
   shopId: number;
   shopPicture: UndefinedString;
   timeLimit: number;

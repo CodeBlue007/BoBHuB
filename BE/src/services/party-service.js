@@ -1,10 +1,13 @@
-const { partyModel, shopModel } = require("../db/models");
+const { partyModel, shopModel, pickModel } = require("../db/models");
+const { myCacheCheckperiod } = require("../utils");
+const myCache = myCacheCheckperiod();
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class PartyService {
   constructor(partyModel) {
     this.partyModel = partyModel;
     this.shopModel = shopModel;
+    this.pickModel = pickModel;
   }
 
   async create(partyDTO) {
@@ -23,12 +26,24 @@ class PartyService {
       );
     }
     const result = await this.partyModel.create(partyDTO);
+    myCache.set("reParties", true);
+
     return result;
   }
 
   async getAll() {
-    const parties = await this.partyModel.getAll();
-    return parties;
+    const partiesCache = myCache.get("parties");
+    const flag = myCache.get("reParties");
+    if (flag || !partiesCache) {
+      const parties = await this.partyModel.getAll();
+
+      myCache.set("parties", JSON.stringify(parties));
+      myCache.set("reParties", false);
+
+      return parties;
+    } else {
+      return JSON.parse(partiesCache);
+    }
   }
 
   async get(partyDTO) {
@@ -36,6 +51,26 @@ class PartyService {
     if (parties.length === 0) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 모임이 없습니다.");
     }
+    return parties;
+  }
+
+  async getLikedParty(pickDTO) {
+    const partiesCache = myCache.get("parties");
+    const flag = myCache.get("reParties");
+
+    let parties;
+    if (flag || !partiesCache) {
+      parties = await this.partyModel.getAll();
+
+      myCache.set("parties", JSON.stringify(parties));
+      myCache.set("reParties", false);
+    } else {
+      parties = JSON.parse(partiesCache);
+    }
+
+    const picks = await this.pickModel.get(pickDTO);
+    const likedParty = picks.map(({ partyId }) => partyId);
+    parties = parties.filter(({ partyId }) => likedParty.includes(partyId));
     return parties;
   }
 
@@ -54,6 +89,7 @@ class PartyService {
       );
 
     const result = await this.partyModel.update(newPartyDTO, { partyId });
+    myCache.set("reParties", true);
     return result;
   }
 
@@ -70,10 +106,11 @@ class PartyService {
         "다른 유저의 모임에 대한 권한이 없습니다."
       );
     const result = await this.partyModel.deleteById(partyId);
+    myCache.set("reParties", true);
     return result;
   }
 }
 
-const partyService = new PartyService(partyModel);
+const partyService = new PartyService(partyModel, shopModel, pickModel);
 
-module.exports = { partyService };
+module.exports = { partyService, myCache };

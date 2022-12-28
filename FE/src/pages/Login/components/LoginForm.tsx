@@ -7,12 +7,11 @@ import KeyIcon from '@mui/icons-material/Key';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
-import loginThumbnail from '../../../assets/loginThumbnail.gif';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
 import logo from '../../../assets/BoBHuB_logo.png';
 
-const LoginImgFormContainer = styled.form`
+const ImgFormContainer = styled.form`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -26,29 +25,7 @@ const LoginImgFormContainer = styled.form`
   }
 `;
 
-const LoginImgContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 50%;
-  background: ${(props) => props.theme.colors.container};
-
-  & h1 {
-    margin: 20px auto;
-    font-size: 2.5rem;
-    font-weight: 1000;
-    letter-spacing: 1.5px;
-  }
-
-  & img {
-    width: 100%;
-    height: 93.5vh;
-    opacity: 80%;
-  }
-`;
-
-const LoginFormContainer = styled.div`
+const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -140,23 +117,52 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     onLoginSubmit(loginForm);
 
+    // email validation - admin 이메일 수정되면 주석 해제 예정
+    // if (!validateEmail(loginForm.email)) {
+    //   alert('이메일 형식이 올바르지 않습니다.');
+    //   // form 초기화
+    //   setLoginForm({
+    //     email: '',
+    //     password: '',
+    //   });
+    //   return;
+    // }
+
+    // pw validation
+    // if (!validatePassword(loginForm.password)) {
+    //   alert('비밀번호 형식이 올바르지 않습니다.');
+    //   // form 초기화
+    //   setLoginForm({
+    //     email: '',
+    //     password: '',
+    //   });
+    //   return;
+    // }
+
     // 이메일 존재 여부 검사
     const resEmail = await API.get(`api/users/emails/${email}`);
     if (resEmail.message.substr(0, 1) === '사') {
-      alert('존재하지 않는 계정입니다.');
+      alert('Error: 존재하지 않는 계정입니다.');
       return;
-    } else {
-      // 비밀번호 일치 여부 검사
+    }
 
-      const resForm = await API.post('/api/auth/login', loginForm);
-
+    // 비밀번호 일치 여부 검사
+    try {
+      const resLoginForm = await API.post('/api/auth/login', loginForm);
+      if (!resLoginForm) {
+        throw new Error('비밀번호가 일치하지 않습니다.');
+      } else {
+        // 로그인 성공, 메인페이지로 이동
+        navigate('/', { replace: true });
+      }
+    } catch (err) {
+      alert(err);
       // form 초기화
       setLoginForm({
         email: '',
         password: '',
       });
-
-      navigate('/', { replace: true });
+      return;
     }
   };
 
@@ -169,13 +175,8 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
   };
 
   return (
-    <LoginImgFormContainer onSubmit={handleLoginSubmit}>
-      {/* <LoginImgContainer>
-        <h1>Welcome Back!</h1>
-        <img src={loginThumbnail} alt="Bob-hub login thumbnail" />
-      </LoginImgContainer> */}
-
-      <LoginFormContainer>
+    <ImgFormContainer onSubmit={handleLoginSubmit}>
+      <FormContainer>
         <img src={logo} alt="logo" />
         <TextField
           required
@@ -230,6 +231,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -243,7 +245,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
           error={!validatePassword(loginForm.password) && loginForm.password !== ''}
           helperText={
             !validatePassword(loginForm.password) && loginForm.password !== ''
-              ? '비밀번호는 4~20자 사이입니다.'
+              ? '비밀번호는 4~20자리 영문·숫자 조합이어야 합니다.'
               : ''
           }
         />
@@ -256,8 +258,8 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
             <Link to="/register">회원가입</Link>
           </div>
         </LoginButtonContainer>
-      </LoginFormContainer>
-    </LoginImgFormContainer>
+      </FormContainer>
+    </ImgFormContainer>
   );
 };
 

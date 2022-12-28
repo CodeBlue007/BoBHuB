@@ -1,24 +1,40 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("party");
+
 const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class PartyModel {
   async create(partyDTO) {
+    const conn = await pool.getConnection();
     try {
+      const { userId } = partyDTO;
       const { keyArr, valArr } = o.objToKeyValueArray(partyDTO);
-      const query = o.makeInsertQuery(keyArr, valArr);
-      logger.info(query);
+      const query1 = o.makeInsertQuery(keyArr, valArr);
+      logger.info(query1);
 
-      const [result] = await pool.query(query);
-      return buildRes("c", result);
+      await conn.beginTransaction();
+
+      const [createResult] = await conn.query(query1);
+
+      const query2 = `INSERT INTO pick (userId, partyId) 
+      VALUES(?, ?)`;
+      const params2 = [userId, createResult.insertId];
+      await conn.query(query2, params2);
+
+      await conn.commit();
+      return buildRes("c", createResult);
     } catch (e) {
       logger.error(e);
+      await conn.rollback();
+
       throw new ErrorFactory(
-        commonErrors.DB_ERROR,
-        500,
-        "요청한 내용으로 DB에서 처리할 수 없습니다."
+        commonErrors.BAD_REQUEST,
+        400,
+        "이미 작성한 내역이 있는 식당이거나 Body의 요청 내용이 잘못되었습니다."
       );
+    } finally {
+      conn.release();
     }
   }
   async getAll() {

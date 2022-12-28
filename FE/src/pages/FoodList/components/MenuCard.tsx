@@ -94,7 +94,7 @@ const CardTitle = styled.h5`
   font-weight: bold;
   font-size: ${(props) => props.theme.font.size.containerTitle};
   line-height: 26px;
-  color: ${(props) => props.theme.font.color.balck};
+  color: ${(props) => props.theme.font.color.black};
   margin-top: 25px;
   margin-bottom: 10px;
 `;

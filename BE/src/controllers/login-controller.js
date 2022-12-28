@@ -1,18 +1,20 @@
 const passport = require("passport");
+const { logger } = require("../utils");
 const bobhubUrl = process.env.BOB_HUB_URL;
 class LoginController {
   login(req, res, next) {
     passport.authenticate("local", (authError, user, info) => {
       if (authError) {
-        console.error(authError);
+        logger.error(authError);
         return next(authError);
       }
       if (!user) {
+        logger.info(info.message);
         return res.redirect(`${bobhubUrl}/login?loginError=${info.message}`);
       }
       return req.login(user, (loginError) => {
         if (loginError) {
-          console.error(loginError);
+          logger.error(loginError);
           return next(loginError);
         }
         return res.redirect(`${bobhubUrl}`); //세션쿠키를 브라우저로 보냄
