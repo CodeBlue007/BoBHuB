@@ -2,12 +2,13 @@ const { pickService } = require("../services");
 const { filterMapBySidArr, filterMapBySid } = require("./socketUtil");
 
 module.exports = (io, socket) => {
+
   const check = () => {
     console.log("Sid", io.sockets.adapter.sids);
     console.log("Rooms", io.sockets.adapter.rooms);
   };
 
-  const createParty = async (partyId, userId, shopName) => {
+  const createParty = (partyId, userId, shopName) => {
     console.log("partyId", partyId);
     console.log("userId", userId);
 

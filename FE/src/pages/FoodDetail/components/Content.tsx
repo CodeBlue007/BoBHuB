@@ -111,7 +111,6 @@ const Content = ({ shop }: Contentype) => {
     };
     const message = await postParty(party);
     if (message) {
-      // alert('식당모집이 완료되었습니다.');
       dispatch(getMyPartyList());
       setClicked(true);
       isMounted.current = true;

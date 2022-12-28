@@ -8,6 +8,7 @@ import type { AppDispatch, RootState } from '../../../store/store';
 import { chatAction } from '../../../store/chatSlice';
 import { MessageInfo } from '../../../store/chatSlice';
 import ChatMessage from './ChatMessage';
+import { setLog } from '../ChatAppApi';
 
 const InputContainer = styled.div`
   display: flex;
@@ -46,9 +47,7 @@ interface ChatRoomProps {
 type sendMessageType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
 
 const ChatRoom = ({ roomName }: ChatRoomProps) => {
-  const messages = useSelector<RootState>(
-    (state) => state.chatReducer.chats[roomName],
-  ) as MessageInfo[];
+  const [messages, setMessage] = useState<MessageInfo[]>([]);
   const [content, setContent] = useState<string>('');
   const socket = useContext(SocketContext);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -58,13 +57,17 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   // const chats = useSelector<RootState>((state) => state.chatReducer.chats[roomName]);
 
   const addMessage = (messageInfo: MessageInfo) => {
-    dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
+    setLog(roomName, messageInfo);
+    setMessage((current) => [...current, messageInfo]);
+    // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
   };
 
   const enterRoom = () => {
     const message = `방에 입장하셨습니다.`;
     const messageInfo = { userId: 0, userName: '', message };
-    dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
+    setLog(roomName, messageInfo);
+    setMessage((current) => [...current, messageInfo]);
+    // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
   };
 
   const sendMessage = (e: sendMessageType) => {
@@ -80,9 +83,15 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
 
   useEffect(() => {
     enterRoom();
+    const log = localStorage.getItem(roomName);
+    if (log) {
+      const logArr = JSON.parse(log);
+      setMessage(logArr);
+    }
 
     socket.on('getMessage', (messageInfo) => {
-      dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
+      setLog(roomName, messageInfo);
+      // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
     });
   }, []);
 
