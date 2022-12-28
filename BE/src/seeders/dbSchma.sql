@@ -153,7 +153,7 @@ ON party
 FOR EACH ROW 
 BEGIN
  IF (new.likedNum = new.partyLimit) THEN 
- insert into completedParty(partyId) value (new.partyId);
+ insert into completed_party(partyId) value (new.partyId);
  end if;
 END $$
 

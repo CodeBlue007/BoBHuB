@@ -110,13 +110,7 @@ const Content = ({ shop }: Contentype) => {
 
       <MenuContainer>
         <MenuCard size={'15px'} width={'20vw'}>
-          <p>메뉴</p>
-          <p>{shop.menu}</p>
-          <p>
-            {shop.description} 추가테스트추가테스트 추가테스트추가테스트추가테스트추가테스트
-            추가테스트추가테스트추가테스트추가테스트 추가테스트추가테스트추가테스트추가테스트
-            추가테스트추가테스트
-          </p>
+          <p>{shop.description}</p>
           <p>주소: {shop.address}</p>
           <p>거리 : {shop.distance}</p>
         </MenuCard>
