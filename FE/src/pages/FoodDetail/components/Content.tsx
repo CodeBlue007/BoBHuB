@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
 import { getParties, postParty } from '../foodDetailApi';
+import { SocketContext } from '../../../socket/SocketContext';
 
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
@@ -67,6 +68,7 @@ const Content = ({ shop }: Contentype) => {
   const [isClicked, setClicked] = useState<boolean>(false);
   const [partyLimit, setpartyLimit] = useState<number>(2);
   const [timeLimit, setTimeLimit] = useState<number>(15);
+  const socket = useContext(SocketContext);
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isClicked) {
@@ -89,6 +91,7 @@ const Content = ({ shop }: Contentype) => {
     const message = await postParty(party);
     if (message) {
       alert('식당모집이 완료되었습니다.');
+      // socket.emit('joinParty');
       setClicked(true);
     }
   };

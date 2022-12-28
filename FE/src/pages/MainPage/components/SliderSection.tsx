@@ -213,6 +213,9 @@ export default function SimpleSlider() {
     socket.on('roomCreated', (msg) => {
       console.log(msg);
     });
+    socket.on('joinFirst', (msg) => {
+      console.log(msg);
+    });
   }, []);
 
   const getUserInfoAPI = async () => {

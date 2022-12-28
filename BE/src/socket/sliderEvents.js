@@ -18,7 +18,7 @@ module.exports = (io, socket) => {
     if (!SocketMap.has(key)) {
       SocketMap.set(key, [socket.id]);
       check();
-      socket.emit("joinSuccess", "좋아요반영됨처음");
+      socket.emit("joinFirst", "좋아요반영됨처음");
     } else if (SocketMap.get(key).includes(socket.id)) {
       socket.emit("joinFail", "이미 찜한 식당입니다.");
       check();
@@ -38,7 +38,6 @@ module.exports = (io, socket) => {
         filterMapBySidArr(key, SocketMap);
 
         // 채팅방이 생성 되었으면 모임을 지웁니다.
-        await pickService.deleteCompletedParty(partyId);
         await pickService.deleteCompletedParty(partyId);
       } else {
         // if 일치하지 않는다면(좋아요만 반영됨)
