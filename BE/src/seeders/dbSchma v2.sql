@@ -112,8 +112,8 @@ CREATE TABLE IF NOT EXISTS `pick` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (`pickId`, `userId`, `partyId`), 
-  FOREIGN KEY (`userId`) REFERENCES `user` (`userId`), 
-  FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`),
+  FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE, 
+  FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE `pick_userId_partyId_unique` (`userId`, `partyId`)
 );
 CREATE TABLE IF NOT EXISTS `completedParty` (
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `completedParty` (
   `updatedAt` DATETIME, 
   `deletedAt` DATETIME, 
   PRIMARY KEY (`completedPartyId`,`partyId`), 
-  FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`),
+  FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`)
 );
 
 DELIMITER $$

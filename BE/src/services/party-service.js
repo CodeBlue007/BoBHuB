@@ -26,6 +26,8 @@ class PartyService {
       );
     }
     const result = await this.partyModel.create(partyDTO);
+    myCache.del("parties");
+
     return result;
   }
 
@@ -79,6 +81,7 @@ class PartyService {
       );
 
     const result = await this.partyModel.update(newPartyDTO, { partyId });
+    myCache.del("parties");
     return result;
   }
 
@@ -95,6 +98,7 @@ class PartyService {
         "다른 유저의 모임에 대한 권한이 없습니다."
       );
     const result = await this.partyModel.deleteById(partyId);
+    myCache.del("parties");
     return result;
   }
 }
