@@ -4,7 +4,7 @@ const { adminUsers } = require("./data/admin-users");
 const createAdmins = async () => {
   console.log("adminData 생성중");
   try {
-    const admins = Promise.all(
+    const admins = await Promise.all(
       adminUsers.map(async (user) => {
         return await userService.create(user);
       })

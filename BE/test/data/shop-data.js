@@ -1,7 +1,7 @@
 exports.ShopData = [
   {
     category: "베이커리",
-    name: "곤트라쉐리에",
+    name: "곤트란쉐리에",
     distance: 3,
     address: "1641731613",
     menu: "https://bob-hub.s3.ap-northeast-2.amazonaws.com/default/shop/gontranCherrier-m.jpg",
@@ -51,7 +51,7 @@ exports.ShopData = [
   },
   {
     category: "분식",
-    name: "신의 한국수",
+    name: "신의한국수",
     distance: 7,
     address: "1665048009",
     menu: "https://bob-hub.s3.ap-northeast-2.amazonaws.com/default/shop/shineuihan-m.png",

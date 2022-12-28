@@ -63,21 +63,21 @@ exports.FoodData = [
     price: 3500,
   },
   {
-    shopId: "힘톤씨의주방",
+    shopId: "힘톤씨의 주방",
     picture:
       "https://bob-hub.s3.ap-northeast-2.amazonaws.com/default/food/himtonsKitchen-shrimpSalad.png",
     name: "슈림프 샐러드",
     price: 9900,
   },
   {
-    shopId: "힘톤씨의주방",
+    shopId: "힘톤씨의 주방",
     picture:
       "https://bob-hub.s3.ap-northeast-2.amazonaws.com/default/food/himtonsKitchen-shripSandwich.png",
     name: "슈림프 샌드위치",
     price: 7900,
   },
   {
-    shopId: "힘톤씨의주방",
+    shopId: "힘톤씨의 주방",
     picture:
       "https://bob-hub.s3.ap-northeast-2.amazonaws.com/default/food/himtonsKitchen-chickenTenderSandwich.png",
     name: "치킨텐더 샌드위치",

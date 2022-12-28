@@ -6,8 +6,10 @@ const { createDefaultFood } = require("./create-default-food");
 async function setData() {
   await createAdmins();
   await createDefaultCategory();
-  await createDefaultShop();
-  // await createDefaultFood();
+  const match = await createDefaultShop();
+
+  // console.log("match", match);
+  await createDefaultFood(match);
 }
 
 module.exports = { setData };
