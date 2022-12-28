@@ -60,8 +60,8 @@ const NavBar = () => {
   useEffect(() => {
     dispatch(loginUserData());
     dispatch(getMyPartyList());
-    socket.on('joinSuccess', (result, msg) => {
-      console.log(result, msg);
+    socket.on('joinSuccess', (msg) => {
+      alert(msg);
       dispatch(getMyPartyList());
     });
   }, []);

@@ -5,13 +5,30 @@ import { SocketContext } from '../../../socket/SocketContext';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../store/store';
 import { chatAction } from '../../../store/chatSlice';
+import { getParties } from '../ChatAppApi';
+import { Party } from '../../../pages/MainPage/Type';
 
-const BasicList = styled.li`
+const ChatContainer = styled.div`
+  overflow: auto;
+  height: 400px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const NumberDiv = styled.div`
   font-size: 15px;
   ${TextCss}
+  position: absolute;
+  top: 0px;
+  right: 15px;
 `;
-const CursorList = styled(BasicList)`
+const CursorDiv = styled.div`
+  position: relative;
   cursor: pointer;
+  font-size: 15px;
+  ${TextCss}
 `;
 
 interface ChatListProps {
@@ -19,51 +36,54 @@ interface ChatListProps {
 }
 
 const ChatList = ({ moveRoom }: ChatListProps) => {
-  const [roomArray, setRoomArray] = useState<string[]>([]);
+  const [roomArray, setRoomArray] = useState<Party[]>([]);
   const socket = useContext(SocketContext);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleMove = (e: React.MouseEvent<HTMLLIElement>) => {
-    const roomName = e.currentTarget.innerText;
-    socket.emit('enterRoom', roomName, moveRoom);
-    dispatch(chatAction.enterRoom({ roomName }));
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { roomname } = e.currentTarget.dataset;
+    console.log(roomname);
+    socket.emit('enterRoom', roomname, moveRoom);
+    dispatch(chatAction.enterRoom({ roomName: roomname }));
+  };
+
+  const fetchParites = async () => {
+    const parties = await getParties();
+    setRoomArray(parties);
   };
 
   useEffect(() => {
-    const rooms = ['Room1', 'Room2', 'Room3'];
-    setRoomArray([...rooms]);
-
     socket.emit('nickname', userName);
+    socket.on('roomChange', (rooms) => {
+      setRoomArray(rooms);
+    });
 
-    // socket.on("roomChange", (rooms) => {
-    //   setRoomArray(rooms);
-    // })
-    // 실제 room 연결시 변화감지
+    fetchParites();
 
-    // socket.emit("findRooms");
-    // socket.on("getRoomList", (rooms)=> {
-    //   console.log("get rooms");
-    //   setRoomArray(rooms);
-    // })
     // 실제 room이 만들어진걸 확인함.
   }, [userName]);
 
   return (
     <>
       <Title>Chat Lists</Title>
-      <ul>
+      <ChatContainer>
         {!isLogin ? (
-          <BasicList>"채팅방이 없습니다"</BasicList>
+          <CursorDiv>"채팅방이 없습니다"</CursorDiv>
         ) : (
-          roomArray.map((roomName, idx) => (
-            <CursorList onClick={handleMove} key={`${roomName}${idx}`}>
-              {roomName}
-            </CursorList>
+          roomArray.map((roomInfo) => (
+            <>
+              <CursorDiv onClick={handleMove} key={roomInfo.partyId} data-roomname={roomInfo.name}>
+                {roomInfo.name}
+                <NumberDiv key={roomInfo.partyId}>
+                  {roomInfo.likedNum}/{roomInfo.partyLimit}
+                </NumberDiv>
+              </CursorDiv>
+            </>
           ))
         )}
-      </ul>
+      </ChatContainer>
     </>
   );
 };
