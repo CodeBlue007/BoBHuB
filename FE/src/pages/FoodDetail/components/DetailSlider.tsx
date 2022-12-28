@@ -6,14 +6,13 @@ import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 const SliderContainer = styled.div`
   width: 800px;
-  height: 450px;
+  height: 550px;
   position: relative;
-  margin: 20px;
+  margin: 60px;
 `;
 
 const StyledSlider = styled(Slider)`
-  height: 260px;
-  width: 100%;
+  height: 450px;
   position: relative;
   .slick-prev::before,
   .slick-next::before {
@@ -23,10 +22,12 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover {
-    color: ${({theme})=>theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
   }
   .slick-next:hover {
-    color: ${({theme})=>theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
+    color: ${({ theme }) => theme.colors.main};
   }
 `;
 
@@ -35,11 +36,11 @@ const Div = styled.div`
   height: 30px;
   position: absolute;
   z-index: 99;
-  text-align: right;
   font-size: 100px;
-  color: ${({theme})=>theme.font.color.balck};
-  right: 16px;
-  line-height: 40px;
+  color: ${({ theme }) => theme.font.color.black};
+  right: -30px;
+  color: ${({ theme }) => theme.font.color.black};
+  top: 200px;
 `;
 
 const DivPre = styled.div`
@@ -47,11 +48,22 @@ const DivPre = styled.div`
   height: 30px;
   position: absolute;
   z-index: 99;
-  text-align: left;
   font-size: 100px;
-  color: ${({theme})=>theme.font.color.balck};;
-  line-height: 40px;
-  left: -55px;
+  color: ${({ theme }) => theme.font.color.black};
+  top: 200px;
+  left: -100px;
+`;
+
+const Img = styled.img`
+  width: inherit;
+  height: inherit;
+  max-width: 800px;
+  max-height: 550px;
+`;
+
+const ImgContainer = styled.div`
+  .images {
+  }
 `;
 
 type stringNull = string | null;
@@ -91,7 +103,9 @@ const DetailSlider = ({ imageArr }: DetailSliderProps) => {
     <SliderContainer>
       <StyledSlider {...settings}>
         {newImageArr.map((imgUrl) => (
-          <img alt="shopImage" src={imgUrl} key={imgUrl} />
+          <ImgContainer>
+            <Img alt="shopImage" src={imgUrl} key={imgUrl} className="images" />
+          </ImgContainer>
         ))}
       </StyledSlider>
     </SliderContainer>

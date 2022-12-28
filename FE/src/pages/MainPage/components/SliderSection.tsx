@@ -11,7 +11,7 @@ import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { SocketContext, socket } from './../../../socket/SocketContext';
+import { SocketContext } from './../../../socket/SocketContext';
 
 const StyledSlider = styled(Slider)`
   height: 100%;
@@ -194,7 +194,6 @@ export default function SimpleSlider() {
   });
 
   const [slideIndex, setSlideIndex] = useState(0);
-
   const socket = useContext(SocketContext);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const setPartiesData = async () => {
@@ -206,6 +205,12 @@ export default function SimpleSlider() {
   useEffect(() => {
     setPartiesData();
     socket.on('event', (msg) => {
+      console.log(msg);
+    });
+    socket.on('joinFail', (msg) => {
+      console.log(msg);
+    });
+    socket.on('roomCreated', (msg) => {
       console.log(msg);
     });
   }, []);
@@ -222,11 +227,6 @@ export default function SimpleSlider() {
       console.error(err);
     }
   }, []);
-
-  // socket.on('event', () => {
-  //   data = event
-  //   setParties(data)
-  // })
 
   return (
     <Div>

@@ -9,4 +9,5 @@ module.exports = {
   ...require("./comment"),
   ...require("./party"),
   ...require("./pick"),
+  ...require("./completed_party"),
 };

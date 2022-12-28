@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `pick` (
   FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`) ON DELETE CASCADE ON UPDATE CASCADE,
   UNIQUE `pick_userId_partyId_unique` (`userId`, `partyId`)
 );
-CREATE TABLE IF NOT EXISTS `completedParty` (
+CREATE TABLE IF NOT EXISTS `completed_party` (
   `completedPartyId` INTEGER NOT NULL auto_increment, 
   `partyId` INTEGER NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
@@ -150,7 +150,7 @@ ON party
 FOR EACH ROW 
 BEGIN
  IF (new.likedNum = new.partyLimit) THEN 
- insert into completedParty(partyId) value (new.partyId);
+ insert into completed_party(partyId) value (new.partyId);
  end if;
 END $$
 

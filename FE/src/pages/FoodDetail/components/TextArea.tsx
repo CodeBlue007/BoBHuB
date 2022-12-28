@@ -38,7 +38,7 @@ const CommentArea = styled.textarea`
 
   &:disabled {
     font-weight: bold;
-    color: ${({ theme }) => theme.font.color.balck};
+    color: ${({ theme }) => theme.font.color.black};
     border: none;
   }
 `;
