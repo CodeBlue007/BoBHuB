@@ -1,6 +1,5 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("party");
-const { pickModel } = require("./pick");
 
 const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");

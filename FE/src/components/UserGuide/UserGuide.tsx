@@ -7,6 +7,7 @@ import dinner from './assets/dinner.png';
 import searchEngine from './assets/searchEngine.png';
 import slide from './assets/slide.png';
 import touch from './assets/touch.png';
+import group from './assets/group.png';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 const StyledSlider = styled(Slider)`
@@ -48,14 +49,14 @@ const Div = styled.div`
   }
 
   span {
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: bold;
+    width: 100%;
   }
 
   img {
-    margin: none;
     width: 300px;
-    margin: 0 0 100px 100px;
+    margin: 0 0 80px 100px;
   }
 `;
 
@@ -77,7 +78,7 @@ const DivPre = styled.div`
   height: 30px;
   position: absolute;
   top: 100px;
-  left: 40px;
+  left: 25px;
   z-index: 99;
   text-align: left;
   font-size: 100px;
@@ -111,19 +112,24 @@ const UserGuide = () => {
         <StyledSlider {...settings}>
           <div>
             <img src={slide} alt="slide" />
-            <span>메인페이지 슬라이더로 원하는 맛집이 있는지 확인해보세요!</span>
+            <span>홈 하단에서 성수낙낙 근처 맛집을 확인해 보세요!</span>
           </div>
           <div>
             <img src={touch} alt="touch" />
-            <span>슬라이더에 원하는 맛집이 있다면 하트를 눌러요!</span>
+            <span>가고 싶은 맛집에 하트를 눌러주세요!</span>
           </div>
           <div>
-            <img src={searchEngine} alt="searchEngine" />
-            <span>원하는 맛집이 없다면 맛집 찾기 버튼을 눌러 검색해보세요!</span>
+            <img style={{ marginBottom: '50px' }} src={searchEngine} alt="searchEngine" />
+            <span>생각해 둔 맛집이 있다면 맛집 찾기 버튼을 눌러 </span> <br />
+            <span>직접 검색해 보세요!</span>
+          </div>
+          <div>
+            <img src={group} alt="searchEngine" />
+            <span>맛집을 고르고 모임을 생성해보세요!</span>
           </div>
           <div>
             <img src={chat} alt="Chat" />
-            <span>인원이 다 차면 채팅방이 생성돼요!</span>
+            <span>제한 시간 안에 찜해둔 맛집에 인원이 다 차면 채팅방이 생겨요!</span>
           </div>
           <div>
             <img src={dinner} alt="dinner" />
