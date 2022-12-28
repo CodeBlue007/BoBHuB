@@ -35,43 +35,21 @@ const FoodList = () => {
       shopId: 0,
     },
   ]); //검색데이터
-  const [value, setValue] = useState('one');
+  const [curCategory, setCategory] = useState('ALL');
   const [page, setPage] = useState(1);
   const offset = (page - 1) * 9;
   const totalPage = Math.ceil(searchList.length / 9);
 
-  const handleCategoryChange = (event: React.SyntheticEvent, categoryNum: string) => {
-    setValue(categoryNum);
+  const handleCategoryChange = (
+    event: React.SyntheticEvent,
+    categoryVal: 'ALL' | '한식' | '양식' | '일식' | '분식' | '중식',
+  ) => {
+    setCategory(categoryVal);
     setPage(1);
-
-    let cateValue = '';
-    switch (categoryNum) {
-      case 'one':
-        cateValue = 'All';
-        break;
-      case 'two':
-        cateValue = '한식';
-        break;
-      case 'three':
-        cateValue = '양식';
-        break;
-      case 'four':
-        cateValue = '일식';
-        break;
-      case 'five':
-        cateValue = '분식';
-        break;
-      case 'six':
-        cateValue = '중식';
-        break;
-      default:
-        cateValue = 'All';
-        return;
-    }
-    if (cateValue === 'All') {
+    if (categoryVal === 'ALL') {
       setCategoryFoodList(foodList);
     } else {
-      const newData = foodList.filter(({ category }) => category === cateValue);
+      const newData = foodList.filter(({ category }) => category === categoryVal);
       setCategoryFoodList((prev) => [...newData]);
     }
   };
@@ -86,11 +64,11 @@ const FoodList = () => {
 
   const handlePageUpdate = (e: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage);
-    console.log(newPage);
   };
 
   useEffect(() => {
     getFoodListAPI();
+    setCategory('ALL');
   }, []);
 
   useEffect(() => {
@@ -98,7 +76,7 @@ const FoodList = () => {
       return shop.name.toUpperCase().includes(searchInput.toUpperCase());
     });
     setSearchList(filtered);
-  }, [value, searchInput]);
+  }, [curCategory, searchInput]);
 
   return (
     <Container>
@@ -107,17 +85,17 @@ const FoodList = () => {
       <CategoryBox>
         <Box sx={{ width: '100%' }}>
           <Tabs
-            value={value}
+            value={curCategory}
             onChange={handleCategoryChange}
             textColor="secondary"
             indicatorColor="secondary"
             aria-label="secondary tabs example">
-            <Tab value="one" label="All" />
-            <Tab value="two" label="한식" />
-            <Tab value="three" label="양식" />
-            <Tab value="four" label="일식" />
-            <Tab value="five" label="분식" />
-            <Tab value="six" label="중식" />
+            <Tab value="ALL" label="ALL" />
+            <Tab value="한식" label="한식" />
+            <Tab value="양식" label="양식" />
+            <Tab value="일식" label="일식" />
+            <Tab value="분식" label="분식" />
+            <Tab value="중식" label="중식" />
           </Tabs>
         </Box>
       </CategoryBox>
@@ -161,6 +139,7 @@ const Container = styled.div`
   flex-direction: column;
   padding-bottom: 50px;
   background-color: ${({ theme }) => theme.colors.container};
+  height: 200vh;
 `;
 
 const CategoryBox = styled.div`
