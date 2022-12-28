@@ -193,6 +193,169 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
 
     onRegSubmit(regForm);
 
+    // 이름 validation
+    if (!validateName(regForm.name)) {
+      alert('이름 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 닉네임 validation
+    if (!validateNickName(regForm.nickname)) {
+      alert('닉네임 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 이메일 validation
+    if (!validateEmail(regForm.email)) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 인증번호 validation
+    if (!validateConfirmNum(regForm.confirmNum)) {
+      alert('인증번호 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 비밀번호 validation
+    if (!validatePassword(regForm.password)) {
+      alert('비밀번호 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 비밀번호 체크 validation
+    if (!validatePWCheck(regForm.password, regForm.passwordCheck)) {
+      alert('비밀번호가 일치하지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 휴대폰번호 validation
+    if (!validatePhone(regForm.phone)) {
+      alert('휴대폰번호 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 트랙 validation
+    if (!validateTrack(regForm.track)) {
+      alert('존재하는 트랙이 아닙니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 기수 validation
+    if (!validateGeneration(regForm.track, regForm.generation)) {
+      alert('현재 활동 중인 기수가 아닙니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 닉네임 중복체크
     const resNickname = await API.get(`/api/users/nicknames/${regForm.nickname}`);
     if (resNickname.message.substr(0, 1) === '같') {
       alert('이미 존재하는 닉네임입니다.');
@@ -213,6 +376,8 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
 
     try {
       const resRegisterForm = await API.post('/api/users/join', regForm);
+
+      // 전화번호 중복체크
       if (!resRegisterForm) {
         // throw new Error(`${resRegisterForm.type}\n${resRegisterForm.reason}`);
         throw new Error('해당 전화번호로 가입한 내역이 존재합니다');
