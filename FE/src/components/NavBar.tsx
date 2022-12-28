@@ -10,13 +10,14 @@ import { get } from '../api/API';
 import MyParty from './MyParty';
 import styled from 'styled-components';
 import { theme } from './../styles/theme';
-import type { FoodType } from '../pages/Admin/components/Restraunt/Foods';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import UserGuide from './UserGuide/UserGuide';
 import { SocketContext } from '../socket/SocketContext';
+import type { Party } from '../pages/MainPage/Type';
+import { getMyPartyList } from './../store/partySlice';
 
 const ModalStyle = {
   position: 'absolute' as 'absolute',
@@ -46,23 +47,8 @@ const TitleLogo = styled.img`
   margin-top: 15px;
 `;
 
-export interface Party {
-  partyId: number;
-  shopId: number;
-  userId: number;
-  partylimit: number;
-  timeLimit: number;
-  likedNum: number;
-  isComplete: number;
-  createdAt: string;
-  updatedAt: null;
-  deletedAt: null;
-}
-
 const NavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [myPartyList, setMyPartyList] = useState<Party[]>([]);
-  const [activeShopList, setActiveShopList] = useState<FoodType[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
   const location = useLocation();
@@ -73,10 +59,15 @@ const NavBar = () => {
 
   useEffect(() => {
     dispatch(loginUserData());
-    socket.on('joinSuccess', (msg) => {
-      console.log(msg);
-    });
+    dispatch(getMyPartyList());
+    socket.on('joinSuccess', () => dispatch(getMyPartyList()));
   }, []);
+
+  useEffect(() => {
+    if (open === true) {
+      setOpen(false);
+    }
+  }, [isLogin]);
 
   const handleOpenToggle = () => setOpen(!open);
 
@@ -84,27 +75,9 @@ const NavBar = () => {
     dispatch(logoutUser());
   };
 
-  const fetchPartyList = async () => {
-    const myPartyList: Party[] = await get('/api/parties/my-party');
-    console.log(myPartyList);
-    const testlist = await get('/api/parties/my-party');
-    console.log(testlist);
-    if (!myPartyList) {
-      setMyPartyList([]);
-      setActiveShopList([]);
-    }
-    const activeShopList: FoodType[] = await Promise.all(
-      myPartyList.map((party) => {
-        return get(`/api/shops/${party.shopId}`);
-      }),
-    );
-    setMyPartyList([...myPartyList]);
-    setActiveShopList([...activeShopList]);
-  };
-
   const handleLikedParty = () => {
     handleOpenToggle();
-    fetchPartyList();
+    dispatch(getMyPartyList());
   };
 
   return (
@@ -156,13 +129,7 @@ const NavBar = () => {
             </Fragment>
           )}
         </Stack>
-        <MyParty
-          activeShopList={activeShopList}
-          myPartyList={myPartyList}
-          handleClose={handleOpenToggle}
-          open={open}
-          fetchPartyList={fetchPartyList}
-        />
+        <MyParty handleClose={handleOpenToggle} open={open} />
 
         <Modal
           aria-labelledby="transition-modal-title"
