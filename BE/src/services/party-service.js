@@ -1,10 +1,13 @@
-const { partyModel, shopModel } = require("../db/models");
+const { partyModel, shopModel, pickModel } = require("../db/models");
+const { myCacheCheckperiod } = require("../utils");
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
+const myCache = myCacheCheckperiod();
 
 class PartyService {
   constructor(partyModel) {
     this.partyModel = partyModel;
     this.shopModel = shopModel;
+    this.pickModel = pickModel;
   }
 
   async create(partyDTO) {
@@ -27,8 +30,13 @@ class PartyService {
   }
 
   async getAll() {
-    const parties = await this.partyModel.getAll();
-    return parties;
+    const partiesCache = myCache.get("parties");
+    if (partiesCache) return JSON.parse(partiesCache);
+    else {
+      const parties = await this.partyModel.getAll();
+      myCache.set("parties", JSON.stringify(parties));
+      return parties;
+    }
   }
 
   async get(partyDTO) {
@@ -36,6 +44,23 @@ class PartyService {
     if (parties.length === 0) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 모임이 없습니다.");
     }
+    return parties;
+  }
+
+  async getLikedParty(pickDTO) {
+    const partiesCache = myCache.get("parties");
+
+    let parties;
+    if (partiesCache) {
+      parties = JSON.parse(partiesCache);
+    } else {
+      parties = await this.partyModel.getAll();
+      myCache.set("parties", JSON.stringify(parties));
+    }
+
+    const picks = await this.pickModel.get(pickDTO);
+    const likedParty = picks.map(({ partyId }) => partyId);
+    parties = parties.filter(({ partyId }) => likedParty.includes(partyId));
     return parties;
   }
 
@@ -74,6 +99,6 @@ class PartyService {
   }
 }
 
-const partyService = new PartyService(partyModel);
+const partyService = new PartyService(partyModel, shopModel, pickModel);
 
 module.exports = { partyService };

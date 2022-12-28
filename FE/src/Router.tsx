@@ -7,7 +7,6 @@ import MainPage from './pages/MainPage/MainPage';
 import MyPage from './pages/MyPage/MyPage';
 import NotFound from './pages/NotFound/NotFound';
 import Register from './pages/Register/Register';
-import UserGuide from './pages/UserGuide/UserGuide';
 
 const Router = () => {
   return (
@@ -21,7 +20,6 @@ const Router = () => {
         <Route path="/admin" element={<Admin />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/userGuide" element={<UserGuide />} />
       </Routes>
     </BrowserRouter>
   );
