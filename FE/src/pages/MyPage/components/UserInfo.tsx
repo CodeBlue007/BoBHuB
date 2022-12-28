@@ -131,10 +131,10 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       if (!validatePhone(inputChange)) {
         alert('유효하지 않은 휴대폰 번호 형식입니다.');
         return;
-      }else {
+      } else {
         try {
           const res = await API.patch(`/api/users`, {
-            phone: inputChange
+            phone: inputChange,
           });
           if (!res) {
             throw new Error('해당 전화로 가입한 다른 유저의 내역이 존재합니다.');
