@@ -6,10 +6,9 @@ const Intro = styled.div`
   display: flex;
   flex-direction: column;
   min-width: 600px;
-  height: 100%;
   position: absolute;
   top: 205px;
-  right: 200px;
+  right: 130px;
   text-align: right;
 
   .main {
@@ -32,6 +31,7 @@ const Container = styled.div`
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  height: 100%;
   &:after {
     position: absolute;
     left: 0;
@@ -83,7 +83,7 @@ const Container = styled.div`
 const IntroSection = () => {
   return (
     <Container>
-      <video autoPlay={true} muted={true} style={{ width: '100%', height: 'auto' }} loop>
+      <video autoPlay={true} muted={true} style={{ width: '100%', height: '100%' }} loop>
         <source src={'video/teamLunch.mp4'} type="video/mp4" />
       </video>
 

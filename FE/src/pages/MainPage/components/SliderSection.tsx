@@ -14,7 +14,7 @@ import { RootState } from '../../../store/store';
 import { SocketContext, socket } from './../../../socket/SocketContext';
 
 const StyledSlider = styled(Slider)`
-  height: 110%;
+  height: 100%;
   position: relative;
   .slick-prev::before,
   .slick-next::before {
