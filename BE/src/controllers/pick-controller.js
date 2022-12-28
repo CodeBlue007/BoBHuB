@@ -21,6 +21,26 @@ class PickController {
       next(e);
     }
   }
+
+  async isCompletedParty(req, res, next) {
+    const partyId = parseInt(req.params.partyId);
+    try {
+      const result = await pickService.isCompletedParty(partyId);
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async deleteCompletedParty(req, res, next) {
+    const partyId = parseInt(req.body.partyId);
+    try {
+      const result = await pickService.deleteCompletedParty(partyId);
+      return res.status(200).json(result);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 const pickController = new PickController();

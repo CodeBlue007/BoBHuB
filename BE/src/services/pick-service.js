@@ -1,10 +1,11 @@
-const { pickModel } = require("../db/models");
+const { pickModel, cpModel } = require("../db/models");
 const { myCache } = require("./party-service");
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class PickService {
-  constructor(pickModel) {
+  constructor(pickModel, cpModel) {
     this.pickModel = pickModel;
+    this.cpModel = cpModel;
   }
 
   async joinParty(userId, partyId) {
@@ -18,10 +19,19 @@ class PickService {
     myCache.set("reParties", true);
     return result;
   }
+
+  async isCompletedParty(partyId) {
+    const completedParty = await this.cpModel.get({ partyId });
+    const result = completedParty.length === 0 ? false : true;
+    return result;
+  }
+
+  async deleteCompletedParty(partyId) {
+    const result = await this.cpModel.deleteCompletedParty(partyId);
+    return result;
+  }
 }
 
-// partyID : [userId, userId]
-
-const pickService = new PickService(pickModel);
+const pickService = new PickService(pickModel, cpModel);
 
 module.exports = { pickService };
