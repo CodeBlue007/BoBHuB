@@ -8,4 +8,5 @@ module.exports = {
   ...require("./track"),
   ...require("./comment"),
   ...require("./party"),
+  ...require("./pick"),
 };
