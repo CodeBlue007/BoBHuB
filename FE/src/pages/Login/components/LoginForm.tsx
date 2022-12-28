@@ -143,6 +143,11 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     const resEmail = await API.get(`api/users/emails/${email}`);
     if (resEmail.message.substr(0, 1) === '사') {
       alert('Error: 존재하지 않는 계정입니다.');
+      // form 초기화
+      setLoginForm({
+        email: '',
+        password: '',
+      });
       return;
     }
 
@@ -152,6 +157,11 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
       if (!resLoginForm) {
         throw new Error('비밀번호가 일치하지 않습니다.');
       } else {
+        // form 초기화
+        setLoginForm({
+          email: '',
+          password: '',
+        });
         // 로그인 성공, 메인페이지로 이동
         navigate('/', { replace: true });
       }

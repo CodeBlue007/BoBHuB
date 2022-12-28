@@ -192,23 +192,62 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     e.preventDefault();
 
     onRegSubmit(regForm);
-    const res = await API.post('/api/users/join', regForm);
 
-    // form 초기화
-    setRegForm({
-      name: '',
-      nickname: '',
-      email: '',
-      confirmNum: '',
-      password: '',
-      passwordCheck: '',
-      phone: '',
-      track: '',
-      // generation: 0,
-      generation: '',
-    });
+    const resNickname = await API.get(`/api/users/nicknames/${regForm.nickname}`);
+    if (resNickname.message.substr(0, 1) === '같') {
+      alert('이미 존재하는 닉네임입니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
 
-    navigate('/login', { replace: true });
+    try {
+      const resRegisterForm = await API.post('/api/users/join', regForm);
+      if (!resRegisterForm) {
+        // throw new Error(`${resRegisterForm.type}\n${resRegisterForm.reason}`);
+        throw new Error('해당 전화번호로 가입한 내역이 존재합니다');
+      } else {
+        // form 초기화
+        setRegForm({
+          name: '',
+          nickname: '',
+          email: '',
+          confirmNum: '',
+          password: '',
+          passwordCheck: '',
+          phone: '',
+          track: '',
+          generation: '',
+        });
+        // 회원가입 성공, 로그인페이지로 이동
+        navigate('/login', { replace: true });
+      }
+    } catch (err) {
+      alert(err);
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -229,6 +268,18 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     const resNickname = await API.get(`/api/users/nicknames/${inputNickname}`);
     if (resNickname.message.substr(0, 1) === '같') {
       alert('이미 존재하는 닉네임입니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
       return;
     }
     alert('사용 가능한 닉네임입니다.');
@@ -242,10 +293,57 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     const resEmail = await API.get(`/api/users/emails/${inputEmail}`);
     if (resEmail.message.substr(0, 1) === '같') {
       alert('이미 가입된 이메일입니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
       return;
     }
-    alert('사용 가능한 이메일입니다.');
-    // 이메일 인증
+
+    // 이메일 인증 - api 오류
+    // const resEmailVerify = await API.get(`api/utils/${inputEmail}/send-code`);
+    // // ${resEmailVerify.message}
+    // if (!resEmailVerify) {
+    //   alert('인증메일 전송 오류. 다시 시도해 주세요.');
+    //   // form 초기화
+    //   setRegForm({
+    //     name: '',
+    //     nickname: '',
+    //     email: '',
+    //     confirmNum: '',
+    //     password: '',
+    //     passwordCheck: '',
+    //     phone: '',
+    //     track: '',
+    //     generation: '',
+    //   });
+    //   return;
+    // }
+    alert(`인증번호가 전송되었습니다.\n메일함에서 인증번호를 확인 후 1분 내로 입력해주세요.`);
+  };
+
+  const handleConfirmNumClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const textField = (e.target as HTMLButtonElement).previousSibling;
+    const div = textField?.childNodes[0];
+    const input = div?.childNodes[1];
+    const inputConfirmNum = (input as HTMLInputElement).value;
+    console.log(inputConfirmNum);
+  };
+
+  const handlePhoneClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const textField = (e.target as HTMLButtonElement).previousSibling;
+    const div = textField?.childNodes[0];
+    const input = div?.childNodes[1];
+    const inputPhone = (input as HTMLInputElement).value;
+    console.log(inputPhone);
   };
 
   return (
@@ -281,43 +379,34 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           }
         />
 
-        <div className="nickNameInputBtnContainer">
-          <TextField
-            name="nickname"
-            variant="standard"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <BadgeOutlinedIcon />
-                </InputAdornment>
-              ),
-            }}
-            inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
-            sx={{
-              input: {
-                '&::placeholder': {
-                  opacity: 0.8,
-                },
+        <TextField
+          name="nickname"
+          variant="standard"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <BadgeOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
+          sx={{
+            input: {
+              '&::placeholder': {
+                opacity: 0.8,
               },
-            }}
-            placeholder="닉네임(중복 불가)"
-            value={nickname}
-            onChange={onTextFieldChange}
-            error={!validateNickName(regForm.nickname) && regForm.nickname !== ''}
-            helperText={
-              !validateNickName(regForm.nickname) && regForm.nickname !== ''
-                ? '닉네임은 한글·영문(대·소문자) 5~10자 사이여야 합니다.'
-                : ''
-            }
-          />
-          <Button
-            className="NicknameCheckBtn"
-            variant="contained"
-            size="small"
-            onClick={handleNicknameClick}>
-            중복 확인
-          </Button>
-        </div>
+            },
+          }}
+          placeholder="닉네임(중복 불가)"
+          value={nickname}
+          onChange={onTextFieldChange}
+          error={!validateNickName(regForm.nickname) && regForm.nickname !== ''}
+          helperText={
+            !validateNickName(regForm.nickname) && regForm.nickname !== ''
+              ? '닉네임은 한글·영문(대·소문자) 5~10자 사이여야 합니다.'
+              : ''
+          }
+        />
 
         <div className="emailInputBtnContainer">
           <TextField
@@ -355,40 +444,49 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
             variant="contained"
             size="small"
             onClick={handleEmailClick}>
-            인증
+            인증 메일 전송
           </Button>
         </div>
 
-        <TextField
-          required
-          type="text"
-          name="confirmNum"
-          variant="standard"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <MailLockOutlinedIcon />
-              </InputAdornment>
-            ),
-          }}
-          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
-          sx={{
-            input: {
-              '&::placeholder': {
-                opacity: 0.8,
+        <div className="confirmNumInputBtnContainer">
+          <TextField
+            required
+            type="text"
+            name="confirmNum"
+            variant="standard"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MailLockOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
+            inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
+            sx={{
+              input: {
+                '&::placeholder': {
+                  opacity: 0.8,
+                },
               },
-            },
-          }}
-          placeholder="인증번호"
-          value={confirmNum}
-          onChange={onTextFieldChange}
-          error={!validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''}
-          helperText={
-            !validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''
-              ? '인증번호가 일치하지 않습니다.'
-              : ''
-          }
-        />
+            }}
+            placeholder="인증번호"
+            value={confirmNum}
+            onChange={onTextFieldChange}
+            error={!validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''}
+            helperText={
+              !validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''
+                ? '인증번호 형식이 부적절합니다.'
+                : ''
+            }
+          />
+          <Button
+            className="EmailSendBtn"
+            variant="contained"
+            size="small"
+            onClick={handleConfirmNumClick}>
+            인증
+          </Button>
+        </div>
 
         <TextField
           className="pw"
@@ -509,9 +607,6 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               : ''
           }
         />
-        <Button className="PhoneCheckBtn" variant="contained" size="small">
-          중복 확인
-        </Button>
 
         <TextField
           type="text"
