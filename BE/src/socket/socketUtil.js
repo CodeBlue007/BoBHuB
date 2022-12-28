@@ -43,7 +43,8 @@ const filterMapBySidArr = (key, map) => {
 }
 
 const filterMapBySid = (key, socketId, map) => {
-    const filteredSids = map.get(key).filter(sid => sid !== socketId);
+    if (!map.has(key)) return;
+    const filteredSids = map.get(key)?.filter(sid => sid !== socketId);
     map.set(key, filteredSids);
 }
 
