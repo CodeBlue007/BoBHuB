@@ -19,6 +19,8 @@ class PickService {
   }
 }
 
+// partyID : [userId, userId]
+
 const pickService = new PickService(pickModel);
 
 module.exports = { pickService };

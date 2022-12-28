@@ -208,6 +208,9 @@ export default function SimpleSlider() {
     socket.on('event', (msg) => {
       console.log(msg);
     });
+    socket.on('joinFail', (msg) => {
+      alert(msg);
+    });
   }, []);
 
   const getUserInfoAPI = async () => {
