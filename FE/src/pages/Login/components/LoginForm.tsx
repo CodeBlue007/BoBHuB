@@ -231,6 +231,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
