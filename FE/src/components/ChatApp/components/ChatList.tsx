@@ -32,21 +32,23 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
   };
 
   useEffect(() => {
-    const rooms = ['Room1', 'Room2', 'Room3'];
-    setRoomArray([...rooms]);
+    // const rooms = ['Room1', 'Room2', 'Room3'];
+    // setRoomArray([...rooms]);
 
     socket.emit('nickname', userName);
 
-    // socket.on("roomChange", (rooms) => {
-    //   setRoomArray(rooms);
-    // })
-    // 실제 room 연결시 변화감지
+    socket.on('roomChange', (rooms) => {
+      setRoomArray(rooms);
+    });
 
-    // socket.emit("findRooms");
-    // socket.on("getRoomList", (rooms)=> {
-    //   console.log("get rooms");
-    //   setRoomArray(rooms);
-    // })
+    socket.emit('findRooms');
+
+    socket.emit('getRoomList');
+
+    socket.on('giveRooms', (rooms) => {
+      console.log(rooms);
+      setRoomArray(rooms);
+    });
     // 실제 room이 만들어진걸 확인함.
   }, [userName]);
 

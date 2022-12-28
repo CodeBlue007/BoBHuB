@@ -3,14 +3,12 @@ const { getPublicRooms } = require("./socketUtil.js");
 module.exports = (io, socket) => {
 
     const check = () => {
-        // console.log("Sid", io.sockets.adapter.sids);
-        // console.log("Rooms", io.sockets.adapter.rooms);
-        // console.log("socket", socket);
-        console.log("io.sockets", io.sockets.adapter["roomName"]);
+        console.log("Sid", io.sockets.adapter.sids);
+        console.log("Rooms", io.sockets.adapter.rooms);
     }
 
-    const getRooms = () => {
-        io.sockets.emit("getRooms", getPublicRooms(io));
+    const giveRooms = () => {
+        socket.emit("giveRooms", getPublicRooms(io));
     }
 
     const enterRoom = (roomName, moveRoom) => {
@@ -51,7 +49,7 @@ module.exports = (io, socket) => {
         check();
     }
 
-    socket.on("getRoomList", getRooms);
+    socket.on("getRoomList", giveRooms);
     socket.on("enterRoom", enterRoom);
     socket.on("leaveRoom", leaveRoom)
     socket.on("sendMessage", sendMessage);
