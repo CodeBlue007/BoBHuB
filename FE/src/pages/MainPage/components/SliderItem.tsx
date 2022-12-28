@@ -1,14 +1,17 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { TiStar } from 'react-icons/ti';
 import { getHourmin } from '../../../util/getDate';
 import { Party } from '../Type';
 import { SocketContext } from '../../../socket/SocketContext';
 import HeartButton from './HeartIcon';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { getLimitTime } from './../../../util/getLimitTime';
 
 const ItemContainer = styled.div`
-  background-color: ${(props) => props.theme.colors.main};
+  background-color: white;
   padding: 30px;
   margin: 10px 20px 10px 20px;
   border-radius: 10px;
@@ -18,16 +21,16 @@ const ItemContainer = styled.div`
 const Description = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: white;
-  border-radius: 10px;
+  border-top: 1px solid grey;
   height: 100px;
-  padding-top: 10px;
+  padding-top: 18px;
   .name {
     font-size: 30px;
     margin-right: 30px;
   }
   .avgStar {
-    font-size: 18px;
+    font-size: 27px;
+    margin-left: 5px;
   }
   .party_info {
     padding-top: 7px;
@@ -52,16 +55,23 @@ interface SliderItemProps {
   party: Party;
   index: number;
   slideIndex: number;
+  setPartiesData: () => void;
 }
 
-const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
+const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProps) => {
   const socket = useContext(SocketContext);
   const [hour, minute] = getHourmin(party.createdAt, party.timeLimit);
   const [like, setLike] = useState(false);
+  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
 
-  const handleLike = () => {
+  const handleLike = (partyId: number) => {
     setLike(!like);
+    console.log('partyId :', partyId);
+    console.log('userId :', userId);
+    socket.emit('joinParty', partyId, userId);
   };
+
+  const limit = getLimitTime(party.createdAt, party.timeLimit);
 
   return (
     <ItemContainer
@@ -73,21 +83,18 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
       <Description>
         <div>
           <span className="name">{party.name}</span>
-
-          <span style={{ marginTop: '10px' }}>
-            <TiStar size="25" color="#faaf00" />
-          </span>
-          <span className="avgStar">{Number(party.avgStar).toFixed(1)}</span>
+          <StarRateIcon sx={{ color: '#faaf00' }} />
+          <span className="avgStar">{Number(party.avgStar).toFixed(1)} / 5</span>
         </div>
         <div className="party_info">
           <span>
             <div className="likedNum">
               모집 현황 : {party.likedNum} 명 / 총 {party.partylimit} 명
             </div>
-            <div className="time">모집 종료 시간 : {`${hour}시 ${minute}분`}</div>
+            <div className="time">모집 종료 시간: {limit}</div>
           </span>
-          <span style={{ margin: '3px 0 0 30px' }}>
-            <HeartButton like={like} onClick={handleLike} />
+          <span style={{ margin: '0 0 0 50px' }}>
+            <HeartButton like={like} onClick={() => handleLike(party.partyId)} />
           </span>
         </div>
       </Description>

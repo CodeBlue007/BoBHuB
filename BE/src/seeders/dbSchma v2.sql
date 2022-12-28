@@ -90,9 +90,9 @@ CREATE TABLE IF NOT EXISTS `party` (
   `partyId` INTEGER NOT NULL auto_increment, 
   `shopId` INTEGER NOT NULL, 
   `userId` INTEGER NOT NULL, 
-  `partylimit` INTEGER NOT NULL DEFAULT 4, 
+  `partyLimit` INTEGER NOT NULL DEFAULT 4, 
   `timeLimit` INTEGER NOT NULL DEFAULT 30, 
-  `likedNum` INTEGER NOT NULL DEFAULT 1, 
+  `likedNum` INTEGER NOT NULL DEFAULT 0, 
   `isComplete` BOOLEAN NOT NULL DEFAULT FALSE, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 
@@ -114,6 +114,44 @@ CREATE TABLE IF NOT EXISTS `pick` (
   PRIMARY KEY (`pickId`, `userId`, `partyId`), 
   FOREIGN KEY (`userId`) REFERENCES `user` (`userId`), 
   FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`),
-  INDEX `FK_User_TO_Pick_1` USING BTREE (`userId`),
-  INDEX `FK_Party_TO_Pick_1` USING BTREE (`partyId`)
+  UNIQUE `pick_userId_partyId_unique` (`userId`, `partyId`)
 );
+CREATE TABLE IF NOT EXISTS `completedParty` (
+  `completedPartyId` INTEGER NOT NULL auto_increment, 
+  `partyId` INTEGER NOT NULL, 
+  `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+  `updatedAt` DATETIME, 
+  `deletedAt` DATETIME, 
+  PRIMARY KEY (`completedPartyId`,`partyId`), 
+  FOREIGN KEY (`partyId`) REFERENCES `party` (`partyId`),
+);
+
+DELIMITER $$
+ 
+CREATE TRIGGER up_likedNum
+AFTER INSERT
+ON pick
+FOR EACH ROW 
+BEGIN
+ UPDATE party SET likedNum = likedNum +1 WHERE new.partyId = party.partyId;
+END $$
+  
+CREATE TRIGGER down_likedNum
+BEFORE delete
+ON pick
+FOR EACH ROW 
+BEGIN
+ UPDATE party SET likedNum = likedNum -1 WHERE old.partyId = party.partyId;
+END $$ 
+  
+CREATE TRIGGER party_isComplete
+BEFORE UPDATE
+ON party
+FOR EACH ROW 
+BEGIN
+ IF (new.likedNum = new.partyLimit) THEN 
+ insert into completedParty(partyId) value (new.partyId);
+ end if;
+END $$
+
+DELIMITER ;
