@@ -63,6 +63,12 @@ const NavBar = () => {
     socket.on('joinSuccess', () => dispatch(getMyPartyList()));
   }, []);
 
+  useEffect(() => {
+    if (open === true) {
+      setOpen(false);
+    }
+  }, [isLogin]);
+
   const handleOpenToggle = () => setOpen(!open);
 
   const logout = () => {
