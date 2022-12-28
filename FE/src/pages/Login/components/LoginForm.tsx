@@ -145,16 +145,20 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     if (resEmail.message.substr(0, 1) === '사') {
       alert('존재하지 않는 계정입니다.');
       return;
-    } else {
-      // 비밀번호 일치 여부 검사
+    }
 
-      const resForm = await API.post('/api/auth/login', loginForm);
-
+    const resForm = await API.post('/api/auth/login', loginForm);
+    // 비밀번호 일치 여부 검사
+    if (!resForm) {
+      console.log('비밀번호가 일치하지 않습니다');
       // form 초기화
       setLoginForm({
         email: '',
         password: '',
       });
+      return;
+    } else {
+      console.log('로그인 성공');
 
       navigate('/', { replace: true });
     }
