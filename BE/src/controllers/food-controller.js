@@ -33,7 +33,13 @@ class FoodController {
     try {
       const foodId = parseInt(req.params.foodId);
       const { name, price } = req.body;
-
+      if (!foodId) {
+        throw new ErrorFactory(
+          commonErrors.BAD_REQUEST,
+          400,
+          "Parameter 입력값이 숫자가 아니거나 비어있습니다."
+        );
+      }
       const result = await foodService.update({ name, price }, foodId);
 
       return res.status(200).json(result);

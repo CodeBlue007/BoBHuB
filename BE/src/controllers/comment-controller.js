@@ -8,6 +8,13 @@ class CommentController {
       const star = parseInt(req.body.star);
       const shopId = parseInt(req.body.shopId);
       const { userId } = req.user;
+      if (!shopId) {
+        throw new ErrorFactory(
+          commonErrors.BAD_REQUEST,
+          400,
+          "Parameter 입력값이 숫자가 아니거나 비어있습니다."
+        );
+      }
       const result = await commentService.create({ shopId, userId, content, star });
       return res.status(200).json(result);
     } catch (e) {

@@ -115,6 +115,13 @@ class UserController {
   async updateByAdmin(req, res, next) {
     try {
       const userId = parseInt(req.params.userId);
+      if (!userId) {
+        throw new ErrorFactory(
+          commonErrors.BAD_REQUEST,
+          400,
+          "Parameter 입력값이 숫자가 아니거나 비어있습니다."
+        );
+      }
       const { nickname, role } = req.body;
       const newUserDTO = { nickname, role };
       const result = await userService.updateByAdmin(newUserDTO, userId);
