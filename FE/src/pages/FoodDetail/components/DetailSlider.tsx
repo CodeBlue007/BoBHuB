@@ -23,10 +23,8 @@ const StyledSlider = styled(Slider)`
   }
   .slick-prev:hover {
     color: ${({ theme }) => theme.colors.main};
-    color: ${({ theme }) => theme.colors.main};
   }
   .slick-next:hover {
-    color: ${({ theme }) => theme.colors.main};
     color: ${({ theme }) => theme.colors.main};
   }
 `;
@@ -39,7 +37,6 @@ const Div = styled.div`
   font-size: 100px;
   color: ${({ theme }) => theme.font.color.black};
   right: -30px;
-  color: ${({ theme }) => theme.font.color.black};
   top: 200px;
 `;
 
