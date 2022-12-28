@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `pick` (
   UNIQUE `pick_userId_partyId_unique` (`userId`, `partyId`)
 );
 
-CREATE TABLE IF NOT EXISTS `completedParty` (
+CREATE TABLE IF NOT EXISTS `completed_party` (
   `completedPartyId` INTEGER NOT NULL auto_increment, 
   `partyId` INTEGER NOT NULL, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
