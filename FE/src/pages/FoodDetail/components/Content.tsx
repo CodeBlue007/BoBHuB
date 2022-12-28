@@ -1,11 +1,21 @@
 import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
+<<<<<<< HEAD
 import { useContext, useEffect, useState } from 'react';
+=======
+import { useState, useContext, useEffect, useRef } from 'react';
+>>>>>>> 788a574722826e1318bed48268066572a2b82f7b
 import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
 import { getParties, postParty } from '../foodDetailApi';
+<<<<<<< HEAD
+=======
+import { useDispatch, useSelector } from 'react-redux';
+import { getMyPartyList } from './../../../store/partySlice';
+import { AppDispatch, RootState } from '../../../store/store';
+>>>>>>> 788a574722826e1318bed48268066572a2b82f7b
 import { SocketContext } from '../../../socket/SocketContext';
 
 const ContentContainer = styled(FlexContainer)`
@@ -68,7 +78,24 @@ const Content = ({ shop }: Contentype) => {
   const [isClicked, setClicked] = useState<boolean>(false);
   const [partyLimit, setpartyLimit] = useState<number>(2);
   const [timeLimit, setTimeLimit] = useState<number>(15);
+<<<<<<< HEAD
   const socket = useContext(SocketContext);
+=======
+  const dispatch = useDispatch<AppDispatch>();
+  const userId = useSelector((state: RootState) => state.userReducer.currentUser.userId);
+  const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
+  const socket = useContext(SocketContext);
+  const isMounted = useRef(false);
+  useEffect(() => {
+    if (isMounted.current) {
+      const currentParty = myPartyList.find((list) => list.shopId === shop.shopId);
+      console.log(currentParty?.partyId);
+      socket.emit('createParty', currentParty?.partyId, userId, shop.name);
+    } else {
+      isMounted.current = true;
+    }
+  }, [myPartyList]);
+>>>>>>> 788a574722826e1318bed48268066572a2b82f7b
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isClicked) {
@@ -90,8 +117,13 @@ const Content = ({ shop }: Contentype) => {
     };
     const message = await postParty(party);
     if (message) {
+<<<<<<< HEAD
       alert('식당모집이 완료되었습니다.');
       // socket.emit('joinParty');
+=======
+      // alert('식당모집이 완료되었습니다.');
+      dispatch(getMyPartyList());
+>>>>>>> 788a574722826e1318bed48268066572a2b82f7b
       setClicked(true);
     }
   };
