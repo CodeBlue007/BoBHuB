@@ -3,7 +3,6 @@ const { myCacheCheckperiod } = require("../utils");
 const myCache = myCacheCheckperiod(60);
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
-console.log(myCache);
 class UtilService {
   async sendCode(unverifiedEmail) {
     try {

@@ -1,8 +1,8 @@
 const { categoryModel } = require("../src/db/models");
 const { ShopData } = require("./data/shop-data");
 
-const createDummyCategory = async () => {
-  console.log("dummy category 생성중");
+const createDefaultCategory = async () => {
+  console.log("default category 생성중");
   try {
     const categoryList = ShopData.filter(
       (arr, index, callback) =>
@@ -16,9 +16,9 @@ const createDummyCategory = async () => {
     );
   } catch (err) {
     console.log(err);
-    console.error("dummy category 생성 실패");
+    console.error("default category 생성 실패");
   }
-  console.error("dummy category 생성 성공");
+  console.error("default category 생성 성공");
 };
 
-module.exports = { createDummyCategory };
+module.exports = { createDefaultCategory };

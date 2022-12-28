@@ -1,13 +1,13 @@
 const { createAdmins } = require("./create-admin");
-const { createDummyShop } = require("./create-dummyshop");
-const { createDummyFood } = require("./create-dummyfood");
-const { createDummyCategory } = require("./create-dummycategory");
+const { createDefaultCategory } = require("./create-default-category");
+const { createDefaultShop } = require("./create-default-shop");
+const { createDefaultFood } = require("./create-default-food");
 
 async function setData() {
   await createAdmins();
-  await createDummyCategory();
-  await createDummyShop();
-  // await createDummyFood();
+  await createDefaultCategory();
+  await createDefaultShop();
+  // await createDefaultFood();
 }
 
 module.exports = { setData };
