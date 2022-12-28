@@ -11,6 +11,9 @@ import { useRef } from 'react';
 import type { UserType } from './Users';
 import styled from 'styled-components';
 import { patch } from '../../../../../api/API';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../../../store/store';
+import { getUsersData } from '../../../../../store/adminUsersSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -26,13 +29,13 @@ const style = {
 
 interface UserDetailFormProps {
   user: UserType;
-  fetchUserData: () => void;
   handleClose: () => void;
 }
 
-const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProps) => {
+const UserDetailForm = ({ user, handleClose }: UserDetailFormProps) => {
   const nickname = useRef<TextFieldProps>();
   const auth = useRef<TextFieldProps>();
+  const dispatch = useDispatch<AppDispatch>();
 
   const updateUserData = (body: { nickname: string; role: string }) => {
     return patch(`/api/admin/users/${user.userId}`, body);
@@ -44,7 +47,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
       role: auth.current?.value as string,
     };
     await updateUserData(body);
-    fetchUserData();
+    dispatch(getUsersData());
     handleClose();
   };
   return (
