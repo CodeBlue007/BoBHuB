@@ -75,6 +75,7 @@ const NavBar = () => {
 
   const logout = () => {
     dispatch(logoutUser());
+    window.localStorage.clear();
   };
 
   const handleLikedParty = () => {

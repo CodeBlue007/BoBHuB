@@ -29,6 +29,7 @@ const TextContainer = styled.div`
   }
   .labelName {
     font-size: 10px;
+    margin-left: 10px;
   }
 `;
 
@@ -52,13 +53,10 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
-  const dispatch = useDispatch<AppDispatch>();
-  // const chats = useSelector<RootState>((state) => state.chatReducer.chats[roomName]);
 
   const addMessage = (messageInfo: MessageInfo) => {
     setLog(roomName, messageInfo);
     setMessage((current) => [...current, messageInfo]);
-    // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
   };
 
   const enterRoom = () => {
@@ -66,7 +64,6 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
     const messageInfo = { userId: 0, userName: '', message };
     setLog(roomName, messageInfo);
     setMessage((current) => [...current, messageInfo]);
-    // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
   };
 
   const sendMessage = (e: sendMessageType) => {
