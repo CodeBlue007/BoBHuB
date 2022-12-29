@@ -20,11 +20,12 @@ class UtilController {
   }
   async checkCode(req, res, next) {
     try {
+      const email = req.body.email;
       const unverifiedCode = req.body.code;
       if (!unverifiedCode)
         throw new ErrorFactory(commonErrors.BAD_REQUEST, 400, "전송된 인증코드를 보내주세요");
 
-      const result = await utilService.checkCode(unverifiedCode);
+      const result = await utilService.checkCode(email, unverifiedCode);
       return res.status(200).json(result);
     } catch (e) {
       next(e);
