@@ -19,9 +19,11 @@ const Footer = () => {
         align="middle"
         style={{
           height: '50px',
-          width: 'inherit',
           backgroundColor: 'white',
-          borderTop: '0.5px solid black',
+          width: 'inherit',
+          borderTop: '0.5px solid #7a7a7a',
+          // borderWidth:'100%',
+          color: '#7a7a7a',
           textAlign: 'center',
           fontSize: '0.8em',
           // marginTop: 'auto',
