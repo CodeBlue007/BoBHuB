@@ -379,7 +379,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 error={!validatePassword(pwUpdate.newPW)}
                 helperText={
                   !validatePassword(pwUpdate.newPW)
-                    ? '8~20자리 영문·숫자 조합이어야 합니다.'
+                    ? '4~20자리 영문·숫자 조합이어야 합니다.'
                     : '새로운 비밀번호 입력란입니다.'
                 }
               />
