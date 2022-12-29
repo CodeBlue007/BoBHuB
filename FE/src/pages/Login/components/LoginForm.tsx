@@ -117,27 +117,27 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     onLoginSubmit(loginForm);
 
-    // email validation - admin 이메일 수정되면 주석 해제 예정
-    // if (!validateEmail(loginForm.email)) {
-    //   alert('이메일 형식이 올바르지 않습니다.');
-    //   // form 초기화
-    //   setLoginForm({
-    //     email: '',
-    //     password: '',
-    //   });
-    //   return;
-    // }
+    // email validation
+    if (!validateEmail(loginForm.email)) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      // form 초기화
+      setLoginForm({
+        email: '',
+        password: '',
+      });
+      return;
+    }
 
     // pw validation
-    // if (!validatePassword(loginForm.password)) {
-    //   alert('비밀번호 형식이 올바르지 않습니다.');
-    //   // form 초기화
-    //   setLoginForm({
-    //     email: '',
-    //     password: '',
-    //   });
-    //   return;
-    // }
+    if (!validatePassword(loginForm.password)) {
+      alert('비밀번호 형식이 올바르지 않습니다.');
+      // form 초기화
+      setLoginForm({
+        email: '',
+        password: '',
+      });
+      return;
+    }
 
     // 이메일 존재 여부 검사
     const resEmail = await API.get(`api/users/emails/${email}`);
