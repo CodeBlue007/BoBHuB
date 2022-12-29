@@ -13,8 +13,8 @@ const RegisterContent = () => {
     // generation: number;
     generation: string;
   }) => {
-    delete regForm.passwordCheck;
-    delete regForm.confirmNum;
+    // delete regForm.passwordCheck;
+    // delete regForm.confirmNum;
   };
   return <RegisterForm onRegSubmit={onRegSubmit} />;
 };

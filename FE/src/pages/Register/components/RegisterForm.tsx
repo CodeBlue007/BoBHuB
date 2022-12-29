@@ -425,31 +425,6 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     e.preventDefault();
   };
 
-  const handleNicknameClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const textField = (e.target as HTMLButtonElement).previousSibling;
-    const div = textField?.childNodes[0];
-    const input = div?.childNodes[1];
-    const inputNickname = (input as HTMLInputElement).value;
-    const resNickname = await API.get(`/api/users/nicknames/${inputNickname}`);
-    if (resNickname.message.substr(0, 1) === '같') {
-      alert('이미 존재하는 닉네임입니다.');
-      // form 초기화
-      setRegForm({
-        name: '',
-        nickname: '',
-        email: '',
-        confirmNum: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
-      });
-      return;
-    }
-    alert('사용 가능한 닉네임입니다.');
-  };
-
   const handleEmailClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const textField = (e.target as HTMLButtonElement).previousSibling;
     const div = textField?.childNodes[0];
@@ -477,7 +452,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     // const resEmailVerify = await API.get(`api/utils/${inputEmail}/send-code`);
     // // ${resEmailVerify.message}
     // if (!resEmailVerify) {
-    //   alert('인증메일 전송 오류. 다시 시도해 주세요.');
+    //   alert('인증 메일 전송 오류. 다시 시도해 주세요.');
     //   // form 초기화
     //   setRegForm({
     //     name: '',
@@ -492,7 +467,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     //   });
     //   return;
     // }
-    alert(`인증번호가 전송되었습니다.\n메일함에서 인증번호를 확인 후 1분 내로 입력해주세요.`);
+    alert(`해당 메일로 인증번호가 전송되었습니다.\n인증번호를 1분 내로 입력해주세요.`);
   };
 
   const handleConfirmNumClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -501,14 +476,6 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     const input = div?.childNodes[1];
     const inputConfirmNum = (input as HTMLInputElement).value;
     console.log(inputConfirmNum);
-  };
-
-  const handlePhoneClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    const textField = (e.target as HTMLButtonElement).previousSibling;
-    const div = textField?.childNodes[0];
-    const input = div?.childNodes[1];
-    const inputPhone = (input as HTMLInputElement).value;
-    console.log(inputPhone);
   };
 
   return (
