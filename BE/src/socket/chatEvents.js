@@ -11,12 +11,13 @@ module.exports = (io, socket) => {
     socket.emit("giveRooms", getPublicRooms(io));
   };
 
-  const enterRoom = (roomName, moveRoom) => {
+  const enterRoom = (roomName, partyId, moveRoom) => {
     const welcome = `${socket.nickname}님이 방에 입장하셨습니다.`;
-    socket.join(roomName);
-    moveRoom(roomName);
+    const roomkey = `${roomName}/${partyId}`
+    socket.join(roomkey);
+    moveRoom(roomkey);
     const messageInfo = { userId: 0, userName: "", message: welcome };
-    socket.to(roomName).emit("getMessage", messageInfo);
+    socket.to(roomkey).emit("getMessage", messageInfo);
   };
 
   const sendMessage = (messageInfo, roomName, addMessage) => {
