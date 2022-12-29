@@ -11,16 +11,19 @@ module.exports = (io, socket) => {
     socket.emit("giveRooms", getPublicRooms(io));
   };
 
-  const enterRoom = async (roomName, moveRoom) => {
+  const enterRoom = async (roomName, userId, partyId, moveRoom) => {
     const welcome = `${socket.nickname}님이 방에 입장하셨습니다.`;
-    // const isLikedParty = await pickService.checkLikedParty(userId, partyId);
-    //if(isLikedParty)
-    socket.join(roomName);
-    moveRoom(roomName);
-    const messageInfo = { userId: 0, userName: "", message: welcome };
-    socket.to(roomName).emit("getMessage", messageInfo);
-    // else
-    check();
+    const isLikedParty = await pickService.checkLikedParty(userId, partyId);
+    if (isLikedParty) {
+      socket.join(roomName);
+      moveRoom(roomName);
+      const messageInfo = { userId: 0, userName: "", message: welcome };
+      socket.to(roomName).emit("getMessage", messageInfo);
+      check();
+    } else {
+      socket.emit("joinFailed", "채팅방에 입장하실 수 없습니다.");
+      check();
+    }
   };
 
   const sendMessage = (messageInfo, roomName, addMessage) => {
@@ -35,7 +38,6 @@ module.exports = (io, socket) => {
   };
 
   const disconnecting = () => {
-    io.sockets.emit("roomChange", getPublicRooms(io));
     console.log("socket is disconnected");
   };
 
