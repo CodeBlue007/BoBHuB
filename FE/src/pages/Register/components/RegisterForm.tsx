@@ -50,7 +50,7 @@ const RegisterFormContainer = styled.div`
   background-color: ${(props) => props.theme.colors.container};
   border-radius: 4px;
 
-  height: 800px;
+  height: 850px;
   padding: 5px 20px;
 
   margin-bottom: 80px;
@@ -210,14 +210,14 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       // form 초기화
       setRegForm({
         name: '',
-        nickname: '',
-        email: '',
-        emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        nickname: regForm.nickname,
+        email: regForm.email,
+        emailCode: regForm.emailCode,
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -227,15 +227,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('닉네임 형식이 올바르지 않습니다.');
       // form 초기화
       setRegForm({
-        name: '',
+        name: regForm.name,
         nickname: '',
-        email: '',
-        emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        email: regForm.email,
+        emailCode: regForm.emailCode,
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -245,15 +245,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('이메일 형식이 올바르지 않습니다.');
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
         email: '',
-        emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        emailCode: regForm.emailCode,
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -263,15 +263,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('인증코드 형식이 올바르지 않습니다.');
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
-        email: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
+        email: regForm.email,
         emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -281,15 +281,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('비밀번호 형식이 올바르지 않습니다.');
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
-        email: '',
-        emailCode: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
+        email: regForm.email,
+        emailCode: regForm.emailCode,
         password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -299,15 +299,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('비밀번호가 일치하지 않습니다.');
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
-        email: '',
-        emailCode: '',
-        password: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
+        email: regForm.email,
+        emailCode: regForm.emailCode,
+        password: regForm.password,
         passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -317,15 +317,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('휴대폰번호 형식이 올바르지 않습니다.');
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
-        email: '',
-        emailCode: '',
-        password: '',
-        passwordCheck: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
+        email: regForm.email,
+        emailCode: regForm.emailCode,
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
         phone: '',
-        track: '',
-        generation: '',
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -335,15 +335,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('존재하는 트랙이 아닙니다.');
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
-        email: '',
-        emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
+        email: regForm.email,
+        emailCode: regForm.emailCode,
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
         track: '',
-        generation: '',
+        generation: regForm.generation,
       });
       return;
     }
@@ -353,14 +353,14 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('현재 활동 중인 기수가 아닙니다.');
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
-        email: '',
-        emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
+        email: regForm.email,
+        emailCode: regForm.emailCode,
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
         generation: '',
       });
       return;
@@ -372,15 +372,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('이미 존재하는 닉네임입니다.');
       // form 초기화
       setRegForm({
-        name: '',
+        name: regForm.name,
         nickname: '',
-        email: '',
-        emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        email: regForm.email,
+        emailCode: regForm.emailCode,
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -395,15 +395,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       } else {
         // form 초기화
         setRegForm({
-          name: '',
-          nickname: '',
-          email: '',
-          emailCode: '',
-          password: '',
-          passwordCheck: '',
+          name: regForm.name,
+          nickname: regForm.nickname,
+          email: regForm.email,
+          emailCode: regForm.emailCode,
+          password: regForm.password,
+          passwordCheck: regForm.passwordCheck,
           phone: '',
-          track: '',
-          generation: '',
+          track: regForm.track,
+          generation: regForm.generation,
         });
         // 회원가입 성공, 로그인페이지로 이동
         navigate('/login', { replace: true });
@@ -446,15 +446,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert('이미 가입된 이메일입니다.');
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
         email: '',
         emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -470,15 +470,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert(`${resEmailVerify.message}\n다시 시도해 주세요.`);
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
         email: '',
         emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -497,11 +497,9 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       code: inputEmailCode,
     };
 
-    // 중복 확인 후 이메일 인증
     try {
       const resEmailCodeVerify = await postEmailCode(emailCodeBody);
       if (resEmailCodeVerify.message.substr(0, 6) === '인증 코드가') {
-        // throw new Error(`${resEmailCodeVerify.message}`);
         alert(`${resEmailCodeVerify.message}`); // 인증 코드가 일치하지 않습니다.
         return;
       } else if (!resEmailCodeVerify) {
@@ -513,15 +511,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       alert(err);
       // form 초기화
       setRegForm({
-        name: '',
-        nickname: '',
-        email: '',
+        name: regForm.name,
+        nickname: regForm.nickname,
+        email: regForm.email,
         emailCode: '',
-        password: '',
-        passwordCheck: '',
-        phone: '',
-        track: '',
-        generation: '',
+        password: regForm.password,
+        passwordCheck: regForm.passwordCheck,
+        phone: regForm.phone,
+        track: regForm.track,
+        generation: regForm.generation,
       });
       return;
     }
@@ -778,7 +776,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="휴대폰번호(중복 불가)"
+          placeholder="휴대폰번호(010-0000-0000, 중복 불가)"
           value={phone}
           onChange={onTextFieldChange}
           error={!validatePhone(regForm.phone) && regForm.phone !== ''}
