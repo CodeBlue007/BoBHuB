@@ -16,9 +16,7 @@ module.exports = (io, socket) => {
   };
 
   const leaveParty = async (partyId, userId) => {
-    ///----------------------여기는 유저 파티에서 빼주시면 됩니다(DB update)
     const result = await pickService.leaveParty(userId, partyId);
-    //----------------------------------------------------
     io.sockets.emit("leaveSuccess", result);
   };
 

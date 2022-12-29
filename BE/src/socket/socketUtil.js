@@ -22,5 +22,4 @@ const getPublicRooms = (io) => {
 }
 
 
-
 module.exports = { socketSetting, getPublicRooms }

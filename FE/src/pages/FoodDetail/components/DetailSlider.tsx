@@ -104,7 +104,7 @@ const DetailSlider = ({ imageArr }: DetailSliderProps) => {
     <SliderContainer>
       <StyledSlider {...settings}>
         {newImageArr.map((imgUrl) => (
-          <ImgContainer>
+          <ImgContainer key={imgUrl}>
             <Img alt="shopImage" src={imgUrl} key={imgUrl} className="images" />
           </ImgContainer>
         ))}

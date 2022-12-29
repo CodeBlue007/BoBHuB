@@ -83,7 +83,6 @@ const FoodList = () => {
     setCategory('ALL');
     getCategoriesAPI();
   }, []);
-  console.log(getCategories);
   useEffect(() => {
     const filtered = categoryFoodList.filter((shop) => {
       return shop.name.toUpperCase().includes(searchInput.toUpperCase());
@@ -106,7 +105,7 @@ const FoodList = () => {
             <Tab value="ALL" label="ALL" />
             {getCategories.map((cate, i) => {
               const { category } = cate;
-              return <Tab value={category} label={category} />;
+              return <Tab key={category} value={category} label={category} />;
             })}
           </Tabs>
         </Box>
@@ -122,7 +121,7 @@ const FoodList = () => {
               food={food}
               avgStar={avgStar}
               shopId={shopId}
-              key={`menucard-${i}`}
+              key={shopId}
             />
           );
         })}
