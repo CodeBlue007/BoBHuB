@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
 import { getParties, postParty } from '../foodDetailApi';
+import { SocketContext } from '../../../socket/SocketContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { Party } from './../../MainPage/Type';
 
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
@@ -75,23 +79,38 @@ interface Contentype {
 }
 
 const Content = ({ shop }: Contentype) => {
-  const [isClicked, setClicked] = useState<boolean>(false);
   const [partyLimit, setpartyLimit] = useState<number>(2);
   const BASEURL = 'https://map.naver.com/v5/entry/place/';
+  const socket = useContext(SocketContext);
+  const userId = useSelector((state: RootState) => state.userReducer.currentUser.userId);
+  const activePartyList = useSelector(
+    (state: RootState) => state.partySliceReducer.activePartyList,
+  );
+  const [isJoined, setIsJoined] = useState(false);
+
+  const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
+  const [gathering, setGathering] = useState(false);
+  const currentParty = activePartyList
+    .filter((party) => party.likedNum !== party.partyLimit)
+    .find((party) => party.shopId === shop.shopId);
+
+  useEffect(() => {
+    if (currentParty) {
+      setGathering(true);
+    } else {
+      setGathering(false);
+    }
+  }, [activePartyList]);
+
+  useEffect(() => {
+    if (myPartyList.find((myParty) => myParty.shopId === shop.shopId)) {
+      setIsJoined(true);
+    } else {
+      setIsJoined(false);
+    }
+  }, [myPartyList]);
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (isClicked) {
-      alert('이미 찜한 식당입니다.');
-      return;
-    }
-    const currentParties = await getParties();
-    const copyCurrent = [...currentParties];
-    console.log('current', copyCurrent);
-    const filteredByShopId = copyCurrent.filter((current) => current.shopId === shop.shopId);
-    if (filteredByShopId.length !== 0) {
-      alert('이미 모집중인 식당입니다.');
-      return;
-    }
     const party = {
       shopId: shop.shopId,
       partyLimit,
@@ -99,9 +118,13 @@ const Content = ({ shop }: Contentype) => {
     };
     const message = await postParty(party);
     if (message) {
-      setClicked(true);
+      socket.emit('createParty', '생성요청');
       alert('식당모임이 생성되었습니다.');
     }
+  };
+
+  const clickJoinButton = (partyId: number) => {
+    socket.emit('joinParty', partyId, userId);
   };
 
   return (
@@ -110,13 +133,25 @@ const Content = ({ shop }: Contentype) => {
         <Title>
           {shop.name}({shop.category})
         </Title>
-        <LikeButton
-          variant="contained"
-          onClick={handleClick}
-          sx={{
-            fontSize: '10px',
-            marginRight: '30px',
-          }}>{`모임생성 ❤`}</LikeButton>
+        {gathering || (
+          <LikeButton
+            variant="contained"
+            onClick={handleClick}
+            sx={{
+              fontSize: '10px',
+              marginRight: '30px',
+            }}>{`모임생성 ❤`}</LikeButton>
+        )}
+        {gathering && !isJoined && (
+          <LikeButton
+            variant="contained"
+            onClick={() => clickJoinButton(currentParty?.partyId as number)}
+            sx={{
+              fontSize: '10px',
+              marginRight: '30px',
+            }}>{`모임참여 ❤`}</LikeButton>
+        )}
+        {isJoined && <p>참여중</p>}
       </TitleContainer>
 
       <MenuContainer>

@@ -9,9 +9,10 @@ import { get } from '../../../api/API';
 import { Party } from '../Type';
 import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../store/store';
 import { SocketContext } from './../../../socket/SocketContext';
+import { getActivePartyList } from '../../../store/partySlice';
 
 const StyledSlider = styled(Slider)`
   height: 100%;
@@ -138,6 +139,8 @@ const TitleBox = styled.div`
 `;
 
 export default function SimpleSlider() {
+  const showMaxCnt = 3;
+
   const settings = {
     dots: false,
     className: 'center',
@@ -145,8 +148,8 @@ export default function SimpleSlider() {
     centerMode: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToShow: showMaxCnt,
+    slidesToScroll: showMaxCnt,
     arrows: true,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -179,7 +182,6 @@ export default function SimpleSlider() {
     ],
   };
 
-  const [parties, setParties] = useState<Party[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     track: '',
     generation: 0,
@@ -196,14 +198,13 @@ export default function SimpleSlider() {
   const [slideIndex, setSlideIndex] = useState(0);
   const socket = useContext(SocketContext);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
-  const setPartiesData = async () => {
-    const activeParties: Party[] = await fetchParties();
-    const notCompleteParties = activeParties.filter((party) => party.likedNum !== party.partyLimit);
-    setParties([...notCompleteParties]);
+  const parties = useSelector((state: RootState) => state.partySliceReducer.activePartyList);
+  const dispatch = useDispatch<AppDispatch>();
+  const setPartiesData = () => {
+    dispatch(getActivePartyList());
   };
 
   useEffect(() => {
-    setPartiesData();
     socket.on('leaveSuccess', setPartiesData);
     socket.on('joinSuccess', setPartiesData);
   }, []);
@@ -239,15 +240,16 @@ export default function SimpleSlider() {
           </LabelContainer>
         ) : (
           <StyledSlider {...settings}>
-            {parties.map((party, index) => (
-              <SliderItem
-                setPartiesData={setPartiesData}
-                index={index}
-                slideIndex={slideIndex}
-                party={party}
-                key={party.shopId}
-              />
-            ))}
+            {parties
+              .filter((party) => party.likedNum !== party.partyLimit)
+              .map((party, index) => (
+                <SliderItem
+                  index={index}
+                  slideIndex={slideIndex}
+                  party={party}
+                  key={party.shopId}
+                />
+              ))}
           </StyledSlider>
         )}
       </div>

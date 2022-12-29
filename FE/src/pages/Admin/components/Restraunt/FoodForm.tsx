@@ -1,20 +1,5 @@
-import {
-  Box,
-  Typography,
-  Select,
-  MenuItem,
-  TextField,
-  TextFieldProps,
-  Button,
-  ButtonGroup,
-} from '@mui/material';
-import {
-  deleteFoodData,
-  postFoodData,
-  fetchFoodData,
-  updateFoodData,
-  updateImg,
-} from '../../Api/foodApi';
+import { Box, Typography, TextField, TextFieldProps, Button, ButtonGroup } from '@mui/material';
+import { deleteFoodData, postFoodData, updateFoodData, updateImg } from '../../Api/foodApi';
 import { style } from './FoodModal';
 import { useRef, useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';

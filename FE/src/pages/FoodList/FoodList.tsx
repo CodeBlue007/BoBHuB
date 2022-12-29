@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import * as API from '../../api/API';
 
 import Pagination from '@mui/material/Pagination';
@@ -11,6 +11,10 @@ import styled from 'styled-components';
 import MenuCard from './components/MenuCard';
 import Search from './components/Search';
 import NavBar from '../../components/NavBar';
+import { SocketContext } from '../../socket/SocketContext';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
+import { getActivePartyList } from '../../store/partySlice';
 
 const FoodList = () => {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -40,6 +44,8 @@ const FoodList = () => {
   const offset = (page - 1) * 9;
   const totalPage = Math.ceil(searchList.length / 9);
   const [getCategories, setGetCategories] = useState([]);
+  const socket = useContext(SocketContext);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleCategoryChange = (
     event: React.SyntheticEvent,
@@ -145,7 +151,6 @@ const Container = styled.div`
   flex-direction: column;
   padding-bottom: 50px;
   background-color: ${({ theme }) => theme.colors.container};
-  height: 200vh;
 `;
 
 const CategoryBox = styled.div`
