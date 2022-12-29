@@ -3,12 +3,13 @@ import UserInfo from './components/UserInfo';
 import NavBar from '../../components/NavBar';
 import DeleteUser from './components/DeleteUser';
 import { useState, useEffect, useRef } from 'react';
-import Button from '@mui/material/Button';
+import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import * as API from '../../api/API';
 import axios from 'axios';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import UserProfile from '../../assets/userprofile.png';
+import Footer from '../../components/Footer';
 
 export type UserInfoType = {
   track: string;
@@ -25,6 +26,7 @@ export type UserInfoType = {
 
 const MyPage = () => {
   const [profileimg, setProfileImg] = useState<File>();
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     track: '',
     generation: 0,
@@ -41,8 +43,16 @@ const MyPage = () => {
   const isLoaded = useRef<boolean>(false);
 
   const getUserInfoAPI = async () => {
-    const res = await API.get('/api/users');
-    setUserInfo(res);
+    try {
+      const res = await API.get('/api/users');
+      if (!res) {
+        throw new Error('로그인이 필요한 서비스입니다.');
+      }
+      setUserInfo(res);
+    } catch (err) {
+      alert(err);
+      navigate('/');
+    }
   };
 
   useEffect(() => {
@@ -78,7 +88,7 @@ const MyPage = () => {
       <Title>My Page</Title>
       <UserUpdate>
         <ImgContainer>
-          <ImgCircle alt="Profile Image" src={userInfo.profile?userInfo.profile:UserProfile} />
+          <ImgCircle alt="Profile Image" src={userInfo.profile ? userInfo.profile : UserProfile} />
           <IconButton sx={{ position: 'absolute', top: '95px', right: '35px' }} component="label">
             <AddAPhotoIcon color="secondary" />
             <input
@@ -98,6 +108,7 @@ const MyPage = () => {
           <DeleteUser />
         </SubContainer>
       </UserUpdate>
+      <Footer />
     </Container>
   );
 };
@@ -123,7 +134,7 @@ const SubContainer = styled.div`
   margin-top: 10px;
   border-radius: 10px;
   background-color: white;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 `;
 
 const Title = styled.h1`
@@ -176,7 +187,4 @@ const ImgCircle = styled.img`
   width: 75px;
   height: 75px;
   border-radius: 50px;
-`;
-const FileUpload = styled.input`
-  margin-top: 10px;
 `;
