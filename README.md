@@ -16,7 +16,6 @@
 **BE**
 
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
-- 상준님 mysql사용 의도 설명만 넣으면 따로 특이사항은 없는듯요?
 
 **공통**
 
@@ -43,8 +42,8 @@
 #### 2.3 기대효과
   
   - 성수낙낙 근처 맛집 리스트들을 보여줘서 실제 엘리서 레이서들의 적극적인 이용이 예상됨.
-  - 큰 고민없이 점심, 저녁메뉴를 사람들과 함께 먹을 수 있음.
-  - 또 뭐쓰져
+  - 엘리스 랩 방문 시, 같이 식사를 할 사람이 없을 때 새로운 레이서와 만날 기회가 생김.  
+  - 메뉴 선정이 고민 될 때 선택지들을 볼 수 있으며 점심, 저녁메뉴를 레이서들과 함께 먹을 수 있음.
 
 
 ## 3. 서비스 구성도
@@ -78,10 +77,35 @@
 - 수정 단계: 피드백 반영해서 백엔드 설계 수정
 
 ## 5. 실행 방법
-- 백엔드 (예시):
+  1. git clone <repo address>
+  2. SQL DDL 코드 실행 (bobhub/BE/src/seeder)
+  3. 백엔드와 프론트엔드 폴더에서 필요한 패키지 설치
   ```bash
-  1. mongodb 실행
-  2. yarn start (혹은 npm start)
+  yarn (혹은 npm install)
+  ```
+  4. 실행
+  ```bash
+  yarn run (혹은 npm start )
+  ```
+  - Backend .env생성
+    ```bash
+NODE_ENV=<local 혹은 ec2>
+PORT= <포트번호> 
+#setupProxy.js에서 target값 SERVER PORT로 설정 요망
+
+COOKIE_SECRET= <랜덤 문자열>
+
+LOCAL_MYSQL_PASSWORD = <local 비밀번호>
+EC2_MYSQL_PASSWORD = <ec2 비밀번호>
+EC2_MYSQL_USER = <ec2 계정>
+EC2_MYSQL_HOST = <ec2 storage URL>
+
+S3_BUCKET_NAME = <계정>
+S3_ACCESS_KEY_ID = <ID>
+S3_ACCESS_KEY_PASSWORD = <비밀번호>
+#NodeMailer
+MAIL_ID = <google develope 아이디>
+MAIL_PASSWORD = <naver develope 앱 비밀번호>
   ```
 
 ## 6. 버전
