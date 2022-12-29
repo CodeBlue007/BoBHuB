@@ -60,7 +60,7 @@ const MenuCard = styled(Card)<MenuCardProps>`
 const ATag = styled.a`
   text-decoration: none;
   color: #1e1f21;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   position: relative;
   &:hover {
     color: ${({ theme }) => theme.colors.main};
@@ -86,7 +86,7 @@ const SelectContainer = styled.div`
 `;
 
 const LikeButton = styled(Button)`
-  width: 90px;
+  width: 110px;
 `;
 
 interface Contentype {
@@ -153,18 +153,18 @@ const Content = ({ shop }: Contentype) => {
             variant="contained"
             onClick={handleClick}
             sx={{
-              fontSize: '10px',
+              fontSize: '20px',
               marginRight: '30px',
-            }}>{`모임생성 ❤`}</LikeButton>
+            }}>{`모임 생성`}</LikeButton>
         )}
         {gathering && !isJoined && (
           <LikeButton
             variant="contained"
             onClick={() => clickJoinButton(currentParty?.partyId as number)}
             sx={{
-              fontSize: '10px',
+              fontSize: '20px',
               marginRight: '30px',
-            }}>{`모임참여 ❤`}</LikeButton>
+            }}>{`모임 참여`}</LikeButton>
         )}
         {isJoined && <p>참여중</p>}
       </TitleContainer>
@@ -174,7 +174,7 @@ const Content = ({ shop }: Contentype) => {
           <p className="description">{shop.description}</p>
           <p>{`거리 : 걸어서 ${shop.distance}분 거리`}</p>
           <ATag href={`${BASEURL}${shop.address}`} target="_blank" rel="noreferrer">
-            지도보기
+            지도 보기
           </ATag>
         </MenuCard>
         <SelectContainer>
