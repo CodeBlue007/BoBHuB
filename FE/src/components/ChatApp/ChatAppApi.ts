@@ -1,4 +1,3 @@
-import * as API from '../../api/API';
 import { NullableString, NullableNum } from '../../pages/FoodDetail/util/Type';
 
 export const setLog = (key: string, payload: MessageInfo) => {

@@ -17,7 +17,6 @@ module.exports = (io, socket) => {
     moveRoom(roomName);
     const messageInfo = { userId: 0, userName: "", message: welcome };
     socket.to(roomName).emit("getMessage", messageInfo);
-    check();
   };
 
   const sendMessage = (messageInfo, roomName, addMessage) => {
@@ -26,9 +25,7 @@ module.exports = (io, socket) => {
   };
 
   const disconnect = () => {
-    // socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
     console.log("socket is disconnecting");
-    io.sockets.emit("roomChange", getPublicRooms(io));
   };
 
   const disconnecting = () => {
@@ -45,7 +42,6 @@ module.exports = (io, socket) => {
     const message = `${socket.nickname}님이 방을 나가셨습니다.`;
     const messageInfo = { userId: 0, userName: "", message };
     io.sockets.to(roomName).emit("getMessage", messageInfo);
-    check();
   };
 
   socket.on("getRoomList", giveRooms);
