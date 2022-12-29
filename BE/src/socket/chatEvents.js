@@ -26,7 +26,6 @@ module.exports = (io, socket) => {
   };
 
   const disconnect = () => {
-    // socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
     console.log("socket is disconnecting");
     io.sockets.emit("roomChange", getPublicRooms(io));
   };
