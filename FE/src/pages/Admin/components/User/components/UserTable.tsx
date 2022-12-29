@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import {
   Table,
   TableBody,
@@ -26,13 +26,18 @@ const UserTable = () => {
   const navigate = useNavigate();
   const users = useSelector((state: RootState) => state.adminUsersReducer.users);
   const handleClose = () => setOpen(false);
+  const isMounted = useRef(false);
 
   useEffect(() => {
-    if (users.length < 1) {
-      alert('권한이 없습니다.');
-      navigate('/');
+    if (isMounted.current) {
+      if (users.length < 1) {
+        alert('권한이 없습니다.');
+        navigate('/');
+      }
+    } else {
+      isMounted.current = true;
     }
-  }, []);
+  }, [users]);
   return (
     <Fragment>
       <UserModal handleClose={handleClose} open={open} user={selectUser} />

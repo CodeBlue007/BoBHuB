@@ -59,6 +59,8 @@ const NavBar = () => {
   );
   const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
   const isLogin = useSelector((state: RootState) => state.userReducer.isLogin);
+  const role = useSelector((state: RootState) => state.userReducer.currentUser.role);
+
   const location = useLocation();
   const [modal, setModal] = useState(false);
   const [alarm, setAlarm] = useState(false);
@@ -143,6 +145,11 @@ const NavBar = () => {
           <Button onClick={handleOpen} sx={{ color: 'white' }}>
             밥허브 이용가이드
           </Button>
+          {role === 'admin' && (
+            <BasicLink to="/admin">
+              <Button color="inherit">관리자</Button>
+            </BasicLink>
+          )}
           {isLogin ? (
             <Fragment>
               <BasicLink to="/mypage">
