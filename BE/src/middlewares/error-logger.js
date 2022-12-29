@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { logger } = require("../utils");
 
 function errorLogger(error, req, res, next) {
   const current_datetime = new Date();
@@ -24,7 +25,7 @@ function errorLogger(error, req, res, next) {
 
   fs.appendFile("error.log", errorLog, (err) => {
     if (err) {
-      console.log(err);
+      logger.error(err);
     }
   });
   next(error);
