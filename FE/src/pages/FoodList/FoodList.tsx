@@ -145,7 +145,6 @@ const Container = styled.div`
   flex-direction: column;
   padding-bottom: 50px;
   background-color: ${({ theme }) => theme.colors.container};
-  height: 200vh;
 `;
 
 const CategoryBox = styled.div`
