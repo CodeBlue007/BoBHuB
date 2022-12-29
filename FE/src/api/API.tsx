@@ -46,7 +46,6 @@ const post = async (url = '', post: {}, config: 'imgPost' | null = null) => {
       return result.data;
     }
     const result = await instance.post(url, post);
-    console.log(result);
     return result.data;
   } catch (err: unknown) {
     errCheck(err);
