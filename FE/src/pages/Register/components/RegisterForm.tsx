@@ -500,9 +500,10 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     try {
       const resEmailCodeVerify = await postEmailCode(emailCodeBody);
       if (resEmailCodeVerify.message.substr(0, 6) === '인증 코드가') {
-        alert(`${resEmailCodeVerify.message}`); // 인증 코드가 일치하지 않습니다.
-        return;
-      } else if (!resEmailCodeVerify) {
+        throw new Error(`${resEmailCodeVerify.message}`); // 인증 코드가 일치하지 않습니다.
+      } else if (resEmailCodeVerify.message.substr(0, 1) === '1') {
+        throw new Error(`${resEmailCodeVerify.message}`); // 1분이 지났습니다.
+      } else if (resEmailCodeVerify.error) {
         throw new Error('인증 과정에 문제가 있습니다.\n다시 시도해 주세요.');
       } else {
         alert(`${resEmailCodeVerify.message}`); // 인증되었습니다.
