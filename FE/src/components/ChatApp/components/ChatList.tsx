@@ -37,22 +37,17 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
   const socket = useContext(SocketContext);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
-  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
   const [completedParty, setCompletedParty] = useState<Party[]>([]);
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { roomname, partyid: partyId } = e.currentTarget.dataset;
+    const { roomname } = e.currentTarget.dataset;
     console.log(roomname);
-    socket.emit('enterRoom', roomname, userId, partyId, moveRoom);
+    socket.emit('enterRoom', roomname, moveRoom);
   };
 
   useEffect(() => {
     socket.emit('nickname', userName);
-
-    socket.on('joinFailed', (msg) => {
-      console.log(msg);
-    });
 
     setCompletedParty(myPartyList.filter((party) => party.isComplete === 1));
 
@@ -70,11 +65,7 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
         ) : (
           completedParty.map((party) => (
             <>
-              <CursorDiv
-                onClick={handleMove}
-                key={party.partyId}
-                data-roomname={party.name}
-                data-partyid={party.partyId}>
+              <CursorDiv onClick={handleMove} key={party.partyId} data-roomname={party.name}>
                 {party.name}
               </CursorDiv>
             </>
