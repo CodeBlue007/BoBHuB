@@ -88,24 +88,24 @@
   yarn run (혹은 npm start )
   ```
   - Backend .env생성
-    ```bash
-NODE_ENV=<local 혹은 ec2>
-PORT= <포트번호> 
-#setupProxy.js에서 target값 SERVER PORT로 설정 요망
+  ```bash
+  NODE_ENV=<local 혹은 ec2>
+  PORT= <포트번호> 
+  #setupProxy.js에서 target값 SERVER PORT로 설정 요망
 
-COOKIE_SECRET= <랜덤 문자열>
+  COOKIE_SECRET= <랜덤 문자열>
 
-LOCAL_MYSQL_PASSWORD = <local 비밀번호>
-EC2_MYSQL_PASSWORD = <ec2 비밀번호>
-EC2_MYSQL_USER = <ec2 계정>
-EC2_MYSQL_HOST = <ec2 storage URL>
+  LOCAL_MYSQL_PASSWORD = <local 비밀번호>
+  EC2_MYSQL_PASSWORD = <ec2 비밀번호>
+  EC2_MYSQL_USER = <ec2 계정>
+  EC2_MYSQL_HOST = <ec2 storage URL>
 
-S3_BUCKET_NAME = <계정>
-S3_ACCESS_KEY_ID = <ID>
-S3_ACCESS_KEY_PASSWORD = <비밀번호>
-#NodeMailer
-MAIL_ID = <google develope 아이디>
-MAIL_PASSWORD = <naver develope 앱 비밀번호>
+  S3_BUCKET_NAME = <계정>
+  S3_ACCESS_KEY_ID = <ID>
+  S3_ACCESS_KEY_PASSWORD = <비밀번호>
+  #NodeMailer
+  MAIL_ID = <google develope 아이디>
+  MAIL_PASSWORD = <naver develope 앱 비밀번호>
   ```
 
 ## 6. 버전
