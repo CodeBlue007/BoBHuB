@@ -41,21 +41,22 @@ const Container = styled.div`
 `;
 
 interface ChatRoomProps {
-  roomName: string;
+  roomKey: string;
 }
 
 type sendMessageType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
 
-const ChatRoom = ({ roomName }: ChatRoomProps) => {
+const ChatRoom = ({ roomKey }: ChatRoomProps) => {
   const [messages, setMessage] = useState<MessageInfo[]>([]);
   const [content, setContent] = useState<string>('');
   const socket = useContext(SocketContext);
   const scrollRef = useRef<HTMLDivElement>(null);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
+  const [roomName, partyId] = roomKey.split('/');
 
   const addMessage = (messageInfo: MessageInfo) => {
-    setLog(roomName, messageInfo);
+    setLog(roomKey, messageInfo);
     setMessage((current) => [...current, messageInfo]);
   };
 
@@ -72,7 +73,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
       return;
     }
     const messageInfo = { userId, userName, message: content };
-    socket.emit('sendMessage', messageInfo, roomName, addMessage);
+    socket.emit('sendMessage', messageInfo, roomKey, addMessage);
     setContent('');
   };
 
@@ -86,7 +87,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
     enterRoom();
 
     socket.on('getMessage', (messageInfo) => {
-      setLog(roomName, messageInfo);
+      setLog(roomKey, messageInfo);
       setMessage((current) => [...current, messageInfo]);
     });
   }, []);

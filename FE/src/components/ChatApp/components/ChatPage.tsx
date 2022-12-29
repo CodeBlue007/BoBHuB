@@ -14,8 +14,8 @@ const ChatPage = ({ handleDisplay }: ChatPageProps) => {
   const [targetRoom, setTargetRoom] = useState<string>('');
   const socket = useContext(SocketContext);
 
-  const moveRoom = (roomName: string) => {
-    setTargetRoom(roomName);
+  const moveRoom = (roomKey: string) => {
+    setTargetRoom(roomKey);
     setEnterRoom(true);
   };
 
@@ -48,7 +48,7 @@ const ChatPage = ({ handleDisplay }: ChatPageProps) => {
           onClick={handleRoom}>
           <ClearIcon fontSize="inherit" />
         </IconButton>
-        {enterRoom ? <ChatRoom roomName={targetRoom} /> : <ChatList moveRoom={moveRoom} />}
+        {enterRoom ? <ChatRoom roomKey={targetRoom} /> : <ChatList moveRoom={moveRoom} />}
       </Paper>
     </>
   );
