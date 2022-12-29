@@ -46,7 +46,7 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { roomname, partyid: partyId } = e.currentTarget.dataset;
     console.log(roomname);
-    socket.emit('enterRoom', roomname, partyId, userId, moveRoom);
+    socket.emit('enterRoom', roomname, userId, partyId, moveRoom);
     dispatch(chatAction.enterRoom({ roomName: roomname }));
   };
 
