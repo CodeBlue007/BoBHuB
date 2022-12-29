@@ -1,6 +1,5 @@
 const { partyModel, shopModel, pickModel } = require("../db/models");
-const { myCacheCheckperiod } = require("../utils");
-const myCache = myCacheCheckperiod();
+const { myCache } = require("../utils");
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class PartyService {
@@ -37,7 +36,7 @@ class PartyService {
     if (flag || !partiesCache) {
       const parties = await this.partyModel.getAll();
 
-      myCache.set("parties", JSON.stringify(parties));
+      myCache.set("parties", JSON.stringify(parties), 600);
       myCache.set("reParties", false);
 
       return parties;
@@ -62,7 +61,7 @@ class PartyService {
     if (flag || !partiesCache) {
       parties = await this.partyModel.getAll();
 
-      myCache.set("parties", JSON.stringify(parties));
+      myCache.set("parties", JSON.stringify(parties), 600);
       myCache.set("reParties", false);
     } else {
       parties = JSON.parse(partiesCache);
