@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextField, Button, IconButton } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -104,6 +104,10 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  const { params } = useParams();
+
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginForm({
@@ -153,21 +157,20 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     // 비밀번호 일치 여부 검사
     try {
-      const resLoginForm = await API.post('/api/auth/login', loginForm);
-      console.log(resLoginForm);
-      if (!resLoginForm) {
-        console.log(resLoginForm);
-        throw new Error('비밀번호가 일치하지 않습니다.');
-      } else {
-        console.log(resLoginForm);
-        // form 초기화
-        setLoginForm({
-          email: '',
-          password: '',
-        });
-        // 로그인 성공, 메인페이지로 이동
-        navigate('/', { replace: true });
-      }
+      // const resLoginForm =
+      await API.post('/api/auth/login', loginForm);
+      console.log(window.location.href);
+      // if (!resLoginForm) {
+      // throw new Error('비밀번호가 일치하지 않습니다.');
+      // } else {
+      // form 초기화
+      setLoginForm({
+        email: '',
+        password: '',
+      });
+      // 로그인 성공, 메인페이지로 이동
+      // navigate('/', { replace: true });
+      // }
     } catch (err) {
       alert(err);
       // pw 초기화
