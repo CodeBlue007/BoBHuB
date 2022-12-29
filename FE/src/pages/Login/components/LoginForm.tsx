@@ -143,38 +143,27 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
       return;
     }
 
-    // 이메일 존재 여부 검사
-    const resEmail = await API.get(`api/users/emails/${email}`);
-    if (resEmail.message.substr(0, 1) === '사') {
-      alert('Error: 존재하지 않는 계정입니다.');
-      // email 초기화
-      setLoginForm({
-        email: '',
-        password: '',
-      });
-      return;
-    }
-
-    // 비밀번호 일치 여부 검사
     try {
       const resLoginForm = await API.post('/api/auth/login', loginForm);
-      console.log(resLoginForm);
-      // if (resLoginForm.message) {
-      // throw new Error('비밀번호가 일치하지 않습니다.');
-      // } else {
+      if (resLoginForm.message.substr(0, 1) === '가') {
+        throw new Error(`${resLoginForm.message}`); // 가입되지 않은 회원입니다.
+      } else if (resLoginForm.message.substr(0, 1) === '비') {
+        throw new Error(`${resLoginForm.message}`); // 비밀번호가 일치하지 않습니다.
+      } else if (resLoginForm.result === 'error') {
+        throw new Error('로그인을 다시 시도해 주세요.');
+      } else {
+        // form 초기화
+        setLoginForm({
+          email: '',
+          password: '',
+        });
+        navigate('/', { replace: true });
+      }
+    } catch (err) {
+      alert(err);
       // form 초기화
       setLoginForm({
         email: '',
-        password: '',
-      });
-      // 로그인 성공, 메인페이지로 이동
-      // navigate('/', { replace: true });
-      // }
-    } catch (err) {
-      alert(err);
-      // pw 초기화
-      setLoginForm({
-        email: loginForm.email,
         password: '',
       });
       return;
