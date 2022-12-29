@@ -120,7 +120,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     // email validation
     if (!validateEmail(loginForm.email)) {
       alert('이메일 형식이 올바르지 않습니다.');
-      // form 초기화
+      // email 초기화
       setLoginForm({
         email: '',
         password: '',
@@ -131,9 +131,9 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     // pw validation
     if (!validatePassword(loginForm.password)) {
       alert('비밀번호 형식이 올바르지 않습니다.');
-      // form 초기화
+      // pw 초기화
       setLoginForm({
-        email: '',
+        email: loginForm.email,
         password: '',
       });
       return;
@@ -143,23 +143,31 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     const resEmail = await API.get(`api/users/emails/${email}`);
     if (resEmail.message.substr(0, 1) === '사') {
       alert('Error: 존재하지 않는 계정입니다.');
+      // email 초기화
+      setLoginForm({
+        email: '',
+        password: '',
+      });
       return;
     }
 
     // 비밀번호 일치 여부 검사
     try {
       const resLoginForm = await API.post('/api/auth/login', loginForm);
+      console.log(resLoginForm);
       if (!resLoginForm) {
+        console.log(resLoginForm);
         throw new Error('비밀번호가 일치하지 않습니다.');
       } else {
+        console.log(resLoginForm);
         // 로그인 성공, 메인페이지로 이동
         navigate('/', { replace: true });
       }
     } catch (err) {
       alert(err);
-      // form 초기화
+      // pw 초기화
       setLoginForm({
-        email: '',
+        email: loginForm.email,
         password: '',
       });
       return;
