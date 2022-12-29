@@ -19,11 +19,12 @@ import {
   validateNickName,
   validatePWCheck,
   validatePhone,
-  validateConfirmNum,
+  validateEmailCode,
   validateTrack,
   validateGeneration,
 } from '../../../util/validateRegister';
 import * as API from '../../../api/API';
+import { postEmail, postEmailCode } from '../Api/registerAPI';
 import logo from '../../../assets/BoBHuB_logo.png';
 
 const RegisterImgFormContainer = styled.form`
@@ -67,19 +68,6 @@ const RegisterFormContainer = styled.div`
     margin: -7px 0;
   }
 
-  /* & #standard-select-track-label {
-    margin-bottom: 10px;
-  }
-
-  & #standard-select-track {
-    width: 28.5vw;
-    border-radius: 4px;
-  } */
-
-  /* & #menu- > div > ul {
-    margin-top: 20px;
-  } */
-
   & div div div {
     margin-right: 10px;
   }
@@ -104,6 +92,11 @@ const RegisterFormContainer = styled.div`
     margin-right: -8px;
     width: 25px;
     height: 25px;
+  }
+
+  & .emailInputBtnContainer,
+  .emailCodeInputBtnContainer {
+    width: 573px;
   }
 
   & .NicknameCheckBtn {
@@ -166,16 +159,19 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     name: '',
     nickname: '',
     email: '',
-    confirmNum: '',
+    emailCode: '',
     password: '',
     passwordCheck: '',
     phone: '',
     track: '',
-    // generation: 0,
     generation: '',
   });
 
-  const { name, nickname, email, confirmNum, password, passwordCheck, phone, track, generation } =
+  const [emailForm, setEmailForm] = useState({
+    email: '',
+  });
+
+  const { name, nickname, email, emailCode, password, passwordCheck, phone, track, generation } =
     regForm;
 
   const navigate = useNavigate();
@@ -201,7 +197,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -219,7 +215,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -237,7 +233,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -247,15 +243,15 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       return;
     }
 
-    // 인증번호 validation
-    if (!validateConfirmNum(regForm.confirmNum)) {
-      alert('인증번호 형식이 올바르지 않습니다.');
+    // 인증코드 validation
+    if (!validateEmailCode(regForm.emailCode)) {
+      alert('인증코드 형식이 올바르지 않습니다.');
       // form 초기화
       setRegForm({
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -273,7 +269,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -291,7 +287,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -309,7 +305,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -327,7 +323,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -345,7 +341,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -364,7 +360,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -387,7 +383,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           name: '',
           nickname: '',
           email: '',
-          confirmNum: '',
+          emailCode: '',
           password: '',
           passwordCheck: '',
           phone: '',
@@ -404,7 +400,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -438,7 +434,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         name: '',
         nickname: '',
         email: '',
-        confirmNum: '',
+        emailCode: '',
         password: '',
         passwordCheck: '',
         phone: '',
@@ -448,34 +444,63 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       return;
     }
 
-    // 이메일 인증 - api 오류
-    // const resEmailVerify = await API.get(`api/utils/${inputEmail}/send-code`);
-    // // ${resEmailVerify.message}
-    // if (!resEmailVerify) {
-    //   alert('인증 메일 전송 오류. 다시 시도해 주세요.');
-    //   // form 초기화
-    //   setRegForm({
-    //     name: '',
-    //     nickname: '',
-    //     email: '',
-    //     confirmNum: '',
-    //     password: '',
-    //     passwordCheck: '',
-    //     phone: '',
-    //     track: '',
-    //     generation: '',
-    //   });
-    //   return;
-    // }
-    alert(`해당 메일로 인증번호가 전송되었습니다.\n인증번호를 1분 내로 입력해주세요.`);
+    const emailBody = {
+      email: inputEmail,
+    };
+
+    // 중복 확인 후 이메일 인증
+    const resEmailVerify = await postEmail(emailBody);
+
+    if (!resEmailVerify) {
+      alert(`${resEmailVerify.message}\n다시 시도해 주세요.`);
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        emailCode: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+    setEmailForm(emailBody);
+    alert(`${resEmailVerify.message}`); // 인증코드를 발송했습니다. 1분 안에 입력해주세요.
   };
 
-  const handleConfirmNumClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleEmailCodeClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const textField = (e.target as HTMLButtonElement).previousSibling;
     const div = textField?.childNodes[0];
     const input = div?.childNodes[1];
-    const inputConfirmNum = (input as HTMLInputElement).value;
-    console.log(inputConfirmNum);
+    const inputEmailCode = (input as HTMLInputElement).value;
+
+    const emailCodeBody = {
+      email: emailForm.email,
+      code: inputEmailCode,
+    };
+
+    // 중복 확인 후 이메일 인증
+    const resEmailCodeVerify = await postEmailCode(emailCodeBody);
+    if (!resEmailCodeVerify) {
+      alert('인증 코드가 일치하지 않습니다.\n다시 시도해 주세요.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        emailCode: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+    alert(`${resEmailCodeVerify.message}`); // 인증되었습니다.
   };
 
   return (
@@ -580,11 +605,11 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           </Button>
         </div>
 
-        <div className="confirmNumInputBtnContainer">
+        <div className="emailCodeInputBtnContainer">
           <TextField
             required
             type="text"
-            name="confirmNum"
+            name="emailCode"
             variant="standard"
             InputProps={{
               startAdornment: (
@@ -601,13 +626,13 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
                 },
               },
             }}
-            placeholder="인증번호"
-            value={confirmNum}
+            placeholder="인증코드"
+            value={emailCode}
             onChange={onTextFieldChange}
-            error={!validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''}
+            error={!validateEmailCode(regForm.emailCode) && regForm.emailCode !== ''}
             helperText={
-              !validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''
-                ? '인증번호 형식이 부적절합니다.'
+              !validateEmailCode(regForm.emailCode) && regForm.emailCode !== ''
+                ? '인증코드 형식이 부적절합니다.'
                 : ''
             }
           />
@@ -615,7 +640,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
             className="EmailSendBtn"
             variant="contained"
             size="small"
-            onClick={handleConfirmNumClick}>
+            onClick={handleEmailCodeClick}>
             인증
           </Button>
         </div>
@@ -705,7 +730,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           helperText={
             !validatePWCheck(regForm.password, regForm.passwordCheck) &&
             regForm.passwordCheck !== ''
-              ? '비밀번호가 불일치합니다.'
+              ? '비밀번호가 일치하지 않습니다.'
               : ''
           }
         />
@@ -799,19 +824,6 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               : ''
           }
         />
-        {/* <TextField
-          id="standard-select-track"
-          select
-          label="트랙/기수"
-          defaultValue=""
-          // helperText="트랙/기수를 선택해주세요."
-          variant="standard">
-          {trackNum.map((elem) => (
-            <MenuItem key={elem} value={elem}>
-              {elem}
-            </MenuItem>
-          ))}
-        </TextField> */}
 
         <RegisterButtonContainer>
           <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>
