@@ -11,12 +11,16 @@ module.exports = (io, socket) => {
         socket.emit("giveRooms", getPublicRooms(io));
     }
 
-    const enterRoom = (roomName, moveRoom) => {
+    const enterRoom = (roomName, partyId, userId, moveRoom) => {
         const welcome = `${socket.nickname}님이 방에 입장하셨습니다.`;
+        //if userId가 partyId에 속한다면
         socket.join(roomName);
         moveRoom(roomName);
         const messageInfo = { userId: 0, userName: '', message: welcome, }
         socket.to(roomName).emit("getMessage", messageInfo);
+
+        // 아니라면 
+        // socket.emit("joinFailed", msg);
         check();
     }
 
@@ -32,7 +36,6 @@ module.exports = (io, socket) => {
     }
 
     const disconnecting = () => {
-        io.sockets.emit("roomChange", getPublicRooms(io));
         console.log("socket is disconnected");
     }
 

@@ -41,11 +41,12 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
   const dispatch = useDispatch<AppDispatch>();
+  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { roomname } = e.currentTarget.dataset;
+    const { roomname, partyid: partyId } = e.currentTarget.dataset;
     console.log(roomname);
-    socket.emit('enterRoom', roomname, moveRoom);
+    socket.emit('enterRoom', roomname, partyId, userId, moveRoom);
     dispatch(chatAction.enterRoom({ roomName: roomname }));
   };
 
@@ -56,8 +57,9 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
 
   useEffect(() => {
     socket.emit('nickname', userName);
-    socket.on('roomChange', (rooms) => {
-      setRoomArray(rooms);
+
+    socket.on('joinFailed', (msg) => {
+      alert(msg);
     });
 
     fetchParites();
@@ -74,7 +76,11 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
         ) : (
           roomArray.map((roomInfo) => (
             <>
-              <CursorDiv onClick={handleMove} key={roomInfo.partyId} data-roomname={roomInfo.name}>
+              <CursorDiv
+                onClick={handleMove}
+                key={roomInfo.partyId}
+                data-roomname={roomInfo.name}
+                data-partyid={roomInfo.partyId}>
                 {roomInfo.name}
                 <NumberDiv key={roomInfo.partyId}>
                   {roomInfo.likedNum}/{roomInfo.partyLimit}
