@@ -1,6 +1,12 @@
 const { pickService } = require("../services");
 
 module.exports = (io, socket) => {
+  const createParty = () => {
+    setTimeout(() => {
+      io.sockets.emit("createSuccess", "모임이 생성되었습니다.");
+    }, 300);
+  };
+
   const joinParty = async (partyId, userId) => {
     console.log("partyId", partyId);
     console.log("userId", userId);
@@ -10,12 +16,18 @@ module.exports = (io, socket) => {
   };
 
   const leaveParty = async (partyId, userId) => {
-    ///----------------------여기는 유저 파티에서 빼주시면 됩니다(DB update)
     const result = await pickService.leaveParty(userId, partyId);
-    //----------------------------------------------------
     io.sockets.emit("leaveSuccess", result);
   };
 
+  const deleteParty = () => {
+    setTimeout(() => {
+      io.sockets.emit("deleteSuccess", "모임이 취소되었습니다.");
+    }, 300);
+  };
+
+  socket.on("createParty", createParty);
   socket.on("joinParty", joinParty);
   socket.on("leaveParty", leaveParty);
+  socket.on("deleteParty", deleteParty);
 };

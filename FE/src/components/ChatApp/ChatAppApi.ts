@@ -1,7 +1,4 @@
-import * as API from '../../api/API';
 import { NullableString, NullableNum } from '../../pages/FoodDetail/util/Type';
-
-export const getCompletedParties = async () => await API.get(`/api/cps`);
 
 export const setLog = (key: string, payload: MessageInfo) => {
   const localString = localStorage.getItem(key);

@@ -55,7 +55,7 @@ const Container = styled.div`
   }
   .scroll {
     position: absolute;
-    right: 50%;
+    right: 48%;
     display: flex;
     flex-direction: column;
     color: hsla(0, 0%, 100%, 0.733);

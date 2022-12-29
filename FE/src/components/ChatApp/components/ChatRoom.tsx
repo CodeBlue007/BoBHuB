@@ -1,10 +1,10 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Title } from './ChatStyle';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { SocketContext } from '../../../socket/SocketContext';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store/store';
 import ChatMessage from './ChatMessage';
 import { setLog } from '../ChatAppApi';
 import { MessageInfo } from '../ChatAppApi';
@@ -29,6 +29,7 @@ const TextContainer = styled.div`
   }
   .labelName {
     font-size: 10px;
+    margin-left: 10px;
   }
 `;
 
@@ -52,21 +53,16 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
-  const dispatch = useDispatch<AppDispatch>();
-  // const chats = useSelector<RootState>((state) => state.chatReducer.chats[roomName]);
 
   const addMessage = (messageInfo: MessageInfo) => {
     setLog(roomName, messageInfo);
     setMessage((current) => [...current, messageInfo]);
-    // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
   };
 
   const enterRoom = () => {
     const message = `방에 입장하셨습니다.`;
     const messageInfo = { userId: 0, userName: '', message };
-    setLog(roomName, messageInfo);
     setMessage((current) => [...current, messageInfo]);
-    // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
   };
 
   const sendMessage = (e: sendMessageType) => {
@@ -81,22 +77,22 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   };
 
   useEffect(() => {
-    enterRoom();
     const log = localStorage.getItem(roomName);
     if (log) {
       const logArr = JSON.parse(log);
       setMessage(logArr);
     }
 
+    enterRoom();
+
     socket.on('getMessage', (messageInfo) => {
       setLog(roomName, messageInfo);
-      // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
+      setMessage((current) => [...current, messageInfo]);
     });
   }, []);
 
   useEffect(() => {
     scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
-    // console.log(chats);
   }, [messages]);
 
   return (
@@ -105,7 +101,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
         <Title>{roomName}</Title>
         <Container>
           <TextContainer ref={scrollRef}>
-            {messages?.map((messageInfo: MessageInfo, idx: number) => (
+            {messages.map((messageInfo: MessageInfo, idx: number) => (
               <ChatMessage messageInfo={messageInfo} key={`${messageInfo.message}${idx}`} />
             ))}
           </TextContainer>

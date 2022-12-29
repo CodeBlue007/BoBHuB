@@ -23,11 +23,16 @@ export const getUsersData = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await get('/api/admin/users');
+      console.log(res);
       if (!res) {
         throw new Error('데이터를 받아오지 못했습니다.');
       }
+      if (typeof res === 'string') {
+        throw new Error('권한이 없는 사용자입니다.');
+      }
       return res;
     } catch (err) {
+      console.log(err);
       return rejectWithValue(err);
     }
   },
@@ -46,7 +51,7 @@ const adminUsersSlice = createSlice({
       state.users = action.payload;
     });
     builder.addCase(getUsersData.rejected, (state, action) => {
-      state = state;
+      state.users = [];
     });
   },
 });

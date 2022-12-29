@@ -299,6 +299,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
               <TextField
                 onChange={handleUserInfoChange}
                 sx={{ height: '45px', width: '315px' }}
+                placeholder="ex) 010-0000-0000"
                 size="small"
                 id="demo-helper-text-misaligned-no-helper"
                 error={!validatePhone(inputChange)}

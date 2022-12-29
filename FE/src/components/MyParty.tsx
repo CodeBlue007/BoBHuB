@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import type { Party } from '../pages/MainPage/Type';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { delete as del } from '../api/API';
@@ -24,7 +23,6 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
 
   useEffect(() => {
     socket.on('leaveSuccess', (result, msg) => {
-      console.log(result, msg);
       dispatch(getMyPartyList());
     });
   }, []);
@@ -35,7 +33,7 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
 
   const clickDeleteButton = async (id: number) => {
     const res = await del(`/api/parties/${id}`);
-    console.log(res);
+    socket.emit('deleteParty', '모임삭제');
     dispatch(getMyPartyList());
   };
 
@@ -72,7 +70,7 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
                   </Paragraph>
                 </Description>
               </NoPadFlex>
-              {user.userId === party.userId && party.isComplete === 0 && (
+              {user.userId === party.userId && (
                 <DeleteButton
                   size="small"
                   color="error"
@@ -81,11 +79,25 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
                   모집 종료
                 </DeleteButton>
               )}
-              {user.userId !== party.userId && party.isComplete === 0 && (
+              {user.userId !== party.userId && (
                 <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
                   참여 취소
                 </DeleteButton>
               )}
+              {/* {user.userId === party.userId && party.isComplete === 0 && (
+                <DeleteButton
+                  size="small"
+                  color="error"
+                  variant="outlined"
+                  onClick={() => clickDeleteButton(party.partyId)}>
+                  모집 종료
+                </DeleteButton>
+              )} */}
+              {/* {user.userId !== party.userId && party.isComplete === 0 && (
+                <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
+                  참여 취소
+                </DeleteButton>
+              )} */}
               {party.isComplete === 1 && <Complete>모집 완료</Complete>}
             </List>
           );

@@ -2,8 +2,8 @@ import { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { TextCss, Title } from './ChatStyle';
 import { SocketContext } from '../../../socket/SocketContext';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store/store';
 import { Party } from '../../../pages/MainPage/Type';
 
 const ChatContainer = styled.div`
@@ -15,13 +15,6 @@ const ChatContainer = styled.div`
   }
 `;
 
-const NumberDiv = styled.div`
-  font-size: 15px;
-  ${TextCss}
-  position: absolute;
-  top: 0px;
-  right: 15px;
-`;
 const CursorDiv = styled.div`
   position: relative;
   cursor: pointer;
@@ -37,22 +30,16 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
   const socket = useContext(SocketContext);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
-  const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
   const [completedParty, setCompletedParty] = useState<Party[]>([]);
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { roomname, partyid: partyId } = e.currentTarget.dataset;
-    console.log(roomname);
-    socket.emit('enterRoom', roomname, userId, partyId, moveRoom);
+    const { roomname } = e.currentTarget.dataset;
+    socket.emit('enterRoom', roomname, moveRoom);
   };
 
   useEffect(() => {
     socket.emit('nickname', userName);
-
-    socket.on('joinFailed', (msg) => {
-      console.log(msg);
-    });
 
     setCompletedParty(myPartyList.filter((party) => party.isComplete === 1));
 
@@ -70,11 +57,7 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
         ) : (
           completedParty.map((party) => (
             <>
-              <CursorDiv
-                onClick={handleMove}
-                key={party.partyId}
-                data-roomname={party.name}
-                data-partyid={party.partyId}>
+              <CursorDiv onClick={handleMove} key={party.partyId} data-roomname={party.name}>
                 {party.name}
               </CursorDiv>
             </>

@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import { useNavigate } from 'react-router-dom';
+import Gathering from './Gathering';
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch, RootState } from '../../../store/store';
+import { useState, useEffect, useContext } from 'react';
+import { SocketContext } from '../../../socket/SocketContext';
+import { getActivePartyList } from '../../../store/partySlice';
 
 type ShopListProps = {
   name: string; //식당명
@@ -25,19 +31,48 @@ const defaultProps: ShopListProps = {
   shopId: 11,
 };
 
-const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopListProps) => {
+const MenuCard = ({
+  name: shopName,
+  category,
+  description,
+  avgStar,
+  food,
+  shopId,
+}: ShopListProps) => {
   const navigate = useNavigate();
+  const activePartyList = useSelector(
+    (state: RootState) => state.partySliceReducer.activePartyList,
+  );
+  const socket = useContext(SocketContext);
+  const dispatch = useDispatch<AppDispatch>();
   const goToFoodDetailPage = () => {
     navigate(`/foodlist/${shopId}`);
   };
+  const [gathering, setGatherting] = useState(false);
+  useEffect(() => {
+    socket.on('joinSuccess', () => dispatch(getActivePartyList()));
+    socket.on('leaveSuccess', () => dispatch(getActivePartyList()));
+  }, []);
 
+  useEffect(() => {
+    if (
+      activePartyList
+        .filter((party) => party.likedNum !== party.partyLimit)
+        .find((party) => party.shopId === shopId)
+    ) {
+      setGatherting(true);
+    } else {
+      setGatherting(false);
+    }
+  }, [activePartyList]);
   return (
     <Container onClick={goToFoodDetailPage}>
       <CardTitle>
-        {name}
+        {shopName}
         <CardCategory>{category}</CardCategory>
       </CardTitle>
       <CardImage>
+        {gathering && <Gathering />}
         {food ? (
           <img width="330px" height="200px" src={food[0].picture} alt="restaurant" />
         ) : (
@@ -49,7 +84,7 @@ const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopLi
         {food
           ? food.map((menu, idx) => {
               const { name, picture } = menu;
-              return <Menu key={`${name}-${name}-${idx}`}>{name}</Menu>;
+              return <Menu key={`${shopId}-${name}-${idx}`}>{name}</Menu>;
             })
           : ''}
       </MenuList>

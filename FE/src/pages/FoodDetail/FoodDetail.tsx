@@ -39,14 +39,11 @@ const FoodDetail = () => {
 
   const fetchCommentState = async (shopId: number) => {
     const commentState = await getComment(shopId);
-    console.log(commentState);
     setCommentState(commentState);
   };
 
   const fetchShopState = async (shopId: number) => {
     const [shopState, menuState] = await Promise.all([getShop(shopId), getMenu(shopId)]);
-    console.log('shopState', shopState);
-    console.log('menuState', menuState);
     setShopState(shopState);
     setMenuState(menuState);
   };

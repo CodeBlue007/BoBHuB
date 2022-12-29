@@ -9,9 +9,10 @@ import { get } from '../../../api/API';
 import { Party } from '../Type';
 import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../store/store';
 import { SocketContext } from './../../../socket/SocketContext';
+import { getActivePartyList } from '../../../store/partySlice';
 
 const StyledSlider = styled(Slider)`
   height: 100%;
@@ -47,7 +48,7 @@ const DivNext = styled.div`
   position: absolute;
   text-align: right;
   font-size: 100px;
-  color: ${(props) => props.theme.colors.emphasis};
+  color: ${({ theme }) => theme.font.color.description};
   right: 100px;
   top: 120px;
   line-height: 40px;
@@ -66,7 +67,12 @@ const DivPre = styled.div`
   line-height: 40px;
 `;
 
-const Div = styled.div`
+interface DivProps {
+  length: number;
+  max: number;
+}
+
+const Div = styled.div<DivProps>`
   // height: 100%;
   background-color: ${(props) => props.theme.colors.background};
   box-sizing: border-box;
@@ -90,8 +96,8 @@ const Div = styled.div`
   } //item
 
   .slide {
-    opacity: 0.5;
-    transform: scale(0.7);
+    opacity: ${({ length, max }) => (length > max ? 0.5 : 1)};
+    transform: ${({ length, max }) => (length > max ? 'scale(0.7)' : 'scale(1)')};
     transition: 0.3s;
     filter: blur (5px);
   }
@@ -138,14 +144,16 @@ const TitleBox = styled.div`
 `;
 
 export default function SimpleSlider() {
+  const showMaxCnt = 3;
+  const parties = useSelector((state: RootState) => state.partySliceReducer.activePartyList);
   const settings = {
     dots: false,
     className: 'center',
     centerPadding: '0px',
     centerMode: true,
-    infinite: true,
+    infinite: parties.filter((party) => party.likedNum !== party.partyLimit).length > showMaxCnt,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: showMaxCnt,
     slidesToScroll: 1,
     arrows: true,
     autoplay: true,
@@ -179,7 +187,6 @@ export default function SimpleSlider() {
     ],
   };
 
-  const [parties, setParties] = useState<Party[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     track: '',
     generation: 0,
@@ -196,14 +203,13 @@ export default function SimpleSlider() {
   const [slideIndex, setSlideIndex] = useState(0);
   const socket = useContext(SocketContext);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
-  const setPartiesData = async () => {
-    const activeParties: Party[] = await fetchParties();
-    const notCompleteParties = activeParties.filter((party) => party.likedNum !== party.partyLimit);
-    setParties([...notCompleteParties]);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const setPartiesData = () => {
+    dispatch(getActivePartyList());
   };
 
   useEffect(() => {
-    setPartiesData();
     socket.on('leaveSuccess', setPartiesData);
     socket.on('joinSuccess', setPartiesData);
   }, []);
@@ -222,7 +228,9 @@ export default function SimpleSlider() {
   }, []);
 
   return (
-    <Div>
+    <Div
+      length={parties.filter((party) => party.likedNum !== party.partyLimit).length}
+      max={showMaxCnt}>
       {userInfo ? (
         <TitleBox>
           밥메이트들이 <span style={{ color: '#E59A59' }}>{userInfo.name}</span>님을 기다리고
@@ -233,22 +241,38 @@ export default function SimpleSlider() {
       )}
 
       <div>
-        {parties.length === 0 ? (
+        {parties.length === 0 && (
           <LabelContainer>
             <div>활성화된 식당이 없습니다.</div>
           </LabelContainer>
-        ) : (
+        )}
+        {parties.length >= 4 && (
           <StyledSlider {...settings}>
-            {parties.map((party, index) => (
-              <SliderItem
-                setPartiesData={setPartiesData}
-                index={index}
-                slideIndex={slideIndex}
-                party={party}
-                key={party.shopId}
-              />
-            ))}
+            {parties
+              .filter((party) => party.likedNum !== party.partyLimit)
+              .map((party, index) => (
+                <SliderItem
+                  index={index}
+                  slideIndex={slideIndex}
+                  party={party}
+                  key={party.shopId}
+                />
+              ))}
           </StyledSlider>
+        )}
+        {parties.length <= 3 && (
+          <div>
+            {parties
+              .filter((party) => party.likedNum !== party.partyLimit)
+              .map((party, index) => (
+                <SliderItem
+                  index={index}
+                  slideIndex={slideIndex}
+                  party={party}
+                  key={party.shopId}
+                />
+              ))}
+          </div>
         )}
       </div>
     </Div>

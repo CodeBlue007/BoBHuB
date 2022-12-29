@@ -1,8 +1,6 @@
 import * as API from '../../api/API';
 import { PostComment, PostParty } from './util/Type';
 
-const baseURL = ``;
-
 export const getComment = async (shopId: number) => await API.get(`/api/comments?shopId=${shopId}`);
 
 export const getShop = async (shopId: number) => await API.get(`/api/shops/${shopId}`);

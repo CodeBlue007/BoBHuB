@@ -87,7 +87,12 @@ const TextArea = ({
 
   return (
     <TextContainer>
-      <CommentArea value={textValue} onChange={handleChange} disabled={!canRevise} />
+      <CommentArea
+        value={textValue}
+        onChange={handleChange}
+        disabled={!canRevise}
+        maxLength={100}
+      />
       {canRevise && <Button onClick={reviseEnd}>수정완료</Button>}
     </TextContainer>
   );

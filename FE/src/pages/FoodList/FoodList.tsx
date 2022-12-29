@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import * as API from '../../api/API';
 
 import Pagination from '@mui/material/Pagination';
@@ -11,6 +11,10 @@ import styled from 'styled-components';
 import MenuCard from './components/MenuCard';
 import Search from './components/Search';
 import NavBar from '../../components/NavBar';
+import Footer from '../../components/Footer';
+import { SocketContext } from '../../socket/SocketContext';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/store';
 
 const FoodList = () => {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -39,10 +43,13 @@ const FoodList = () => {
   const [page, setPage] = useState(1);
   const offset = (page - 1) * 9;
   const totalPage = Math.ceil(searchList.length / 9);
+  const [getCategories, setGetCategories] = useState([]);
+  const socket = useContext(SocketContext);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleCategoryChange = (
     event: React.SyntheticEvent,
-    categoryVal: 'ALL' | '한식' | '양식' | '일식' | '분식' | '중식',
+    categoryVal: 'ALL' | '한식' | '일식' | '분식' | '중식' | '베이커리' | '카페',
   ) => {
     setCategory(categoryVal);
     setPage(1);
@@ -62,6 +69,11 @@ const FoodList = () => {
     setSearchList(res);
   };
 
+  const getCategoriesAPI = async () => {
+    const res = await API.get(`/api/categories`);
+    setGetCategories(res.reverse());
+  };
+
   const handlePageUpdate = (e: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage);
   };
@@ -69,8 +81,8 @@ const FoodList = () => {
   useEffect(() => {
     getFoodListAPI();
     setCategory('ALL');
+    getCategoriesAPI();
   }, []);
-
   useEffect(() => {
     const filtered = categoryFoodList.filter((shop) => {
       return shop.name.toUpperCase().includes(searchInput.toUpperCase());
@@ -91,11 +103,10 @@ const FoodList = () => {
             indicatorColor="secondary"
             aria-label="secondary tabs example">
             <Tab value="ALL" label="ALL" />
-            <Tab value="한식" label="한식" />
-            <Tab value="양식" label="양식" />
-            <Tab value="일식" label="일식" />
-            <Tab value="분식" label="분식" />
-            <Tab value="중식" label="중식" />
+            {getCategories.map((cate, i) => {
+              const { category } = cate;
+              return <Tab key={category} value={category} label={category} />;
+            })}
           </Tabs>
         </Box>
       </CategoryBox>
@@ -110,14 +121,14 @@ const FoodList = () => {
               food={food}
               avgStar={avgStar}
               shopId={shopId}
-              key={`menucard-${i}`}
+              key={shopId}
             />
           );
         })}
       </CardContainer>
       <Stack spacing={2}>
         <Pagination
-          sx={{ paddingTop: '50px' }}
+          sx={{ padding: '50px 0' }}
           color="primary"
           count={totalPage}
           page={page}
@@ -127,6 +138,7 @@ const FoodList = () => {
           onChange={handlePageUpdate}
         />
       </Stack>
+      <Footer />
     </Container>
   );
 };
@@ -137,9 +149,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 50px;
   background-color: ${({ theme }) => theme.colors.container};
-  height: 200vh;
 `;
 
 const CategoryBox = styled.div`
