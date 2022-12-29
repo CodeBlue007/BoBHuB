@@ -4,8 +4,6 @@ import { TextCss, Title } from './ChatStyle';
 import { SocketContext } from '../../../socket/SocketContext';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../store/store';
-import { chatAction } from '../../../store/chatSlice';
-import { getCompletedParties } from '../ChatAppApi';
 import { Party } from '../../../pages/MainPage/Type';
 
 const ChatContainer = styled.div`
@@ -39,7 +37,6 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
   const socket = useContext(SocketContext);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
-  const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
   const [completedParty, setCompletedParty] = useState<Party[]>([]);
@@ -48,7 +45,6 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
     const { roomname, partyid: partyId } = e.currentTarget.dataset;
     console.log(roomname);
     socket.emit('enterRoom', roomname, userId, partyId, moveRoom);
-    dispatch(chatAction.enterRoom({ roomName: roomname }));
   };
 
   useEffect(() => {

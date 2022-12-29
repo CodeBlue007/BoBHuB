@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { chatSlice } from './chatSlice';
 import userSlice from './userSlice';
 import adminUsersSlice from './adminUsersSlice';
 import partySlice from './partySlice';
