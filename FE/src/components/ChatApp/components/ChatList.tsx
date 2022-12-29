@@ -4,7 +4,6 @@ import { TextCss, Title } from './ChatStyle';
 import { SocketContext } from '../../../socket/SocketContext';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../store/store';
-import { chatAction } from '../../../store/chatSlice';
 import { Party } from '../../../pages/MainPage/Type';
 
 const ChatContainer = styled.div`
