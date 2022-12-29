@@ -7,7 +7,6 @@ import KeyIcon from '@mui/icons-material/Key';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import InputAdornment from '@mui/material/InputAdornment';
-import loginThumbnail from '../../../assets/loginThumbnail.gif';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
 import logo from '../../../assets/BoBHuB_logo.png';
@@ -26,28 +25,6 @@ const ImgFormContainer = styled.form`
   }
 `;
 
-const ImgContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  width: 50%;
-  background: '#fcf3eb';
-
-  & h1 {
-    margin: 20px auto;
-    font-size: 2.5rem;
-    font-weight: 1000;
-    letter-spacing: 1.5px;
-  }
-
-  & img {
-    width: 100%;
-    height: 93.5vh;
-    opacity: 80%;
-  }
-`;
-
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,7 +32,7 @@ const FormContainer = styled.div`
   align-items: center;
   box-sizing: border-box;
 
-  background-color: #fcf3eb;
+  background-color: ${(props) => props.theme.colors.container};
   border-radius: 10px;
 
   width: 500px;
@@ -84,7 +61,7 @@ const FormContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
+const LoginButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -140,41 +117,75 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     onLoginSubmit(loginForm);
 
+    // email validation - admin 이메일 수정되면 주석 해제 예정
+    // if (!validateEmail(loginForm.email)) {
+    //   alert('이메일 형식이 올바르지 않습니다.');
+    //   // form 초기화
+    //   setLoginForm({
+    //     email: '',
+    //     password: '',
+    //   });
+    //   return;
+    // }
+
+    // pw validation
+    // if (!validatePassword(loginForm.password)) {
+    //   alert('비밀번호 형식이 올바르지 않습니다.');
+    //   // form 초기화
+    //   setLoginForm({
+    //     email: '',
+    //     password: '',
+    //   });
+    //   return;
+    // }
+
     // 이메일 존재 여부 검사
     const resEmail = await API.get(`api/users/emails/${email}`);
     if (resEmail.message.substr(0, 1) === '사') {
-      alert('존재하지 않는 계정입니다.');
-      return;
-    } else {
-      // 비밀번호 일치 여부 검사
-
-      const resForm = await API.post('/api/auth/login', loginForm);
-
+      alert('Error: 존재하지 않는 계정입니다.');
       // form 초기화
       setLoginForm({
         email: '',
         password: '',
       });
+      return;
+    }
 
-      navigate('/', { replace: true });
+    // 비밀번호 일치 여부 검사
+    try {
+      const resLoginForm = await API.post('/api/auth/login', loginForm);
+      if (!resLoginForm) {
+        throw new Error('비밀번호가 일치하지 않습니다.');
+      } else {
+        // form 초기화
+        setLoginForm({
+          email: '',
+          password: '',
+        });
+        // 로그인 성공, 메인페이지로 이동
+        navigate('/', { replace: true });
+      }
+    } catch (err) {
+      alert(err);
+      // form 초기화
+      setLoginForm({
+        email: '',
+        password: '',
+      });
+      return;
     }
   };
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
   };
 
   return (
     <ImgFormContainer onSubmit={handleLoginSubmit}>
-      {/* <ImgContainer>
-        <h1>Welcome Back!</h1>
-        <img src={loginThumbnail} alt="Bob-hub login thumbnail" />
-      </ImgContainer> */}
-
       <FormContainer>
         <img src={logo} alt="logo" />
         <TextField
@@ -196,13 +207,13 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               },
             },
           }}
-          placeholder="이메일을 입력해주세요."
+          placeholder="이메일"
           value={email}
           onChange={onTextFieldChange}
           error={!validateEmail(loginForm.email) && loginForm.email !== ''}
           helperText={
             !validateEmail(loginForm.email) && loginForm.email !== ''
-              ? '이메일 형식이 올바르지 않습니다.'
+              ? '올바르지 않은 이메일 형식입니다.'
               : ''
           }
         />
@@ -230,6 +241,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -237,17 +249,17 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               },
             },
           }}
-          placeholder="비밀번호를 입력해주세요."
+          placeholder="비밀번호"
           value={password}
           onChange={onTextFieldChange}
           error={!validatePassword(loginForm.password) && loginForm.password !== ''}
           helperText={
             !validatePassword(loginForm.password) && loginForm.password !== ''
-              ? '비밀번호는 8~20자리 영문·숫자 조합이어야 합니다.'
+              ? '비밀번호는 4~20자리 영문·숫자 조합이어야 합니다.'
               : ''
           }
         />
-        <ButtonContainer>
+        <LoginButtonContainer>
           <Button variant="contained" type="submit">
             로그인
           </Button>
@@ -255,7 +267,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
             아직 계정이 없나요? &nbsp;
             <Link to="/register">회원가입</Link>
           </div>
-        </ButtonContainer>
+        </LoginButtonContainer>
       </FormContainer>
     </ImgFormContainer>
   );

@@ -1,17 +1,18 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("shop");
-const buildRes = require("../../utils/build-response");
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class ShopModel {
-  async count(req, res, next) {
+  async count() {
     try {
-      const query = o.makeCountQuery();
-      console.log(query);
+      const query = o.makeCountQuery({});
+      logger.info(query);
 
       const [countData] = await pool.query(query);
       return countData[0];
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -23,10 +24,11 @@ class ShopModel {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(shopDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("c", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -49,13 +51,13 @@ class ShopModel {
     GROUP BY shopId) c on s.shopId = c.id2;
     `;
 
-      console.log(query);
+      logger.info(query);
 
       const [shops] = await pool.query(query);
-      console.log(shops);
 
       return shops;
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -67,12 +69,13 @@ class ShopModel {
   async getByShopId(shopId) {
     try {
       const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
       const [shop] = await pool.query(query);
       return shop[0];
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -84,12 +87,13 @@ class ShopModel {
   async getByShopName(name) {
     try {
       const whereArr = o.objToQueryArray({ name });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
       const [shop] = await pool.query(query);
       return shop[0];
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -103,11 +107,12 @@ class ShopModel {
       const newDTO = o.objToQueryArray(newShopDTO);
       const oldDTO = o.objToQueryArray(shopDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -120,11 +125,12 @@ class ShopModel {
     try {
       const whereArr = o.objToQueryArray({ shopId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,

@@ -9,12 +9,13 @@ class CommentService {
 
   async create(commentDTO) {
     // shopModel에서 shop 존재 여부 검증
-    const shop = await this.shopModel.getByShopId(commentDTO.shopId);
-    if (!shop) {
+    const existingShop = await this.shopModel.getByShopId(commentDTO.shopId);
+    if (!existingShop) {
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
     }
-    const checkExComment = await this.commentModel.getByUserId(commentDTO.userId);
-    if (checkExComment.length !== 0) {
+    const userCommentList = await this.commentModel.getByUserId(commentDTO.userId);
+    const isFirstComment = userCommentList.filter((c) => c.shopId == commentDTO.shopId);
+    if (isFirstComment.length !== 0) {
       throw new ErrorFactory(
         commonErrors.BAD_REQUEST,
         400,
@@ -36,13 +37,13 @@ class CommentService {
   }
 
   async updateByAuth(newCommentDTO, commentId) {
-    const exComment = await this.commentModel.getByCommentId(commentId);
-    if (exComment.length === 0)
+    const existingComment = await this.commentModel.getByCommentId(commentId);
+    if (existingComment.length === 0)
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 댓글이 없습니다.");
 
     const { userId } = newCommentDTO;
-    const isByAuth = exComment[0].userId === userId;
-    if (!isByAuth)
+    const auth = existingComment[0].userId === userId;
+    if (!auth)
       throw new ErrorFactory(
         commonErrors.FORBIDDEN,
         403,
@@ -54,11 +55,11 @@ class CommentService {
   }
 
   async deleteByAuth(userId, commentId) {
-    const exComment = await this.commentModel.getByCommentId(commentId);
-    if (exComment.length === 0)
+    const exsitingComment = await this.commentModel.getByCommentId(commentId);
+    if (exsitingComment.length === 0)
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 댓글이 없습니다.");
-    const isByAuth = exComment[0].userId === userId;
-    if (!isByAuth)
+    const auth = exsitingComment[0].userId === userId;
+    if (!auth)
       throw new ErrorFactory(
         commonErrors.FORBIDDEN,
         403,
@@ -69,8 +70,8 @@ class CommentService {
   }
 
   async deleteByAdmin(commentId) {
-    const exComment = await this.commentModel.getByCommentId(commentId);
-    if (exComment.length === 0)
+    const exsitingComment = await this.commentModel.getByCommentId(commentId);
+    if (exsitingComment.length === 0)
       throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 댓글이 없습니다.");
     const result = await this.commentModel.deleteById(commentId);
     return result;

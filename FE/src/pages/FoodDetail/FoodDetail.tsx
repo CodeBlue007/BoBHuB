@@ -4,7 +4,7 @@ import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import { CommentState, ShopState, MenuState, initialShopState } from './types/Type';
+import { CommentState, ShopState, MenuState, initialShopState } from './util/Type';
 import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
 import DetailSlider from './components/DetailSlider';
@@ -16,15 +16,13 @@ const Pagecontainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin : 0;
+  margin: 0;
 `;
-
 
 const CommentContainer = styled(FlexContainer)`
   flex-direction: column;
   margin: 20px;
 `;
-
 
 const FoodDetail = () => {
   const [shopState, setShopState] = useState<ShopState>(initialShopState);
@@ -39,13 +37,13 @@ const FoodDetail = () => {
     setUpdated((current) => !current);
   }, []);
 
-  const fetchCommentState = async (shopId:number) => {
-    const commentState = await getComment(shopId)
+  const fetchCommentState = async (shopId: number) => {
+    const commentState = await getComment(shopId);
     console.log(commentState);
     setCommentState(commentState);
   };
 
-  const fetchShopState = async (shopId:number) => {
+  const fetchShopState = async (shopId: number) => {
     const [shopState, menuState] = await Promise.all([getShop(shopId), getMenu(shopId)]);
     console.log('shopState', shopState);
     console.log('menuState', menuState);
@@ -86,8 +84,12 @@ const FoodDetail = () => {
         <>
           <NavBar />
           <DetailSlider imageArr={makeImgArr()} />
-            {<Content shop={shopState} />}
-          <Comment updateCommentState={updateCommentState} shopId={shopState.shopId} scrollRef={scrollRef}/>
+          {<Content shop={shopState} />}
+          <Comment
+            updateCommentState={updateCommentState}
+            shopId={shopState.shopId}
+            scrollRef={scrollRef}
+          />
           <CommentContainer>
             {commentState.map((comment) => (
               <CommentList

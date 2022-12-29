@@ -11,29 +11,22 @@ import {
 } from '@mui/material';
 import type { UserType } from './Users';
 import UserModal from './UserModal';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../../store/store';
 
 let selectUser: UserType;
 
-interface UserTableProps {
-  users: UserType[];
-  fetchUserData: () => void;
-}
-
-const UserTable = ({ users, fetchUserData }: UserTableProps) => {
+const UserTable = () => {
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = (user: UserType) => {
     selectUser = user;
     setOpen(true);
   };
+  const users = useSelector((state: RootState) => state.adminUsersReducer.users);
   const handleClose = () => setOpen(false);
   return (
     <Fragment>
-      <UserModal
-        fetchUserData={fetchUserData}
-        handleClose={handleClose}
-        open={open}
-        user={selectUser}
-      />
+      <UserModal handleClose={handleClose} open={open} user={selectUser} />
       <TableContainer component={Paper} sx={{ overflowY: 'scroll', maxHeight: '60vh' }}>
         <Table aria-label="simple table">
           <TableHead>
@@ -54,7 +47,7 @@ const UserTable = ({ users, fetchUserData }: UserTableProps) => {
                   {user.name}
                 </TableCell>
                 <TableCell align="center">{user.email}</TableCell>
-                <TableCell align="center">{user.nickName}</TableCell>
+                <TableCell align="center">{user.nickname}</TableCell>
                 <TableCell align="center">{user.role}</TableCell>
                 <TableCell align="center">
                   <Button variant="outlined" onClick={() => handleOpen(user)}>

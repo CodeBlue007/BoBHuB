@@ -22,6 +22,9 @@ function Admin() {
   const clickRestaurantBtn = () => {
     setSelectedButton('restaurants');
   };
+  const clickDashBoardBtn = () => {
+    setSelectedButton('dashboard');
+  };
 
   return (
     <ThemeProvider theme={mdTheme}>

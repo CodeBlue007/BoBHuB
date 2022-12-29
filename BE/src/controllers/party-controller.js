@@ -39,7 +39,6 @@ class PartyController {
   async getById(req, res, next) {
     try {
       const partyId = parseInt(req.params.partyId);
-      console.log(partyId);
       const [party] = await partyService.get({ partyId });
       return res.status(200).json(party);
     } catch (e) {
@@ -51,6 +50,16 @@ class PartyController {
       const { userId } = req.user;
       const partyList = await partyService.get({ userId });
       return res.status(200).json(partyList);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getLikedParty(req, res, next) {
+    try {
+      const { userId } = req.user;
+      const likedParty = await partyService.getLikedParty({ userId });
+      return res.status(200).json(likedParty);
     } catch (e) {
       next(e);
     }

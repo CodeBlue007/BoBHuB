@@ -1,5 +1,5 @@
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
-module.exports = (method, result) => {
+exports.buildRes = (method, result) => {
   let res = {};
   switch (method) {
     case "c":
@@ -17,10 +17,6 @@ module.exports = (method, result) => {
       if (result.affectedRows >= 1 && result.changedRows == 0) {
         res.message = "변화한 데이터가 없습니다.";
       }
-      // // 데이터 존재 여부 체크 ( 서비스에서 해주기로? ask )
-      // if (result.affectedRows == 0) {
-      //   res.message = "데이터가 존재하지 않습니다.";
-      // }
       return res;
     case "d":
       if (result.affectedRows >= 1) {

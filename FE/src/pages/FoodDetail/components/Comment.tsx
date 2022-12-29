@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { TextField, Button, Typography, Rating } from '@mui/material';
 import React, { useState } from 'react';
 import { postComment } from '../foodDetailApi';
-
+import { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import { canWriteComment } from '../util/Util';
 
 const CommentContainer = styled.form`
   display: flex;
@@ -14,63 +16,51 @@ const CommentContainer = styled.form`
 const RatingContainer = styled.div`
   display: flex;
   position: absolute;
-  top : -35px;
-  left : 10px;
+  top: -35px;
+  left: 10px;
 `;
- 
+
 const CommentField = styled(TextField)`
-  width:40vw;
+  width: 40vw;
 `;
 
-
-interface commnetProps{
-  updateCommentState : () => void;
-  shopId : number;
-  scrollRef : React.RefObject<HTMLElement>;
+interface commnetProps {
+  updateCommentState: () => void;
+  shopId: number;
+  scrollRef: React.RefObject<HTMLElement>;
 }
 
-type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+type createCommentType = React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>;
 
-const Comment = ({updateCommentState, shopId, scrollRef} : commnetProps) => {
-
-  const [content, setContent] = useState<string>("");
+const Comment = ({ updateCommentState, shopId, scrollRef }: commnetProps) => {
+  const [content, setContent] = useState<string>('');
   const [starValue, setStarValue] = useState<number | null>(5);
+  const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin) as boolean;
 
-  const ratingChange = (e:React.SyntheticEvent, newValue:number|null) => setStarValue(newValue);
-  const fieldChange = (e:React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
+  const ratingChange = (e: React.SyntheticEvent, newValue: number | null) => setStarValue(newValue);
+  const fieldChange = (e: React.ChangeEvent<HTMLInputElement>) => setContent(e.target.value);
 
-  const createComment = (e:createCommentType) =>{
+  const createComment = async (e: createCommentType) => {
     e.preventDefault();
-
-    if(content === ''){
-      alert("댓글을 입력해주세요.");
-      return;
-    }
-    if(starValue === null){
-      alert("별점을 입력해주세요.");
-      return;
-    }
+    if (canWriteComment(isLogin, content, starValue)) return;
     const newComment = {
       shopId,
       content,
-      star : starValue,
+      star: starValue,
+    };
+    const response = await postComment(newComment);
+    if (response?.message) {
+      updateCommentState();
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      setContent('');
     }
-    postComment(newComment);
-    updateCommentState();
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-    setContent('');
-  }
-
+  };
 
   return (
     <CommentContainer onSubmit={createComment}>
       <RatingContainer>
         <Typography component="legend">식당은 어땠나요?</Typography>
-        <Rating
-          name="simple-controlled"
-          value={starValue}
-          onChange={ratingChange}
-        />
+        <Rating name="simple-controlled" value={starValue} onChange={ratingChange} />
       </RatingContainer>
       <CommentField
         id="outlined-basic"
@@ -79,7 +69,9 @@ const Comment = ({updateCommentState, shopId, scrollRef} : commnetProps) => {
         value={content}
         onChange={fieldChange}
       />
-      <Button variant="outlined" onClick={createComment}>Enter</Button>
+      <Button variant="outlined" onClick={createComment}>
+        Enter
+      </Button>
     </CommentContainer>
   );
 };

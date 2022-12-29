@@ -1,5 +1,4 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
 import styled from 'styled-components';
 interface SearchInputProps {
   searchInput: string;
@@ -31,7 +30,7 @@ const SearchContainer = styled.div`
   height: 40px;
   width: 400px;
   display: flex;
-  flex-deriction: row;
+  flex-direction: row;
   align-items: center;
 `;
 

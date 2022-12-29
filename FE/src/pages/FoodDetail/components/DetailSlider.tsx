@@ -4,17 +4,15 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
-
 const SliderContainer = styled.div`
   width: 800px;
-  height: 450px;
+  height: 550px;
   position: relative;
-  margin : 20px;
+  margin: 60px;
 `;
 
 const StyledSlider = styled(Slider)`
-  height: 260px;
-  width: 100%;
+  height: 450px;
   position: relative;
   .slick-prev::before,
   .slick-next::before {
@@ -23,11 +21,11 @@ const StyledSlider = styled(Slider)`
   .slick-slide div {
     cursor: pointer;
   }
-  .slick-prev:hover{
-    color : gold;
+  .slick-prev:hover {
+    color: ${({ theme }) => theme.colors.main};
   }
-  .slick-next:hover{
-    color : gold;
+  .slick-next:hover {
+    color: ${({ theme }) => theme.colors.main};
   }
 `;
 
@@ -36,11 +34,10 @@ const Div = styled.div`
   height: 30px;
   position: absolute;
   z-index: 99;
-  text-align: right;
-  font-size : 100px;
-  color : black;
-  right : 16px;
-  line-height: 40px;
+  font-size: 100px;
+  color: ${({ theme }) => theme.font.color.black};
+  right: -30px;
+  top: 200px;
 `;
 
 const DivPre = styled.div`
@@ -48,23 +45,31 @@ const DivPre = styled.div`
   height: 30px;
   position: absolute;
   z-index: 99;
-  text-align: left;
-  font-size : 100px;
-  color : black;
-  line-height: 40px;
-  left : -55px;
+  font-size: 100px;
+  color: ${({ theme }) => theme.font.color.black};
+  top: 200px;
+  left: -100px;
 `;
 
+const Img = styled.img`
+  width: inherit;
+  height: inherit;
+  max-width: 800px;
+  max-height: 550px;
+`;
 
+const ImgContainer = styled.div`
+  .images {
+  }
+`;
 
-type stringNull = string|null
+type stringNull = string | null;
 
-interface DetailSliderProps{
-  imageArr : stringNull[];
+interface DetailSliderProps {
+  imageArr: stringNull[];
 }
 
-const DetailSlider = ({imageArr} : DetailSliderProps) => {
-
+const DetailSlider = ({ imageArr }: DetailSliderProps) => {
   const settings = {
     dots: false,
     infinite: true,
@@ -76,26 +81,29 @@ const DetailSlider = ({imageArr} : DetailSliderProps) => {
     arrows: true,
     nextArrow: (
       <Div>
-        <MdKeyboardArrowRight/>
+        <MdKeyboardArrowRight />
       </Div>
     ),
     prevArrow: (
       <DivPre>
-        <MdKeyboardArrowLeft/>
+        <MdKeyboardArrowLeft />
       </DivPre>
     ),
   };
 
-  const newImageArr = imageArr.map(x => {
-    if(x===null) return undefined;
+  const newImageArr = imageArr.map((x) => {
+    if (x === null) return undefined;
     return x;
-  })
-
+  });
 
   return (
     <SliderContainer>
-      <StyledSlider{...settings}>
-        {newImageArr.map((imgUrl) => <img alt="shopImage" src={imgUrl} key={imgUrl}/>)}
+      <StyledSlider {...settings}>
+        {newImageArr.map((imgUrl) => (
+          <ImgContainer>
+            <Img alt="shopImage" src={imgUrl} key={imgUrl} className="images" />
+          </ImgContainer>
+        ))}
       </StyledSlider>
     </SliderContainer>
   );

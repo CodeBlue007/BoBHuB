@@ -1,19 +1,15 @@
 import axios from 'axios';
-import { response } from 'express';
 
-const instance = axios.create({
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+const instance = axios.create();
 
 instance.defaults.withCredentials = true;
+instance.defaults.headers['Content-Type'] = 'application/json';
 
 const errCheck = (err: unknown) => {
   let message;
   if (err instanceof Error) message = err.message;
   else message = String(err);
-  console.log(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${message}`);
+  console.error(`문제가 발생하였습니다. 확인 후 다시 시도해 주세요: ${message}`);
 };
 
 const get = async (url = '') => {
@@ -34,8 +30,21 @@ const del = async (url = '') => {
   }
 };
 
-const post = async (url = '', post: {}) => {
+/**
+ *
+ * @param url : url주소 ex) /api/shops
+ * @param post : body
+ * @param config : default = null, 이미지 보낼때만 "imgPost" 설정 > 'Content-Type': 'multipart/form-data' 설정
+ * @returns : res.data 반환
+ */
+const post = async (url = '', post: {}, config: 'imgPost' | null = null) => {
   try {
+    if (config === 'imgPost') {
+      const result = await instance.post(url, post, {
+        headers: { 'Content-Type': `multipart/form-data` },
+      });
+      return result.data;
+    }
     const result = await instance.post(url, post);
     console.log(result);
     return result.data;

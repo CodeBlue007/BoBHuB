@@ -21,7 +21,7 @@ const defaultProps: ShopListProps = {
   category: '한식',
   description: '식당설명란입니다.',
   avgStar: 4.5,
-  food: [],
+  food: [{ name: '메뉴', picture: 'url' }],
   shopId: 11,
 };
 
@@ -38,12 +38,11 @@ const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopLi
         <CardCategory>{category}</CardCategory>
       </CardTitle>
       <CardImage>
-        <img
-          width="330px"
-          height="200px"
-          src="https://png.pngtree.com/background/20211216/original/pngtree-dining-room-at-night-picture-image_1531627.jpg"
-          alt="restaurant"
-        />
+        {food ? (
+          <img width="330px" height="200px" src={food[0].picture} alt="restaurant" />
+        ) : (
+          <NoneFoodImage>등록된 사진이 없습니다.</NoneFoodImage>
+        )}
       </CardImage>
       <CardDescription>{`" ${description} "`}</CardDescription>
       <MenuList>
@@ -59,7 +58,7 @@ const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopLi
         {Number(avgStar) ? (
           <>
             <StarRateIcon
-              sx={{ bottom: '20px', right: '88px', position: 'absolute', color: '#f50c43' }}
+              sx={{ bottom: '23px', right: '86px', position: 'absolute', color: '#faaf00' }}
             />
             <StarAvg>{Number(avgStar).toFixed(1)}</StarAvg>
             <StarTotal>/5</StarTotal>
@@ -77,7 +76,7 @@ MenuCard.defaultProps = defaultProps;
 export default MenuCard;
 
 const Container = styled.div`
-  background-color:${({theme})=>theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background};
   border-radius: 10px;
   width: 400px;
   height: 470px;
@@ -94,9 +93,9 @@ const CardTitle = styled.h5`
   font-weight: bold;
   font-size: ${(props) => props.theme.font.size.containerTitle};
   line-height: 26px;
-  color: ${(props) => props.theme.font.color.balck};
+  color: ${(props) => props.theme.font.color.black};
   margin-top: 25px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 `;
 
 const CardCategory = styled.span`
@@ -108,9 +107,9 @@ const CardCategory = styled.span`
 const CardImage = styled.div``;
 
 const CardDescription = styled.p`
-  color: #5e5f61;
+  color: ${(props) => props.theme.font.color.description};
   font-size: ${(props) => props.theme.font.size.normal};
-  margin: 16px 0;
+  margin: 12px 0;
   line-height: 20px;
 `;
 
@@ -143,6 +142,17 @@ const StarAvg = styled.span`
 const StarTotal = styled.span`
   position: absolute;
   bottom: 25px;
-  color: #727273;
+  color: ${(props) => props.theme.font.color.description};
   right: 44px;
+  font-weight: bold;
+  font-size: 16px;
+`;
+
+const NoneFoodImage = styled.div`
+  width: 330px;
+  height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }) => theme.colors.innerContainer};
 `;

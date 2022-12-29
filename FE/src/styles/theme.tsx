@@ -1,9 +1,8 @@
 import { createTheme } from '@mui/material/styles';
-import { makeStyles, Theme, createStyles } from '@mui/material/styles';
 
 //style-component themeProvider
 const fontSizes = {
-  title: 16,
+  title: 18,
   subTitle: 14,
   small: 10,
 };
@@ -23,9 +22,11 @@ const colors = {
 
 const font = {
   color: {
-    balck: '#1E1F21',
+    black: '#1E1F21',
     darkGray: '#303030',
     white: '#ffffff',
+    description: '#5e5f61',
+    subTitle: '#424140',
   },
   size: {
     normal: '14px',

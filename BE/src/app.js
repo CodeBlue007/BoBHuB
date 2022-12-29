@@ -18,6 +18,8 @@ const {
   partyRouter,
   adminRouter,
   utilRouter,
+  pickRouter,
+  cpRouter,
 } = require("./routers");
 const { errorLogger, errorHandler, isLoggedIn, isAdmin } = require("./middlewares");
 const app = express();
@@ -31,6 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.urlencoded({ extended: false }));
+app.use("/api/picks", pickRouter);
 app.use("/api/auth", loginRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/shops", shopRouter);
@@ -40,6 +43,7 @@ app.use("/api/elice", eliceRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/admin", isLoggedIn, isAdmin, adminRouter);
 app.use("/api/parties", isLoggedIn, partyRouter);
+app.use("/api/cps", cpRouter);
 app.use("/api/utils", utilRouter);
 
 app.use(errorLogger);

@@ -8,4 +8,6 @@ module.exports = {
   ...require("./comment-controller"),
   ...require("./party-controller"),
   ...require("./util-controller"),
+  ...require("./pick-controller"),
+  ...require("./cp-controller"),
 };

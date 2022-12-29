@@ -7,4 +7,6 @@ module.exports = {
   ...require("./comment-service"),
   ...require("./party-service"),
   ...require("./util-service"),
+  ...require("./pick-service"),
+  ...require("./cp-service"),
 };

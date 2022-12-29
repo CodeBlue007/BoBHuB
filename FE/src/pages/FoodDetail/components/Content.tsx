@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
 import { useState } from 'react';
-import { ShopState } from '../types/Type';
+import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
 import { getParties, postParty } from '../foodDetailApi';
@@ -66,7 +66,6 @@ interface Contentype {
 const Content = ({ shop }: Contentype) => {
   const [isClicked, setClicked] = useState<boolean>(false);
   const [partyLimit, setpartyLimit] = useState<number>(2);
-  const [timeLimit, setTimeLimit] = useState<number>(15);
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isClicked) {
@@ -84,12 +83,12 @@ const Content = ({ shop }: Contentype) => {
     const party = {
       shopId: shop.shopId,
       partyLimit,
-      timeLimit,
+      timeLimit: 30,
     };
     const message = await postParty(party);
     if (message) {
-      alert('식당모집이 완료되었습니다.');
       setClicked(true);
+      alert('식당모임이 생성되었습니다.');
     }
   };
 
@@ -103,27 +102,19 @@ const Content = ({ shop }: Contentype) => {
           variant="contained"
           onClick={handleClick}
           sx={{
-            backgroundColor: '#E59A59',
             fontSize: '10px',
             marginRight: '30px',
-          }}>{`찜하기 ❤`}</LikeButton>
+          }}>{`모임생성 ❤`}</LikeButton>
       </TitleContainer>
 
       <MenuContainer>
         <MenuCard size={'15px'} width={'20vw'}>
-          <p>메뉴</p>
-          <p>{shop.menu}</p>
-          <p>
-            {shop.description} 추가테스트추가테스트 추가테스트추가테스트추가테스트추가테스트
-            추가테스트추가테스트추가테스트추가테스트 추가테스트추가테스트추가테스트추가테스트
-            추가테스트추가테스트
-          </p>
+          <p>{shop.description}</p>
           <p>주소: {shop.address}</p>
           <p>거리 : {shop.distance}</p>
         </MenuCard>
         <SelectContainer>
           <SelectTags type={'모집인원'} value={partyLimit} setValue={setpartyLimit} />
-          <SelectTags type={'유지시간'} value={timeLimit} setValue={setTimeLimit} />
         </SelectContainer>
       </MenuContainer>
     </ContentContainer>

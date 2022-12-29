@@ -11,6 +11,9 @@ import { useRef } from 'react';
 import type { UserType } from './Users';
 import styled from 'styled-components';
 import { patch } from '../../../../../api/API';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../../../store/store';
+import { getUsersData } from '../../../../../store/adminUsersSlice';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -26,25 +29,25 @@ const style = {
 
 interface UserDetailFormProps {
   user: UserType;
-  fetchUserData: () => void;
   handleClose: () => void;
 }
 
-const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProps) => {
+const UserDetailForm = ({ user, handleClose }: UserDetailFormProps) => {
   const nickname = useRef<TextFieldProps>();
   const auth = useRef<TextFieldProps>();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const updateUserData = (body: { nickName: string; role: string }) => {
+  const updateUserData = (body: { nickname: string; role: string }) => {
     return patch(`/api/admin/users/${user.userId}`, body);
   };
 
   const clickUpdateBtn = async () => {
     const body = {
-      nickName: nickname.current?.value as string,
+      nickname: nickname.current?.value as string,
       role: auth.current?.value as string,
     };
     await updateUserData(body);
-    fetchUserData();
+    dispatch(getUsersData());
     handleClose();
   };
   return (
@@ -62,7 +65,7 @@ const UserDetailForm = ({ user, fetchUserData, handleClose }: UserDetailFormProp
       </Div>
       <Div>
         <label htmlFor="nickname">닉네임</label>
-        <TextField id="nickname" type="text" defaultValue={user.nickName} inputRef={nickname} />
+        <TextField id="nickname" type="text" defaultValue={user.nickname} inputRef={nickname} />
       </Div>
       <Div>
         <label htmlFor="auth">권한</label>

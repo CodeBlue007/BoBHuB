@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
-import { CommentState } from '../types/Type';
+import { CommentState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import { deleteComment } from '../foodDetailApi';
 import type { RootState } from '../../../store/store';
@@ -16,7 +16,7 @@ const ListContainer = styled(FlexContainer)`
   box-shadow: 2px 2px 2px gray;
   width: 50vw;
   border-radius: 10px;
-  background-color: #ffd5af;
+  background-color: ${({ theme }) => theme.colors.sub};
   position: relative;
   margin: 15px;
 `;
@@ -26,7 +26,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 3;
-  color: white;
+  color: ${({ theme }) => theme.font.color.black};
   padding: 10px;
 
   & > article {
@@ -76,8 +76,8 @@ const CommentList = ({
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>, commentId:number) => {
-    deleteComment(commentId);
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, commentId: number) => {
+    await deleteComment(commentId);
     updateCommentState();
   };
 
@@ -127,7 +127,7 @@ const CommentList = ({
                 variant="contained"
                 color="error"
                 size="small"
-                onClick={(e) => handleDelete(e,commentId)}
+                onClick={(e) => handleDelete(e, commentId)}
                 startIcon={<DeleteIcon />}>
                 삭제
               </CustomButton>

@@ -1,28 +1,45 @@
 const { pool } = require("../mysql-pool");
 const o = new (require("../../utils/build-query"))("party");
-const buildRes = require("../../utils/build-response");
+
+const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class PartyModel {
   async create(partyDTO) {
+    const conn = await pool.getConnection();
     try {
+      const { userId } = partyDTO;
       const { keyArr, valArr } = o.objToKeyValueArray(partyDTO);
-      const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      const query1 = o.makeInsertQuery(keyArr, valArr);
+      logger.info(query1);
 
-      const [result] = await pool.query(query);
-      return buildRes("c", result);
-    } catch (err) {
+      await conn.beginTransaction();
+
+      const [createResult] = await conn.query(query1);
+
+      const query2 = `INSERT INTO pick (userId, partyId) 
+      VALUES(?, ?)`;
+      const params2 = [userId, createResult.insertId];
+      await conn.query(query2, params2);
+
+      await conn.commit();
+      return buildRes("c", createResult);
+    } catch (e) {
+      logger.error(e);
+      await conn.rollback();
+
       throw new ErrorFactory(
-        commonErrors.DB_ERROR,
-        500,
-        "요청한 내용으로 DB에서 처리할 수 없습니다."
+        commonErrors.BAD_REQUEST,
+        400,
+        "이미 작성한 내역이 있는 식당이거나 Body의 요청 내용이 잘못되었습니다."
       );
+    } finally {
+      conn.release();
     }
   }
   async getAll() {
     try {
-      let query = o.makeSelectQuery();
+      let query = o.makeSelectQuery({});
       query += ` join(select name, shopPicture, menu, address ,shopId
         from shop) as s
         on s.shopId = party.shopId
@@ -30,11 +47,12 @@ class PartyModel {
           , AVG(star) AS avgStar
        FROM comment
       GROUP BY shopId) c on c.Id1 = party.shopId`;
-      console.log(query);
+      logger.info(query);
 
       const [parties] = await pool.query(query);
       return parties;
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -45,14 +63,14 @@ class PartyModel {
 
   async get(partyDTO) {
     try {
-      console.log(partyDTO);
       const whereArr = o.objToQueryArray(partyDTO);
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
       const [parties] = await pool.query(query);
       return parties;
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -66,10 +84,11 @@ class PartyModel {
       const newDTO = o.objToQueryArray(newPartyDTO);
       const oldDTO = o.objToQueryArray(partyDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
       return buildRes("u", result);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
@@ -82,11 +101,12 @@ class PartyModel {
     try {
       const whereArr = o.objToQueryArray({ partyId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
       return buildRes("d", result);
-    } catch (err) {
+    } catch (e) {
+      logger.error(e);
       throw new ErrorFactory(
         commonErrors.DB_ERROR,
         500,
