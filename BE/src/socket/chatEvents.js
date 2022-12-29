@@ -1,10 +1,10 @@
 const { getPublicRooms } = require("./socketUtil.js");
-const { pickService } = require("../services");
+const { logger } = require("../utils");
 
 module.exports = (io, socket) => {
   const check = () => {
-    console.log("Sid", io.sockets.adapter.sids);
-    console.log("Rooms", io.sockets.adapter.rooms);
+    logger.info("Sid", io.sockets.adapter.sids);
+    logger.info("Rooms", io.sockets.adapter.rooms);
   };
 
   const giveRooms = () => {
@@ -26,11 +26,11 @@ module.exports = (io, socket) => {
   };
 
   const disconnect = () => {
-    console.log("socket is disconnecting");
+    logger.info("socket is disconnecting");
   };
 
   const disconnecting = () => {
-    console.log("socket is disconnected");
+    logger.info("socket is disconnected");
   };
 
   const setNickName = (nickname) => {

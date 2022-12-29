@@ -1,4 +1,5 @@
 const { pickService } = require("../services");
+const { logger } = require("../utils");
 
 module.exports = (io, socket) => {
   const createParty = () => {
@@ -8,8 +9,8 @@ module.exports = (io, socket) => {
   };
 
   const joinParty = async (partyId, userId) => {
-    console.log("partyId", partyId);
-    console.log("userId", userId);
+    logger.debug("partyId", partyId);
+    logger.debug("userId", userId);
 
     const result = await pickService.joinParty(userId, partyId);
     io.sockets.emit("joinSuccess", result);
