@@ -51,6 +51,14 @@ const MenuCard = styled(Card)<MenuCardProps>`
   }
 `;
 
+const ATag = styled.a`
+  text-decoration: none;
+  color: #1e1f21;
+  &:hover {
+    color: ${({ theme }) => theme.colors.main};
+  }
+`;
+
 const SelectContainer = styled.div`
   height: inherit;
 `;
@@ -66,6 +74,7 @@ interface Contentype {
 const Content = ({ shop }: Contentype) => {
   const [isClicked, setClicked] = useState<boolean>(false);
   const [partyLimit, setpartyLimit] = useState<number>(2);
+  const BASEURL = 'https://map.naver.com/v5/entry/place/';
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isClicked) {
@@ -110,7 +119,9 @@ const Content = ({ shop }: Contentype) => {
       <MenuContainer>
         <MenuCard size={'15px'} width={'20vw'}>
           <p>{shop.description}</p>
-          <p>주소: {shop.address}</p>
+          <ATag href={`${BASEURL}${shop.address}`} target="_blank" rel="noreferrer">
+            주소로 이동하기
+          </ATag>
           <p>거리 : {shop.distance}</p>
         </MenuCard>
         <SelectContainer>
