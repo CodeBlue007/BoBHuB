@@ -6,8 +6,7 @@ const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 class UtilService {
   async sendCode(unverifiedEmail) {
     try {
-      // const code = await generateRandomCode();
-      const code = 1111;
+      const code = await generateRandomCode();
       const subject = `밥허브 메일 검증 코드 입니다. 1분안에 입력해주세요.`;
       const text = `-----------------------------
       인증 코드 : ${code} 

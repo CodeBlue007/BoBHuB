@@ -17,7 +17,7 @@ class LoginController {
           logger.error(loginError);
           return next(loginError);
         }
-        return res.redirect(`${bobhubUrl}`); //세션쿠키를 브라우저로 보냄
+        return res.redirect(`${bobhubUrl}`);
       });
     })(req, res, next);
   }
