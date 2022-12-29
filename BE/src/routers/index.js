@@ -10,4 +10,5 @@ module.exports = {
   ...require("./admin-router"),
   ...require("./util-router"),
   ...require("./pick-router"),
+  ...require("./cp-router"),
 };

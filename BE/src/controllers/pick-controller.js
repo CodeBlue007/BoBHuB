@@ -22,21 +22,11 @@ class PickController {
     }
   }
 
-  async isCompletedParty(req, res, next) {
-    const partyId = parseInt(req.params.partyId);
+  async getByPartyId(req, res, next) {
     try {
-      const result = await pickService.isCompletedParty(partyId);
-      return res.status(200).json(result);
-    } catch (e) {
-      next(e);
-    }
-  }
-
-  async deleteCompletedParty(req, res, next) {
-    const partyId = parseInt(req.body.partyId);
-    try {
-      const result = await pickService.deleteCompletedParty(partyId);
-      return res.status(200).json(result);
+      const partyId = parseInt(req.body.partyId);
+      const users = await pickService.getByPartyId(partyId);
+      return res.status(200).json(users);
     } catch (e) {
       next(e);
     }

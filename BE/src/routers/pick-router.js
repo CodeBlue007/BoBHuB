@@ -5,7 +5,6 @@ const pickRouter = Router();
 
 pickRouter.post("/", pickController.join);
 pickRouter.delete("/", pickController.leave);
-pickRouter.get("/cps/:partyId", pickController.isCompletedParty);
-pickRouter.delete("/cps", pickController.deleteCompletedParty);
+pickRouter.get("/party-users", pickController.getByPartyId);
 
 module.exports = { pickRouter };

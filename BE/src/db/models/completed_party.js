@@ -4,6 +4,23 @@ const { buildRes, logger } = require("../../utils");
 const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class CpModel {
+  async getAll() {
+    try {
+      const query = o.makeSelectQuery({});
+      logger.info(query);
+
+      const [cps] = await pool.query(query);
+      return cps;
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
+    }
+  }
+
   async get(cpDTO) {
     try {
       const whereArr = o.objToQueryArray(cpDTO);
