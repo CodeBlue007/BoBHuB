@@ -197,9 +197,9 @@ export default function SimpleSlider() {
   const socket = useContext(SocketContext);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
   const setPartiesData = async () => {
-    const data: Party[] = await fetchParties();
-    console.log(data);
-    setParties([...data]);
+    const activeParties: Party[] = await fetchParties();
+    const notCompleteParties = activeParties.filter((party) => party.likedNum !== party.partyLimit);
+    setParties([...notCompleteParties]);
   };
 
   useEffect(() => {
