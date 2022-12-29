@@ -64,13 +64,12 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
                   <BasicLink to={`/foodlist/${party.shopId}`}>
                     <Name>{party.name}</Name>
                   </BasicLink>
-                  <Time>모집 종료 시간: {limit}</Time>
                   <Paragraph>
                     모집 현황 {party.likedNum}/{party.partyLimit}
                   </Paragraph>
                 </Description>
               </NoPadFlex>
-              {user.userId === party.userId && (
+              {user.userId === party.userId && party.isComplete === 0 && (
                 <DeleteButton
                   size="small"
                   color="error"
@@ -79,25 +78,11 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
                   모집 종료
                 </DeleteButton>
               )}
-              {user.userId !== party.userId && (
+              {user.userId !== party.userId && party.isComplete === 0 && (
                 <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
                   참여 취소
                 </DeleteButton>
               )}
-              {/* {user.userId === party.userId && party.isComplete === 0 && (
-                <DeleteButton
-                  size="small"
-                  color="error"
-                  variant="outlined"
-                  onClick={() => clickDeleteButton(party.partyId)}>
-                  모집 종료
-                </DeleteButton>
-              )} */}
-              {/* {user.userId !== party.userId && party.isComplete === 0 && (
-                <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
-                  참여 취소
-                </DeleteButton>
-              )} */}
               {party.isComplete === 1 && <Complete>모집 완료</Complete>}
             </List>
           );

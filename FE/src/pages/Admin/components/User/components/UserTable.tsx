@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect, useRef } from 'react';
 import {
   Table,
   TableBody,
@@ -13,6 +13,7 @@ import type { UserType } from './Users';
 import UserModal from './UserModal';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../../store/store';
+import { useNavigate } from 'react-router';
 
 let selectUser: UserType;
 
@@ -22,8 +23,21 @@ const UserTable = () => {
     selectUser = user;
     setOpen(true);
   };
+  const navigate = useNavigate();
   const users = useSelector((state: RootState) => state.adminUsersReducer.users);
   const handleClose = () => setOpen(false);
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      if (users.length < 1) {
+        alert('권한이 없습니다.');
+        navigate('/');
+      }
+    } else {
+      isMounted.current = true;
+    }
+  }, [users]);
   return (
     <Fragment>
       <UserModal handleClose={handleClose} open={open} user={selectUser} />

@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `commentId` INTEGER NOT NULL auto_increment, 
   `userId` INTEGER NOT NULL, 
   `shopId` INTEGER NOT NULL, 
-  `content` VARCHAR(45), 
+  `content` VARCHAR(180), 
   `star` INTEGER NOT NULL DEFAULT 3, 
   `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   `updatedAt` DATETIME, 

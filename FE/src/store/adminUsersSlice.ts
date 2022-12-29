@@ -27,6 +27,9 @@ export const getUsersData = createAsyncThunk(
       if (!res) {
         throw new Error('데이터를 받아오지 못했습니다.');
       }
+      if (typeof res === 'string') {
+        throw new Error('권한이 없는 사용자입니다.');
+      }
       return res;
     } catch (err) {
       console.log(err);

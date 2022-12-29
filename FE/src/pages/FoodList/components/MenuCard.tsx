@@ -31,7 +31,14 @@ const defaultProps: ShopListProps = {
   shopId: 11,
 };
 
-const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopListProps) => {
+const MenuCard = ({
+  name: shopName,
+  category,
+  description,
+  avgStar,
+  food,
+  shopId,
+}: ShopListProps) => {
   const navigate = useNavigate();
   const activePartyList = useSelector(
     (state: RootState) => state.partySliceReducer.activePartyList,
@@ -61,7 +68,7 @@ const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopLi
   return (
     <Container onClick={goToFoodDetailPage}>
       <CardTitle>
-        {name}
+        {shopName}
         <CardCategory>{category}</CardCategory>
       </CardTitle>
       <CardImage>
@@ -77,7 +84,7 @@ const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopLi
         {food
           ? food.map((menu, idx) => {
               const { name, picture } = menu;
-              return <Menu key={`${name}-${name}-${idx}`}>{name}</Menu>;
+              return <Menu key={`${shopId}-${name}-${idx}`}>{name}</Menu>;
             })
           : ''}
       </MenuList>

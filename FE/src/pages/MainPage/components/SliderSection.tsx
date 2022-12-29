@@ -25,10 +25,10 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover {
-    color: ${({ theme }) => theme.font.color.description};
+    color: ${(props) => props.theme.colors.main};
   }
   .slick-next:hover {
-    color: ${({ theme }) => theme.font.color.description};
+    color: ${(props) => props.theme.colors.main};
   }
 `;
 
@@ -63,11 +63,16 @@ const DivPre = styled.div`
   z-index: 99;
   text-align: left;
   font-size: 100px;
-  color: ${({ theme }) => theme.font.color.description};
+  color: ${(props) => props.theme.colors.emphasis};
   line-height: 40px;
 `;
 
-const Div = styled.div`
+interface DivProps {
+  length: number;
+  max: number;
+}
+
+const Div = styled.div<DivProps>`
   // height: 100%;
   background-color: ${(props) => props.theme.colors.background};
   box-sizing: border-box;
@@ -91,8 +96,8 @@ const Div = styled.div`
   } //item
 
   .slide {
-    opacity: 0.5;
-    transform: scale(0.7);
+    opacity: ${({ length, max }) => (length > max ? 0.5 : 1)};
+    transform: ${({ length, max }) => (length > max ? 'scale(0.7)' : 'scale(1)')};
     transition: 0.3s;
     filter: blur (5px);
   }
@@ -140,16 +145,16 @@ const TitleBox = styled.div`
 
 export default function SimpleSlider() {
   const showMaxCnt = 3;
-
+  const parties = useSelector((state: RootState) => state.partySliceReducer.activePartyList);
   const settings = {
     dots: false,
     className: 'center',
     centerPadding: '0px',
     centerMode: true,
-    infinite: true,
+    infinite: parties.filter((party) => party.likedNum !== party.partyLimit).length > showMaxCnt,
     speed: 500,
     slidesToShow: showMaxCnt,
-    slidesToScroll: showMaxCnt,
+    slidesToScroll: 1,
     arrows: true,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -198,7 +203,7 @@ export default function SimpleSlider() {
   const [slideIndex, setSlideIndex] = useState(0);
   const socket = useContext(SocketContext);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
-  const parties = useSelector((state: RootState) => state.partySliceReducer.activePartyList);
+
   const dispatch = useDispatch<AppDispatch>();
   const setPartiesData = () => {
     dispatch(getActivePartyList());
@@ -223,7 +228,9 @@ export default function SimpleSlider() {
   }, []);
 
   return (
-    <Div>
+    <Div
+      length={parties.filter((party) => party.likedNum !== party.partyLimit).length}
+      max={showMaxCnt}>
       {userInfo ? (
         <TitleBox>
           밥메이트들이 <span style={{ color: '#E59A59' }}>{userInfo.name}</span>님을 기다리고
@@ -234,11 +241,12 @@ export default function SimpleSlider() {
       )}
 
       <div>
-        {parties.length === 0 ? (
+        {parties.length === 0 && (
           <LabelContainer>
             <div>활성화된 식당이 없습니다.</div>
           </LabelContainer>
-        ) : (
+        )}
+        {parties.length >= 4 && (
           <StyledSlider {...settings}>
             {parties
               .filter((party) => party.likedNum !== party.partyLimit)
@@ -251,6 +259,20 @@ export default function SimpleSlider() {
                 />
               ))}
           </StyledSlider>
+        )}
+        {parties.length <= 3 && (
+          <div>
+            {parties
+              .filter((party) => party.likedNum !== party.partyLimit)
+              .map((party, index) => (
+                <SliderItem
+                  index={index}
+                  slideIndex={slideIndex}
+                  party={party}
+                  key={party.shopId}
+                />
+              ))}
+          </div>
         )}
       </div>
     </Div>

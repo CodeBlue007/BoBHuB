@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Typography, Stack, Button } from '@mui/material';
 import logo from '../assets/BoBHuB_logo.png';
 import title from '../assets/BoBHuB_textLogo.png';
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect, Fragment, useState, useContext } from 'react';
+import React, { useEffect, Fragment, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserData, logoutUser } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
@@ -16,6 +16,12 @@ import Fade from '@mui/material/Fade';
 import UserGuide from './UserGuide/UserGuide';
 import { SocketContext } from '../socket/SocketContext';
 import { getActivePartyList, getMyPartyList } from './../store/partySlice';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const ModalStyle = {
   position: 'absolute' as 'absolute',
@@ -51,12 +57,17 @@ const NavBar = () => {
   const activePartyList = useSelector(
     (state: RootState) => state.partySliceReducer.activePartyList,
   );
+  const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
   const isLogin = useSelector((state: RootState) => state.userReducer.isLogin);
+  const role = useSelector((state: RootState) => state.userReducer.currentUser.role);
+
   const location = useLocation();
   const [modal, setModal] = useState(false);
+  const [alarm, setAlarm] = useState(false);
   const socket = useContext(SocketContext);
   const handleOpen = () => setModal(true);
   const handleClose = () => setModal(false);
+  const closeAlarm = () => setAlarm(false);
 
   useEffect(() => {
     dispatch(loginUserData());
@@ -86,6 +97,12 @@ const NavBar = () => {
     }
   }, [isLogin]);
 
+  useEffect(() => {
+    if (myPartyList.find((party) => party.isComplete === 1)) {
+      setAlarm(true);
+    }
+  }, [myPartyList]);
+
   const handleOpenToggle = () => setOpen(!open);
 
   const logout = () => {
@@ -106,6 +123,16 @@ const NavBar = () => {
         position: location.pathname !== '/' ? 'static' : 'absolute',
       }}>
       <Toolbar>
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          open={alarm}
+          onClose={closeAlarm}
+          message="모임이 활성화 됐습니다. 채팅창을 확인하세요!"
+          autoHideDuration={6000}>
+          <Alert onClose={closeAlarm} severity="success" sx={{ width: '100%' }}>
+            모임이 활성화 됐습니다. 채팅창을 확인하세요!
+          </Alert>
+        </Snackbar>
         <BasicLink to="/">
           <Logo src={logo} alt="BoBHuB logo" />
         </BasicLink>
@@ -118,6 +145,11 @@ const NavBar = () => {
           <Button onClick={handleOpen} sx={{ color: 'white' }}>
             밥허브 이용가이드
           </Button>
+          {role === 'admin' && (
+            <BasicLink to="/admin">
+              <Button color="inherit">관리자</Button>
+            </BasicLink>
+          )}
           {isLogin ? (
             <Fragment>
               <BasicLink to="/mypage">
