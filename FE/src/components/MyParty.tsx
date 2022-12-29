@@ -72,7 +72,7 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
                   </Paragraph>
                 </Description>
               </NoPadFlex>
-              {user.userId === party.userId && (
+              {user.userId === party.userId && party.isComplete === 0 && (
                 <DeleteButton
                   size="small"
                   color="error"
