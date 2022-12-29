@@ -138,15 +138,18 @@ const TitleBox = styled.div`
 `;
 
 export default function SimpleSlider() {
+  const showMaxCnt = 4;
+  const arr = Array.from(new Array(3));
+
   const settings = {
     dots: false,
     className: 'center',
     centerPadding: '0px',
     centerMode: true,
-    infinite: true,
+    infinite: arr.length > showMaxCnt,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToShow: showMaxCnt,
+    slidesToScroll: showMaxCnt,
     arrows: true,
     autoplay: true,
     autoplaySpeed: 3000,
