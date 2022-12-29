@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextField, Button, IconButton } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -103,10 +103,6 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
   const { email, password } = loginForm;
 
   const navigate = useNavigate();
-
-  const location = useLocation();
-
-  const { params } = useParams();
 
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
