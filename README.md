@@ -1,8 +1,7 @@
 <hr />
 
 # <img src="/uploads/887fa19993e6f96cf7cdfe5ab4ffb700/BoBHuB_logo.png" alt="BoBhub_logo" widht="30" height="30"> BoBHuB
-
-## 성수낙낙에 방문한 레이서들을 위한 밥메이트 매칭 서비스
+> **성수낙낙에 방문한 레이서들을 위한 밥메이트 매칭 서비스**
 
 ## 1. 서비스 소개
 
