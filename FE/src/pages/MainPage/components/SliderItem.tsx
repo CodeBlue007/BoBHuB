@@ -54,10 +54,9 @@ interface SliderItemProps {
   party: Party;
   index: number;
   slideIndex: number;
-  setPartiesData: () => void;
 }
 
-const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProps) => {
+const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
   const socket = useContext(SocketContext);
   const [like, setLike] = useState(false);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
@@ -77,7 +76,7 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
     setLike(!like);
     console.log('partyId :', partyId);
     console.log('userId :', userId);
-    socket.emit('joinParty', partyId, userId, party.name);
+    socket.emit('joinParty', partyId, userId);
   };
 
   return (

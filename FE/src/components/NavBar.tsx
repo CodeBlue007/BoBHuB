@@ -6,7 +6,6 @@ import { useEffect, Fragment, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserData, logoutUser } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
-import { get } from '../api/API';
 import MyParty from './MyParty';
 import styled from 'styled-components';
 import { theme } from './../styles/theme';
@@ -16,8 +15,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import UserGuide from './UserGuide/UserGuide';
 import { SocketContext } from '../socket/SocketContext';
-import type { Party } from '../pages/MainPage/Type';
-import { getMyPartyList } from './../store/partySlice';
+import { getActivePartyList, getMyPartyList } from './../store/partySlice';
 
 const ModalStyle = {
   position: 'absolute' as 'absolute',
@@ -50,7 +48,10 @@ const TitleLogo = styled.img`
 const NavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-  const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
+  const activePartyList = useSelector(
+    (state: RootState) => state.partySliceReducer.activePartyList,
+  );
+  const isLogin = useSelector((state: RootState) => state.userReducer.isLogin);
   const location = useLocation();
   const [modal, setModal] = useState(false);
   const socket = useContext(SocketContext);
@@ -60,7 +61,21 @@ const NavBar = () => {
   useEffect(() => {
     dispatch(loginUserData());
     dispatch(getMyPartyList());
-    socket.on('joinSuccess', (msg) => {
+    dispatch(getActivePartyList());
+    socket.on('joinSuccess', () => {
+      dispatch(getMyPartyList());
+      dispatch(getActivePartyList());
+    });
+    socket.on('leaveSuccess', () => {
+      dispatch(getActivePartyList());
+      dispatch(getMyPartyList());
+    });
+    socket.on('createSuccess', () => {
+      dispatch(getActivePartyList());
+      dispatch(getMyPartyList());
+    });
+    socket.on('deleteSuccess', () => {
+      dispatch(getActivePartyList());
       dispatch(getMyPartyList());
     });
   }, []);
