@@ -59,7 +59,7 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
     socket.emit('nickname', userName);
 
     socket.on('joinFailed', (msg) => {
-      alert(msg);
+      console.log(msg);
     });
 
     fetchParites();

@@ -30,7 +30,7 @@ class FoodService {
     const food = await this.foodModel.getByShopId(shopId);
     return food;
   }
-  // 오류?
+
   async update(newFoodDTO, foodId) {
     const existingFood = await this.foodModel.getById(foodId);
     if (!existingFood) {
