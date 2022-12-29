@@ -13,7 +13,7 @@ class LoginController {
           result: "loginError",
           message: info.message,
         };
-        return res.status(300).json(result);
+        return res.status(200).json(result);
       }
       return req.login(user, (loginError) => {
         if (loginError) {
