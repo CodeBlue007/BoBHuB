@@ -158,7 +158,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     // 비밀번호 일치 여부 검사
     try {
       const resLoginForm = await API.post('/api/auth/login', loginForm);
-      console.log(resLoginForm.result);
+      console.log(resLoginForm);
       // if (resLoginForm.message) {
       // throw new Error('비밀번호가 일치하지 않습니다.');
       // } else {
