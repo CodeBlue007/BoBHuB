@@ -2,8 +2,8 @@ import { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { TextCss, Title } from './ChatStyle';
 import { SocketContext } from '../../../socket/SocketContext';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store/store';
 import { Party } from '../../../pages/MainPage/Type';
 
 const ChatContainer = styled.div`
@@ -15,13 +15,6 @@ const ChatContainer = styled.div`
   }
 `;
 
-const NumberDiv = styled.div`
-  font-size: 15px;
-  ${TextCss}
-  position: absolute;
-  top: 0px;
-  right: 15px;
-`;
 const CursorDiv = styled.div`
   position: relative;
   cursor: pointer;
@@ -42,7 +35,6 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { roomname } = e.currentTarget.dataset;
-    console.log(roomname);
     socket.emit('enterRoom', roomname, moveRoom);
   };
 

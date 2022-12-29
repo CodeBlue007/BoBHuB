@@ -1,12 +1,9 @@
-import styled, { css } from 'styled-components';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { IconButton, Paper } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import ChatRoom from './ChatRoom';
 import ChatList from './ChatList';
 import { SocketContext } from '../../../socket/SocketContext';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
 
 interface ChatPageProps {
   handleDisplay: () => void;
