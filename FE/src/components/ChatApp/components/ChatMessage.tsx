@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { MessageInfo } from '../../../store/chatSlice';
 import { RootState } from '../../../store/store';
+import { MessageInfo } from '../ChatAppApi';
 
 const TextLeft = styled.div`
   display: flex;
@@ -21,8 +21,8 @@ const TextWrapper = styled.div`
 
 const TextBlock = styled.span`
   display: inline-block;
-  background-color:${({theme})=>theme.colors.main};
-  color: ${({theme})=>theme.font.color.black};
+  background-color: ${({ theme }) => theme.colors.main};
+  color: ${({ theme }) => theme.font.color.black};
   font-size: 15px;
   padding: 8px;
   margin: 5px;

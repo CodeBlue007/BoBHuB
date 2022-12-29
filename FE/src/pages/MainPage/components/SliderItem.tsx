@@ -8,7 +8,6 @@ import StarRateIcon from '@mui/icons-material/StarRate';
 import LockIcon from '@mui/icons-material/Lock';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { getLimitTime } from './../../../util/getLimitTime';
 
 const ItemContainer = styled.div`
   background-color: white;
@@ -43,7 +42,7 @@ const Description = styled.div`
   .likedNum {
     color: #2485ed;
     font-size: 17px;
-    margin: 10px 20px 5px 0;
+    margin: 15px 20px 5px 0;
   }
   .time {
     color: #ed4c24;
@@ -81,8 +80,6 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
     socket.emit('joinParty', partyId, userId, party.name);
   };
 
-  const limit = getLimitTime(party.createdAt, party.timeLimit);
-
   return (
     <ItemContainer
       className={index === slideIndex ? 'slide slide-center' : 'slide'}
@@ -101,7 +98,6 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
             <div className="likedNum">
               모집 현황 : {party.likedNum} 명 / 총 {party.partyLimit} 명
             </div>
-            <div className="time">모집 종료 시간: {limit}</div>
           </span>
           <span style={{ margin: '0 0 0 50px' }}>
             {isJoined ? (

@@ -4,8 +4,6 @@ import { TextCss, Title } from './ChatStyle';
 import { SocketContext } from '../../../socket/SocketContext';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../store/store';
-import { chatAction } from '../../../store/chatSlice';
-import { getParties } from '../ChatAppApi';
 import { Party } from '../../../pages/MainPage/Type';
 
 const ChatContainer = styled.div`
@@ -36,23 +34,17 @@ interface ChatListProps {
 }
 
 const ChatList = ({ moveRoom }: ChatListProps) => {
-  const [roomArray, setRoomArray] = useState<Party[]>([]);
   const socket = useContext(SocketContext);
   const userName = useSelector<RootState>((state) => state.userReducer.currentUser.name);
   const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
-  const dispatch = useDispatch<AppDispatch>();
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
+  const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
+  const [completedParty, setCompletedParty] = useState<Party[]>([]);
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { roomname, partyid: partyId } = e.currentTarget.dataset;
     console.log(roomname);
     socket.emit('enterRoom', roomname, userId, partyId, moveRoom);
-    dispatch(chatAction.enterRoom({ roomName: roomname }));
-  };
-
-  const fetchParites = async () => {
-    const parties = await getParties();
-    setRoomArray(parties);
   };
 
   useEffect(() => {
@@ -62,7 +54,7 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
       console.log(msg);
     });
 
-    fetchParites();
+    setCompletedParty(myPartyList.filter((party) => party.isComplete === 1));
 
     // 실제 room이 만들어진걸 확인함.
   }, [userName]);
@@ -72,19 +64,18 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
       <Title>Chat Lists</Title>
       <ChatContainer>
         {!isLogin ? (
-          <CursorDiv>"채팅방이 없습니다"</CursorDiv>
+          <CursorDiv>"로그인을 해주세요"</CursorDiv>
+        ) : completedParty.length === 0 ? (
+          <CursorDiv>생성된 채팅방이 없습니다.</CursorDiv>
         ) : (
-          roomArray.map((roomInfo) => (
+          completedParty.map((party) => (
             <>
               <CursorDiv
                 onClick={handleMove}
-                key={roomInfo.partyId}
-                data-roomname={roomInfo.name}
-                data-partyid={roomInfo.partyId}>
-                {roomInfo.name}
-                <NumberDiv key={roomInfo.partyId}>
-                  {roomInfo.likedNum}/{roomInfo.partyLimit}
-                </NumberDiv>
+                key={party.partyId}
+                data-roomname={party.name}
+                data-partyid={party.partyId}>
+                {party.name}
               </CursorDiv>
             </>
           ))

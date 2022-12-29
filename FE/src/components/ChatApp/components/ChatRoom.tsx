@@ -5,10 +5,9 @@ import { Button, TextField } from '@mui/material';
 import { SocketContext } from '../../../socket/SocketContext';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../../../store/store';
-import { chatAction } from '../../../store/chatSlice';
-import { MessageInfo } from '../../../store/chatSlice';
 import ChatMessage from './ChatMessage';
 import { setLog } from '../ChatAppApi';
+import { MessageInfo } from '../ChatAppApi';
 
 const InputContainer = styled.div`
   display: flex;

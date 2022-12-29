@@ -66,7 +66,6 @@ interface Contentype {
 const Content = ({ shop }: Contentype) => {
   const [isClicked, setClicked] = useState<boolean>(false);
   const [partyLimit, setpartyLimit] = useState<number>(2);
-  const [timeLimit, setTimeLimit] = useState<number>(15);
 
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     if (isClicked) {
@@ -84,7 +83,7 @@ const Content = ({ shop }: Contentype) => {
     const party = {
       shopId: shop.shopId,
       partyLimit,
-      timeLimit,
+      timeLimit: 30,
     };
     const message = await postParty(party);
     if (message) {
@@ -116,7 +115,6 @@ const Content = ({ shop }: Contentype) => {
         </MenuCard>
         <SelectContainer>
           <SelectTags type={'모집인원'} value={partyLimit} setValue={setpartyLimit} />
-          <SelectTags type={'유지시간'} value={timeLimit} setValue={setTimeLimit} />
         </SelectContainer>
       </MenuContainer>
     </ContentContainer>

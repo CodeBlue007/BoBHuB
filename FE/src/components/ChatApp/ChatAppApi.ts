@@ -1,7 +1,7 @@
 import * as API from '../../api/API';
-import { MessageInfo } from '../../store/chatSlice';
+import { NullableString, NullableNum } from '../../pages/FoodDetail/util/Type';
 
-export const getParties = async () => await API.get(`/api/parties`);
+export const getCompletedParties = async () => await API.get(`/api/cps`);
 
 export const setLog = (key: string, payload: MessageInfo) => {
   const localString = localStorage.getItem(key);
@@ -12,4 +12,10 @@ export const setLog = (key: string, payload: MessageInfo) => {
     localArr.push(payload);
     localStorage.setItem(key, JSON.stringify(localArr));
   }
+};
+
+export type MessageInfo = {
+  message: string;
+  userId: NullableNum;
+  userName: NullableString;
 };
