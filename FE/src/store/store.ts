@@ -7,7 +7,6 @@ import partySlice from './partySlice';
 const store = configureStore({
   reducer: {
     userReducer: userSlice.reducer,
-    chatReducer: chatSlice.reducer,
     adminUsersReducer: adminUsersSlice.reducer,
     partySliceReducer: partySlice.reducer,
   },
