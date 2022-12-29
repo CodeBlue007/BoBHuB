@@ -468,7 +468,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       return;
     }
     setEmailForm(emailBody);
-    alert(`${resEmailVerify.message}`); //\n인증코드를 1분 내로 입력해주세요.`);
+    alert(`${resEmailVerify.message}`); // 인증코드를 발송했습니다. 1분 안에 입력해주세요.
   };
 
   const handleEmailCodeClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -476,18 +476,16 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     const div = textField?.childNodes[0];
     const input = div?.childNodes[1];
     const inputEmailCode = (input as HTMLInputElement).value;
-    console.log(inputEmailCode, emailForm.email);
 
     const emailCodeBody = {
       email: emailForm.email,
-      emailCode: inputEmailCode,
+      code: inputEmailCode,
     };
 
     // 중복 확인 후 이메일 인증
     const resEmailCodeVerify = await postEmailCode(emailCodeBody);
-    console.log(resEmailCodeVerify.message);
     if (!resEmailCodeVerify) {
-      alert(`${resEmailCodeVerify.message}\n다시 시도해 주세요.`); //'인증 코드가 일치하지 않습니다.\n다시 시도해 주세요.');
+      alert('인증 코드가 일치하지 않습니다.\n다시 시도해 주세요.');
       // form 초기화
       setRegForm({
         name: '',
@@ -502,7 +500,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       });
       return;
     }
-    alert('인증이 완료되었습니다.');
+    alert(`${resEmailCodeVerify.message}`); // 인증되었습니다.
   };
 
   return (

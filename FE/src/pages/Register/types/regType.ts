@@ -28,5 +28,5 @@ export type PostEmail = {
 
 export type PostEmailCode = {
   email: string;
-  emailCode: string;
+  code: string;
 };
