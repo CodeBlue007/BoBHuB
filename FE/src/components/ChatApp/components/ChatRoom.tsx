@@ -56,13 +56,13 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
 
   const addMessage = (messageInfo: MessageInfo) => {
     setLog(roomName, messageInfo);
+    console.log(messageInfo);
     setMessage((current) => [...current, messageInfo]);
   };
 
   const enterRoom = () => {
     const message = `방에 입장하셨습니다.`;
     const messageInfo = { userId: 0, userName: '', message };
-    setLog(roomName, messageInfo);
     setMessage((current) => [...current, messageInfo]);
   };
 
@@ -78,22 +78,23 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
   };
 
   useEffect(() => {
-    enterRoom();
     const log = localStorage.getItem(roomName);
     if (log) {
       const logArr = JSON.parse(log);
       setMessage(logArr);
     }
 
+    enterRoom();
+
     socket.on('getMessage', (messageInfo) => {
+      console.log(messageInfo);
       setLog(roomName, messageInfo);
-      // dispatch(chatAction.updateRoom({ roomName, payload: messageInfo }));
+      setMessage((current) => [...current, messageInfo]);
     });
   }, []);
 
   useEffect(() => {
     scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
-    // console.log(chats);
   }, [messages]);
 
   return (
@@ -102,7 +103,7 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
         <Title>{roomName}</Title>
         <Container>
           <TextContainer ref={scrollRef}>
-            {messages?.map((messageInfo: MessageInfo, idx: number) => (
+            {messages.map((messageInfo: MessageInfo, idx: number) => (
               <ChatMessage messageInfo={messageInfo} key={`${messageInfo.message}${idx}`} />
             ))}
           </TextContainer>
