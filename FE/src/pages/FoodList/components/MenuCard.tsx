@@ -50,7 +50,7 @@ const MenuCard = ({ name, category, description, avgStar, food, shopId }: ShopLi
   useEffect(() => {
     if (
       activePartyList
-        // .filter((party) => party.likedNum !== party.partyLimit)
+        .filter((party) => party.likedNum !== party.partyLimit)
         .find((party) => party.shopId === shopId)
     ) {
       setGatherting(true);

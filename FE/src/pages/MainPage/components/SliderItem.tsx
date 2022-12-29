@@ -74,8 +74,6 @@ const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
 
   const handleLike = (partyId: number) => {
     setLike(!like);
-    console.log('partyId :', partyId);
-    console.log('userId :', userId);
     socket.emit('joinParty', partyId, userId);
   };
 
