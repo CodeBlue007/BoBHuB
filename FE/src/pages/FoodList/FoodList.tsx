@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import MenuCard from './components/MenuCard';
 import Search from './components/Search';
 import NavBar from '../../components/NavBar';
+import Footer from '../../components/Footer';
 import { SocketContext } from '../../socket/SocketContext';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
@@ -127,7 +128,7 @@ const FoodList = () => {
       </CardContainer>
       <Stack spacing={2}>
         <Pagination
-          sx={{ paddingTop: '50px' }}
+          sx={{ padding: '50px 0' }}
           color="primary"
           count={totalPage}
           page={page}
@@ -137,6 +138,7 @@ const FoodList = () => {
           onChange={handlePageUpdate}
         />
       </Stack>
+      <Footer />
     </Container>
   );
 };
@@ -147,7 +149,6 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-bottom: 50px;
   background-color: ${({ theme }) => theme.colors.container};
 `;
 

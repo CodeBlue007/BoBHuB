@@ -8,6 +8,7 @@ import * as API from '../../api/API';
 import axios from 'axios';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import UserProfile from '../../assets/userprofile.png';
+import Footer from '../../components/Footer';
 
 export type UserInfoType = {
   track: string;
@@ -97,6 +98,7 @@ const MyPage = () => {
           <DeleteUser />
         </SubContainer>
       </UserUpdate>
+      <Footer />
     </Container>
   );
 };
@@ -122,7 +124,7 @@ const SubContainer = styled.div`
   margin-top: 10px;
   border-radius: 10px;
   background-color: white;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
 `;
 
 const Title = styled.h1`
