@@ -9,17 +9,17 @@ const SelectContainer = styled(FlexContainer)`
 `;
 
 interface selectProps {
-  type: '모집인원' | '유지시간';
+  type: '모집인원';
   value: number;
   setValue: (x: number) => void;
 }
 
 const SelectTags = ({ type, value, setValue }: selectProps) => {
-  const optionData = type === '모집인원' ? [2, 3, 4] : [15, 30, 45, 60];
+  const optionData = [2, 3, 4];
 
   const optionTags = () => {
     return optionData.map((data, idx) => {
-      const text = type === '모집인원' ? `${data}명` : `${data}분`;
+      const text = `${data}명`;
       return (
         <option value={data} key={`${data}${idx}`}>
           {text}
