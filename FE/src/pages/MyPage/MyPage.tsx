@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import * as API from '../../api/API';
 import axios from 'axios';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import UserProfile from '../../assets/userprofile.png';
 
 export type UserInfoType = {
   track: string;
@@ -77,7 +78,7 @@ const MyPage = () => {
       <Title>My Page</Title>
       <UserUpdate>
         <ImgContainer>
-          <ImgCircle alt="Profile Image" src={userInfo.profile} />
+          <ImgCircle alt="Profile Image" src={userInfo.profile?userInfo.profile:UserProfile} />
           <IconButton sx={{ position: 'absolute', top: '95px', right: '35px' }} component="label">
             <AddAPhotoIcon color="secondary" />
             <input
