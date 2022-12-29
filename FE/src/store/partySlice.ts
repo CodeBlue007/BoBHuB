@@ -9,6 +9,7 @@ const initialState: { myPartyList: Party[] } = {
 export const getMyPartyList = createAsyncThunk('party/host', async (_, { rejectWithValue }) => {
   try {
     const res = await get('/api/parties/liked-party');
+    console.log(res);
     if (!res) {
       throw new Error('에러!');
     }
@@ -24,6 +25,13 @@ const partySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getMyPartyList.fulfilled, (state, action) => {
+      const lists = [...action.payload];
+      const newList = lists.map((list: Party) => {
+        if (list.likedNum !== list.partyLimit) return list;
+        list.isComplete = 1;
+        return list;
+      });
+      console.log(newList);
       state.myPartyList = [...action.payload];
     });
     builder.addCase(getMyPartyList.rejected, (state, action) => {

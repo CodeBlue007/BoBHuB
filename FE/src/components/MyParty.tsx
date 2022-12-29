@@ -30,7 +30,7 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
   }, []);
 
   const clickLeaveButton = (partyId: number) => {
-    socket.emit('leaveParty', user.userId, partyId);
+    socket.emit('leaveParty', partyId, user.userId);
   };
 
   const clickDeleteButton = async (id: number) => {
