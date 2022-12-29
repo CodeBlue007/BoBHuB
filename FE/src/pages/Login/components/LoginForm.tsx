@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { TextField, Button, IconButton } from '@mui/material';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -104,6 +104,10 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  const { params } = useParams();
+
   const onTextFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginForm({
@@ -117,33 +121,10 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
 
     onLoginSubmit(loginForm);
 
-    // email validation - admin 이메일 수정되면 주석 해제 예정
-    // if (!validateEmail(loginForm.email)) {
-    //   alert('이메일 형식이 올바르지 않습니다.');
-    //   // form 초기화
-    //   setLoginForm({
-    //     email: '',
-    //     password: '',
-    //   });
-    //   return;
-    // }
-
-    // pw validation
-    // if (!validatePassword(loginForm.password)) {
-    //   alert('비밀번호 형식이 올바르지 않습니다.');
-    //   // form 초기화
-    //   setLoginForm({
-    //     email: '',
-    //     password: '',
-    //   });
-    //   return;
-    // }
-
-    // 이메일 존재 여부 검사
-    const resEmail = await API.get(`api/users/emails/${email}`);
-    if (resEmail.message.substr(0, 1) === '사') {
-      alert('Error: 존재하지 않는 계정입니다.');
-      // form 초기화
+    // email validation
+    if (!validateEmail(loginForm.email)) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      // email 초기화
       setLoginForm({
         email: '',
         password: '',
@@ -151,18 +132,31 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
       return;
     }
 
-    // 비밀번호 일치 여부 검사
+    // pw validation
+    if (!validatePassword(loginForm.password)) {
+      alert('비밀번호 형식이 올바르지 않습니다.');
+      // pw 초기화
+      setLoginForm({
+        email: loginForm.email,
+        password: '',
+      });
+      return;
+    }
+
     try {
       const resLoginForm = await API.post('/api/auth/login', loginForm);
-      if (!resLoginForm) {
-        throw new Error('비밀번호가 일치하지 않습니다.');
+      if (resLoginForm.message.substr(0, 1) === '가') {
+        throw new Error(`${resLoginForm.message}`); // 가입되지 않은 회원입니다.
+      } else if (resLoginForm.message.substr(0, 1) === '비') {
+        throw new Error(`${resLoginForm.message}`); // 비밀번호가 일치하지 않습니다.
+      } else if (resLoginForm.result === 'error') {
+        throw new Error('로그인을 다시 시도해 주세요.');
       } else {
         // form 초기화
         setLoginForm({
           email: '',
           password: '',
         });
-        // 로그인 성공, 메인페이지로 이동
         navigate('/', { replace: true });
       }
     } catch (err) {
