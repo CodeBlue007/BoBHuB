@@ -65,7 +65,7 @@ const FoodList = () => {
 
   const getCategoriesAPI = async () => {
     const res = await API.get(`/api/categories`);
-    setGetCategories(res);
+    setGetCategories(res.reverse());
   };
 
   const handlePageUpdate = (e: React.ChangeEvent<unknown>, newPage: number) => {
