@@ -3,7 +3,6 @@ import UserInfo from './components/UserInfo';
 import NavBar from '../../components/NavBar';
 import DeleteUser from './components/DeleteUser';
 import { useState, useEffect, useRef } from 'react';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import * as API from '../../api/API';
 import axios from 'axios';
@@ -78,7 +77,7 @@ const MyPage = () => {
       <Title>My Page</Title>
       <UserUpdate>
         <ImgContainer>
-          <ImgCircle alt="Profile Image" src={userInfo.profile?userInfo.profile:UserProfile} />
+          <ImgCircle alt="Profile Image" src={userInfo.profile ? userInfo.profile : UserProfile} />
           <IconButton sx={{ position: 'absolute', top: '95px', right: '35px' }} component="label">
             <AddAPhotoIcon color="secondary" />
             <input
@@ -176,7 +175,4 @@ const ImgCircle = styled.img`
   width: 75px;
   height: 75px;
   border-radius: 50px;
-`;
-const FileUpload = styled.input`
-  margin-top: 10px;
 `;

@@ -14,7 +14,6 @@ import NavBar from '../../components/NavBar';
 import { SocketContext } from '../../socket/SocketContext';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store/store';
-import { getActivePartyList } from '../../store/partySlice';
 
 const FoodList = () => {
   const [searchInput, setSearchInput] = useState<string>('');
