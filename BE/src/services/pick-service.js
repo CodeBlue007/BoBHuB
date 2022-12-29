@@ -30,6 +30,15 @@ class PickService {
     const result = await this.cpModel.deleteCompletedParty(partyId);
     return result;
   }
+
+  async checkLikedParty(userId, partyId) {
+    const pickDTO = {};
+    pickDTO.userId = parseInt(userId);
+    pickDTO.partyId = parseInt(partyId);
+    const checkLiked = await this.pickModel.get(pickDTO);
+    const isLikedParty = checkLiked.length === 0 ? false : true;
+    return isLikedParty;
+  }
 }
 
 const pickService = new PickService(pickModel, cpModel);

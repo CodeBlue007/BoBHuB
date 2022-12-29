@@ -23,7 +23,10 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
   const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
 
   useEffect(() => {
-    socket.on('leaveSuccess', () => dispatch(getMyPartyList()));
+    socket.on('leaveSuccess', (result, msg) => {
+      console.log(result, msg);
+      dispatch(getMyPartyList());
+    });
   }, []);
 
   const clickLeaveButton = (partyId: number) => {

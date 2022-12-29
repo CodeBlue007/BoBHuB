@@ -61,7 +61,7 @@ const NavBar = () => {
     dispatch(loginUserData());
     dispatch(getMyPartyList());
     socket.on('joinSuccess', (msg) => {
-      console.log(msg);
+      alert(msg);
       dispatch(getMyPartyList());
     });
   }, []);

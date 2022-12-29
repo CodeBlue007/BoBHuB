@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TextField, Button, MenuItem } from '@mui/material';
+import { TextField, Button, MenuItem, IconButton } from '@mui/material';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import MailLockOutlinedIcon from '@mui/icons-material/MailLockOutlined';
 import KeyIcon from '@mui/icons-material/Key';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import LaptopMacOutlinedIcon from '@mui/icons-material/LaptopMacOutlined';
 import NumbersOutlinedIcon from '@mui/icons-material/NumbersOutlined';
@@ -24,7 +26,7 @@ import {
 import * as API from '../../../api/API';
 import logo from '../../../assets/BoBHuB_logo.png';
 
-const RegisterFormContainer = styled.form`
+const RegisterImgFormContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,7 +40,7 @@ const RegisterFormContainer = styled.form`
   }
 `;
 
-const BoxContainer = styled.div`
+const RegisterFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -48,7 +50,7 @@ const BoxContainer = styled.div`
   border-radius: 4px;
 
   height: 800px;
-  padding: 0px 20px;
+  padding: 5px 20px;
 
   margin-bottom: 80px;
 
@@ -58,7 +60,11 @@ const BoxContainer = styled.div`
   }
 
   & div {
-    margin: 10px 0px;
+    margin: 10px 0;
+  }
+
+  & div p {
+    margin: -7px 0;
   }
 
   /* & #standard-select-track-label {
@@ -70,9 +76,9 @@ const BoxContainer = styled.div`
     border-radius: 4px;
   } */
 
-  & #menu- > div > ul {
+  /* & #menu- > div > ul {
     margin-top: 20px;
-  }
+  } */
 
   & div div div {
     margin-right: 10px;
@@ -87,6 +93,46 @@ const BoxContainer = styled.div`
     font-size: 18px;
     color: #3a3b3c;
   }
+
+  & .pw input,
+  .pwCheck input {
+    width: 516px;
+  }
+
+  & div div div button {
+    padding: 0;
+    margin-right: -8px;
+    width: 25px;
+    height: 25px;
+  }
+
+  & .NicknameCheckBtn {
+    height: 30px;
+    border-width: 0.5px;
+    margin-left: 500px;
+    margin-top: -51px;
+  }
+
+  & .EmailSendBtn {
+    height: 30px;
+    border-width: 0.5px;
+    margin-left: 500px;
+    margin-top: -51px;
+  }
+
+  & .PhoneCheckBtn {
+    height: 30px;
+    border-width: 0.5px;
+    margin-left: 500px;
+    margin-top: -51px;
+  }
+`;
+
+const RegisterButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   & button {
     margin: 20px auto;
@@ -110,7 +156,7 @@ const BoxContainer = styled.div`
   & .backToLogin {
     font-size: 14px;
     margin-top: -5px;
-    margin-right: 413px;
+    margin-right: 0;
   }
 `;
 
@@ -146,29 +192,296 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     e.preventDefault();
 
     onRegSubmit(regForm);
-    const res = await API.post('/api/users/join', regForm);
 
-    // form 초기화
-    setRegForm({
-      name: '',
-      nickname: '',
-      email: '',
-      confirmNum: '',
-      password: '',
-      passwordCheck: '',
-      phone: '',
-      track: '',
-      // generation: 0,
-      generation: '',
-    });
+    // 이름 validation
+    if (!validateName(regForm.name)) {
+      alert('이름 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
 
-    navigate('/login', { replace: true });
+    // 닉네임 validation
+    if (!validateNickName(regForm.nickname)) {
+      alert('닉네임 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 이메일 validation
+    if (!validateEmail(regForm.email)) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 인증번호 validation
+    if (!validateConfirmNum(regForm.confirmNum)) {
+      alert('인증번호 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 비밀번호 validation
+    if (!validatePassword(regForm.password)) {
+      alert('비밀번호 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 비밀번호 체크 validation
+    if (!validatePWCheck(regForm.password, regForm.passwordCheck)) {
+      alert('비밀번호가 일치하지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 휴대폰번호 validation
+    if (!validatePhone(regForm.phone)) {
+      alert('휴대폰번호 형식이 올바르지 않습니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 트랙 validation
+    if (!validateTrack(regForm.track)) {
+      alert('존재하는 트랙이 아닙니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 기수 validation
+    if (!validateGeneration(regForm.track, regForm.generation)) {
+      alert('현재 활동 중인 기수가 아닙니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 닉네임 중복체크
+    const resNickname = await API.get(`/api/users/nicknames/${regForm.nickname}`);
+    if (resNickname.message.substr(0, 1) === '같') {
+      alert('이미 존재하는 닉네임입니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    try {
+      const resRegisterForm = await API.post('/api/users/join', regForm);
+
+      // 전화번호 중복체크
+      if (!resRegisterForm) {
+        // throw new Error(`${resRegisterForm.type}\n${resRegisterForm.reason}`);
+        throw new Error('해당 전화번호로 가입한 내역이 존재합니다');
+      } else {
+        // form 초기화
+        setRegForm({
+          name: '',
+          nickname: '',
+          email: '',
+          confirmNum: '',
+          password: '',
+          passwordCheck: '',
+          phone: '',
+          track: '',
+          generation: '',
+        });
+        // 회원가입 성공, 로그인페이지로 이동
+        navigate('/login', { replace: true });
+      }
+    } catch (err) {
+      alert(err);
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+  };
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordCheck, setShowPasswordCheck] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPasswordCheck = () => setShowPasswordCheck((show) => !show);
+
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
+
+  const handleEmailClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const textField = (e.target as HTMLButtonElement).previousSibling;
+    const div = textField?.childNodes[0];
+    const input = div?.childNodes[1];
+    const inputEmail = (input as HTMLInputElement).value;
+    const resEmail = await API.get(`/api/users/emails/${inputEmail}`);
+    if (resEmail.message.substr(0, 1) === '같') {
+      alert('이미 가입된 이메일입니다.');
+      // form 초기화
+      setRegForm({
+        name: '',
+        nickname: '',
+        email: '',
+        confirmNum: '',
+        password: '',
+        passwordCheck: '',
+        phone: '',
+        track: '',
+        generation: '',
+      });
+      return;
+    }
+
+    // 이메일 인증 - api 오류
+    // const resEmailVerify = await API.get(`api/utils/${inputEmail}/send-code`);
+    // // ${resEmailVerify.message}
+    // if (!resEmailVerify) {
+    //   alert('인증 메일 전송 오류. 다시 시도해 주세요.');
+    //   // form 초기화
+    //   setRegForm({
+    //     name: '',
+    //     nickname: '',
+    //     email: '',
+    //     confirmNum: '',
+    //     password: '',
+    //     passwordCheck: '',
+    //     phone: '',
+    //     track: '',
+    //     generation: '',
+    //   });
+    //   return;
+    // }
+    alert(`해당 메일로 인증번호가 전송되었습니다.\n인증번호를 1분 내로 입력해주세요.`);
+  };
+
+  const handleConfirmNumClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const textField = (e.target as HTMLButtonElement).previousSibling;
+    const div = textField?.childNodes[0];
+    const input = div?.childNodes[1];
+    const inputConfirmNum = (input as HTMLInputElement).value;
+    console.log(inputConfirmNum);
   };
 
   return (
-    <RegisterFormContainer onSubmit={handleRegSubmit}>
+    <RegisterImgFormContainer onSubmit={handleRegSubmit}>
       <img src={logo} alt="logo" />
-      <BoxContainer>
+      <RegisterFormContainer>
         <TextField
           name="name"
           variant="standard"
@@ -179,6 +492,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -186,13 +500,13 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="이름을 입력해주세요 (한글 2~6글자)."
+          placeholder="이름"
           value={name}
           onChange={onTextFieldChange}
           error={!validateName(regForm.name) && regForm.name !== ''}
           helperText={
             !validateName(regForm.name) && regForm.name !== ''
-              ? '이름은 한글 2~6글자이어야 합니다.'
+              ? '이름은 한글 2~6자 사이여야 합니다.'
               : ''
           }
         />
@@ -207,6 +521,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -214,81 +529,101 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="닉네임을 입력해주세요 (한글·영문(대·소문자) 5~10글자)."
+          placeholder="닉네임(중복 불가)"
           value={nickname}
           onChange={onTextFieldChange}
           error={!validateNickName(regForm.nickname) && regForm.nickname !== ''}
           helperText={
             !validateNickName(regForm.nickname) && regForm.nickname !== ''
-              ? '닉네임은 한글·영문(대·소문자) 5~10글자이어야 합니다.'
+              ? '닉네임은 한글·영문(대·소문자) 5~10자 사이여야 합니다.'
               : ''
           }
         />
 
-        <TextField
-          required
-          type="text"
-          name="email"
-          variant="standard"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <MailOutlineIcon />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            input: {
-              '&::placeholder': {
-                opacity: 0.8,
+        <div className="emailInputBtnContainer">
+          <TextField
+            required
+            type="text"
+            name="email"
+            variant="standard"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MailOutlineIcon />
+                </InputAdornment>
+              ),
+            }}
+            inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
+            sx={{
+              input: {
+                '&::placeholder': {
+                  opacity: 0.8,
+                },
               },
-            },
-          }}
-          placeholder="이메일을 입력해주세요."
-          value={email}
-          onChange={onTextFieldChange}
-          error={!validateEmail(regForm.email) && regForm.email !== ''}
-          helperText={
-            !validateEmail(regForm.email) && regForm.email !== ''
-              ? '유효한 이메일 형식이 아닙니다.'
-              : ''
-          }
-        />
+            }}
+            placeholder="이메일"
+            value={email}
+            onChange={onTextFieldChange}
+            error={!validateEmail(regForm.email) && regForm.email !== ''}
+            helperText={
+              !validateEmail(regForm.email) && regForm.email !== ''
+                ? '유효한 이메일 형식이 아닙니다.'
+                : ''
+            }
+          />
+          <Button
+            className="EmailSendBtn"
+            variant="contained"
+            size="small"
+            onClick={handleEmailClick}>
+            인증 메일 전송
+          </Button>
+        </div>
 
-        <TextField
-          required
-          type="text"
-          name="confirmNum"
-          variant="standard"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <MailLockOutlinedIcon />
-              </InputAdornment>
-            ),
-          }}
-          sx={{
-            input: {
-              '&::placeholder': {
-                opacity: 0.8,
+        <div className="confirmNumInputBtnContainer">
+          <TextField
+            required
+            type="text"
+            name="confirmNum"
+            variant="standard"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MailLockOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
+            inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
+            sx={{
+              input: {
+                '&::placeholder': {
+                  opacity: 0.8,
+                },
               },
-            },
-          }}
-          placeholder="발송된 이메일에 기재된 인증번호를 입력해주세요."
-          value={confirmNum}
-          onChange={onTextFieldChange}
-          error={!validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''}
-          helperText={
-            !validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''
-              ? '인증번호가 일치하지 않습니다.'
-              : ''
-          }
-        />
+            }}
+            placeholder="인증번호"
+            value={confirmNum}
+            onChange={onTextFieldChange}
+            error={!validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''}
+            helperText={
+              !validateConfirmNum(regForm.confirmNum) && regForm.confirmNum !== ''
+                ? '인증번호 형식이 부적절합니다.'
+                : ''
+            }
+          />
+          <Button
+            className="EmailSendBtn"
+            variant="contained"
+            size="small"
+            onClick={handleConfirmNumClick}>
+            인증
+          </Button>
+        </div>
 
         <TextField
+          className="pw"
           required
-          // type={showPassword ? 'text' : 'password'}
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           name="password"
           variant="standard"
           InputProps={{
@@ -297,20 +632,19 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
                 <KeyIcon />
               </InputAdornment>
             ),
-
-            // endAdornment: (
-            //   <InputAdornment position="end">
-            //     <IconButton
-            //       aria-label="toggle password visibility"
-            //       onClick={handleClickShowPassword}
-            //       onMouseDown={handleMouseDownPassword}
-            //       edge="end"
-            //     >
-            //     {showPassword ? <VisibilityOff /> : <Visibility />}
-            //     </IconButton>
-            //   </InputAdornment>
-            // )
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end">
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -318,20 +652,21 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="비밀번호를 입력해주세요 (8~20자리 영문·숫자 조합)."
+          placeholder="비밀번호"
           value={password}
           onChange={onTextFieldChange}
           error={!validatePassword(regForm.password) && regForm.password !== ''}
           helperText={
             !validatePassword(regForm.password) && regForm.password !== ''
-              ? '비밀번호는 8~20자리 영문·숫자 조합이어야 합니다.'
+              ? '비밀번호는 4~20자 영문·숫자 조합이어야 합니다.'
               : ''
           }
         />
 
         <TextField
+          className="pwCheck"
           required
-          type="password"
+          type={showPasswordCheck ? 'text' : 'password'}
           name="passwordCheck"
           variant="standard"
           InputProps={{
@@ -340,7 +675,19 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
                 <KeyIcon />
               </InputAdornment>
             ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle passwordCheck visibility"
+                  onClick={handleClickShowPasswordCheck}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end">
+                  {showPasswordCheck ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -348,7 +695,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="비밀번호를 다시 입력해주세요."
+          placeholder="비밀번호 확인"
           value={passwordCheck}
           onChange={onTextFieldChange}
           error={
@@ -374,6 +721,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -381,7 +729,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="휴대폰번호를 입력해주세요 (' - ' 포함)."
+          placeholder="휴대폰번호(중복 불가)"
           value={phone}
           onChange={onTextFieldChange}
           error={!validatePhone(regForm.phone) && regForm.phone !== ''}
@@ -403,6 +751,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -410,7 +759,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="소속된 엘리스 트랙명을 입력해주세요 (AI, IoT, SW)."
+          placeholder="엘리스 트랙명(AI, IoT, SW)."
           value={track}
           onChange={onTextFieldChange}
           error={!validateTrack(regForm.track) && regForm.track !== ''}
@@ -430,6 +779,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               </InputAdornment>
             ),
           }}
+          inputProps={{ style: { WebkitBoxShadow: '0 0 0 1000px #fcf3eb inset' } }}
           sx={{
             input: {
               '&::placeholder': {
@@ -437,7 +787,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               },
             },
           }}
-          placeholder="소속 트랙의 기수(숫자)를 입력해주세요."
+          placeholder="엘리스 기수(숫자만)"
           value={generation}
           onChange={onTextFieldChange}
           error={
@@ -445,7 +795,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           }
           helperText={
             !validateGeneration(regForm.track, regForm.generation) && regForm.generation !== ''
-              ? '현재 활성화된 기수가 아닙니다.'
+              ? '현재 활동 중인 기수가 아닙니다.'
               : ''
           }
         />
@@ -463,16 +813,18 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           ))}
         </TextField> */}
 
-        <Button variant="contained" type="submit">
-          회원가입
-        </Button>
+        <RegisterButtonContainer>
+          <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>
+            회원가입
+          </Button>
 
-        <div className="backToLogin">
-          이미 계정이 있나요? &nbsp;
-          <Link to="/login">로그인</Link>
-        </div>
-      </BoxContainer>
-    </RegisterFormContainer>
+          <div className="backToLogin">
+            이미 계정이 있나요? &nbsp;
+            <Link to="/login">로그인</Link>
+          </div>
+        </RegisterButtonContainer>
+      </RegisterFormContainer>
+    </RegisterImgFormContainer>
   );
 };
 
