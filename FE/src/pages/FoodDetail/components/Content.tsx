@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
-import { getParties, postParty, getCompletedParties } from '../foodDetailApi';
+import { getParties, postParty } from '../foodDetailApi';
 
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
@@ -84,12 +84,8 @@ const Content = ({ shop }: Contentype) => {
       alert('이미 찜한 식당입니다.');
       return;
     }
-    const [currentParties, completedParties] = await Promise.all([
-      getParties(),
-      getCompletedParties(),
-    ]);
+    const currentParties = await getParties();
     const copyCurrent = [...currentParties];
-    console.log('completed', completedParties);
     console.log('current', copyCurrent);
     const filteredByShopId = copyCurrent.filter((current) => current.shopId === shop.shopId);
     if (filteredByShopId.length !== 0) {
