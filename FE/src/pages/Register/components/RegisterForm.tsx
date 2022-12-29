@@ -94,9 +94,15 @@ const RegisterFormContainer = styled.div`
     height: 25px;
   }
 
-  & .emailInputBtnContainer,
-  .emailCodeInputBtnContainer {
-    width: 573px;
+  & .emailInputBtnContainer {
+    width: 574px;
+    height: 56px;
+    margin-bottom: 10px;
+  }
+
+  & .emailCodeInputBtnContainer {
+    width: 574px;
+    height: 60px;
   }
 
   & .NicknameCheckBtn {
@@ -108,9 +114,18 @@ const RegisterFormContainer = styled.div`
 
   & .EmailSendBtn {
     height: 30px;
+    width: 100px;
     border-width: 0.5px;
-    margin-left: 500px;
-    margin-top: -51px;
+    margin-left: 475px;
+    margin-top: -91px;
+  }
+
+  & .EmailCodeSendBtn {
+    height: 30px;
+    width: 50px;
+    border-width: 0.5px;
+    margin-left: 510px;
+    margin-top: -91px;
   }
 
   & .PhoneCheckBtn {
@@ -483,9 +498,19 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     };
 
     // 중복 확인 후 이메일 인증
-    const resEmailCodeVerify = await postEmailCode(emailCodeBody);
-    if (!resEmailCodeVerify) {
-      alert('인증 코드가 일치하지 않습니다.\n다시 시도해 주세요.');
+    try {
+      const resEmailCodeVerify = await postEmailCode(emailCodeBody);
+      if (resEmailCodeVerify.message.substr(0, 6) === '인증 코드가') {
+        // throw new Error(`${resEmailCodeVerify.message}`);
+        alert(`${resEmailCodeVerify.message}`); // 인증 코드가 일치하지 않습니다.
+        return;
+      } else if (!resEmailCodeVerify) {
+        throw new Error('인증 과정에 문제가 있습니다.\n다시 시도해 주세요.');
+      } else {
+        alert(`${resEmailCodeVerify.message}`); // 인증되었습니다.
+      }
+    } catch (err) {
+      alert(err);
       // form 초기화
       setRegForm({
         name: '',
@@ -500,7 +525,6 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
       });
       return;
     }
-    alert(`${resEmailCodeVerify.message}`); // 인증되었습니다.
   };
 
   return (
@@ -632,12 +656,12 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
             error={!validateEmailCode(regForm.emailCode) && regForm.emailCode !== ''}
             helperText={
               !validateEmailCode(regForm.emailCode) && regForm.emailCode !== ''
-                ? '인증코드 형식이 부적절합니다.'
+                ? '인증코드 형식이 올바르지 않습니다.'
                 : ''
             }
           />
           <Button
-            className="EmailSendBtn"
+            className="EmailCodeSendBtn"
             variant="contained"
             size="small"
             onClick={handleEmailCodeClick}>
