@@ -8,7 +8,7 @@ const RegisterContent = () => {
     passwordCheck?: string;
     phone: string;
     email: string;
-    confirmNum?: string;
+    emailCode?: string;
     track: string;
     generation: string;
   }) => {};

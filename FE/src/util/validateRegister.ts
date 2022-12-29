@@ -28,8 +28,9 @@ const validateEmail = (email: string) => {
     );
 };
 
-const validateConfirmNum = (confirmNum: string) => {
-  return confirmNum === '1234';
+const validateEmailCode = (emailCode: string) => {
+  const emailCodeRegex = /^\d{5}$/;
+  return emailCodeRegex.test(emailCode);
 };
 
 const validateTrack = (track: string) => {
@@ -37,7 +38,6 @@ const validateTrack = (track: string) => {
   return trackArr.includes(track);
 };
 
-// const validateGeneration = (track: string, generation: number) => {
 const validateGeneration = (track: string, generation: string) => {
   if (track === 'AI') {
     return generation === '6';
@@ -54,7 +54,7 @@ export {
   validatePWCheck,
   validatePhone,
   validateEmail,
-  validateConfirmNum,
+  validateEmailCode,
   validateTrack,
   validateGeneration,
 };
