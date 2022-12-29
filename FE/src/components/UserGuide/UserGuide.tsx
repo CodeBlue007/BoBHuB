@@ -129,7 +129,7 @@ const UserGuide = () => {
           </div>
           <div>
             <img src={chat} alt="Chat" />
-            <span>제한 시간 안에 찜해둔 맛집에 인원이 다 차면 채팅방이 생겨요!</span>
+            <span>찜해둔 맛집에 인원이 다 차면 채팅방이 생겨요!</span>
           </div>
           <div>
             <img src={dinner} alt="dinner" />
