@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
-import { getParties, postParty } from '../foodDetailApi';
+import { getParties, postParty, getCompletedParties } from '../foodDetailApi';
 
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
@@ -19,6 +19,9 @@ const MenuContainer = styled(FlexContainer)`
   margin-top: 40px;
   align-items: flex-start;
   justify-content: space-between;
+  .description {
+    font-size: 1.5rem;
+  }
 `;
 
 const TitleContainer = styled(FlexContainer)`
@@ -81,9 +84,13 @@ const Content = ({ shop }: Contentype) => {
       alert('이미 찜한 식당입니다.');
       return;
     }
-    const currentParties = await getParties();
+    const [currentParties, completedParties] = await Promise.all([
+      getParties(),
+      getCompletedParties(),
+    ]);
     const copyCurrent = [...currentParties];
-    console.log(copyCurrent);
+    console.log('completed', completedParties);
+    console.log('current', copyCurrent);
     const filteredByShopId = copyCurrent.filter((current) => current.shopId === shop.shopId);
     if (filteredByShopId.length !== 0) {
       alert('이미 모집중인 식당입니다.');
@@ -118,11 +125,11 @@ const Content = ({ shop }: Contentype) => {
 
       <MenuContainer>
         <MenuCard size={'15px'} width={'20vw'}>
-          <p>{shop.description}</p>
+          <p className="description">{shop.description}</p>
+          <p>{`거리 : 걸어서 ${shop.distance}분 거리`}</p>
           <ATag href={`${BASEURL}${shop.address}`} target="_blank" rel="noreferrer">
             주소로 이동하기
           </ATag>
-          <p>거리 : {shop.distance}</p>
         </MenuCard>
         <SelectContainer>
           <SelectTags type={'모집인원'} value={partyLimit} setValue={setpartyLimit} />
