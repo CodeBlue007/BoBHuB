@@ -32,7 +32,10 @@ class PickService {
   }
 
   async checkLikedParty(userId, partyId) {
-    const checkLiked = await this.cpModel.get({ userId, partyId });
+    const pickDTO = {};
+    pickDTO.userId = parseInt(userId);
+    pickDTO.partyId = parseInt(partyId);
+    const checkLiked = await this.cpModel.get(pickDTO);
     const isLikedParty = checkLiked.length === 0 ? false : true;
     return isLikedParty;
   }

@@ -13,7 +13,7 @@ module.exports = (io, socket) => {
 
   const enterRoom = async (roomName, moveRoom) => {
     const welcome = `${socket.nickname}님이 방에 입장하셨습니다.`;
-    const isLikedParty = await pickService.checkLikedParty(userId, partyId);
+    // const isLikedParty = await pickService.checkLikedParty(userId, partyId);
     //if(isLikedParty)
     socket.join(roomName);
     moveRoom(roomName);
