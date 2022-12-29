@@ -23,7 +23,6 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
 
   useEffect(() => {
     socket.on('leaveSuccess', (result, msg) => {
-      console.log(result, msg);
       dispatch(getMyPartyList());
     });
   }, []);
@@ -35,7 +34,6 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
   const clickDeleteButton = async (id: number) => {
     const res = await del(`/api/parties/${id}`);
     socket.emit('deleteParty', '모임삭제');
-    console.log(res);
     dispatch(getMyPartyList());
   };
 
