@@ -1,6 +1,5 @@
 const { generateRandomCode, mailSender } = require("../utils");
-const { myCacheCheckperiod } = require("../utils");
-const myCache = myCacheCheckperiod(60);
+const { myCache } = require("../utils");
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class UtilService {
@@ -17,7 +16,7 @@ class UtilService {
         text,
       };
       mailSender.sendGmail(info);
-      myCache.set(unverifiedEmail, code);
+      myCache.set(unverifiedEmail, code, 60);
       return { message: "인증코드를 발송했습니다. 1분 안에 입력해주세요." };
     } catch {
       throw new ErrorFactory(commonErrors.DB_ERROR, 500, "메일 전송에 오류가 있습니다.");
@@ -34,7 +33,7 @@ class UtilService {
 
       return { message };
     } catch {
-      throw new ErrorFactory(commonErrors.DB_ERROR, 500, "메일 전송에 오류가 있습니다.");
+      throw new ErrorFactory(commonErrors.DB_ERROR, 500, " 오류가 있습니다.");
     }
   }
 }

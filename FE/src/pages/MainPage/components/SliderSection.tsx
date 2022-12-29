@@ -67,7 +67,12 @@ const DivPre = styled.div`
   line-height: 40px;
 `;
 
-const Div = styled.div`
+interface DivProps {
+  length: number;
+  max: number;
+}
+
+const Div = styled.div<DivProps>`
   // height: 100%;
   background-color: ${(props) => props.theme.colors.background};
   box-sizing: border-box;
@@ -91,8 +96,8 @@ const Div = styled.div`
   } //item
 
   .slide {
-    opacity: 0.5;
-    transform: scale(0.7);
+    opacity: ${({ length, max }) => (length > max ? 0.5 : 1)};
+    transform: ${({ length, max }) => (length > max ? 'scale(0.7)' : 'scale(1)')};
     transition: 0.3s;
     filter: blur (5px);
   }
@@ -223,7 +228,9 @@ export default function SimpleSlider() {
   }, []);
 
   return (
-    <Div>
+    <Div
+      length={parties.filter((party) => party.likedNum !== party.partyLimit).length}
+      max={showMaxCnt}>
       {userInfo ? (
         <TitleBox>
           밥메이트들이 <span style={{ color: '#E59A59' }}>{userInfo.name}</span>님을 기다리고
