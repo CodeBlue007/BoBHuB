@@ -8,6 +8,16 @@ module.exports = (io, socket) => {
     console.log("Rooms", io.sockets.adapter.rooms);
   };
 
+  const createParty = (partyId, userId, shopName) => {
+    console.log("partyId", partyId);
+    console.log("userId", userId);
+
+    const roomName = `${shopName}/${partyId}`;
+    socket.join(roomName);
+    socket.emit("createRoom", "채팅방이 생성되었습니다");
+    check();
+  };
+
   const joinParty = async (partyId, userId, shopName) => {
     console.log("partyId", partyId);
     console.log("userId", userId);
@@ -43,6 +53,7 @@ module.exports = (io, socket) => {
     // socket.emit("leaveSuccess", result, "찜목록제거");
   };
 
+  socket.on("createParty", createParty);
   socket.on("joinParty", joinParty);
   socket.on("leaveParty", leaveParty);
 };
