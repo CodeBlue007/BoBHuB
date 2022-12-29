@@ -8,14 +8,10 @@ const RegisterContent = () => {
     passwordCheck?: string;
     phone: string;
     email: string;
-    confirmNum?: string;
+    emailCode?: string;
     track: string;
-    // generation: number;
     generation: string;
-  }) => {
-    delete regForm.passwordCheck;
-    delete regForm.confirmNum;
-  };
+  }) => {};
   return <RegisterForm onRegSubmit={onRegSubmit} />;
 };
 

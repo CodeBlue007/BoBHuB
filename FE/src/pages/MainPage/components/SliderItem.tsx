@@ -1,14 +1,13 @@
 import { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { getHourmin } from '../../../util/getDate';
 import { Party } from '../Type';
 import { SocketContext } from '../../../socket/SocketContext';
 import HeartButton from './HeartIcon';
 import StarRateIcon from '@mui/icons-material/StarRate';
+import LockIcon from '@mui/icons-material/Lock';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { getLimitTime } from './../../../util/getLimitTime';
 
 const ItemContainer = styled.div`
   background-color: white;
@@ -43,7 +42,7 @@ const Description = styled.div`
   .likedNum {
     color: #2485ed;
     font-size: 17px;
-    margin: 10px 20px 5px 0;
+    margin: 15px 20px 5px 0;
   }
   .time {
     color: #ed4c24;
@@ -55,14 +54,23 @@ interface SliderItemProps {
   party: Party;
   index: number;
   slideIndex: number;
-  setPartiesData: () => void;
 }
 
-const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProps) => {
+const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
   const socket = useContext(SocketContext);
-  const [hour, minute] = getHourmin(party.createdAt, party.timeLimit);
   const [like, setLike] = useState(false);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
+  const [isJoined, setIsJoined] = useState(false);
+  const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
+
+  useEffect(() => {
+    if (myPartyList.find((myParty) => myParty.shopId === party.shopId)) {
+      setIsJoined(true);
+    } else {
+      setIsJoined(false);
+      setLike(false);
+    }
+  }, [myPartyList]);
 
   const handleLike = (partyId: number) => {
     setLike(!like);
@@ -70,8 +78,6 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
     console.log('userId :', userId);
     socket.emit('joinParty', partyId, userId);
   };
-
-  const limit = getLimitTime(party.createdAt, party.timeLimit);
 
   return (
     <ItemContainer
@@ -89,12 +95,18 @@ const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProp
         <div className="party_info">
           <span>
             <div className="likedNum">
-              모집 현황 : {party.likedNum} 명 / 총 {party.partylimit} 명
+              모집 현황 : {party.likedNum} 명 / 총 {party.partyLimit} 명
             </div>
-            <div className="time">모집 종료 시간: {limit}</div>
           </span>
           <span style={{ margin: '0 0 0 50px' }}>
-            <HeartButton like={like} onClick={() => handleLike(party.partyId)} />
+            {isJoined ? (
+              <div>
+                <LockIcon />
+                <p>참여중</p>
+              </div>
+            ) : (
+              <HeartButton like={like} onClick={() => handleLike(party.partyId)} />
+            )}
           </span>
         </div>
       </Description>

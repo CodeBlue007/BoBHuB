@@ -15,6 +15,7 @@ const sliderEvents = require("./src/socket/sliderEvents");
 const onConnection = (socket) => {
   socket["nickname"] = "Anon";
   console.log("소켓서버와 연결되었습니다.");
+  console.log("Sid", io.sockets.adapter.sids);
   chatEvents(io, socket);
   sliderEvents(io, socket);
 };

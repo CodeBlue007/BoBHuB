@@ -61,7 +61,7 @@ const FormContainer = styled.div`
   }
 `;
 
-const ButtonContainer = styled.div`
+const LoginButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
 
@@ -160,6 +160,11 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
         throw new Error('비밀번호가 일치하지 않습니다.');
       } else {
         console.log(resLoginForm);
+        // form 초기화
+        setLoginForm({
+          email: '',
+          password: '',
+        });
         // 로그인 성공, 메인페이지로 이동
         navigate('/', { replace: true });
       }
@@ -174,12 +179,12 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
     }
   };
 
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleMouseDownPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
   };
 
   return (
@@ -211,7 +216,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
           error={!validateEmail(loginForm.email) && loginForm.email !== ''}
           helperText={
             !validateEmail(loginForm.email) && loginForm.email !== ''
-              ? '이메일 형식이 올바르지 않습니다.'
+              ? '올바르지 않은 이메일 형식입니다.'
               : ''
           }
         />
@@ -257,7 +262,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
               : ''
           }
         />
-        <ButtonContainer>
+        <LoginButtonContainer>
           <Button variant="contained" type="submit">
             로그인
           </Button>
@@ -265,7 +270,7 @@ const LoginForm = ({ onLoginSubmit }: loginFormProps) => {
             아직 계정이 없나요? &nbsp;
             <Link to="/register">회원가입</Link>
           </div>
-        </ButtonContainer>
+        </LoginButtonContainer>
       </FormContainer>
     </ImgFormContainer>
   );

@@ -9,4 +9,5 @@ module.exports = {
   ...require("./party-controller"),
   ...require("./util-controller"),
   ...require("./pick-controller"),
+  ...require("./cp-controller"),
 };

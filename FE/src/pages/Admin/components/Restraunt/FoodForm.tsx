@@ -1,20 +1,5 @@
-import {
-  Box,
-  Typography,
-  Select,
-  MenuItem,
-  TextField,
-  TextFieldProps,
-  Button,
-  ButtonGroup,
-} from '@mui/material';
-import {
-  deleteFoodData,
-  postFoodData,
-  fetchFoodData,
-  updateFoodData,
-  updateImg,
-} from '../../Api/foodApi';
+import { Box, Typography, TextField, TextFieldProps, Button, ButtonGroup } from '@mui/material';
+import { deleteFoodData, postFoodData, updateFoodData, updateImg } from '../../Api/foodApi';
 import { style } from './FoodModal';
 import { useRef, useState, ChangeEvent, useEffect } from 'react';
 import styled from 'styled-components';
@@ -57,7 +42,7 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
     formData.append('distance', distance.current?.value as string);
     formData.append('address', address.current?.value as string);
     formData.append('description', description.current?.value as string);
-    formData.append('category', '한식');
+    formData.append('category', category.current?.value as string);
     if (btnState === 'ADD') {
       shopImg.forEach((img) => {
         formData.append('shopPicture', img);
@@ -168,13 +153,19 @@ const FoodForm = ({ handleClose, setFoodsData, btnState, food }: FoodAddFormProp
             </Div>
             <Div>
               <label htmlFor="category">카테고리</label>
-              <Select
+              <TextField
+                required
+                id="category"
+                inputRef={category}
+                defaultValue={btnState === 'UPDATE' ? food.category : ''}
+              />
+              {/* <Select
                 defaultValue={btnState === 'UPDATE' ? food.category : '한식'}
                 inputRef={category}>
                 {categoryList.map(({ category }) => {
                   return <MenuItem value={category}>{category}</MenuItem>;
                 })}
-              </Select>
+              </Select> */}
             </Div>
             <Div>
               <Button variant="contained" component="label">

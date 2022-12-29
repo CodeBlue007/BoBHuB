@@ -1,5 +1,4 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { useState } from 'react';
 import styled from 'styled-components';
 interface SearchInputProps {
   searchInput: string;

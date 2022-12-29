@@ -19,6 +19,7 @@ const {
   adminRouter,
   utilRouter,
   pickRouter,
+  cpRouter,
 } = require("./routers");
 const { errorLogger, errorHandler, isLoggedIn, isAdmin } = require("./middlewares");
 const app = express();
@@ -42,6 +43,7 @@ app.use("/api/elice", eliceRouter);
 app.use("/api/comments", commentRouter);
 app.use("/api/admin", isLoggedIn, isAdmin, adminRouter);
 app.use("/api/parties", isLoggedIn, partyRouter);
+app.use("/api/cps", cpRouter);
 app.use("/api/utils", utilRouter);
 
 app.use(errorLogger);

@@ -11,8 +11,6 @@ import {
   validateNickName,
   validatePWCheck,
   validatePhone,
-  validateEmail,
-  validateConfirmNum,
 } from '../../../util/validateRegister';
 import { validatePassword } from '../../../util/validateLogin';
 import * as API from '../../../api/API';
@@ -28,7 +26,6 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
     isNameEditing: false,
     isNickEditing: false,
     isPhoneEditing: false,
-    isEmailEditing: false,
     isPWEditing: false,
   });
   const [inputChange, setInputChange] = useState('');
@@ -44,7 +41,6 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
           isNameEditing: true,
           isNickEditing: false,
           isPhoneEditing: false,
-          isEmailEditing: false,
           isPWEditing: false,
         });
         isLoaded.current = true;
@@ -54,7 +50,6 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
           isNameEditing: false,
           isNickEditing: true,
           isPhoneEditing: false,
-          isEmailEditing: false,
           isPWEditing: false,
         });
         isLoaded.current = true;
@@ -64,17 +59,6 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
           isNameEditing: false,
           isNickEditing: false,
           isPhoneEditing: true,
-          isEmailEditing: false,
-          isPWEditing: false,
-        });
-        isLoaded.current = true;
-        break;
-      case 'email':
-        setUserInfoEditing({
-          isNameEditing: false,
-          isNickEditing: false,
-          isPhoneEditing: false,
-          isEmailEditing: true,
           isPWEditing: false,
         });
         isLoaded.current = true;
@@ -84,7 +68,6 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
           isNameEditing: false,
           isNickEditing: false,
           isPhoneEditing: false,
-          isEmailEditing: false,
           isPWEditing: true,
         });
         isLoaded.current = true;
@@ -102,9 +85,6 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         break;
       case 'phone':
         setUserInfoEditing({ ...userInfoEditing, isPhoneEditing: false });
-        break;
-      case 'email':
-        setUserInfoEditing({ ...userInfoEditing, isEmailEditing: false });
         break;
       case 'password':
         setUserInfoEditing({ ...userInfoEditing, isPWEditing: false });
@@ -152,20 +132,18 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         alert('유효하지 않은 휴대폰 번호 형식입니다.');
         return;
       } else {
-        validInput(editSuccess);
-      }
-    } else if (editSuccess === 'email') {
-      if (!validateEmail(inputChange)) {
-        alert('유효하지 않은 이메일 형식입니다.');
-        return;
-      } else {
-        const nickExist = await emailDuplicationCheck();
-        if (!nickExist) {
-          alert('이미 사용중인 이메일입니다.');
+        try {
+          const res = await API.patch(`/api/users`, {
+            phone: inputChange,
+          });
+          if (!res) {
+            throw new Error('해당 전화로 가입한 다른 유저의 내역이 존재합니다.');
+          }
+        } catch (err) {
+          alert(err);
           return;
-        } else {
-          validInput(editSuccess);
         }
+        validInput(editSuccess);
       }
     } else if (editSuccess === 'password') {
       if (inputChange === '') {
@@ -178,7 +156,6 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         alert('비밀번호가 일치하지 않습니다.');
         return;
       } else {
-        // setUserInfo({ ...userInfo, password: inputChange, newPassword: pwUpdate.newPW });
         try {
           const res = await API.patch(`/api/users`, {
             password: inputChange,
@@ -322,6 +299,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
               <TextField
                 onChange={handleUserInfoChange}
                 sx={{ height: '45px', width: '315px' }}
+                placeholder="ex) 010-0000-0000"
                 size="small"
                 id="demo-helper-text-misaligned-no-helper"
                 error={!validatePhone(inputChange)}
@@ -357,44 +335,10 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
       </TableRow>
       <TableRow>
         <TableHeader>이메일</TableHeader>
-        {userInfoEditing.isEmailEditing ? (
-          <ClickedTd>
-            <Box sx={{ display: 'flex', alignItems: 'center', '& > :not(style)': { m: 1 } }}>
-              <TextField
-                onChange={handleUserInfoChange}
-                sx={{ height: '45px', width: '315px' }}
-                size="small"
-                id="demo-helper-text-misaligned-no-helper"
-                error={!validateEmail(inputChange)}
-                helperText={!validateEmail(inputChange) ? '유효한 이메일 형식이 아닙니다.' : ''}
-              />
-            </Box>
-            <Stack direction="row">
-              <Button
-                sx={{ fontWeight: 'bold', margin: '15px 10px' }}
-                size="medium"
-                color="error"
-                variant="contained"
-                onClick={(e) => handleClickCancel(e, 'email')}>
-                취소
-              </Button>
-              <Button
-                sx={{ fontWeight: 'bold', margin: '15px 0' }}
-                size="medium"
-                variant="contained"
-                onClick={(e) => handleClickSuccess(e, 'email')}>
-                완료
-              </Button>
-            </Stack>
-          </ClickedTd>
-        ) : (
-          <TableData>
-            {userInfo.email}
-            <UpdateIcon onClick={(e) => handleClickUpdate(e, 'email')}>
-              <CreateIcon color="secondary" fontSize="small" />
-            </UpdateIcon>
-          </TableData>
-        )}
+        <TableData>
+          {userInfo.email}
+          <WarningMessage>*최초 등록 후, 변경 불가합니다.</WarningMessage>
+        </TableData>
       </TableRow>
       <TableRow>
         <TableHeader>비밀번호</TableHeader>
@@ -421,7 +365,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 error={!validatePassword(pwUpdate.newPW)}
                 helperText={
                   !validatePassword(pwUpdate.newPW)
-                    ? '8~20자리 영문·숫자 조합이어야 합니다.'
+                    ? '4~20자리 영문·숫자 조합이어야 합니다.'
                     : '새로운 비밀번호 입력란입니다.'
                 }
               />

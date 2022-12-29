@@ -9,9 +9,10 @@ import { get } from '../../../api/API';
 import { Party } from '../Type';
 import { UserInfoType } from '../../MyPage/MyPage';
 import SliderItem from './SliderItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { SocketContext, socket } from './../../../socket/SocketContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../../../store/store';
+import { SocketContext } from './../../../socket/SocketContext';
+import { getActivePartyList } from '../../../store/partySlice';
 
 const StyledSlider = styled(Slider)`
   height: 100%;
@@ -24,10 +25,10 @@ const StyledSlider = styled(Slider)`
     cursor: pointer;
   }
   .slick-prev:hover {
-    color: ${(props) => props.theme.colors.main};
+    color: ${({ theme }) => theme.font.color.description};
   }
   .slick-next:hover {
-    color: ${(props) => props.theme.colors.main};
+    color: ${({ theme }) => theme.font.color.description};
   }
 `;
 
@@ -47,7 +48,7 @@ const DivNext = styled.div`
   position: absolute;
   text-align: right;
   font-size: 100px;
-  color: ${(props) => props.theme.colors.emphasis};
+  color: ${({ theme }) => theme.font.color.description};
   right: 100px;
   top: 120px;
   line-height: 40px;
@@ -62,7 +63,7 @@ const DivPre = styled.div`
   z-index: 99;
   text-align: left;
   font-size: 100px;
-  color: ${(props) => props.theme.colors.emphasis};
+  color: ${({ theme }) => theme.font.color.description};
   line-height: 40px;
 `;
 
@@ -138,6 +139,8 @@ const TitleBox = styled.div`
 `;
 
 export default function SimpleSlider() {
+  const showMaxCnt = 3;
+
   const settings = {
     dots: false,
     className: 'center',
@@ -145,8 +148,8 @@ export default function SimpleSlider() {
     centerMode: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToShow: showMaxCnt,
+    slidesToScroll: showMaxCnt,
     arrows: true,
     autoplay: true,
     autoplaySpeed: 3000,
@@ -179,7 +182,6 @@ export default function SimpleSlider() {
     ],
   };
 
-  const [parties, setParties] = useState<Party[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfoType>({
     track: '',
     generation: 0,
@@ -194,20 +196,17 @@ export default function SimpleSlider() {
   });
 
   const [slideIndex, setSlideIndex] = useState(0);
-
   const socket = useContext(SocketContext);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
-  const setPartiesData = async () => {
-    const data: Party[] = await fetchParties();
-    console.log(data);
-    setParties([...data]);
+  const parties = useSelector((state: RootState) => state.partySliceReducer.activePartyList);
+  const dispatch = useDispatch<AppDispatch>();
+  const setPartiesData = () => {
+    dispatch(getActivePartyList());
   };
 
   useEffect(() => {
-    setPartiesData();
-    socket.on('event', (msg) => {
-      console.log(msg);
-    });
+    socket.on('leaveSuccess', setPartiesData);
+    socket.on('joinSuccess', setPartiesData);
   }, []);
 
   const getUserInfoAPI = async () => {
@@ -222,11 +221,6 @@ export default function SimpleSlider() {
       console.error(err);
     }
   }, []);
-
-  // socket.on('event', () => {
-  //   data = event
-  //   setParties(data)
-  // })
 
   return (
     <Div>
@@ -246,15 +240,16 @@ export default function SimpleSlider() {
           </LabelContainer>
         ) : (
           <StyledSlider {...settings}>
-            {parties.map((party, index) => (
-              <SliderItem
-                setPartiesData={setPartiesData}
-                index={index}
-                slideIndex={slideIndex}
-                party={party}
-                key={party.shopId}
-              />
-            ))}
+            {parties
+              .filter((party) => party.likedNum !== party.partyLimit)
+              .map((party, index) => (
+                <SliderItem
+                  index={index}
+                  slideIndex={slideIndex}
+                  party={party}
+                  key={party.shopId}
+                />
+              ))}
           </StyledSlider>
         )}
       </div>

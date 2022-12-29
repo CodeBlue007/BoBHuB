@@ -21,7 +21,7 @@ const getPublicRooms = (io) => {
     return publicRooms;
 }
 
-const filterMapBySids = (key, map) => {
+const filterMapBySidArr = (key, map) => {
     const sidArray = Array.from(map.get(key));
     console.log(sidArray);
     map.delete(key);
@@ -33,8 +33,13 @@ const filterMapBySids = (key, map) => {
             }
         }
     })
-    console.log(map);
+}
+
+const filterMapBySid = (key, socketId, map) => {
+    if (!map.has(key)) return;
+    const filteredSids = map.get(key)?.filter(sid => sid !== socketId);
+    map.set(key, filteredSids);
 }
 
 
-module.exports = { socketSetting, getPublicRooms, filterMapBySids }
+module.exports = { socketSetting, getPublicRooms, filterMapBySidArr, filterMapBySid }

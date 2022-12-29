@@ -28,8 +28,9 @@ const validateEmail = (email: string) => {
     );
 };
 
-const validateConfirmNum = (confirmNum: string) => {
-  return confirmNum === '1234';
+const validateEmailCode = (emailCode: string) => {
+  const emailCodeRegex = /^\d{5}$/;
+  return emailCodeRegex.test(emailCode);
 };
 
 const validateTrack = (track: string) => {
@@ -37,16 +38,12 @@ const validateTrack = (track: string) => {
   return trackArr.includes(track);
 };
 
-// const validateGeneration = (track: string, generation: number) => {
 const validateGeneration = (track: string, generation: string) => {
   if (track === 'AI') {
-    // return String(generation) === '6';
     return generation === '6';
   } else if (track === 'IoT') {
-    // return String(generation) === '1';
     return generation === '1';
   } else if (track === 'SW') {
-    // return String(generation) === '3';
     return generation === '3';
   }
 };
@@ -57,7 +54,7 @@ export {
   validatePWCheck,
   validatePhone,
   validateEmail,
-  validateConfirmNum,
+  validateEmailCode,
   validateTrack,
   validateGeneration,
 };

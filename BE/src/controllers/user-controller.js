@@ -73,7 +73,7 @@ class UserController {
       const generation = parseInt(req.body.generation);
 
       const { track, name, nickname, newPassword, password, phone } = req.body;
-      if (password&&newPassword) {
+      if (password && newPassword) {
         if (password === newPassword)
           throw new ErrorFactory(
             commonErrors.BAD_REQUEST,
@@ -129,8 +129,8 @@ class UserController {
     try {
       const userDTO = req.user;
       const result = await userService.delete(userDTO);
-
-      return res.status(200).json(result);
+      
+      return res.clearCookie("connect.sid").status(200).json(result);
     } catch (e) {
       next(e);
     }

@@ -6,24 +6,23 @@ import { useEffect, Fragment, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUserData, logoutUser } from '../store/userSlice';
 import type { AppDispatch, RootState } from '../store/store';
-import { get } from '../api/API';
 import MyParty from './MyParty';
 import styled from 'styled-components';
 import { theme } from './../styles/theme';
-import type { FoodType } from '../pages/Admin/components/Restraunt/Foods';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import UserGuide from './UserGuide/UserGuide';
 import { SocketContext } from '../socket/SocketContext';
+import { getActivePartyList, getMyPartyList } from './../store/partySlice';
 
 const ModalStyle = {
   position: 'absolute' as 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 900,
+  width: 700,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -46,25 +45,13 @@ const TitleLogo = styled.img`
   margin-top: 15px;
 `;
 
-export interface Party {
-  partyId: number;
-  shopId: number;
-  userId: number;
-  partylimit: number;
-  timeLimit: number;
-  likedNum: number;
-  isComplete: number;
-  createdAt: string;
-  updatedAt: null;
-  deletedAt: null;
-}
-
 const NavBar = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [myPartyList, setMyPartyList] = useState<Party[]>([]);
-  const [activeShopList, setActiveShopList] = useState<FoodType[]>([]);
   const dispatch = useDispatch<AppDispatch>();
-  const isLogin = useSelector<RootState>((state) => state.userReducer.isLogin);
+  const activePartyList = useSelector(
+    (state: RootState) => state.partySliceReducer.activePartyList,
+  );
+  const isLogin = useSelector((state: RootState) => state.userReducer.isLogin);
   const location = useLocation();
   const [modal, setModal] = useState(false);
   const socket = useContext(SocketContext);
@@ -73,38 +60,42 @@ const NavBar = () => {
 
   useEffect(() => {
     dispatch(loginUserData());
-    socket.on('joinSuccess', (msg) => {
-      console.log(msg);
+    dispatch(getMyPartyList());
+    dispatch(getActivePartyList());
+    socket.on('joinSuccess', () => {
+      dispatch(getMyPartyList());
+      dispatch(getActivePartyList());
+    });
+    socket.on('leaveSuccess', () => {
+      dispatch(getActivePartyList());
+      dispatch(getMyPartyList());
+    });
+    socket.on('createSuccess', () => {
+      dispatch(getActivePartyList());
+      dispatch(getMyPartyList());
+    });
+    socket.on('deleteSuccess', () => {
+      dispatch(getActivePartyList());
+      dispatch(getMyPartyList());
     });
   }, []);
+
+  useEffect(() => {
+    if (open === true) {
+      setOpen(false);
+    }
+  }, [isLogin]);
 
   const handleOpenToggle = () => setOpen(!open);
 
   const logout = () => {
     dispatch(logoutUser());
-  };
-
-  const fetchPartyList = async () => {
-    const myPartyList: Party[] = await get('/api/parties/my-party');
-    console.log(myPartyList);
-    const testlist = await get('/api/parties/my-party');
-    console.log(testlist);
-    if (!myPartyList) {
-      setMyPartyList([]);
-      setActiveShopList([]);
-    }
-    const activeShopList: FoodType[] = await Promise.all(
-      myPartyList.map((party) => {
-        return get(`/api/shops/${party.shopId}`);
-      }),
-    );
-    setMyPartyList([...myPartyList]);
-    setActiveShopList([...activeShopList]);
+    window.localStorage.clear();
   };
 
   const handleLikedParty = () => {
     handleOpenToggle();
-    fetchPartyList();
+    dispatch(getMyPartyList());
   };
 
   return (
@@ -156,13 +147,7 @@ const NavBar = () => {
             </Fragment>
           )}
         </Stack>
-        <MyParty
-          activeShopList={activeShopList}
-          myPartyList={myPartyList}
-          handleClose={handleOpenToggle}
-          open={open}
-          fetchPartyList={fetchPartyList}
-        />
+        <MyParty handleClose={handleOpenToggle} open={open} />
 
         <Modal
           aria-labelledby="transition-modal-title"

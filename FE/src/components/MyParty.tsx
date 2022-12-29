@@ -1,34 +1,32 @@
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
-import type { Party } from './NavBar';
-import type { FoodType } from '../pages/Admin/components/Restraunt/Foods';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { delete as del } from '../api/API';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
-import { UserType } from '../pages/Admin/components/User/components/Users';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store/store';
 import { getLimitTime } from '../util/getLimitTime';
 import { SocketContext } from '../socket/SocketContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { getMyPartyList } from './../store/partySlice';
 
 interface MyPartyProps {
   open: boolean;
   handleClose: () => void;
-  myPartyList: Party[];
-  activeShopList: FoodType[];
-  fetchPartyList: () => void;
 }
 
-const MyParty = ({
-  open,
-  handleClose,
-  myPartyList,
-  activeShopList,
-  fetchPartyList,
-}: MyPartyProps) => {
+const MyParty = ({ open, handleClose }: MyPartyProps) => {
   const user = useSelector((state: RootState) => state.userReducer.currentUser);
   const socket = useContext(SocketContext);
+  const dispatch = useDispatch<AppDispatch>();
+  const myPartyList = useSelector((state: RootState) => state.partySliceReducer.myPartyList);
+
+  useEffect(() => {
+    socket.on('leaveSuccess', (result, msg) => {
+      console.log(result, msg);
+      dispatch(getMyPartyList());
+    });
+  }, []);
 
   const clickLeaveButton = (partyId: number) => {
     socket.emit('leaveParty', partyId, user.userId);
@@ -36,8 +34,9 @@ const MyParty = ({
 
   const clickDeleteButton = async (id: number) => {
     const res = await del(`/api/parties/${id}`);
+    socket.emit('deleteParty', '모임삭제');
     console.log(res);
-    fetchPartyList();
+    dispatch(getMyPartyList());
   };
 
   return (
@@ -60,20 +59,20 @@ const MyParty = ({
               <NoPadFlex>
                 <BasicLink to={`/foodlist/${party.shopId}`}>
                   <ImgWrapper>
-                    <Img src={activeShopList[index].shopPicture} alt="img" />
+                    <Img src={party.shopPicture} alt="img" />
                   </ImgWrapper>
                 </BasicLink>
                 <Description>
                   <BasicLink to={`/foodlist/${party.shopId}`}>
-                    <Name>{activeShopList[index].name}</Name>
+                    <Name>{party.name}</Name>
                   </BasicLink>
                   <Time>모집 종료 시간: {limit}</Time>
                   <Paragraph>
-                    모집 현황 {party.likedNum}/{party.partylimit}
+                    모집 현황 {party.likedNum}/{party.partyLimit}
                   </Paragraph>
                 </Description>
               </NoPadFlex>
-              {user.userId === party.userId ? (
+              {user.userId === party.userId && (
                 <DeleteButton
                   size="small"
                   color="error"
@@ -81,11 +80,27 @@ const MyParty = ({
                   onClick={() => clickDeleteButton(party.partyId)}>
                   모집 종료
                 </DeleteButton>
-              ) : (
+              )}
+              {user.userId !== party.userId && (
                 <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
                   참여 취소
                 </DeleteButton>
               )}
+              {/* {user.userId === party.userId && party.isComplete === 0 && (
+                <DeleteButton
+                  size="small"
+                  color="error"
+                  variant="outlined"
+                  onClick={() => clickDeleteButton(party.partyId)}>
+                  모집 종료
+                </DeleteButton>
+              )} */}
+              {/* {user.userId !== party.userId && party.isComplete === 0 && (
+                <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
+                  참여 취소
+                </DeleteButton>
+              )} */}
+              {party.isComplete === 1 && <Complete>모집 완료</Complete>}
             </List>
           );
         })}
@@ -202,4 +217,9 @@ const H3 = styled.h3`
 const BasicLink = styled(Link)`
   text-decoration: none;
   color: black;
+`;
+
+const Complete = styled.p`
+  padding: 6px 8px;
+  font-size: 15px;
 `;

@@ -21,6 +21,16 @@ class PickController {
       next(e);
     }
   }
+
+  async getByPartyId(req, res, next) {
+    try {
+      const partyId = parseInt(req.body.partyId);
+      const users = await pickService.getByPartyId(partyId);
+      return res.status(200).json(users);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 const pickController = new PickController();
