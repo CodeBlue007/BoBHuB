@@ -145,22 +145,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
         }
         validInput(editSuccess);
       }
-    }
-    // else if (editSuccess === 'email') {
-    //   if (!validateEmail(inputChange)) {
-    //     alert('유효하지 않은 이메일 형식입니다.');
-    //     return;
-    //   } else {
-    //     const nickExist = await emailDuplicationCheck();
-    //     if (!nickExist) {
-    //       alert('이미 사용중인 이메일입니다.');
-    //       return;
-    //     } else {
-    //       validInput(editSuccess);
-    //     }
-    //   }
-    // }
-    else if (editSuccess === 'password') {
+    } else if (editSuccess === 'password') {
       if (inputChange === '') {
         alert('현재 비밀번호를 입력해주세요.');
         return;
@@ -379,7 +364,7 @@ const UserInfo = ({ userInfo, setUserInfo, isLoaded }: UserProps) => {
                 error={!validatePassword(pwUpdate.newPW)}
                 helperText={
                   !validatePassword(pwUpdate.newPW)
-                    ? '8~20자리 영문·숫자 조합이어야 합니다.'
+                    ? '4~20자리 영문·숫자 조합이어야 합니다.'
                     : '새로운 비밀번호 입력란입니다.'
                 }
               />
