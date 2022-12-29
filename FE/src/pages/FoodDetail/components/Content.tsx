@@ -5,11 +5,10 @@ import { useState, useContext, useEffect } from 'react';
 import { ShopState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
-import { getParties, postParty } from '../foodDetailApi';
+import { postParty } from '../foodDetailApi';
 import { SocketContext } from '../../../socket/SocketContext';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { Party } from './../../MainPage/Type';
 
 const ContentContainer = styled(FlexContainer)`
   flex-direction: column;
@@ -23,6 +22,9 @@ const MenuContainer = styled(FlexContainer)`
   margin-top: 40px;
   align-items: flex-start;
   justify-content: space-between;
+  .description {
+    font-size: 1.5rem;
+  }
 `;
 
 const TitleContainer = styled(FlexContainer)`
@@ -34,7 +36,7 @@ const TitleContainer = styled(FlexContainer)`
 `;
 
 const Title = styled.div`
-  font-size: 40px;
+  font-size: 2.5rem;
   margin-left: 50px;
 `;
 
@@ -55,6 +57,30 @@ const MenuCard = styled(Card)<MenuCardProps>`
   }
 `;
 
+const ATag = styled.a`
+  text-decoration: none;
+  color: #1e1f21;
+  font-size: 1.5rem;
+  position: relative;
+  &:hover {
+    color: ${({ theme }) => theme.colors.main};
+  }
+  &:before {
+    content: ' ';
+    position: absolute;
+    background-color: black;
+    height: 1px;
+    width: 0;
+    transition: 0.5s;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &:hover:before {
+    width: 100%;
+  }
+`;
+
 const SelectContainer = styled.div`
   height: inherit;
 `;
@@ -69,6 +95,7 @@ interface Contentype {
 
 const Content = ({ shop }: Contentype) => {
   const [partyLimit, setpartyLimit] = useState<number>(2);
+  const BASEURL = 'https://map.naver.com/v5/entry/place/';
   const socket = useContext(SocketContext);
   const userId = useSelector((state: RootState) => state.userReducer.currentUser.userId);
   const activePartyList = useSelector(
@@ -144,9 +171,11 @@ const Content = ({ shop }: Contentype) => {
 
       <MenuContainer>
         <MenuCard size={'15px'} width={'20vw'}>
-          <p>{shop.description}</p>
-          <p>주소: {shop.address}</p>
-          <p>거리 : {shop.distance}</p>
+          <p className="description">{shop.description}</p>
+          <p>{`거리 : 걸어서 ${shop.distance}분 거리`}</p>
+          <ATag href={`${BASEURL}${shop.address}`} target="_blank" rel="noreferrer">
+            지도보기
+          </ATag>
         </MenuCard>
         <SelectContainer>
           <SelectTags type={'모집인원'} value={partyLimit} setValue={setpartyLimit} />

@@ -12,7 +12,7 @@ const SliderContainer = styled.div`
 `;
 
 const StyledSlider = styled(Slider)`
-  height: 450px;
+  height: 550px;
   position: relative;
   .slick-prev::before,
   .slick-next::before {
@@ -52,15 +52,19 @@ const DivPre = styled.div`
 `;
 
 const Img = styled.img`
-  width: inherit;
-  height: inherit;
-  max-width: 800px;
-  max-height: 550px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
 `;
 
 const ImgContainer = styled.div`
-  .images {
-  }
+  width: 800px;
+  height: 550px;
+  position: relative;
 `;
 
 type stringNull = string | null;

@@ -1,5 +1,5 @@
 const { cpModel, partyModel } = require("../db/models");
-const { myCache } = require("./party-service");
+const { myCache } = require("../utils");
 const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class CpService {
@@ -15,7 +15,7 @@ class CpService {
     if (flag || !partiesCache) {
       parties = await this.partyModel.getAll();
 
-      myCache.set("parties", JSON.stringify(parties));
+      myCache.set("parties", JSON.stringify(parties), 600);
       myCache.set("reParties", false);
     } else {
       parties = JSON.parse(partiesCache);

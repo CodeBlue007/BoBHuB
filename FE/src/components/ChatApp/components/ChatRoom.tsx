@@ -3,8 +3,8 @@ import { Title } from './ChatStyle';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { SocketContext } from '../../../socket/SocketContext';
-import { useDispatch, useSelector } from 'react-redux';
-import type { AppDispatch, RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../../store/store';
 import ChatMessage from './ChatMessage';
 import { setLog } from '../ChatAppApi';
 import { MessageInfo } from '../ChatAppApi';
@@ -56,7 +56,6 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
 
   const addMessage = (messageInfo: MessageInfo) => {
     setLog(roomName, messageInfo);
-    console.log(messageInfo);
     setMessage((current) => [...current, messageInfo]);
   };
 
@@ -87,7 +86,6 @@ const ChatRoom = ({ roomName }: ChatRoomProps) => {
     enterRoom();
 
     socket.on('getMessage', (messageInfo) => {
-      console.log(messageInfo);
       setLog(roomName, messageInfo);
       setMessage((current) => [...current, messageInfo]);
     });
