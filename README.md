@@ -2,7 +2,7 @@
 
 # <img src="/uploads/887fa19993e6f96cf7cdfe5ab4ffb700/BoBHuB_logo.png" alt="BoBhub_logo" widht="30" height="30"> BoB-Hub
 
-## 성수낙낙에서 식사를 할 레이서들을 위한 맴버 매칭 서비스
+## 성수낙낙에서 방문한 레이서들을 위한 밥메이트 매칭 서비스
 
 ## 1. 서비스 소개
 
@@ -52,11 +52,13 @@
 
 ## 3. 서비스 구성
 
--   인프라 구조도
+-   인프라 구조도 <br>
+<img style ="width:700px" src = "https://user-images.githubusercontent.com/47781507/210013185-ee66248c-fa58-48de-9085-8e520c463ad5.png"/>
 
--   ERD
+-   ERD <br>
+<img style ="width:700px" src = "https://user-images.githubusercontent.com/47781507/210013366-b0afb69c-0ab1-4629-80f1-dc6b495f9b70.png"/>
 
--   API 문서: https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
+-   API 문서(Notion): https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 
 ## 4. 프로젝트 역할 분담
 
