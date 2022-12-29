@@ -54,10 +54,9 @@ interface SliderItemProps {
   party: Party;
   index: number;
   slideIndex: number;
-  setPartiesData: () => void;
 }
 
-const SliderItem = ({ party, index, slideIndex, setPartiesData }: SliderItemProps) => {
+const SliderItem = ({ party, index, slideIndex }: SliderItemProps) => {
   const socket = useContext(SocketContext);
   const [like, setLike] = useState(false);
   const userId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
