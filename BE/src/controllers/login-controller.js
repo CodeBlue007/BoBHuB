@@ -10,7 +10,8 @@ class LoginController {
       }
       if (!user) {
         logger.info(info.message);
-        return res.redirect(`${bobhubUrl}/login?loginError=${info.message}`);
+        const message = encodeURIComponent(info.message);
+        return res.redirect(`${bobhubUrl}/login?loginError=${message}`);
       }
       return req.login(user, (loginError) => {
         if (loginError) {
