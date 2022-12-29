@@ -1,5 +1,4 @@
 import { createTheme } from '@mui/material/styles';
-import { makeStyles, Theme, createStyles } from '@mui/material/styles';
 
 //style-component themeProvider
 const fontSizes = {
