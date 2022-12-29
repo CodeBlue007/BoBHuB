@@ -1,6 +1,5 @@
 const passport = require("passport");
 const { logger } = require("../utils");
-const bobhubUrl = process.env.BOB_HUB_URL;
 class LoginController {
   login(req, res, next) {
     passport.authenticate("local", (authError, user, info) => {
@@ -10,15 +9,21 @@ class LoginController {
       }
       if (!user) {
         logger.info(info.message);
-        const message = encodeURIComponent(info.message);
-        return res.redirect(`${bobhubUrl}/login?loginError=${message}`);
+        const result = {
+          result: "loginError",
+          message: info.message,
+        };
+        return res.status(300).json(result);
       }
       return req.login(user, (loginError) => {
         if (loginError) {
           logger.error(loginError);
           return next(loginError);
         }
-        return res.redirect(`${bobhubUrl}`);
+        return res.status(200).json({
+          result: "success",
+          message: "로그인성공",
+        });
       });
     })(req, res, next);
   }
@@ -30,7 +35,10 @@ class LoginController {
       }
     });
     res.clearCookie("connect.sid");
-    res.redirect(`${bobhubUrl}`);
+    res.status(200).json({
+      result: "success",
+      message: "로그아웃 성공",
+    });
   }
 }
 
