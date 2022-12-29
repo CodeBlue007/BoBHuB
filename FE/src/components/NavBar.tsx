@@ -64,6 +64,19 @@ const NavBar = () => {
     dispatch(getActivePartyList());
     socket.on('joinSuccess', () => {
       dispatch(getMyPartyList());
+      dispatch(getActivePartyList());
+    });
+    socket.on('leaveSuccess', () => {
+      dispatch(getActivePartyList());
+      dispatch(getMyPartyList());
+    });
+    socket.on('createSuccess', () => {
+      dispatch(getActivePartyList());
+      dispatch(getMyPartyList());
+    });
+    socket.on('deleteSuccess', () => {
+      dispatch(getActivePartyList());
+      dispatch(getMyPartyList());
     });
   }, []);
 

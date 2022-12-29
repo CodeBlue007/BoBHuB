@@ -34,6 +34,7 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
 
   const clickDeleteButton = async (id: number) => {
     const res = await del(`/api/parties/${id}`);
+    socket.emit('deleteParty', '모임삭제');
     console.log(res);
     dispatch(getMyPartyList());
   };
@@ -80,6 +81,11 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
                   모집 종료
                 </DeleteButton>
               )}
+              {user.userId !== party.userId && (
+                <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
+                  참여 취소
+                </DeleteButton>
+              )}
               {/* {user.userId === party.userId && party.isComplete === 0 && (
                 <DeleteButton
                   size="small"
@@ -89,11 +95,11 @@ const MyParty = ({ open, handleClose }: MyPartyProps) => {
                   모집 종료
                 </DeleteButton>
               )} */}
-              {user.userId !== party.userId && party.isComplete === 0 && (
+              {/* {user.userId !== party.userId && party.isComplete === 0 && (
                 <DeleteButton onClick={() => clickLeaveButton(party.partyId)}>
                   참여 취소
                 </DeleteButton>
-              )}
+              )} */}
               {party.isComplete === 1 && <Complete>모집 완료</Complete>}
             </List>
           );
