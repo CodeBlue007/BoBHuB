@@ -20,8 +20,8 @@ module.exports = (io, socket) => {
     socket.to(roomkey).emit("getMessage", messageInfo);
   };
 
-  const sendMessage = (messageInfo, roomName, addMessage) => {
-    socket.to(roomName).emit("getMessage", messageInfo);
+  const sendMessage = (messageInfo, roomKey, addMessage) => {
+    socket.to(roomKey).emit("getMessage", messageInfo);
     addMessage(messageInfo);
   };
 
@@ -38,11 +38,11 @@ module.exports = (io, socket) => {
     socket["nickname"] = nickname;
   };
 
-  const leaveRoom = (roomName) => {
-    socket.leave(roomName);
+  const leaveRoom = (roomKey) => {
+    socket.leave(roomKey);
     const message = `${socket.nickname}님이 방을 나가셨습니다.`;
     const messageInfo = { userId: 0, userName: "", message };
-    io.sockets.to(roomName).emit("getMessage", messageInfo);
+    io.sockets.to(roomKey).emit("getMessage", messageInfo);
   };
 
   socket.on("getRoomList", giveRooms);

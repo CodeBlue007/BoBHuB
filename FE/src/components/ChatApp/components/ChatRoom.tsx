@@ -78,7 +78,7 @@ const ChatRoom = ({ roomKey }: ChatRoomProps) => {
   };
 
   useEffect(() => {
-    const log = localStorage.getItem(roomName);
+    const log = localStorage.getItem(roomKey);
     if (log) {
       const logArr = JSON.parse(log);
       setMessage(logArr);
