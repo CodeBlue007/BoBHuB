@@ -52,25 +52,18 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ### 📌 페이지별 화면
 
-|                                                                                                                                           |                                                               |
-| ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
-| ![KakaoTalk_20221230_065234666_09](https://user-images.githubusercontent.com/47781507/210108654-eecbf9b1-bd2d-4081-b611-9036ed9275d2.png) |
-| ![KakaoTalk_20221230_065234666_02](https://user-images.githubusercontent.com/47781507/210108726-269fe88a-9123-4244-b58d-53e001414033.png) |
-| 메인 페이지                                                                                                                               | 메인페이지 하단 - 맛집 찜하기 슬라이더                        |
-| ![image](/uploads/080db94a3c0dd6270fbd3ad8003ab43d/image.png)                                                                             | ![image](/uploads/1c1897a1b7d828aa8e0a840772bc5630/image.png) |
-| 회원가입 페이지                                                                                                                           | 로그인 페이지                                                 |
-
-| ![KakaoTalk_20221230_065234666_04](https://user-images.githubusercontent.com/47781507/210108773-7c647cd0-e7a6-4fe8-9edf-1a60c5fcd1df.png)
-| ![KakaoTalk_20221230_065234666_05](https://user-images.githubusercontent.com/47781507/210108802-0a4203d6-2b4b-4dee-a622-bf8ae2df514f.png)
-|
-| 카테고리별 식당 목록 페이지 | 식당 상세 정보 페이지 |
-| ![KakaoTalk_20221230_065234666_03](https://user-images.githubusercontent.com/47781507/210108869-105d80ad-bcbf-4496-be86-b4a45ede252d.png)
-| ![KakaoTalk_20221230_065234666_08](https://user-images.githubusercontent.com/47781507/210108936-0c3d6a45-a11c-42ae-9cd2-94063949fa9f.png)
-|
-| 채팅방 | 유저 가이드 모달창 |
-| ![KakaoTalk_20221230_065234666_07](https://user-images.githubusercontent.com/47781507/210108904-68cbffcf-95ae-46a7-bd3d-d93d04f418cf.png)
-| ![image](/uploads/ea71b33ceb604664138bcf62f98a644f/image.png) |
-| 마이페이지 | 관리자페이지 |
+|                                                                                                                                           |                                                                                                                                           |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| ![KakaoTalk_20221230_065234666_09](https://user-images.githubusercontent.com/47781507/210108654-eecbf9b1-bd2d-4081-b611-9036ed9275d2.png) | ![KakaoTalk_20221230_065234666_02](https://user-images.githubusercontent.com/47781507/210108726-269fe88a-9123-4244-b58d-53e001414033.png) |
+| 메인 페이지                                                                                                                               | 메인페이지 하단 - 맛집 찜하기 슬라이더                                                                                                    |
+| ![image](/uploads/080db94a3c0dd6270fbd3ad8003ab43d/image.png)                                                                             | ![image](/uploads/1c1897a1b7d828aa8e0a840772bc5630/image.png)                                                                             |
+| 회원가입 페이지                                                                                                                           | 로그인 페이지                                                                                                                             |
+| ![KakaoTalk_20221230_065234666_04](https://user-images.githubusercontent.com/47781507/210108773-7c647cd0-e7a6-4fe8-9edf-1a60c5fcd1df.png) | ![KakaoTalk_20221230_065234666_05](https://user-images.githubusercontent.com/47781507/210108802-0a4203d6-2b4b-4dee-a622-bf8ae2df514f.png) |
+| 카테고리별 식당 목록 페이지                                                                                                               | 식당 상세 정보 페이지                                                                                                                     |
+| ![KakaoTalk_20221230_065234666_03](https://user-images.githubusercontent.com/47781507/210108869-105d80ad-bcbf-4496-be86-b4a45ede252d.png) | ![KakaoTalk_20221230_065234666_08](https://user-images.githubusercontent.com/47781507/210108936-0c3d6a45-a11c-42ae-9cd2-94063949fa9f.png) |
+| 채팅방                                                                                                                                    | 유저 가이드 모달창                                                                                                                        |
+| ![KakaoTalk_20221230_065234666_07](https://user-images.githubusercontent.com/47781507/210108904-68cbffcf-95ae-46a7-bd3d-d93d04f418cf.png) | ![image](/uploads/ea71b33ceb604664138bcf62f98a644f/image.png)                                                                             |
+| 마이페이지                                                                                                                                | 관리자페이지                                                                                                                              |
 
 ### 📌 본 프로젝트의 차별점
 
