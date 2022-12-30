@@ -4,12 +4,7 @@ import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 
 const ENDPOINT = 'http://localhost:3100';
 
-export const socket = socketio(ENDPOINT, {
-  withCredentials: true,
-  extraHeaders: {
-    'my-custom-header': 'abcd',
-  },
-}); //연결
+export const socket = socketio(ENDPOINT); //연결
 
 type socketType = Socket<DefaultEventsMap, DefaultEventsMap>;
 
