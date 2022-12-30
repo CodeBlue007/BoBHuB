@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const { logger } = require("../utils");
 
 const authMailId = process.env.MAIL_ID;
 const authMailPassword = process.env.MAIL_PASSWORD;
@@ -25,9 +26,9 @@ const mailSender = {
 
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log(error);
+        logger.error(error);
       } else {
-        console.log("Email sent: " + info.response);
+        logger.info("Email sent: " + info.response);
       }
     });
   },

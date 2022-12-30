@@ -1,22 +1,23 @@
 const { getPublicRooms } = require("./socketUtil.js");
-const { pickService } = require("../services");
+const { logger } = require("../utils");
 
 module.exports = (io, socket) => {
   const check = () => {
-    console.log("Sid", io.sockets.adapter.sids);
-    console.log("Rooms", io.sockets.adapter.rooms);
+    logger.info("Sid", io.sockets.adapter.sids);
+    logger.info("Rooms", io.sockets.adapter.rooms);
   };
 
   const giveRooms = () => {
     socket.emit("giveRooms", getPublicRooms(io));
   };
 
-  const enterRoom = (roomName, moveRoom) => {
+  const enterRoom = (roomName, partyId, moveRoom) => {
     const welcome = `${socket.nickname}님이 방에 입장하셨습니다.`;
-    socket.join(roomName);
-    moveRoom(roomName);
+    const roomkey = `${roomName}/${partyId}`
+    socket.join(roomkey);
+    moveRoom(roomkey);
     const messageInfo = { userId: 0, userName: "", message: welcome };
-    socket.to(roomName).emit("getMessage", messageInfo);
+    socket.to(roomkey).emit("getMessage", messageInfo);
   };
 
   const sendMessage = (messageInfo, roomName, addMessage) => {
@@ -25,11 +26,11 @@ module.exports = (io, socket) => {
   };
 
   const disconnect = () => {
-    console.log("socket is disconnecting");
+    logger.info("socket is disconnecting");
   };
 
   const disconnecting = () => {
-    console.log("socket is disconnected");
+    logger.info("socket is disconnected");
   };
 
   const setNickName = (nickname) => {

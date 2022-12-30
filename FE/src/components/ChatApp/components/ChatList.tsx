@@ -34,8 +34,8 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
   const [completedParty, setCompletedParty] = useState<Party[]>([]);
 
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const { roomname } = e.currentTarget.dataset;
-    socket.emit('enterRoom', roomname, moveRoom);
+    const { roomname, partyid } = e.currentTarget.dataset;
+    socket.emit('enterRoom', roomname, partyid, moveRoom);
   };
 
   useEffect(() => {
@@ -57,7 +57,11 @@ const ChatList = ({ moveRoom }: ChatListProps) => {
         ) : (
           completedParty.map((party) => (
             <>
-              <CursorDiv onClick={handleMove} key={party.partyId} data-roomname={party.name}>
+              <CursorDiv
+                onClick={handleMove}
+                key={party.partyId}
+                data-roomname={party.name}
+                data-partyid={party.partyId}>
                 {party.name}
               </CursorDiv>
             </>
