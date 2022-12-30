@@ -148,7 +148,7 @@ const Content = ({ shop }: Contentype) => {
         <Title>
           {shop.name}({shop.category})
         </Title>
-        {gathering || (
+        {!gathering && !isJoined && (
           <LikeButton
             variant="contained"
             onClick={handleClick}
