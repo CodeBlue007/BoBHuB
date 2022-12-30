@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { TextField, Button, IconButton } from '@mui/material';
+import { TextField, Button, IconButton, MenuItem } from '@mui/material';
 import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import MailLockOutlinedIcon from '@mui/icons-material/MailLockOutlined';
@@ -9,8 +9,6 @@ import KeyIcon from '@mui/icons-material/Key';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
-import LaptopMacOutlinedIcon from '@mui/icons-material/LaptopMacOutlined';
-import NumbersOutlinedIcon from '@mui/icons-material/NumbersOutlined';
 import InputAdornment from '@mui/material/InputAdornment';
 import { regFormProps } from '../types/regType';
 import { validateEmail, validatePassword } from '../../../util/validateLogin';
@@ -20,8 +18,8 @@ import {
   validatePWCheck,
   validatePhone,
   validateEmailCode,
-  validateTrack,
-  validateGeneration,
+  // validateTrack,
+  // validateGeneration,
 } from '../../../util/validateRegister';
 import * as API from '../../../api/API';
 import { postEmail, postEmailCode } from '../Api/registerAPI';
@@ -105,13 +103,6 @@ const RegisterFormContainer = styled.div`
     height: 60px;
   }
 
-  & .NicknameCheckBtn {
-    height: 30px;
-    border-width: 0.5px;
-    margin-left: 500px;
-    margin-top: -51px;
-  }
-
   & .EmailSendBtn {
     height: 30px;
     width: 100px;
@@ -128,11 +119,11 @@ const RegisterFormContainer = styled.div`
     margin-top: -91px;
   }
 
-  & .PhoneCheckBtn {
-    height: 30px;
-    border-width: 0.5px;
-    margin-left: 500px;
-    margin-top: -51px;
+  & .trackNumDropdown {
+    height: 100px;
+    width: 280px;
+    margin-top: -10px;
+    margin-right: 290px;
   }
 `;
 
@@ -168,6 +159,8 @@ const RegisterButtonContainer = styled.div`
   }
 `;
 
+const trackNum = ['SW 3기', 'SW 4기', 'IoT 1기', 'AI 5기', 'AI 6기', '수료'];
+
 const RegisterForm = ({ onRegSubmit }: regFormProps) => {
   // useState 방식
   const [regForm, setRegForm] = useState({
@@ -196,6 +189,23 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     setRegForm({
       ...regForm,
       [name]: value,
+    });
+  };
+
+  const handleDropdownChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const tr = e.target.value.split(' ')[0];
+    let gn = '';
+    let gnr = '';
+    if (tr === '수료') {
+      gn = '';
+      gnr = '';
+    }
+    gn = e.target.value.split(' ')[1];
+    gnr = gn.slice(0, -1);
+    setRegForm({
+      ...regForm,
+      track: tr,
+      generation: gnr,
     });
   };
 
@@ -331,40 +341,40 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
     }
 
     // 트랙 validation
-    if (!validateTrack(regForm.track)) {
-      alert('존재하는 트랙이 아닙니다.');
-      // form 초기화
-      setRegForm({
-        name: regForm.name,
-        nickname: regForm.nickname,
-        email: regForm.email,
-        emailCode: regForm.emailCode,
-        password: regForm.password,
-        passwordCheck: regForm.passwordCheck,
-        phone: regForm.phone,
-        track: '',
-        generation: regForm.generation,
-      });
-      return;
-    }
+    // if (!validateTrack(regForm.track)) {
+    //   alert('존재하는 트랙이 아닙니다.');
+    //   // form 초기화
+    //   setRegForm({
+    //     name: regForm.name,
+    //     nickname: regForm.nickname,
+    //     email: regForm.email,
+    //     emailCode: regForm.emailCode,
+    //     password: regForm.password,
+    //     passwordCheck: regForm.passwordCheck,
+    //     phone: regForm.phone,
+    //     // track: '',
+    //     // generation: regForm.generation,
+    //   });
+    //   return;
+    // }
 
     // 기수 validation
-    if (!validateGeneration(regForm.track, regForm.generation)) {
-      alert('현재 활동 중인 기수가 아닙니다.');
-      // form 초기화
-      setRegForm({
-        name: regForm.name,
-        nickname: regForm.nickname,
-        email: regForm.email,
-        emailCode: regForm.emailCode,
-        password: regForm.password,
-        passwordCheck: regForm.passwordCheck,
-        phone: regForm.phone,
-        track: regForm.track,
-        generation: '',
-      });
-      return;
-    }
+    // if (!validateGeneration(regForm.track, regForm.generation)) {
+    //   alert('현재 활동 중인 기수가 아닙니다.');
+    //   // form 초기화
+    //   setRegForm({
+    //     name: regForm.name,
+    //     nickname: regForm.nickname,
+    //     email: regForm.email,
+    //     emailCode: regForm.emailCode,
+    //     password: regForm.password,
+    //     passwordCheck: regForm.passwordCheck,
+    //     phone: regForm.phone,
+    //     // track: regForm.track,
+    //     // generation: '',
+    //   });
+    //   return;
+    // }
 
     // 닉네임 중복체크
     const resNickname = await API.get(`/api/users/nicknames/${regForm.nickname}`);
@@ -393,6 +403,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
         // throw new Error(`${resRegisterForm.type}\n${resRegisterForm.reason}`);
         throw new Error('해당 전화번호로 가입한 내역이 존재합니다');
       } else {
+        console.log(regForm);
         // form 초기화
         setRegForm({
           name: regForm.name,
@@ -788,7 +799,7 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           }
         />
 
-        <TextField
+        {/* <TextField
           type="text"
           name="track"
           variant="standard"
@@ -814,9 +825,9 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
           helperText={
             !validateTrack(regForm.track) && regForm.track !== '' ? '존재하는 트랙이 아닙니다.' : ''
           }
-        />
+        /> */}
 
-        <TextField
+        {/* <TextField
           type="text"
           name="generation"
           variant="standard"
@@ -846,7 +857,22 @@ const RegisterForm = ({ onRegSubmit }: regFormProps) => {
               ? '현재 활동 중인 기수가 아닙니다.'
               : ''
           }
-        />
+        /> */}
+
+        <TextField
+          className="trackNumDropdown"
+          id="standard-select-track"
+          select
+          defaultValue=""
+          helperText="트랙/기수"
+          variant="standard"
+          onChange={handleDropdownChange}>
+          {trackNum.map((elem, idx) => (
+            <MenuItem key={idx} value={elem}>
+              {elem}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <RegisterButtonContainer>
           <Button variant="contained" type="submit" sx={{ backgroundColor: '#E59A59' }}>

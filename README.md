@@ -1,6 +1,7 @@
 <hr />
 
 # <img src="/uploads/887fa19993e6f96cf7cdfe5ab4ffb700/BoBHuB_logo.png" alt="BoBhub_logo" widht="30" height="30"> BoBHuB
+
 > **성수낙낙에 방문한 레이서들을 위한 밥메이트 매칭 서비스**
 
 ## 1. 서비스 소개
@@ -52,10 +53,10 @@
 ## 3. 서비스 구성
 
 -   인프라 구조도 <br>
-<img style ="width:700px" src = "https://user-images.githubusercontent.com/47781507/210013185-ee66248c-fa58-48de-9085-8e520c463ad5.png"/>
+    <img style ="width:700px" src = "https://user-images.githubusercontent.com/47781507/210013185-ee66248c-fa58-48de-9085-8e520c463ad5.png"/>
 
 -   ERD <br>
-<img style ="width:700px" src = "https://user-images.githubusercontent.com/47781507/210013366-b0afb69c-0ab1-4629-80f1-dc6b495f9b70.png"/>
+    <img style ="width:700px" src = "https://user-images.githubusercontent.com/47781507/210013366-b0afb69c-0ab1-4629-80f1-dc6b495f9b70.png"/>
 
 -   API 문서(Notion): https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 
@@ -117,8 +118,8 @@
 
 2. 멤버 3: 프론트엔드 담당
 
-- 기획 단계: 관리자 페이지 와이어 프레임 작성
-- 개발 단계: 관리자 페이지, 페이지 별 실시간 액션, 전역 상태 관리
+-   기획 단계: 관리자 페이지 와이어 프레임 작성
+-   개발 단계: 관리자 페이지, 페이지 별 실시간 액션, 전역 상태 관리
 
 ## 5. 실행 방법
 

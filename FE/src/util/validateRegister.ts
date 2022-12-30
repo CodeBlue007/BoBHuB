@@ -33,20 +33,20 @@ const validateEmailCode = (emailCode: string) => {
   return emailCodeRegex.test(emailCode);
 };
 
-const validateTrack = (track: string) => {
-  const trackArr = ['AI', 'IoT', 'SW'];
-  return trackArr.includes(track);
-};
+// const validateTrack = (track: string) => {
+//   const trackArr = ['AI', 'IoT', 'SW'];
+//   return trackArr.includes(track);
+// };
 
-const validateGeneration = (track: string, generation: string) => {
-  if (track === 'AI') {
-    return generation === '6';
-  } else if (track === 'IoT') {
-    return generation === '1';
-  } else if (track === 'SW') {
-    return generation === '3';
-  }
-};
+// const validateGeneration = (track: string, generation: string) => {
+//   if (track === 'AI') {
+//     return generation === '6';
+//   } else if (track === 'IoT') {
+//     return generation === '1';
+//   } else if (track === 'SW') {
+//     return generation === '3';
+//   }
+// };
 
 export {
   validateName,
@@ -55,6 +55,6 @@ export {
   validatePhone,
   validateEmail,
   validateEmailCode,
-  validateTrack,
-  validateGeneration,
+  // validateTrack,
+  // validateGeneration,
 };
