@@ -38,7 +38,8 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ### 👥 테스트 계정
 
--   추가 작성 예정
+-  admin@bobhub.com   pw:11qq
+-  elicer@bobhub.com   pw:11qq
 
 ### 📌 주요기능
 
@@ -97,7 +98,7 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
--   추가 작성 예정
+-   복잡한 쿼리문 작성 및 연습을 위해 ORM 미사용
 
 #### ◾ **공통**
 
@@ -158,7 +159,7 @@ https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 5. 안상준: `백엔드`
 
 -   기획 단계: DB 설계, ERD 구조화, MySQL 및 EC2, S3 개발 환경 설정
--   개발 단계: CRUD 모델 SQL쿼리 및 트리거, 캐싱, Multer, Nodemailer, 배포
+-   개발 단계: CRUD 모델 SQL쿼리 및 트리거, 캐싱, Multer, 배포
 -   수정 단계: 피드백 반영해서 백엔드 설계 수정
 
 6. 윤동주: `프론트엔드`
