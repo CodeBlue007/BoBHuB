@@ -38,8 +38,8 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ### 👥 테스트 계정
 
--  admin@bobhub.com   pw:11qq
--  elicer@bobhub.com   pw:11qq
+-   admin@bobhub.com pw:11qq
+-   elicer@bobhub.com pw:11qq
 
 ### 📌 주요기능
 
@@ -53,24 +53,25 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ### 📌 페이지별 화면
 
-|                                                                                                                                           |                                                                                                                                           |
-| ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| ![KakaoTalk_20221230_065234666_09](https://user-images.githubusercontent.com/47781507/210108654-eecbf9b1-bd2d-4081-b611-9036ed9275d2.png) | ![KakaoTalk_20221230_065234666_02](https://user-images.githubusercontent.com/47781507/210108726-269fe88a-9123-4244-b58d-53e001414033.png) |
-| 메인 페이지                                                                                                                               | 메인페이지 하단 - 맛집 찜하기 슬라이더                                                                                                    |
-| ![image](/uploads/080db94a3c0dd6270fbd3ad8003ab43d/image.png)                                                                             | ![image](/uploads/1c1897a1b7d828aa8e0a840772bc5630/image.png)                                                                             |
-| 회원가입 페이지                                                                                                                           | 로그인 페이지                                                                                                                             |
-| ![KakaoTalk_20221230_065234666_04](https://user-images.githubusercontent.com/47781507/210108773-7c647cd0-e7a6-4fe8-9edf-1a60c5fcd1df.png) | ![KakaoTalk_20221230_065234666_05](https://user-images.githubusercontent.com/47781507/210108802-0a4203d6-2b4b-4dee-a622-bf8ae2df514f.png) |
-| 카테고리별 식당 목록 페이지                                                                                                               | 식당 상세 정보 페이지                                                                                                                     |
-| ![KakaoTalk_20221230_065234666_03](https://user-images.githubusercontent.com/47781507/210108869-105d80ad-bcbf-4496-be86-b4a45ede252d.png) | ![KakaoTalk_20221230_065234666_08](https://user-images.githubusercontent.com/47781507/210108936-0c3d6a45-a11c-42ae-9cd2-94063949fa9f.png) |
-| 채팅방                                                                                                                                    | 유저 가이드 모달창                                                                                                                        |
-| ![KakaoTalk_20221230_065234666_07](https://user-images.githubusercontent.com/47781507/210108904-68cbffcf-95ae-46a7-bd3d-d93d04f418cf.png) | ![image](/uploads/ea71b33ceb604664138bcf62f98a644f/image.png)                                                                             |
-| 마이페이지                                                                                                                                | 관리자페이지                                                                                                                              |
+|                                                                                                                    |                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| ![main](https://user-images.githubusercontent.com/47781507/210108654-eecbf9b1-bd2d-4081-b611-9036ed9275d2.png)     | ![slider](https://user-images.githubusercontent.com/47781507/210108726-269fe88a-9123-4244-b58d-53e001414033.png)     |
+| 메인 페이지                                                                                                        | 메인페이지 하단 - 맛집 찜하기 슬라이더                                                                               |
+| ![register](https://user-images.githubusercontent.com/47781507/210129993-cf63ca36-ff12-4383-82bc-f8e1bba3c1e9.png) | ![login](https://user-images.githubusercontent.com/47781507/210129979-309cf78b-c01d-4763-bdcc-41f98fa56d6e.png)      |
+| 회원가입 페이지                                                                                                    | 로그인 페이지                                                                                                        |
+| ![shopList](https://user-images.githubusercontent.com/47781507/210108773-7c647cd0-e7a6-4fe8-9edf-1a60c5fcd1df.png) | ![shopDetail](https://user-images.githubusercontent.com/47781507/210108802-0a4203d6-2b4b-4dee-a622-bf8ae2df514f.png) |
+| 카테고리별 식당 목록 페이지                                                                                        | 식당 상세 정보 페이지                                                                                                |
+| ![chatRoom](https://user-images.githubusercontent.com/47781507/210108869-105d80ad-bcbf-4496-be86-b4a45ede252d.png) | ![userGuide](https://user-images.githubusercontent.com/47781507/210108936-0c3d6a45-a11c-42ae-9cd2-94063949fa9f.png)  |
+| 채팅방                                                                                                             | 유저 가이드 모달창                                                                                                   |
+| ![myPage](https://user-images.githubusercontent.com/47781507/210108904-68cbffcf-95ae-46a7-bd3d-d93d04f418cf.png)   | ![admin](https://user-images.githubusercontent.com/47781507/210130393-9e019e3f-4803-4c52-9549-e6517e25407d.png)      |
+| 마이페이지                                                                                                         | 관리자페이지                                                                                                         |
+|                                                                                                                    |                                                                                                                      |
 
 ### 📌 본 프로젝트의 차별점
 
--   상세페이지에서 식당에 옵션을 선택 후 찜하기를 누르면 설정한 시간동안 2~4명의 사람을 모집함.
--   활성화된 모임은 타인이 메인페이지의 슬라이더에서 좋아요(하트 아이콘)를 누를 수 있음.
--   초기에 설정한 모집인원이 다 차면 해당 식당을 선택한 사람들이 채팅방에 접속하여 실시간 채팅이 가능함.
+-   식당 상세페이지에서 모집인원수 옵션을 선택 후 모임생성을 누르면 2~4명의 인원 모집 가능
+-   활성화된 모임은 메인페이지 슬라이더에 등장, 참여를 원하는 타인이 좋아요(하트 아이콘)를 누를 수 있음
+-   초기에 설정한 모집인원이 다 차면 해당 식당을 선택한 사람들이 채팅방에 접속하여 실시간 채팅(다대다) 가능
 
 ### 📌 기대효과
 
@@ -80,7 +81,7 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ## 3️⃣ **서비스 구성**
 
-### 📌 프로젝트 구성도
+### 📌 서비스 흐름도
 
 -   추가 예정
 
@@ -98,7 +99,7 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
--   복잡한 쿼리문 작성 및 연습을 위해 ORM 미사용
+-   복잡한 SQL 쿼리문 작성 및 연습을 위해 ORM 미사용
 
 #### ◾ **공통**
 
