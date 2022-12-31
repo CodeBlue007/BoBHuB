@@ -2,15 +2,15 @@
 
 > **성수낙낙에 방문한 레이서들을 위한 밥메이트 매칭 서비스**
 
-## 1️⃣ **서비스 개요**
+## 1️⃣ 서비스 개요
 
 ### 📌 주제
 
-성수낙낙에 방문한 레이서들을 위한 혼밥 탈출 프로젝트
+- 성수낙낙에 방문한 레이서들을 위한 혼밥 탈출 프로젝트
 
 ### 📌 서비스명
 
-BoBHuB(밥허브)
+- BoBHuB(밥허브)
 
 ### 📌 목적
 
@@ -29,7 +29,7 @@ BoBHuB(밥허브)
     혼밥은 하기 싫은 <br>
     엘리스 레이서
 
-## 2️⃣ **서비스 소개**
+## 2️⃣ 서비스 소개
 
 ### 🔗 서비스 도메인
 
@@ -38,8 +38,11 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ### 👥 테스트 계정
 
--   admin@bobhub.com pw:11qq
--   elicer@bobhub.com pw:11qq
+| Role  | ID                | PW       |
+| ----- | ----------------- | -------- |
+| Admin | admin@bobhub.com  | 11qq |
+| User  | elicer@bobhub.com | 11qq |
+> ⚠ 실제 서비스는 이메일 인증을 위해 실제 이메일로 가입하셔야 합니다.
 
 ### 📌 주요기능
 
@@ -78,7 +81,7 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 -   성수낙낙 방문 시 함께 식사를 할 사람이 없을 때 새로운 레이서와의 만남의 기회 제공
 -   식당을 골랐어도 메뉴 선정이 고민 될 때 메뉴판 이미지를 통해 보다 빠른 메뉴 선택 가능
 
-## 3️⃣ **서비스 구성**
+## 3️⃣ 서비스 구성
 
 ### 📌 서비스 흐름도
 
@@ -118,17 +121,17 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 
-## 4️⃣ **프로젝트 역할 분담**
+## 4️⃣ 프로젝트 역할 분담
 
 | 이름   | 담당 업무           |
 | ------ | ------------------- |
-| 이수빈 | `팀장` `프론트엔드` |
-| 김유정 | `프론트엔드`        |
-| 김찬수 | `프론트엔드`        |
-| 윤동주 | `프론트엔드`        |
-| 장은영 | `프론트엔드`        |
-| 김동준 | `백엔드`            |
-| 안상준 | `백엔드`            |
+| <img src="https://user-images.githubusercontent.com/47781507/210137605-738d68a6-e165-4d2e-b471-83a6baec5339.png" alt="sb" width="40" height="40"> 이수빈 | `팀장` `프론트엔드` |
+| <img src="https://user-images.githubusercontent.com/47781507/210137704-2254f511-f0b8-43fe-9605-9236dfa3152a.png" alt="yj" width="40" height="40"> 김유정 | `프론트엔드`        |
+| <img src="https://user-images.githubusercontent.com/47781507/210137731-88407139-3c9b-4f50-8119-6a72fa74c4b4.png" alt="cs" width="40" height="40"> 김찬수 | `프론트엔드`        |
+| <img src="https://user-images.githubusercontent.com/47781507/210137762-cd7b0737-7dfc-4103-973a-6d96ffed82d2.png" alt="dj" width="40" height="40"> 윤동주 | `프론트엔드`        |
+| <img src="https://user-images.githubusercontent.com/47781507/210137778-52693f96-8e55-47d3-88ab-f15bdd318f96.png" alt="ey" width="40" height="40"> 장은영 | `프론트엔드`        |
+| <img src="https://user-images.githubusercontent.com/47781507/210137809-f58e4d2e-6639-4704-980f-deca6008e7ce.png" alt="dj" width="40" height="40"> 김동준 | `백엔드`            |
+| <img src="https://user-images.githubusercontent.com/47781507/210137829-4462ed74-7684-41d9-9dba-72aea8ff8701.png" alt="sj" width="40" height="40"> 안상준 | `백엔드`            |
 
 ### **멤버별 Responsibility**
 
@@ -165,8 +168,8 @@ https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 6. 윤동주: `프론트엔드`
 
 -   기획 단계: 로그인·회원가입 페이지 와이어 프레임 작성, Discord·Notion·Jira 팀 스페이스 생성 및 정리
--   개발 단계: 로그인·회원가입 페이지 구현
--   수정 단계: API 요청 에러 수정, 피드백 반영하여 코드 수정, 로고·톤앤매너 등 디자인 개선
+-   개발 단계: 로그인·회원가입 페이지 구현, 로고·톤앤매너 구상
+-   수정 단계: API 요청 에러 수정, 피드백 반영하여 코드 수정, 디자인 개선
 
 7. 장은영: `프론트엔드`
 
@@ -174,9 +177,9 @@ https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 -   개발 단계: 식당목록·사용자 페이지, Theme 이용한 전체 테마 color 정의, 공통 API 작성
 -   수정 단계: 피드백 반영하여 코드 수정
 
-## 5️⃣ **실행 방법**
+## 5️⃣ 실행 방법
 
-1. git clone <repo address>
+1. `git clone ${repo address}`
 2. SQL DDL 코드 실행 (bobhub/BE/src/seeder)
 3. 백엔드와 프론트엔드 폴더에서 필요한 패키지 설치
 
@@ -190,7 +193,7 @@ yarn (혹은 npm install)
 yarn run (혹은 npm start )
 ```
 
--   `BE` 디렉토리 .env 생성
+-   `BE` 디렉토리에서 .env 생성
 
 ```bash
 NODE_ENV=<local 혹은 ec2>
@@ -212,6 +215,14 @@ MAIL_ID = <google developer 아이디>
 MAIL_PASSWORD = <google developer 비밀번호>
 ```
 
-## 6️⃣ **버전**
+## 6️⃣ Version
 
 -   1.0.0
+
+## 7️⃣ 협업 Tools
+
+### 🔗 Jira Roadmap
+https://17171717.atlassian.net/jira/software/projects/UW17/boards/1/roadmap
+
+### 🔗 Notion
+https://www.notion.so/elice/4497050a9ede481ea2481923ef4d5a4f
