@@ -63,7 +63,8 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 | 카테고리별 식당 목록 페이지                                                                                        | 식당 상세 정보 페이지                                                                                                |
 | ![chatRoom](https://user-images.githubusercontent.com/47781507/210108869-105d80ad-bcbf-4496-be86-b4a45ede252d.png) | ![userGuide](https://user-images.githubusercontent.com/47781507/210108936-0c3d6a45-a11c-42ae-9cd2-94063949fa9f.png)  |
 | 채팅방                                                                                                             | 유저 가이드 모달창                                                                                                   |
-| ![myPage](https://user-images.githubusercontent.com/47781507/210108904-68cbffcf-95ae-46a7-bd3d-d93d04f418cf.png)   | ![admin](https://user-images.githubusercontent.com/47781507/210130393-9e019e3f-4803-4c52-9549-e6517e25407d.png)      |
+| ![myPage](https://user-images.githubusercontent.com/47781507/210130811-05f5b563-8a43-4848-a9b6-b4b2efd727f6.png)
+   | ![admin](https://user-images.githubusercontent.com/47781507/210130393-9e019e3f-4803-4c52-9549-e6517e25407d.png)      |
 | 마이페이지                                                                                                         | 관리자페이지                                                                                                         |                                                                                                                      
 
 ### 📌 본 프로젝트의 차별점
