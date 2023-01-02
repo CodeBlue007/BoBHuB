@@ -7,4 +7,7 @@ module.exports = {
   ...require("./generation"),
   ...require("./track"),
   ...require("./comment"),
+  ...require("./party"),
+  ...require("./pick"),
+  ...require("./completed_party"),
 };

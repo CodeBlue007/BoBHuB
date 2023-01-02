@@ -8,7 +8,6 @@ import MyPage from './pages/MyPage/MyPage';
 import NotFound from './pages/NotFound/NotFound';
 import Register from './pages/Register/Register';
 
-
 const Router = () => {
   return (
     <BrowserRouter>

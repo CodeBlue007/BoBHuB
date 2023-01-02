@@ -1,4 +1,5 @@
 const { eliceService } = require("../services");
+const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class EliceController {
   async create(req, res, next) {
@@ -22,8 +23,15 @@ class EliceController {
   }
 
   async updateTrack(req, res, next) {
+    const { newTrack, track } = req.body;
+    if (newTrack === track) {
+      throw new ErrorFactory(
+        commonErrors.BAD_REQUEST,
+        400,
+        "수정할 트랙과 기존 트랙의 이름이 동일합니다."
+      );
+    }
     try {
-      const { newTrack, track } = req.body;
       const result = await eliceService.updateTrack(newTrack, track);
 
       return res.status(200).json(result);

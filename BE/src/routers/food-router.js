@@ -1,16 +1,20 @@
 const { Router } = require("express");
 const { foodController } = require("../controllers");
-const { isLoggedIn, isAdmin } = require("../middlewares");
+const { imageUploader } = require("../middlewares");
 
 const foodRouter = Router();
+
+foodRouter.get("/", foodController.getByShopId);
+
 const foodAdminRouter = Router();
 
-foodRouter.get("/:shopId", foodController.getByShopId);
-
-foodRouter.use("/admin", isLoggedIn, isAdmin, foodAdminRouter);
-
-foodAdminRouter.post("/:shopId", foodController.create);
+foodAdminRouter.post("/", imageUploader.single("picture"), foodController.create);
 foodAdminRouter.patch("/:foodId", foodController.update);
 foodAdminRouter.delete("/:foodId", foodController.deleteById);
+foodAdminRouter.post(
+  "/:foodId/image",
+  imageUploader.single("picture"),
+  foodController.updateImage
+);
 
-module.exports = { foodRouter };
+module.exports = { foodRouter, foodAdminRouter };

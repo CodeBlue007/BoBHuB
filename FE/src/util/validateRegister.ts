@@ -4,10 +4,10 @@ const validateName = (name: string) => {
   return nameRegex.test(name);
 };
 
-const validateNickName = (nickName: string) => {
+const validateNickName = (nickname: string) => {
   const nickNameRegex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z]{5,10}$/;
 
-  return nickNameRegex.test(nickName);
+  return nickNameRegex.test(nickname);
 };
 
 const validatePWCheck = (password: string, passwordCheck: string) => {
@@ -28,9 +28,25 @@ const validateEmail = (email: string) => {
     );
 };
 
-const validateConfirmNum = (confirmNum: string) => {
-  return true;
+const validateEmailCode = (emailCode: string) => {
+  const emailCodeRegex = /^\d{5}$/;
+  return emailCodeRegex.test(emailCode);
 };
+
+// const validateTrack = (track: string) => {
+//   const trackArr = ['AI', 'IoT', 'SW'];
+//   return trackArr.includes(track);
+// };
+
+// const validateGeneration = (track: string, generation: string) => {
+//   if (track === 'AI') {
+//     return generation === '6';
+//   } else if (track === 'IoT') {
+//     return generation === '1';
+//   } else if (track === 'SW') {
+//     return generation === '3';
+//   }
+// };
 
 export {
   validateName,
@@ -38,5 +54,7 @@ export {
   validatePWCheck,
   validatePhone,
   validateEmail,
-  validateConfirmNum,
+  validateEmailCode,
+  // validateTrack,
+  // validateGeneration,
 };

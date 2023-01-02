@@ -1,16 +1,15 @@
-import NavBar from '../../components/NavBar';
-import MainPageFooter from './components/MainPageFooter';
+import Footer from '../../components/Footer';
 import IntroSection from './components/IntroSection';
 import styled from 'styled-components';
 import SimpleSlider from './components/SliderSection';
+import NavBar from './../../components/NavBar';
 
 const Content = styled.div`
-  height: 230vh;
-  width: 100vw;
+  width: 100%;
   min-width: 1000px;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden;
 `;
 
 const MainPage = () => {
@@ -19,7 +18,7 @@ const MainPage = () => {
       <NavBar />
       <IntroSection />
       <SimpleSlider />
-      <MainPageFooter />
+      <Footer />
     </Content>
   );
 };

@@ -1,4 +1,5 @@
 const { categoryService } = require("../services");
+const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class CategoryController {
   async create(req, res, next) {
@@ -25,6 +26,13 @@ class CategoryController {
   async update(req, res, next) {
     try {
       const { newCategory, category } = req.body;
+      if (newCategory === category) {
+        throw new ErrorFactory(
+          commonErrors.BAD_REQUEST,
+          400,
+          "수정할 카테고리와 기존 카테고리의 이름이 동일합니다."
+        );
+      }
       const result = await categoryService.update(newCategory, category);
 
       return res.status(200).json(result);

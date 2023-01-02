@@ -1,18 +1,27 @@
 const { Router } = require("express");
 const { shopController } = require("../controllers");
-const { isLoggedIn, isAdmin } = require("../middlewares");
+const { imageUploader } = require("../middlewares");
 
 const shopRouter = Router();
-const shopAdminRouter = Router();
 
 shopRouter.get("/", shopController.getAll);
 shopRouter.get("/total", shopController.count);
 shopRouter.get("/:shopId", shopController.getByShopId);
 
-shopRouter.use("/admin", isLoggedIn, isAdmin, shopAdminRouter);
+const shopAdminRouter = Router();
 
-shopAdminRouter.post("/", shopController.create);
+shopAdminRouter.post(
+  "/",
+  imageUploader.fields([{ name: "menu" }, { name: "shopPicture" }]),
+  shopController.create
+);
 shopAdminRouter.patch("/:shopId", shopController.update);
+
+shopAdminRouter.post(
+  "/:shopId/image",
+  imageUploader.fields([{ name: "menu" }, { name: "shopPicture" }]),
+  shopController.updateImage
+);
 shopAdminRouter.delete("/:shopId", shopController.delete);
 
-module.exports = { shopRouter };
+module.exports = { shopRouter, shopAdminRouter };

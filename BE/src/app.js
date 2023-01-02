@@ -6,6 +6,7 @@ const sessionConfig = require("./config/session.config");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 require("./db/models");
+require("dotenv").config();
 const {
   categoryRouter,
   shopRouter,
@@ -14,15 +15,17 @@ const {
   eliceRouter,
   loginRouter,
   commentRouter,
+  partyRouter,
+  adminRouter,
+  utilRouter,
+  pickRouter,
+  cpRouter,
 } = require("./routers");
-
-const { errorLogger, errorHandler } = require("./middlewares");
-
+const { errorLogger, errorHandler, isLoggedIn, isAdmin } = require("./middlewares");
 const app = express();
 passportConfig();
 
 app.use(cors());
-
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session(sessionConfig));
@@ -30,15 +33,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(express.urlencoded({ extended: false }));
-
+app.use("/api/picks", pickRouter);
 app.use("/api/auth", loginRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/shop", shopRouter);
+app.use("/api/categories", categoryRouter);
+app.use("/api/shops", shopRouter);
 app.use("/api/food", foodRouter);
-app.use("/api/user", userRouter);
-// app.use("/api/group", groupRouter);
+app.use("/api/users", userRouter);
 app.use("/api/elice", eliceRouter);
-app.use("/api/comment", commentRouter);
+app.use("/api/comments", commentRouter);
+app.use("/api/admin", isLoggedIn, isAdmin, adminRouter);
+app.use("/api/parties", isLoggedIn, partyRouter);
+app.use("/api/cps", cpRouter);
+app.use("/api/utils", utilRouter);
 
 app.use(errorLogger);
 app.use(errorHandler);

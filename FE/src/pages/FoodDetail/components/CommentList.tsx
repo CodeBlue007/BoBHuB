@@ -4,15 +4,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
-import { commentStateType } from '../types/Type';
+import { CommentState } from '../util/Type';
 import { FlexContainer } from '../../../styles/GlobalStyle';
+import { deleteComment } from '../foodDetailApi';
+import type { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
+import React from 'react';
 
 const ListContainer = styled(FlexContainer)`
   height: 150px;
   box-shadow: 2px 2px 2px gray;
   width: 50vw;
   border-radius: 10px;
-  background-color: crimson;
+  background-color: ${({ theme }) => theme.colors.sub};
   position: relative;
   margin: 15px;
 `;
@@ -22,7 +26,7 @@ const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 3;
-  color: white;
+  color: ${({ theme }) => theme.font.color.black};
   padding: 10px;
 
   & > article {
@@ -49,17 +53,20 @@ const CustomButton = styled(Button)`
 `;
 
 interface CommentList {
-  commentProp: commentStateType;
-  deleteComment: (id: number) => void;
+  commentProp: CommentState;
+  updateCommentState: () => void;
 }
 
 const CommentList = ({
-  commentProp: { commentId, userId, shopId, content, star },
-  deleteComment,
+  commentProp: { commentId, userId, content, star, profile, nickname },
+  updateCommentState,
 }: CommentList) => {
   const [canRevise, setRevise] = useState<boolean>(false);
   const [canReadOnly, setReadOnly] = useState<boolean>(true);
   const [commentStar, setCommentStar] = useState<number | null>(star);
+  const loginUserId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
+
+  console.log(loginUserId);
 
   const handleRevise = (e: React.MouseEvent<HTMLButtonElement>) => {
     setRevise(true);
@@ -69,9 +76,9 @@ const CommentList = ({
   const ratingChange = (e: React.SyntheticEvent, newValue: number | null) =>
     setCommentStar(newValue);
 
-  const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const id = Number(e.currentTarget.dataset.id);
-    deleteComment(id);
+  const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>, commentId: number) => {
+    await deleteComment(commentId);
+    updateCommentState();
   };
 
   const updateRevise = useCallback((bool: boolean) => {
@@ -82,14 +89,16 @@ const CommentList = ({
     setReadOnly(bool);
   }, []);
 
+  const userProfile = profile === null ? undefined : profile;
+
   return (
     <>
       <ListContainer>
         <AvatarContainer>
-          <Avatar alt="Remy Sharp" src="/img/chickfood.jpg" sx={{ width: 55, height: 50 }} />
+          <Avatar alt="userProfile" src={userProfile} sx={{ width: 55, height: 50 }} />
         </AvatarContainer>
         <ContentContainer>
-          <Typography component="legend">{userId}</Typography>
+          <Typography component="legend">{nickname}</Typography>
           <Rating
             name="read-only"
             value={commentStar}
@@ -97,34 +106,37 @@ const CommentList = ({
             onChange={ratingChange}
           />
           <TextArea
+            commentId={commentId}
+            commentStar={commentStar}
             content={content}
             canRevise={canRevise}
             updateRevise={updateRevise}
             updateReadOnly={updateReadOnly}
           />
-          <div className="buttonWrap">
-            <CustomButton
-              variant="contained"
-              color="secondary"
-              size="small"
-              startIcon={<CreateIcon />}
-              onClick={handleRevise}>
-              수정
-            </CustomButton>
-            <CustomButton
-              variant="contained"
-              color="error"
-              size="small"
-              data-id={commentId}
-              onClick={handleDelete}
-              startIcon={<DeleteIcon />}>
-              삭제
-            </CustomButton>
-          </div>
+          {userId === loginUserId && (
+            <div className="buttonWrap">
+              <CustomButton
+                variant="contained"
+                color="info"
+                size="small"
+                startIcon={<CreateIcon />}
+                onClick={handleRevise}>
+                수정
+              </CustomButton>
+              <CustomButton
+                variant="contained"
+                color="error"
+                size="small"
+                onClick={(e) => handleDelete(e, commentId)}
+                startIcon={<DeleteIcon />}>
+                삭제
+              </CustomButton>
+            </div>
+          )}
         </ContentContainer>
       </ListContainer>
     </>
   );
 };
 
-export default CommentList;
+export default React.memo(CommentList);

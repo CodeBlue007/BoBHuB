@@ -1,29 +1,77 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("food");
+const o = new (require("../../utils/build-query"))("food");
+const { buildRes, logger } = require("../../utils");
+const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class FoodModel {
   async create(foodDTO) {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(foodDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
+      return buildRes("c", result);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
+  async getById(foodId) {
+    try {
+      const whereArr = o.objToQueryArray({ foodId });
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
+
+      const [food] = await pool.query(query);
+      return food[0];
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
+    }
+  }
+
   async getByShopId(shopId) {
     try {
       const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
-      const [comments] = await pool.query(query);
-      return comments;
-    } catch (err) {
-      throw new Error(err);
+      const [food] = await pool.query(query);
+      return food;
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
+    }
+  }
+
+  async getByName(name) {
+    try {
+      const whereArr = o.objToQueryArray({ name });
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
+
+      const [shop] = await pool.query(query);
+      return shop[0];
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
@@ -33,11 +81,16 @@ class FoodModel {
       const oldDTO = o.objToQueryArray(foodDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
 
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
+      return buildRes("u", result);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.BAD_REQUEST,
+        400,
+        "동일한 대표 메뉴가 존재하거나 Body의 요청 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
@@ -45,12 +98,17 @@ class FoodModel {
     try {
       const whereArr = o.objToQueryArray({ foodId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
+      return buildRes("d", result);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 }

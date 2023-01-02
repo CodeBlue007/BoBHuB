@@ -1,54 +1,96 @@
 const { pool } = require("../mysql-pool");
-const o = new (require("../../util/build-query"))("comment");
+const o = new (require("../../utils/build-query"))("comment");
+const { buildRes, logger } = require("../../utils");
+const { ErrorFactory, commonErrors } = require("../../utils/error-factory");
 
 class CommentModel {
   async create(commentDTO) {
     try {
       const { keyArr, valArr } = o.objToKeyValueArray(commentDTO);
       const query = o.makeInsertQuery(keyArr, valArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
+      return buildRes("c", result);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
   async getAll() {
     try {
-      const query = o.makeSelectQuery();
-      console.log(query);
+      const query = o.makeSelectQuery({});
+      logger.info(query);
       const [comments] = await pool.query(query);
       return comments;
-    } catch (err) {
-      throw new Error(err);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
   async getByShopId(shopId) {
     try {
-      const whereArr = o.objToQueryArray({ shopId });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = `select * from comment join (SELECT userId
+        , nickname, profile
+     FROM user ) u on u.userId = comment.userId  where shopId = ?`;
 
-      const [comments] = await pool.query(query);
+      logger.info(query);
+
+      const [comments] = await pool.query(query, [shopId]);
       return comments;
-    } catch (err) {
-      throw new Error(err);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
   async getByCommentId(commentId) {
     try {
       const whereArr = o.objToQueryArray({ commentId });
-      const query = o.makeSelectQuery(undefined, whereArr);
-      console.log(query);
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
 
       const [comment] = await pool.query(query);
-      return comment[0];
-    } catch (err) {
-      throw new Error(err);
+      return comment;
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
+    }
+  }
+
+  async getByUserId(userId) {
+    try {
+      const whereArr = o.objToQueryArray({ userId });
+      const query = o.makeSelectQuery({ whereArr });
+      logger.info(query);
+
+      const [comment] = await pool.query(query);
+      return comment;
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
@@ -58,11 +100,16 @@ class CommentModel {
       const oldDTO = o.objToQueryArray(commentDTO);
       const query = o.makeUpdateQuery(newDTO, oldDTO);
 
-      console.log(query);
+      logger.info(query);
       const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
+      return buildRes("u", result);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 
@@ -70,12 +117,17 @@ class CommentModel {
     try {
       const whereArr = o.objToQueryArray({ commentId });
       const query = o.makeDeleteQuery(whereArr);
-      console.log(query);
+      logger.info(query);
 
       const [result] = await pool.query(query);
-      return result;
-    } catch (err) {
-      throw new Error(err);
+      return buildRes("d", result);
+    } catch (e) {
+      logger.error(e);
+      throw new ErrorFactory(
+        commonErrors.DB_ERROR,
+        500,
+        "요청한 내용으로 DB에서 처리할 수 없습니다."
+      );
     }
   }
 }

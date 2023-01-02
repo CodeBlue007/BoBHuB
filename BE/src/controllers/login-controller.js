@@ -1,21 +1,29 @@
 const passport = require("passport");
-
+const { logger } = require("../utils");
 class LoginController {
-  local(req, res, next) {
+  login(req, res, next) {
     passport.authenticate("local", (authError, user, info) => {
       if (authError) {
-        console.error(authError);
+        logger.error(authError);
         return next(authError);
       }
       if (!user) {
-        return res.redirect(`/?loginError=${info.message}`);
+        logger.info(info.message);
+        const result = {
+          result: "loginError",
+          message: info.message,
+        };
+        return res.status(200).json(result);
       }
       return req.login(user, (loginError) => {
         if (loginError) {
-          console.error(loginError);
+          logger.error(loginError);
           return next(loginError);
         }
-        return res.redirect("/"); //세션쿠키를 브라우저로 보냄
+        return res.status(200).json({
+          result: "success",
+          message: "로그인성공",
+        });
       });
     })(req, res, next);
   }
@@ -27,7 +35,10 @@ class LoginController {
       }
     });
     res.clearCookie("connect.sid");
-    res.redirect("/");
+    res.status(200).json({
+      result: "success",
+      message: "로그아웃 성공",
+    });
   }
 }
 

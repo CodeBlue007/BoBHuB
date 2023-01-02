@@ -1,6 +1,6 @@
 const { shopModel } = require("../db/models");
-const { pagination } = require("../util");
-const buildRes = require("../util/build-response");
+const { imageDeleter } = require("../middlewares");
+const { ErrorFactory, commonErrors } = require("../utils/error-factory");
 
 class ShopService {
   constructor(shopModel) {
@@ -8,8 +8,12 @@ class ShopService {
   }
 
   async create(shopDTO) {
+    const existingShopName = await this.shopModel.getByShopName(shopDTO.name);
+    if (existingShopName) {
+      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "동일한 이름의 식당이 존재합니다.");
+    }
     const result = await this.shopModel.create(shopDTO);
-    return buildRes("c", result);
+    return result;
   }
 
   async count() {
@@ -17,27 +21,65 @@ class ShopService {
     return totalData;
   }
 
-  async getAll(page, perpage) {
-    const { limit, offSet } = pagination(page, perpage);
-
-    const shops = await this.shopModel.getAll(limit, offSet);
+  async getAll() {
+    const shops = await this.shopModel.getAll();
     return shops;
   }
 
   async getByShopId(shopId) {
     const shop = await this.shopModel.getByShopId(shopId);
+    if (!shop) {
+      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
+    }
     return shop;
   }
 
   async update(newShopDTO, shopId) {
+    const existingShop = await this.shopModel.getByShopId(shopId);
+    if (!existingShop) {
+      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
+    }
+    const { name } = newShopDTO;
+    if (name) {
+      const existingShopName = await this.shopModel.getByShopName(name);
+      if (existingShopName) {
+        throw new ErrorFactory(
+          commonErrors.NOT_FOUND,
+          404,
+          "동일한 이름의 식당이 존재합니다."
+        );
+      }
+    }
     const result = await this.shopModel.update(newShopDTO, { shopId });
+    return result;
+  }
 
-    return buildRes("u", result);
+  async updateImage(newImageDTO, shopId) {
+    const existingShop = await shopModel.getByShopId(shopId);
+    if (!existingShop) {
+      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
+    }
+
+    const { menu, shopPicture } = existingShop;
+    if (menu) imageDeleter(menu);
+    if (shopPicture) imageDeleter(shopPicture);
+
+    const result = await this.shopModel.update(newImageDTO, { shopId });
+    return result;
   }
 
   async deleteById(shopId) {
-    const result = await shopModel.deleteById(shopId);
-    return buildRes("d", result);
+    const existingShop = await this.shopModel.getByShopId(shopId);
+    if (!existingShop) {
+      throw new ErrorFactory(commonErrors.NOT_FOUND, 404, "존재하는 식당이 없습니다.");
+    }
+
+    const { menu, shopPicture } = existingShop;
+    if (menu) imageDeleter(menu);
+    if (shopPicture) imageDeleter(shopPicture);
+
+    const result = await this.shopModel.deleteById(shopId);
+    return result;
   }
 }
 
