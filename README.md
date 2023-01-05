@@ -84,8 +84,10 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 ## 3️⃣ 서비스 구성
 
 ### 📌 서비스 흐름도
-
--   추가 예정
+- User(Racer) <br>
+<img src="https://user-images.githubusercontent.com/47781507/210818601-dba344cf-3652-4af7-991a-2cbe23542faa.png" alt="user_diagram" width="700"> <br>
+- Admin <br>
+<img src="https://user-images.githubusercontent.com/47781507/210818587-c6cb75b2-11a8-4081-a563-c770003fd5f2.png" alt="admin_diagram" width="700">
 
 ### 📌 기술스택
 
@@ -111,7 +113,7 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ### 📌 인프라 구조도(개선 예정)
 
-<img src="https://user-images.githubusercontent.com/47781507/210013185-ee66248c-fa58-48de-9085-8e520c463ad5.png" alt="Infrastructure" width="700">
+<img src="https://user-images.githubusercontent.com/47781507/210818112-3fb090d8-2ae4-4217-8c81-296b1541517e.png" alt="Infrastructure" width="700">
 
 ### 📌 ERD
 
