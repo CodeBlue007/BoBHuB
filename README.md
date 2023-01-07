@@ -4,10 +4,6 @@
 
 ## 1️⃣ 서비스 개요
 
-### 🔗 서비스 도메인
-
-http://kdt-sw3-team17.elicecoding.com/ <br>
-<img src="https://user-images.githubusercontent.com/47781507/210108289-aff149fe-9253-4bbc-a3c8-7c3c90d0aaba.png" alt="BoBHuB_QRcode" width="250">
 
 ### 📌 주제
 
@@ -36,7 +32,10 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ## 2️⃣ 서비스 소개
 
+### 🔗 서비스 도메인
 
+http://kdt-sw3-team17.elicecoding.com/ <br>
+<img src="https://user-images.githubusercontent.com/47781507/210108289-aff149fe-9253-4bbc-a3c8-7c3c90d0aaba.png" alt="BoBHuB_QRcode" width="250">
 
 ### 👥 테스트 계정
 
@@ -129,9 +128,9 @@ https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 
 | 이름   | 담당 업무           |
 | ------ | ------------------- |
-| <img src="https://user-images.githubusercontent.com/47781507/210137731-88407139-3c9b-4f50-8119-6a72fa74c4b4.png" alt="cs" width="40" height="40"> 김찬수 | `프론트엔드`        |
 | <img src="https://user-images.githubusercontent.com/47781507/210137605-738d68a6-e165-4d2e-b471-83a6baec5339.png" alt="sb" width="40" height="40"> 이수빈 | `팀장` `프론트엔드` |
 | <img src="https://user-images.githubusercontent.com/47781507/210137704-2254f511-f0b8-43fe-9605-9236dfa3152a.png" alt="yj" width="40" height="40"> 김유정 | `프론트엔드`        |
+| <img src="https://user-images.githubusercontent.com/47781507/210137731-88407139-3c9b-4f50-8119-6a72fa74c4b4.png" alt="cs" width="40" height="40"> 김찬수 | `프론트엔드`        |
 | <img src="https://user-images.githubusercontent.com/47781507/210137762-cd7b0737-7dfc-4103-973a-6d96ffed82d2.png" alt="dj" width="40" height="40"> 윤동주 | `프론트엔드`        |
 | <img src="https://user-images.githubusercontent.com/47781507/210137778-52693f96-8e55-47d3-88ab-f15bdd318f96.png" alt="ey" width="40" height="40"> 장은영 | `프론트엔드`        |
 | <img src="https://user-images.githubusercontent.com/47781507/210137809-f58e4d2e-6639-4704-980f-deca6008e7ce.png" alt="dj" width="40" height="40"> 김동준 | `백엔드`            |
@@ -139,29 +138,29 @@ https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 
 ### **멤버별 Responsibility**
 
-1. 김찬수: `프론트엔드`
-
--   기획 단계: 관리자 페이지 와이어 프레임 작성
--   개발 단계: 관리자 페이지, 페이지 별 실시간 액션, 전역 상태 관리
--   수정 단계: 피드백 반영하여 코드 수정
-2. 이수빈: `팀장` `프론트엔드`
+1. 이수빈: `팀장` `프론트엔드`
 
 -   기획 단계: 회의진행, 아이디어 도출, 역할분배
 -   개발 단계: 상세페이지, 채팅컴포넌트 개발
 -   수정 단계: 발표준비, 발표
 
-3. 김동준: `백엔드`
+2. 김동준: `백엔드`
 
 -   기획 단계: Restful API 주소 설정
 -   개발 단계: CRUD 라우팅, 서비스 로직, 에러 정리
 -   수정 단계: 에러 관련 수정 및 디버깅
 
-4. 김유정: `프론트엔드`
+3. 김유정: `프론트엔드`
 
 -   기획 단계: 메인 페이지 와이어 프레임 작성
 -   개발 단계: 메인 페이지, 유저가이드
 -   수정 단계: 피드백 반영하여 코드 수정
 
+4. 김찬수: `프론트엔드`
+
+-   기획 단계: 관리자 페이지 와이어 프레임 작성
+-   개발 단계: 관리자 페이지, 페이지 별 실시간 액션, 전역 상태 관리
+-   수정 단계: 피드백 반영하여 코드 수정
 
 5. 안상준: `백엔드`
 
