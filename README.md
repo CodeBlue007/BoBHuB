@@ -1,4 +1,4 @@
-# <img src="FE\src\assets\BoBHuB_logo.png" alt="BoBHuB_logo" width="30" height="30"> BoBHuB
+# <img src="https://user-images.githubusercontent.com/47781507/211524479-3ac67ec1-16a5-4e23-b60d-249e1500c37f.png" alt="BoBHuB_logo" width="30" height="30"> BoBHuB
 
 > **성수낙낙에 방문한 레이서들을 위한 밥메이트 매칭 서비스**
 
