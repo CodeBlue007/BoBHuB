@@ -3,13 +3,33 @@
 > **성수낙낙에 방문한 레이서들을 위한 밥메이트 매칭 서비스**
 
 ### 목차
-[1. 서비스 개요](##1️⃣-서비스-개요) <br>
-[2. 서비스 소개](##2️⃣-서비스-소개) <br>
-[3. 서비스 구성](##3️⃣-서비스-구성) <br>
-[4. 프로젝트 역할 분담](##4️⃣-프로젝트-역할-분담) <br>
-[5. 실행 방법](##5️⃣-실행-방법) <br>
-[6. Version](##6️⃣-Version) <br>
-[7. 협업 Tools](##7️⃣-협업-Tools) <br>
+- [1️⃣ 서비스 개요](#1---------)
+  * [📌 주제](#-----)
+  * [📌 서비스명](#-------)
+  * [📌 목적](#-----)
+  * [📌 목표](#-----)
+  * [📌 타겟 유저](#--------)
+- [2️⃣ 서비스 소개](#2---------)
+  * [🔗 서비스 도메인](#----------)
+  * [👥 테스트 계정](#---------)
+  * [📌 주요기능](#-------)
+  * [📌 페이지별 화면](#----------)
+  * [📌 본 프로젝트의 차별점](#--------------)
+  * [📌 기대효과](#-------)
+- [3️⃣ 서비스 구성](#3---------)
+  * [📌 서비스 흐름도](#----------)
+  * [📌 기술스택](#-------)
+    + [◾ **FE**](#----fe--)
+    + [◾ **BE**](#----be--)
+    + [◾ **공통**](#--------)
+  * [📌 인프라 구조도(개선 예정)](#-----------------)
+  * [📌 ERD](#---erd)
+  * [🔗 API 문서(Notion)](#---api----notion-)
+- [4️⃣ 프로젝트 역할 분담](#4-------------)
+  * [**멤버별 Responsibility**](#------responsibility--)
+- [5️⃣ 실행 방법](#5--------)
+- [6️⃣ Version](#6---version)
+- [7️⃣ 협업 Tools](#7------tools)
 
 ## 1️⃣ 서비스 개요
 
@@ -101,7 +121,7 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 
 ### 📌 기술스택
 
-#### ◾ **FE**
+#### ◾ FE
 
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white"> <img src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=Redux&logoColor=white"> <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&logo=styled-components&logoColor=white">
 <img src="https://img.shields.io/badge/styled components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white"> <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white">
@@ -109,13 +129,13 @@ http://kdt-sw3-team17.elicecoding.com/ <br>
 -   타입 명시를 통한 생산성 향상 목적으로 TypeScript 사용
 -   전역상태관리: Redux를 통해 유저 로그인 정보와 채팅 로그 관리
 
-#### ◾ **BE**
+#### ◾ BE
 
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
 -   복잡한 SQL 쿼리문 작성 및 연습을 위해 ORM 미사용
 
-#### ◾ **공통**
+#### ◾ 공통
 
 <img src="https://img.shields.io/badge/socket.io-010101?style=for-the-badge&logo=socket.io&logoColor=white"> <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/gitlab-FC6D26?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 
@@ -145,7 +165,7 @@ https://giant-painter-76a.notion.site/api-8a9d3abf185e40b78a0871db3ee334f9
 | <img src="https://user-images.githubusercontent.com/47781507/210137809-f58e4d2e-6639-4704-980f-deca6008e7ce.png" alt="dj" width="40" height="40"> 김동준 | `백엔드`            |
 | <img src="https://user-images.githubusercontent.com/47781507/210137829-4462ed74-7684-41d9-9dba-72aea8ff8701.png" alt="sj" width="40" height="40"> 안상준 | `백엔드`            |
 
-### **멤버별 Responsibility**
+### 멤버별 Responsibility
 
 1. 이수빈: `팀장` `프론트엔드`
 
