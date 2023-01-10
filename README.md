@@ -19,14 +19,14 @@
 - [3️⃣ 서비스 구성](#3---------)
   * [📌 서비스 흐름도](#----------)
   * [📌 기술스택](#-------)
-    + [◾ **FE**](#----fe--)
-    + [◾ **BE**](#----be--)
-    + [◾ **공통**](#--------)
+    + [◾ FE](#----fe--)
+    + [◾ BE](#----be--)
+    + [◾ 공통](#--------)
   * [📌 인프라 구조도(개선 예정)](#-----------------)
   * [📌 ERD](#---erd)
   * [🔗 API 문서(Notion)](#---api----notion-)
 - [4️⃣ 프로젝트 역할 분담](#4-------------)
-  * [**멤버별 Responsibility**](#------responsibility--)
+  * [멤버별 Responsibility](#------responsibility--)
 - [5️⃣ 실행 방법](#5--------)
 - [6️⃣ Version](#6---version)
 - [7️⃣ 협업 Tools](#7------tools)
@@ -253,8 +253,6 @@ MAIL_PASSWORD = <google developer 비밀번호>
 
 ## 7️⃣ 협업 Tools
 
-### 🔗 Jira Roadmap
-https://17171717.atlassian.net/jira/software/projects/UW17/boards/1/roadmap
+🔗 [Jira Roadmap](https://17171717.atlassian.net/jira/software/projects/UW17/boards/1/roadmap)
 
-### 🔗 Notion
-https://www.notion.so/elice/4497050a9ede481ea2481923ef4d5a4f
+🔗 [Notion](https://www.notion.so/elice/4497050a9ede481ea2481923ef4d5a4f)
