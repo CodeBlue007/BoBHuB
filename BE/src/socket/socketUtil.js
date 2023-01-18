@@ -1,8 +1,9 @@
 const bobhubUrl = process.env.BOBHUB_URL;
 console.log(bobhubUrl + ":3000");
+
 const socketSetting = {
   cors: {
-    origin: bobhubUrl + ":3000",
+    origin: 'http://localhost:3000',
     methods: ["GET", "POST"],
     allowedHeaders: ["my-custom-header"],
     credentials: true,
