@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import { Title } from './ChatStyle';
+import { Title } from './chatStyle';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { SocketContext } from '../../../socket/SocketContext';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../../store/store';
 import ChatMessage from './ChatMessage';
-import { setLog } from '../ChatAppApi';
-import { MessageInfo } from '../ChatAppApi';
+import { setLog } from '../chatAppApi';
+import { MessageInfo } from '../chatAppApi';
 
 const InputContainer = styled.div`
   display: flex;

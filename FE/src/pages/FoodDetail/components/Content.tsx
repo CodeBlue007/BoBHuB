@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Card, Button } from '@mui/material';
 import SelectTags from './SelectTags';
 import { useState, useContext, useEffect } from 'react';
-import { ShopState } from '../util/Type';
+import { ShopState } from '../util/foodDetailType';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import React from 'react';
 import { postParty } from '../foodDetailApi';

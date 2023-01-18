@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
-import { TextCss, Title } from './ChatStyle';
+import { TextCss, Title } from './chatStyle';
 import { SocketContext } from '../../../socket/SocketContext';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../../store/store';
-import { Party } from '../../../pages/MainPage/Type';
+import type { Party } from '../../../pages/MainPage/Type';
 
 const ChatContainer = styled.div`
   overflow: auto;

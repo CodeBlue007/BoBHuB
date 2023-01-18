@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CreateIcon from '@mui/icons-material/Create';
 import { useCallback, useState } from 'react';
 import TextArea from './TextArea';
-import { CommentState } from '../util/Type';
+import { CommentState } from '../util/foodDetailType';
 import { FlexContainer } from '../../../styles/GlobalStyle';
 import { deleteComment } from '../foodDetailApi';
 import type { RootState } from '../../../store/store';

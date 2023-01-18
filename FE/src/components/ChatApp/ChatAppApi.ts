@@ -1,4 +1,4 @@
-import { NullableString, NullableNum } from '../../pages/FoodDetail/util/Type';
+import type { NullableString, NullableNum } from '../../pages/FoodDetail/util/foodDetailType';
 
 export const setLog = (key: string, payload: MessageInfo) => {
   const localString = localStorage.getItem(key);

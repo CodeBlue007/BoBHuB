@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { TextField, Button, Typography, Rating } from '@mui/material';
 import React, { useState } from 'react';
 import { postComment } from '../foodDetailApi';
-import { RootState } from '../../../store/store';
+import type { RootState } from '../../../store/store';
 import { useSelector } from 'react-redux';
-import { canWriteComment } from '../util/Util';
+import { canWriteComment } from '../util/foodDetailUtil';
 
 const CommentContainer = styled.form`
   display: flex;

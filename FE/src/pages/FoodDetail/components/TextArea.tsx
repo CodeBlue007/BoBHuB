@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { patchComment } from '../foodDetailApi';
-import { NullableNum } from '../util/Type';
+import type { NullableNum } from '../util/foodDetailType';
 
 const TextContainer = styled.div`
   display: flex;

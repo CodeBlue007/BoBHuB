@@ -1,16 +1,16 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../../store/store';
-import { MessageInfo } from '../ChatAppApi';
+import { MessageInfo } from '../chatAppApi';
 
-const TextLeft = styled.div`
+const OtherMessage = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
   margin-left: 5px;
 `;
 
-const TextRight = styled(TextLeft)`
+const MyMessage = styled(OtherMessage)`
   justify-content: flex-end;
 `;
 
@@ -41,23 +41,23 @@ const ChatMessage = ({ messageInfo: { userId, userName, message } }: ChatMessage
   return (
     <>
       {userId !== currentUserId ? (
-        <TextLeft>
+        <OtherMessage>
           <TextWrapper>
             {userId !== 0 && userId !== currentUserId && (
               <span className="labelName">{userName}</span>
             )}
             {<TextBlock>{message}</TextBlock>}
           </TextWrapper>
-        </TextLeft>
+        </OtherMessage>
       ) : (
-        <TextRight>
+        <MyMessage>
           <TextWrapper>
             {userId !== 0 && userId !== currentUserId && (
               <span className="labelName">{userName}</span>
             )}
             {<TextBlock>{message}</TextBlock>}
           </TextWrapper>
-        </TextRight>
+        </MyMessage>
       )}
     </>
   );
