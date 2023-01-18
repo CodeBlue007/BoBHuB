@@ -1,4 +1,4 @@
-import { NullableNum } from './Type';
+import { NullableNum } from './foodDetailType';
 
 export const canWriteComment = (isLogin: boolean, content: string, starValue: NullableNum) => {
   if (!isLogin) {

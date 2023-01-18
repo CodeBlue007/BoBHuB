@@ -4,7 +4,7 @@ import Comment from './components/Comment';
 import CommentList from './components/CommentList';
 import Footer from '../../components/Footer';
 import NavBar from '../../components/NavBar';
-import { CommentState, ShopState, MenuState, initialShopState } from './util/Type';
+import { CommentState, ShopState, MenuState, initialShopState } from './util/foodDetailType';
 import Content from './components/Content';
 import { FlexContainer } from '../../styles/GlobalStyle';
 import DetailSlider from './components/DetailSlider';
