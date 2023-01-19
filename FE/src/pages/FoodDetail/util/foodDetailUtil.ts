@@ -1,4 +1,4 @@
-import { NullableNum } from './foodDetailType';
+import type { NullableNum, ProfilerProps } from './foodDetailType';
 
 export const canWriteComment = (isLogin: boolean, content: string, starValue: NullableNum) => {
   if (!isLogin) {
@@ -15,3 +15,12 @@ export const canWriteComment = (isLogin: boolean, content: string, starValue: Nu
   }
   return false;
 };
+
+export const onRender = (
+  id: string,
+  phase: string,
+  actualTime: number,
+  baseTime: number,
+  startTime: number,
+  commitTime: number,
+) => console.table({ id, phase, actualTime, baseTime, startTime, commitTime });
