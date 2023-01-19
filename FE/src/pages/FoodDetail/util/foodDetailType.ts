@@ -63,3 +63,12 @@ export const initialShopState = {
   updatedAt: '',
   deletedAt: '',
 };
+
+export type ProfilerProps = {
+  id: string;
+  phase: string;
+  actualTime: number;
+  baseTime: number;
+  startTime: number;
+  commitTime: number;
+};
