@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import styled from 'styled-components';
 import Comment from './components/Comment';
 import CommentList from './components/CommentList';
@@ -10,6 +10,7 @@ import { FlexContainer } from '../../styles/GlobalStyle';
 import DetailSlider from './components/DetailSlider';
 import { getComment, getShop, getMenu } from './foodDetailApi';
 import { useParams } from 'react-router';
+import React from 'react';
 
 const Pagecontainer = styled.section`
   display: flex;
@@ -62,7 +63,7 @@ const FoodDetail = () => {
     fetchCommentState(shopId);
   }, [update]);
 
-  const makeImgArr = () => {
+  const makeImgArr = useCallback(() => {
     const imgArr = [];
     imgArr.push(shopState.shopPicture);
     imgArr.push(shopState.menu);
@@ -71,7 +72,9 @@ const FoodDetail = () => {
     });
 
     return [...imgArr];
-  };
+  }, [shopState, menuState]);
+
+  const imageArr = useMemo(() => makeImgArr(), [makeImgArr]);
 
   return (
     <Pagecontainer ref={scrollRef}>
@@ -80,7 +83,7 @@ const FoodDetail = () => {
       ) : (
         <>
           <NavBar />
-          <DetailSlider imageArr={makeImgArr()} />
+          <DetailSlider imageArr={imageArr} />
           {<Content shop={shopState} />}
           <Comment
             updateCommentState={updateCommentState}
@@ -103,4 +106,4 @@ const FoodDetail = () => {
   );
 };
 
-export default FoodDetail;
+export default React.memo(FoodDetail);

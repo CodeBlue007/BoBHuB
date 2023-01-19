@@ -66,8 +66,6 @@ const CommentList = ({
   const [commentStar, setCommentStar] = useState<number | null>(star);
   const loginUserId = useSelector<RootState>((state) => state.userReducer.currentUser.userId);
 
-  console.log(loginUserId);
-
   const handleRevise = (e: React.MouseEvent<HTMLButtonElement>) => {
     setRevise(true);
     setReadOnly(false);

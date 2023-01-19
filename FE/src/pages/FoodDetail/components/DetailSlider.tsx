@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import React from 'react';
 
 const SliderContainer = styled.div`
   width: 800px;
@@ -80,7 +81,7 @@ const DetailSlider = ({ imageArr }: DetailSliderProps) => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 3000,
     arrows: true,
     nextArrow: (
@@ -113,4 +114,4 @@ const DetailSlider = ({ imageArr }: DetailSliderProps) => {
   );
 };
 
-export default DetailSlider;
+export default React.memo(DetailSlider);

@@ -180,7 +180,6 @@ const NavBar = () => {
           )}
         </Stack>
         <MyParty handleClose={handleOpenToggle} open={open} />
-
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -202,4 +201,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default React.memo(NavBar);

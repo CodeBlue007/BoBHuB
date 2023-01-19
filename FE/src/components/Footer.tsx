@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Row, Col } from 'antd';
+import React from 'react';
 
 const Wrapper = styled.footer`
   display: flex;
@@ -35,4 +36,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default React.memo(Footer);
