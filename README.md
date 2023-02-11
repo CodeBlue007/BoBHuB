@@ -2,6 +2,8 @@
 
 > **성수낙낙에 방문한 레이서들을 위한 밥메이트 매칭 서비스**
 
+## 프로젝트 문서-<a href="https://dazzling-trumpet-1a7.notion.site/BoBHuB-82d9df121c8a46a69d689c5ae221a46a">바로가기</a>
+
 ### 목차
 
 -   [1️. 서비스 개요](#1️⃣-서비스-개요)
